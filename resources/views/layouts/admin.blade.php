@@ -14,6 +14,8 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
 
+        @stack('styles')
+
         <style>
             .sidebar-link.active {
                 background: rgba(30, 58, 95, 0.08);
@@ -193,5 +195,7 @@
             overlay.addEventListener('click', closeSidebar);
             collapseBtn.addEventListener('click', toggleCollapse);
         </script>
+
+        @stack('scripts')
     </body>
 </html>

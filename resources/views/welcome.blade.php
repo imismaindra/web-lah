@@ -122,154 +122,70 @@
 
             <div class="grid gap-8 lg:grid-cols-[1fr_320px]">
                 <div>
-                    <a href="{{ route('artikel.sriwijaya') }}" class="group block overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                        <div class="grid sm:grid-cols-[1fr_1.2fr]">
-                            <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                <img src="https://picsum.photos/seed/ww2-dunkirk/800/600" alt="Perang Dunia II" class="h-64 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-full" loading="lazy">
-                                <div class="absolute top-4 left-4">
-                                    <span class="rounded-full bg-stone-900/80 px-3 py-1 text-[10px] font-bold tracking-wide text-white uppercase backdrop-blur-sm">Unggulan</span>
+                    @if ($featuredArtikel)
+                        <a href="{{ route('artikel.show', $featuredArtikel) }}" class="group block overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
+                            <div class="grid sm:grid-cols-[1fr_1.2fr]">
+                                <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
+                                    @if ($featuredArtikel->gambar)
+                                        <img src="{{ asset('storage/' . $featuredArtikel->gambar) }}" alt="{{ $featuredArtikel->judul }}" class="h-64 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-full" loading="lazy">
+                                    @else
+                                        <img src="https://picsum.photos/seed/featured-{{ $featuredArtikel->id }}/800/600" alt="{{ $featuredArtikel->judul }}" class="h-64 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-full" loading="lazy">
+                                    @endif
+                                    <div class="absolute top-4 left-4">
+                                        <span class="rounded-full bg-stone-900/80 px-3 py-1 text-[10px] font-bold tracking-wide text-white uppercase backdrop-blur-sm">Unggulan</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col justify-center p-6 sm:p-8">
+                                    <div class="flex items-center gap-2.5 text-xs font-semibold">
+                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $featuredArtikel->kategori->nama ?? 'Umum' }}</span>
+                                        <span class="text-stone-300 dark:text-stone-600">&middot;</span>
+                                        <span class="text-stone-400 dark:text-stone-500">{{ $featuredArtikel->created_at->format('d M Y') }}</span>
+                                    </div>
+                                    <h2 class="mt-4 font-serif text-2xl font-bold leading-snug tracking-tight group-hover:text-[#1e3a5f] sm:text-3xl dark:group-hover:text-[#5b9bd5]">
+                                        {{ $featuredArtikel->judul }}
+                                    </h2>
+                                    <p class="mt-3 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
+                                        {{ $featuredArtikel->ringkasan ?? Str::limit(strip_tags($featuredArtikel->konten), 180) }}
+                                    </p>
+                                    <p class="mt-5 text-sm font-semibold text-[#1e3a5f] transition group-hover:translate-x-0.5 dark:text-[#5b9bd5]">Baca selengkapnya &rarr;</p>
                                 </div>
                             </div>
-                            <div class="flex flex-col justify-center p-6 sm:p-8">
-                                <div class="flex items-center gap-2.5 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
-                                    <span class="text-stone-300 dark:text-stone-600">·</span>
-                                    <span class="text-stone-400 dark:text-stone-500">12 Mei 2026</span>
-                                </div>
-                                <h2 class="mt-4 font-serif text-2xl font-bold leading-snug tracking-tight group-hover:text-[#1e3a5f] sm:text-3xl dark:group-hover:text-[#5b9bd5]">
-                                    Perang Dunia II: Konflik Terbesar dalam Sejarah Manusia
-                                </h2>
-                                <p class="mt-3 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
-                                    Dengan lebih dari 70 juta korban jiwa, Perang Dunia II mengubah peta politik dunia selamanya. Dari invasi Polandia hingga bom atom Hiroshima — ini adalah kisah bagaimana dunia nyaris hancur.
-                                </p>
-                                <p class="mt-5 text-sm font-semibold text-[#1e3a5f] transition group-hover:translate-x-0.5 dark:text-[#5b9bd5]">Baca selengkapnya &rarr;</p>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
+                    @endif
 
                     <div id="artikel" class="mt-10">
                         <h2 class="font-serif text-xl font-bold tracking-tight">Artikel Terbaru</h2>
 
                         <div class="mt-6 grid gap-5 sm:grid-cols-2">
-                            <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                                <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/nazi-germany/600/400" alt="Nazi Jerman" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                                </div>
-                                <div class="p-5">
-                                    <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
-                                        <span class="text-stone-300 dark:text-stone-600">·</span>
-                                        <span class="text-stone-400 dark:text-stone-500">8 Mei 2026</span>
+                            @forelse ($latestArtikels as $artikel)
+                                <a href="{{ route('artikel.show', $artikel) }}" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
+                                    <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
+                                        @if ($artikel->gambar)
+                                            <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                        @else
+                                            <img src="https://picsum.photos/seed/artikel-{{ $artikel->id }}/600/400" alt="{{ $artikel->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                        @endif
                                     </div>
-                                    <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Bangkit dan Jatuhnya Nazi Jerman
-                                    </h3>
-                                    <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Dari Partai Buruh Jerman menjadi kekuatan fasis yang menguasai separuh Eropa.
-                                    </p>
-                                </div>
-                            </a>
-
-                            <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                                <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/french-revolution/600/400" alt="Revolusi Prancis" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                                </div>
-                                <div class="p-5">
-                                    <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Revolusi</span>
-                                        <span class="text-stone-300 dark:text-stone-600">·</span>
-                                        <span class="text-stone-400 dark:text-stone-500">2 Mei 2026</span>
+                                    <div class="p-5">
+                                        <div class="flex items-center gap-2 text-xs font-semibold">
+                                            <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
+                                            <span class="text-stone-300 dark:text-stone-600">&middot;</span>
+                                            <span class="text-stone-400 dark:text-stone-500">{{ $artikel->created_at->format('d M Y') }}</span>
+                                        </div>
+                                        <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
+                                            {{ $artikel->judul }}
+                                        </h3>
+                                        <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
+                                            {{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 120) }}
+                                        </p>
                                     </div>
-                                    <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Revolusi Prancis: Akhir Monarki Absolut
-                                    </h3>
-                                    <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Bagaimana "Liberté, Égalité, Fraternité" menggulingkan Louis XVI dan mengubah Eropa.
-                                    </p>
+                                </a>
+                            @empty
+                                <div class="col-span-2 rounded-2xl border border-dashed border-stone-200 bg-white p-8 text-center dark:border-white/[0.06] dark:bg-[#171716]">
+                                    <p class="text-sm text-stone-400 dark:text-stone-500">Belum ada artikel yang dipublikasikan.</p>
                                 </div>
-                            </a>
-
-                            <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                                <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/fall-of-rome/600/400" alt="Kejatuhan Roma" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                                </div>
-                                <div class="p-5">
-                                    <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kuno</span>
-                                        <span class="text-stone-300 dark:text-stone-600">·</span>
-                                        <span class="text-stone-400 dark:text-stone-500">26 April 2026</span>
-                                    </div>
-                                    <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Kejatuhan Roma: Ketika Imperium Runtuh
-                                    </h3>
-                                    <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Invasi barbar, krisis ekonomi, dan akhir dari 1.000 tahun kekuasaan Romawi.
-                                    </p>
-                                </div>
-                            </a>
-
-                            <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                                <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/mongol-empire/600/400" alt="Kekaisaran Mongol" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                                </div>
-                                <div class="p-5">
-                                    <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Abad Pertengahan</span>
-                                        <span class="text-stone-300 dark:text-stone-600">·</span>
-                                        <span class="text-stone-400 dark:text-stone-500">19 April 2026</span>
-                                    </div>
-                                    <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Kekaisaran Mongol: Dari Gobi ke Danau Danube
-                                    </h3>
-                                    <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Djenghis Khan dan keturunannya membangun imperium daratan terbesar dalam sejarah.
-                                    </p>
-                                </div>
-                            </a>
-
-                            <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                                <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/ww1-trenches/600/400" alt="Perang Dunia I" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                                </div>
-                                <div class="p-5">
-                                    <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
-                                        <span class="text-stone-300 dark:text-stone-600">·</span>
-                                        <span class="text-stone-400 dark:text-stone-500">12 April 2026</span>
-                                    </div>
-                                    <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Perang Dunia I: The Great War
-                                    </h3>
-                                    <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Empat tahun perang parit yang menelan 20 juta jiwa dan runtuhnya empat kekaisaran.
-                                    </p>
-                                </div>
-                            </a>
-
-                            <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                                <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/apollo-11/600/400" alt="Apollo 11" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                                </div>
-                                <div class="p-5">
-                                    <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kontemporer</span>
-                                        <span class="text-stone-300 dark:text-stone-600">·</span>
-                                        <span class="text-stone-400 dark:text-stone-500">5 April 2026</span>
-                                    </div>
-                                    <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Apollo 11: Ketika Manusia Menginjakkan Kaki di Bulan
-                                    </h3>
-                                    <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        "That's one small step for man, one giant leap for mankind." 20 Juli 1969.
-                                    </p>
-                                </div>
-                            </a>
+                            @endforelse
                         </div>
-                    </div>
-
-                    <div class="mt-10 flex items-center justify-between border-t border-stone-200/80 pt-6 text-sm font-semibold dark:border-white/[0.06]">
-                        <span class="text-stone-400 dark:text-stone-500">&larr; Artikel baru</span>
-                        <a href="#" class="text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Artikel lama &rarr;</a>
                     </div>
                 </div>
 
@@ -279,45 +195,35 @@
                             <h2 class="font-serif text-base font-bold">Kategori</h2>
                         </div>
                         <ul class="space-y-0.5 text-sm">
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Perang Dunia</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">3</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Kekaisaran</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Revolusi</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Abad Pertengahan</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Kuno</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Kontemporer</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
+                            @forelse ($kategoris as $kategori)
+                                <li>
+                                    <a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]">
+                                        <span class="text-stone-600 dark:text-stone-300">{{ $kategori->nama }}</span>
+                                        <span class="text-xs font-semibold text-stone-400 dark:text-stone-500">{{ $kategori->artikel_count }}</span>
+                                    </a>
+                                </li>
+                            @empty
+                                <li class="px-3 py-2 text-xs text-stone-400 dark:text-stone-500">Belum ada kategori</li>
+                            @endforelse
                         </ul>
                     </div>
 
                     <div class="rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716]">
                         <h2 class="mb-4 font-serif text-base font-bold">Populer</h2>
                         <ul class="space-y-4">
-                            <li>
-                                <a href="{{ route('artikel.sriwijaya') }}" class="group flex gap-3.5">
-                                    <span class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-stone-100 font-serif text-xs font-bold text-stone-400 group-hover:bg-[#1e3a5f] group-hover:text-white dark:bg-white/[0.05] dark:text-stone-500 dark:group-hover:bg-[#5b9bd5] dark:group-hover:text-[#0f0f0e]">1</span>
-                                    <div>
-                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Perang Dunia II: Konflik Terbesar dalam Sejarah</p>
-                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">24.820 dibaca</p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="group flex gap-3.5">
-                                    <span class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-stone-100 font-serif text-xs font-bold text-stone-400 group-hover:bg-[#1e3a5f] group-hover:text-white dark:bg-white/[0.05] dark:text-stone-500 dark:group-hover:bg-[#5b9bd5] dark:group-hover:text-[#0f0f0e]">2</span>
-                                    <div>
-                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Bangkit dan Jatuhnya Nazi Jerman</p>
-                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">18.430 dibaca</p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="group flex gap-3.5">
-                                    <span class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-stone-100 font-serif text-xs font-bold text-stone-400 group-hover:bg-[#1e3a5f] group-hover:text-white dark:bg-white/[0.05] dark:text-stone-500 dark:group-hover:bg-[#5b9bd5] dark:group-hover:text-[#0f0f0e]">3</span>
-                                    <div>
-                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Revolusi Prancis: Akhir Monarki Absolut</p>
-                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">12.091 dibaca</p>
-                                    </div>
-                                </a>
-                            </li>
+                            @forelse ($popularArtikels as $index => $artikel)
+                                <li>
+                                    <a href="{{ route('artikel.show', $artikel) }}" class="group flex gap-3.5">
+                                        <span class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-stone-100 font-serif text-xs font-bold text-stone-400 group-hover:bg-[#1e3a5f] group-hover:text-white dark:bg-white/[0.05] dark:text-stone-500 dark:group-hover:bg-[#5b9bd5] dark:group-hover:text-[#0f0f0e]">{{ $index + 1 }}</span>
+                                        <div>
+                                            <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $artikel->judul }}</p>
+                                            <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">{{ number_format($artikel->views) }} dibaca</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            @empty
+                                <li class="py-4 text-center text-xs text-stone-400 dark:text-stone-500">Belum ada data</li>
+                            @endforelse
                         </ul>
                     </div>
 

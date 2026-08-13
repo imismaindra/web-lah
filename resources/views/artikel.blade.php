@@ -3,9 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="google-adsense-account" content="ca-pub-9007848909516103">
 
-        <title>Perang Dunia II: Konflik Terbesar dalam Sejarah Manusia — {{ config('app.name', 'Look at History') }}</title>
+        <title>{{ $artikel->judul }} — {{ config('app.name', 'Look at History') }}</title>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 
@@ -19,8 +18,10 @@
             .article-body p { text-indent: 1.5em; }
             .article-body p:first-child,
             .article-body h2,
+            .article-body h3,
             .article-body blockquote,
-            .article-body .key-point { text-indent: 0; }
+            .article-body .key-point,
+            .article-body figure { text-indent: 0; }
 
             .reading-progress {
                 position: fixed;
@@ -86,28 +87,77 @@
                 color: #a8a29e;
             }
 
-            .anchor-ad {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                z-index: 30;
-                background: white;
-                border-top: 1px solid #e7e5e4;
-                padding: 0.75rem 1rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100px;
+            .article-body img {
+                border-radius: 1rem;
+                max-width: 100%;
             }
 
-            :is(.dark) .anchor-ad {
-                background: #171716;
-                border-color: rgba(255,255,255,0.06);
+            .article-body h2 {
+                font-size: 1.5rem;
+                font-weight: 700;
+                padding-top: 1rem;
+                color: #1c1917;
             }
 
-            @media (min-width: 1024px) {
-                .anchor-ad { display: none; }
+            :is(.dark) .article-body h2 {
+                color: #e5e5e3;
+            }
+
+            .article-body h3 {
+                font-size: 1.25rem;
+                font-weight: 600;
+                padding-top: 0.75rem;
+                color: #1c1917;
+            }
+
+            :is(.dark) .article-body h3 {
+                color: #e5e5e3;
+            }
+
+            .article-body blockquote {
+                border-left: 3px solid #1e3a5f;
+                background: rgb(30 58 95 / 0.05);
+                padding: 1rem 1.5rem;
+                border-radius: 0 1rem 1rem 0;
+                font-style: italic;
+                color: #57534e;
+            }
+
+            :is(.dark) .article-body blockquote {
+                border-left-color: #5b9bd5;
+                background: rgb(91 155 213 / 0.05);
+                color: #a8a29e;
+            }
+
+            .article-body figure {
+                margin: 2.5rem 0;
+            }
+
+            .article-body figcaption {
+                margin-top: 0.75rem;
+                text-align: center;
+                font-size: 0.75rem;
+                color: #a8a29e;
+            }
+
+            .article-body ul,
+            .article-body ol {
+                padding-left: 1.5rem;
+                margin: 1rem 0;
+            }
+
+            .article-body li {
+                margin: 0.5rem 0;
+            }
+
+            .article-body a {
+                color: #1e3a5f;
+                text-decoration: underline;
+                text-underline-offset: 2px;
+            }
+
+            :is(.dark) .article-body a {
+                color: #5b9bd5;
             }
         </style>
     </head>
@@ -133,9 +183,6 @@
                             <a href="{{ url('/dashboard') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Dashboard</a>
                         @else
                             <a href="{{ route('login') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Daftar</a>
-                            @endif
                         @endauth
                     @endif
                 </div>
@@ -146,7 +193,11 @@
             {{-- Hero --}}
             <section class="relative overflow-hidden">
                 <div class="absolute inset-0">
-                    <img src="https://picsum.photos/seed/ww2-dunkirk-hero/1600/900" alt="" class="h-full w-full object-cover" loading="eager">
+                    @if ($artikel->gambar)
+                        <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="h-full w-full object-cover" loading="eager">
+                    @else
+                        <img src="https://picsum.photos/seed/artikel-hero-{{ $artikel->id }}/1600/900" alt="{{ $artikel->judul }}" class="h-full w-full object-cover" loading="eager">
+                    @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-[#faf9f7] via-[#faf9f7]/60 to-transparent dark:from-[#0f0f0e] dark:via-[#0f0f0e]/60"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-[#faf9f7]/80 to-transparent dark:from-[#0f0f0e]/80"></div>
                 </div>
@@ -159,26 +210,29 @@
 
                     <div class="mt-10 max-w-2xl sm:mt-14">
                         <div class="flex items-center gap-2.5 text-xs font-semibold">
-                            <span class="rounded-full bg-[#1e3a5f]/10 px-3 py-1 text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">Perang Dunia</span>
-                            <span class="text-stone-300 dark:text-stone-600">·</span>
-                            <span class="text-stone-400 dark:text-stone-500">12 Mei 2026</span>
-                            <span class="text-stone-300 dark:text-stone-600">·</span>
-                            <span class="text-stone-400 dark:text-stone-500">8 menit baca</span>
+                            <span class="rounded-full bg-[#1e3a5f]/10 px-3 py-1 text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
+                            <span class="text-stone-300 dark:text-stone-600">&middot;</span>
+                            <span class="text-stone-400 dark:text-stone-500">{{ $artikel->created_at->format('d M Y') }}</span>
+                            <span class="text-stone-300 dark:text-stone-600">&middot;</span>
+                            <span class="text-stone-400 dark:text-stone-500">{{ ceil(str_word_count(strip_tags($artikel->konten)) / 200) }} menit baca</span>
                         </div>
 
                         <h1 class="mt-5 font-serif text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
-                            Perang Dunia II: Konflik Terbesar<br class="hidden sm:block"> dalam Sejarah Manusia
+                            {{ $artikel->judul }}
                         </h1>
 
-                        <p class="mt-5 max-w-xl text-base leading-relaxed text-stone-500 dark:text-stone-400">
-                            Dengan lebih dari 70 juta korban jiwa, Perang Dunia II mengubah peta politik dunia selamanya.
-                            Dari invasi Polandia hingga bom atom Hiroshima — ini adalah kisah bagaimana dunia nyaris hancur.
-                        </p>
+                        @if ($artikel->ringkasan)
+                            <p class="mt-5 max-w-xl text-base leading-relaxed text-stone-500 dark:text-stone-400">
+                                {{ $artikel->ringkasan }}
+                            </p>
+                        @endif
 
                         <div class="mt-8 flex items-center gap-3.5">
-                            <img src="{{ asset('logo_LAH.jpg') }}" alt="Redaksi" class="h-11 w-11 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-full bg-stone-100 font-serif text-sm font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                {{ substr($artikel->author->name ?? 'A', 0, 1) }}
+                            </div>
                             <div class="text-sm">
-                                <p class="font-semibold">Redaksi Look at History</p>
+                                <p class="font-semibold">{{ $artikel->author->name ?? 'Redaksi' }}</p>
                                 <p class="text-xs text-stone-400 dark:text-stone-500">Penulis</p>
                             </div>
                         </div>
@@ -192,121 +246,18 @@
                     {{-- Article Body --}}
                     <article class="py-8 sm:py-12">
                         <div class="article-body space-y-6 text-[17px] leading-[1.85] text-stone-600 dark:text-stone-300">
-                            <p class="text-lg font-medium text-stone-900 first:text-indent-0 dark:text-[#e5e5e3]">
-                                Perang Dunia II adalah konflik bersenjata terbesar dalam sejarah manusia. Berlangsung dari tahun 1939 hingga 1945, perang ini melibatkan lebih dari 30 negara dan menelan lebih dari 70 juta korban jiwa — sebagian besar sipil.
-                            </p>
-
-                            <p>
-                                Semuanya dimulai pada 1 September 1939, ketika Jerman Nazi di bawah Adolf Hitler menginvasi Polandia. Dua hari kemudian, Inggris dan Prancis menyatakan perang terhadap Jerman. Apa yang dimulai sebagai konflik di Eropa dengan cepat meluas menjadi perang global, melibatkan kekuatan Poros (Jerman, Italia, Jepang) melawan Sekutu (Inggris, Prancis, Uni Soviet, Amerika Serikat, dan lainnya).
-                            </p>
-
-                            <p>
-                                Tahun-tahun pertama perang didominasi oleh keberhasilan Jerman. Blitzkrieg — strategi "perang kilat" — memungkinkan Wehrmacht menaklukkan Polandia, Prancis, Belanda, Belgia, dan sebagian besar Eropa dalam waktu singkat. Uni Soviet, yang sebelumnya menandatangani pakta non-agresi dengan Jerman, turut menjadi korban ketika Hitler melancarkan Operasi Barbarossa pada Juni 1941.
-                            </p>
-                        </div>
-
-                        {{-- Ad Slot: In-Article 1 --}}
-                        <div class="my-8">
-                            <!-- adsense -->
-                            <div class="ad-slot">
-                                <span class="ad-slot-label">Iklan</span>
-                            </div>
-                        </div>
-
-                        <div class="article-body space-y-6 text-[17px] leading-[1.85] text-stone-600 dark:text-stone-300">
-                            <figure class="my-10">
-                                <div class="overflow-hidden rounded-2xl bg-stone-100 dark:bg-white/[0.03]">
-                                    <img src="https://picsum.photos/seed/ww2-dunkirk-article/800/450" alt="Evakuasi Dunkirk, Mei–Juni 1940" class="h-56 w-full object-cover sm:h-72" loading="lazy">
-                                </div>
-                                <figcaption class="mt-3 text-center text-xs text-stone-400 dark:text-stone-500">
-                                    Evakuasi Dunkirk, Mei–Juni 1940: lebih dari 300.000 tentara Sekutu dievakuasi dari Prancis utara.
-                                </figcaption>
-                            </figure>
-
-                            <h2 id="titik-balik" class="pt-4 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-[#e5e5e3]">
-                                Titik Balik: Stalingrad dan Midway
-                            </h2>
-
-                            <p>
-                                Dua pertempuran pada tahun 1942 menjadi titik balik perang. Di Front Timur, Pertempuran Stalingrad berlangsung selama lima bulan dengan korban jiwa yang luar biasa — diperkirakan hampir 2 juta orang tewas, terluka, atau hilang. Kekalahan Jerman di Stalingrad menandai awal mundurnya pasukan Hitler dari Uni Soviet.
-                            </p>
-
-                            <p>
-                                Sementara itu, di Pasifik, Pertempuran Midway pada Juni 1942 menjadi momen penentu. Angkatan Laut AS berhasil menenggelamkan empat kapal induk Jepang, membalikkan keadaan di Teater Pasifik. Sejak saat itu, Jepang berada dalam posisi bertahan.
-                            </p>
-
-                            <blockquote class="my-8 rounded-r-2xl border-l-[3px] border-[#1e3a5f] bg-[#1e3a5f]/5 py-4 pl-6 pr-6 font-serif text-lg italic leading-relaxed text-stone-600 dark:border-[#5b9bd5] dark:bg-[#5b9bd5]/5 dark:text-stone-400">
-                                "Kami akan bertempur di pantai, kami akan bertempur di lapangan pendaratan, kami akan bertempur di ladang dan di jalan-jalan, kami tidak akan pernah menyerah."
-                            </blockquote>
-                        </div>
-
-                        {{-- Ad Slot: In-Article 2 --}}
-                        <div class="my-8">
-                            <!-- adsense -->
-                            <div class="ad-slot">
-                                <span class="ad-slot-label">Iklan</span>
-                            </div>
-                        </div>
-
-                        <div class="article-body space-y-6 text-[17px] leading-[1.85] text-stone-600 dark:text-stone-300">
-                            <h2 id="d-day" class="pt-4 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-[#e5e5e3]">
-                                D-Day: Invasi Normandia
-                            </h2>
-
-                            <p>
-                                6 Juni 1944, dikenal sebagai D-Day, adalah hari dimulainya Operasi Overlord — invasi sekutu ke Normandia, Prancis. Lebih dari 156.000 tentara dari Amerika Serikat, Inggris, Kanada, dan negara sekutu lainnya mendarat di pantai Normandia. Ini adalah operasi amfibi terbesar dalam sejarah.
-                            </p>
-
-                            <p>
-                                Keberhasilan D-Day membuka Front Barat dan mempercepat kejatuhan Jerman. Sementara itu, Uni Soviet melancarkan Operasi Bagration di Front Timur, menghancurkan pasukan Jerman di Belarusia. Pada April 1945, Soviet mencapai Berlin. Hitler bunuh diri pada 30 April, dan Jerman menyerah tanpa syarat pada 8 Mei 1945 — Hari Kemenangan di Eropa.
-                            </p>
-
-                            <h2 id="bom-atom" class="pt-4 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-[#e5e5e3]">
-                                Bom Atom dan Akhir Perang
-                            </h2>
-
-                            <p>
-                                Di Teater Pasifik, perang berlanjut setelah kejatuhan Eropa. Amerika Serikat memutuskan untuk menggunakan senjata nuklir — yang baru saja dikembangkan melalui Proyek Manhattan — untuk memaksa Jepang menyerah tanpa invasi daratan yang diperkirakan akan menelan jutaan korban jiwa.
-                            </p>
-
-                            <p>
-                                Pada 6 Agustus 1945, bom atom "Little Boy" dijatuhkan di Hiroshima. Tiga hari kemudian, "Fat Man" dijatuhkan di Nagasaki. Lebih dari 200.000 orang tewas akibat ledakan dan radiasi. Pada 15 Agustus 1945, Kaisar Hirohito mengumumkan penyerahan Jepang. Perang Dunia II resmi berakhir.
-                            </p>
-
-                            <div class="key-point my-10 rounded-2xl border border-[#1e3a5f]/20 bg-[#1e3a5f]/5 p-6 dark:border-[#5b9bd5]/20 dark:bg-[#5b9bd5]/5">
-                                <div class="mb-4 flex items-center gap-2.5">
-                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e3a5f]/10 dark:bg-[#5b9bd5]/10">
-                                        <svg class="h-4 w-4 text-[#1e3a5f] dark:text-[#5b9bd5]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                            <circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/>
-                                        </svg>
-                                    </div>
-                                    <h3 class="font-serif text-lg font-bold text-[#1e3a5f] dark:text-[#5b9bd5]">Poin Penting</h3>
-                                </div>
-                                <ul class="list-disc space-y-2 pl-5 text-sm leading-relaxed">
-                                    <li>Berlangsung 1939–1945, melibatkan lebih dari 30 negara.</li>
-                                    <li>Lebih dari 70 juta korban jiwa — sebagian besar sipil.</li>
-                                    <li>Titik balik: Stalingrad (Front Timur) dan Midway (Pasifik).</li>
-                                    <li>D-Day (6 Juni 1944): invasi sekutu terbesar dalam sejarah.</li>
-                                    <li>Bom atom Hiroshima dan Nagasaki memaksa Jepang menyerah.</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        {{-- Tags --}}
-                        <div class="flex flex-wrap gap-2 border-t border-stone-200/80 pt-6 dark:border-white/[0.06]">
-                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#PerangDunia</a>
-                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#WW2</a>
-                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#Jerman</a>
-                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#Sekutu</a>
+                            {!! $artikel->konten !!}
                         </div>
 
                         {{-- Author Bio --}}
                         <div class="mt-10 rounded-2xl border border-stone-200/60 bg-white p-6 sm:p-8 dark:border-white/[0.06] dark:bg-[#171716]">
                             <div class="flex items-start gap-4">
-                                <img src="{{ asset('logo_LAH.jpg') }}" alt="Redaksi" class="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
+                                <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-stone-100 font-serif text-lg font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                    {{ substr($artikel->author->name ?? 'A', 0, 1) }}
+                                </div>
                                 <div>
-                                    <p class="font-semibold">Redaksi Look at History</p>
-                                    <p class="mt-1 text-sm leading-relaxed text-stone-500 dark:text-stone-400">Menulis tentang sejarah dunia untuk pembaca yang ingin memahami masa lalu. Artikel ditulis berdasarkan referensi sejarah terpercaya.</p>
+                                    <p class="font-semibold">{{ $artikel->author->name ?? 'Redaksi' }}</p>
+                                    <p class="mt-1 text-sm leading-relaxed text-stone-500 dark:text-stone-400">Menulis tentang sejarah dunia untuk pembaca yang ingin memahami masa lalu.</p>
                                     <a href="/" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Lihat semua artikel &rarr;</a>
                                 </div>
                             </div>
@@ -316,25 +267,8 @@
                     {{-- Sidebar --}}
                     <aside class="hidden lg:block">
                         <div class="sticky top-24 space-y-8">
-                            {{-- Table of Contents --}}
-                            <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]">
-                                <h2 class="mb-3 text-xs font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500">Daftar Isi</h2>
-                                <nav class="space-y-0.5">
-                                    <a href="#titik-balik" class="toc-link block rounded-lg px-3 py-2 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white">
-                                        Titik Balik: Stalingrad dan Midway
-                                    </a>
-                                    <a href="#d-day" class="toc-link block rounded-lg px-3 py-2 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white">
-                                        D-Day: Invasi Normandia
-                                    </a>
-                                    <a href="#bom-atom" class="toc-link block rounded-lg px-3 py-2 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white">
-                                        Bom Atom dan Akhir Perang
-                                    </a>
-                                </nav>
-                            </div>
-
                             {{-- Sidebar Ad --}}
                             <div>
-                                <!-- adsense -->
                                 <div class="ad-slot" style="min-height: 250px;">
                                     <span class="ad-slot-label">Iklan</span>
                                 </div>
@@ -358,74 +292,43 @@
 
                 {{-- Multiplex Ad --}}
                 <div class="my-10">
-                    <!-- adsense -->
                     <div class="ad-slot" style="min-height: 250px;">
                         <span class="ad-slot-label">Iklan</span>
                     </div>
                 </div>
 
                 {{-- Related Articles --}}
-                <section class="border-t border-stone-200/80 py-12 dark:border-white/[0.06] sm:py-16">
-                    <h2 class="font-serif text-2xl font-bold tracking-tight">Baca Juga</h2>
-                    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                        <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                            <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                <img src="https://picsum.photos/seed/nazi-germany-mini/600/400" alt="Nazi Jerman" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                            </div>
-                            <div class="p-5">
-                                <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
-                                    <span class="text-stone-300 dark:text-stone-600">·</span>
-                                    <span class="text-stone-400 dark:text-stone-500">8 Mei 2026</span>
-                                </div>
-                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                    Bangkit dan Jatuhnya Nazi Jerman
-                                </h3>
-                                <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                    Dari Partai Buruh Jerman menjadi kekuatan totaliter yang mengguncang dunia.
-                                </p>
-                            </div>
-                        </a>
-
-                        <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                            <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                <img src="https://picsum.photos/seed/ww1-trenches-mini/600/400" alt="Perang Dunia I" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                            </div>
-                            <div class="p-5">
-                                <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
-                                    <span class="text-stone-300 dark:text-stone-600">·</span>
-                                    <span class="text-stone-400 dark:text-stone-500">12 April 2026</span>
-                                </div>
-                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                    Perang Dunia I: The Great War
-                                </h3>
-                                <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                    Konflik yang menelan 20 juta jiwa dan mengubah wajah Eropa selamanya.
-                                </p>
-                            </div>
-                        </a>
-
-                        <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                            <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                <img src="https://picsum.photos/seed/cold-war-mini/600/400" alt="Perang Dingin" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                            </div>
-                            <div class="p-5">
-                                <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kontemporer</span>
-                                    <span class="text-stone-300 dark:text-stone-600">·</span>
-                                    <span class="text-stone-400 dark:text-stone-500">29 Maret 2026</span>
-                                </div>
-                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                    Perang Dingin: Dua Kubu yang Menguasai Dunia
-                                </h3>
-                                <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                    AS melawan Uni Soviet tanpa perang langsung — tapi dunia selalu di ambang kehancuran.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </section>
+                @if ($relatedArtikels->isNotEmpty())
+                    <section class="border-t border-stone-200/80 py-12 dark:border-white/[0.06] sm:py-16">
+                        <h2 class="font-serif text-2xl font-bold tracking-tight">Baca Juga</h2>
+                        <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                            @foreach ($relatedArtikels as $related)
+                                <a href="{{ route('artikel.show', $related) }}" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
+                                    <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
+                                        @if ($related->gambar)
+                                            <img src="{{ asset('storage/' . $related->gambar) }}" alt="{{ $related->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                        @else
+                                            <img src="https://picsum.photos/seed/related-{{ $related->id }}/600/400" alt="{{ $related->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                        @endif
+                                    </div>
+                                    <div class="p-5">
+                                        <div class="flex items-center gap-2 text-xs font-semibold">
+                                            <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $related->kategori->nama ?? 'Umum' }}</span>
+                                            <span class="text-stone-300 dark:text-stone-600">&middot;</span>
+                                            <span class="text-stone-400 dark:text-stone-500">{{ $related->created_at->format('d M Y') }}</span>
+                                        </div>
+                                        <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
+                                            {{ $related->judul }}
+                                        </h3>
+                                        <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
+                                            {{ $related->ringkasan ?? Str::limit(strip_tags($related->konten), 120) }}
+                                        </p>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </section>
+                @endif
             </div>
         </main>
 
@@ -435,34 +338,5 @@
                 <p>Belajar Sejarah Dunia</p>
             </div>
         </footer>
-
-        {{-- Anchor Ad: Mobile only --}}
-        <div class="anchor-ad" id="anchor-ad">
-            <!-- adsense -->
-            <div class="w-full max-w-md text-center">
-                <span class="ad-slot-label">Iklan</span>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const headings = document.querySelectorAll('.article-body h2[id]');
-                const tocLinks = document.querySelectorAll('.toc-link');
-
-                if (!headings.length || !tocLinks.length) return;
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            tocLinks.forEach(link => {
-                                link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
-                            });
-                        }
-                    });
-                }, { rootMargin: '-20% 0px -60% 0px' });
-
-                headings.forEach(heading => observer.observe(heading));
-            });
-        </script>
     </body>
 </html>

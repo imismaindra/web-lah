@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="google-adsense-account" content="ca-pub-9007848909516103">
 
         <title>{{ config('app.name', 'Look at History') }}</title>
 
@@ -46,21 +47,21 @@
             <section class="pt-12 pb-6 sm:pt-16 sm:pb-8">
                 <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
                     <div>
-                        <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Blog Sejarah</p>
+                        <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Blog Sejarah Dunia</p>
                         <h1 class="mt-3 font-serif text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
-                            Cerita di Balik<br class="hidden sm:block"> Perjalanan Bangsa
+                            Masa Lalu yang<br class="hidden sm:block"> Membentuk Masa Kini
                         </h1>
                         <p class="mt-3 max-w-md text-sm leading-relaxed text-stone-500 dark:text-stone-400">
-                            Artikel sejarah yang ringkas dan terpercaya — dari peradaban kuno hingga era modern.
+                            Artikel sejarah dunia yang ringkas dan terpercaya — dari peradaban kuno hingga konflik modern.
                         </p>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <a href="#" class="rounded-full bg-stone-900 px-4 py-1.5 text-xs font-semibold text-white dark:bg-white dark:text-stone-900">Semua</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Prasejarah</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Hindu–Buddha</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Islam</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Kolonial</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Kemerdekaan</a>
+                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Perang Dunia</a>
+                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Kekaisaran</a>
+                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Revolusi</a>
+                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Abad Pertengahan</a>
+                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Kuno</a>
                     </div>
                 </div>
             </section>
@@ -69,43 +70,51 @@
                 <h2 class="font-serif text-xl font-bold tracking-tight">Perjalanan Waktu</h2>
                 <div class="mt-5 flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
                     <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-prasejarah/400/500" alt="Prasejarah" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                        <img src="https://picsum.photos/seed/era-ancient/400/500" alt="Kuno" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">± 2,5 juta tahun lalu</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Prasejarah</h3>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">3000 SM – 500 M</p>
+                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Zaman Kuno</h3>
                         </div>
                     </a>
                     <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-hindu-buddha/400/500" alt="Hindu–Buddha" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                        <img src="https://picsum.photos/seed/era-medieval/400/500" alt="Abad Pertengahan" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">4 – 15 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Hindu–Buddha</h3>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">500 – 1500 M</p>
+                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Abad Pertengahan</h3>
                         </div>
                     </a>
                     <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-islam-nusantara/400/500" alt="Islam" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                        <img src="https://picsum.photos/seed/era-renaissance/400/500" alt="Modern Awal" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">13 – 19 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Islam</h3>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1500 – 1800 M</p>
+                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Modern Awal</h3>
                         </div>
                     </a>
                     <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-kolonial/400/500" alt="Kolonial" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                        <img src="https://picsum.photos/seed/era-industrial/400/500" alt="Abad ke-19" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">16 – 20 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Kolonial</h3>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1800 – 1914 M</p>
+                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Abad ke-19</h3>
                         </div>
                     </a>
                     <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-kemerdekaan/400/500" alt="Kemerdekaan" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                        <img src="https://picsum.photos/seed/era-worldwars/400/500" alt="Perang Dunia" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1945 – sekarang</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Kemerdekaan</h3>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1914 – 1945 M</p>
+                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Perang Dunia</h3>
+                        </div>
+                    </a>
+                    <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
+                        <img src="https://picsum.photos/seed/era-coldwar/400/500" alt="Perang Dingin" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-5">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1945 – 1991 M</p>
+                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Perang Dingin</h3>
                         </div>
                     </a>
                 </div>
@@ -116,24 +125,22 @@
                     <a href="{{ route('artikel.sriwijaya') }}" class="group block overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                         <div class="grid sm:grid-cols-[1fr_1.2fr]">
                             <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                <img src="https://picsum.photos/seed/history-sriwijaya/800/600" alt="Sriwijaya" class="h-64 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-full" loading="lazy">
+                                <img src="https://picsum.photos/seed/ww2-dunkirk/800/600" alt="Perang Dunia II" class="h-64 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-full" loading="lazy">
                                 <div class="absolute top-4 left-4">
                                     <span class="rounded-full bg-stone-900/80 px-3 py-1 text-[10px] font-bold tracking-wide text-white uppercase backdrop-blur-sm">Unggulan</span>
                                 </div>
                             </div>
                             <div class="flex flex-col justify-center p-6 sm:p-8">
                                 <div class="flex items-center gap-2.5 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Hindu–Buddha</span>
+                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
                                     <span class="text-stone-300 dark:text-stone-600">·</span>
                                     <span class="text-stone-400 dark:text-stone-500">12 Mei 2026</span>
                                 </div>
                                 <h2 class="mt-4 font-serif text-2xl font-bold leading-snug tracking-tight group-hover:text-[#1e3a5f] sm:text-3xl dark:group-hover:text-[#5b9bd5]">
-                                    Sriwijaya: Raksasa Maritim di Selat Malaka
+                                    Perang Dunia II: Konflik Terbesar dalam Sejarah Manusia
                                 </h2>
                                 <p class="mt-3 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
-                                    Selama lebih dari enam abad, Kerajaan Sriwijaya menguasai jalur perdagangan laut
-                                    Nusantara. Bagaimana kerajaan tanpa batas wilayah yang jelas ini mampu menjadi
-                                    pusat ekonomi dan agama Buddha di Asia Tenggara?
+                                    Dengan lebih dari 70 juta korban jiwa, Perang Dunia II mengubah peta politik dunia selamanya. Dari invasi Polandia hingga bom atom Hiroshima — ini adalah kisah bagaimana dunia nyaris hancur.
                                 </p>
                                 <p class="mt-5 text-sm font-semibold text-[#1e3a5f] transition group-hover:translate-x-0.5 dark:text-[#5b9bd5]">Baca selengkapnya &rarr;</p>
                             </div>
@@ -146,114 +153,114 @@
                         <div class="mt-6 grid gap-5 sm:grid-cols-2">
                             <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                                 <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/history-sangiran/600/400" alt="Sangiran" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                    <img src="https://picsum.photos/seed/nazi-germany/600/400" alt="Nazi Jerman" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                 </div>
                                 <div class="p-5">
                                     <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Prasejarah</span>
+                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
                                         <span class="text-stone-300 dark:text-stone-600">·</span>
                                         <span class="text-stone-400 dark:text-stone-500">8 Mei 2026</span>
                                     </div>
                                     <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Sangiran: Jejak Homo erectus di Nusantara
+                                        Bangkit dan Jatuhnya Nazi Jerman
                                     </h3>
                                     <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Situs warisan dunia tempat ribuan fosil manusia purba ditemukan.
+                                        Dari Partai Buruh Jerman menjadi kekuatan fasis yang menguasai separuh Eropa.
                                     </p>
                                 </div>
                             </a>
 
                             <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                                 <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/history-borobudur/600/400" alt="Borobudur" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                    <img src="https://picsum.photos/seed/french-revolution/600/400" alt="Revolusi Prancis" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                 </div>
                                 <div class="p-5">
                                     <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Hindu–Buddha</span>
+                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Revolusi</span>
                                         <span class="text-stone-300 dark:text-stone-600">·</span>
                                         <span class="text-stone-400 dark:text-stone-500">2 Mei 2026</span>
                                     </div>
                                     <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Borobudur: Keajaiban Dunia dari Dinasti Syailendra
+                                        Revolusi Prancis: Akhir Monarki Absolut
                                     </h3>
                                     <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Satu juta batu, 2.672 panel relief, dan makna tersembunyi di balik stupa terbesar.
+                                        Bagaimana "Liberté, Égalité, Fraternité" menggulingkan Louis XVI dan mengubah Eropa.
                                     </p>
                                 </div>
                             </a>
 
                             <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                                 <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/history-islam-nusantara/600/400" alt="Islam Nusantara" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                    <img src="https://picsum.photos/seed/fall-of-rome/600/400" alt="Kejatuhan Roma" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                 </div>
                                 <div class="p-5">
                                     <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Islam</span>
+                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kuno</span>
                                         <span class="text-stone-300 dark:text-stone-600">·</span>
                                         <span class="text-stone-400 dark:text-stone-500">26 April 2026</span>
                                     </div>
                                     <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Masuknya Islam ke Nusantara: Damai atau Perdagangan?
+                                        Kejatuhan Roma: Ketika Imperium Runtuh
                                     </h3>
                                     <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Perdebatan para sejarawan tentang jalur masuk Islam ke Nusantara.
+                                        Invasi barbar, krisis ekonomi, dan akhir dari 1.000 tahun kekuasaan Romawi.
                                     </p>
                                 </div>
                             </a>
 
                             <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                                 <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/history-diponegoro/600/400" alt="Diponegoro" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                    <img src="https://picsum.photos/seed/mongol-empire/600/400" alt="Kekaisaran Mongol" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                 </div>
                                 <div class="p-5">
                                     <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kolonial</span>
+                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Abad Pertengahan</span>
                                         <span class="text-stone-300 dark:text-stone-600">·</span>
                                         <span class="text-stone-400 dark:text-stone-500">19 April 2026</span>
                                     </div>
                                     <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Perang Diponegoro: Perlawanan Terpanjang Abad ke-19
+                                        Kekaisaran Mongol: Dari Gobi ke Danau Danube
                                     </h3>
                                     <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Lima tahun perang besar yang melahirkan strategi perang gerilya.
+                                        Djenghis Khan dan keturunannya membangun imperium daratan terbesar dalam sejarah.
                                     </p>
                                 </div>
                             </a>
 
                             <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                                 <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/history-sumpah-pemuda/600/400" alt="Sumpah Pemuda" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                    <img src="https://picsum.photos/seed/ww1-trenches/600/400" alt="Perang Dunia I" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                 </div>
                                 <div class="p-5">
                                     <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Pergerakan</span>
+                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
                                         <span class="text-stone-300 dark:text-stone-600">·</span>
                                         <span class="text-stone-400 dark:text-stone-500">12 April 2026</span>
                                     </div>
                                     <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Sumpah Pemuda 1928: Sebuah Ikrar Bangsa
+                                        Perang Dunia I: The Great War
                                     </h3>
                                     <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Satu tanah air, satu bangsa, satu bahasa — bagaimana satu kongres mengubah arah perjuangan.
+                                        Empat tahun perang parit yang menelan 20 juta jiwa dan runtuhnya empat kekaisaran.
                                     </p>
                                 </div>
                             </a>
 
                             <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                                 <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                    <img src="https://picsum.photos/seed/history-proklamasi/600/400" alt="Proklamasi" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                    <img src="https://picsum.photos/seed/apollo-11/600/400" alt="Apollo 11" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                 </div>
                                 <div class="p-5">
                                     <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kemerdekaan</span>
+                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kontemporer</span>
                                         <span class="text-stone-300 dark:text-stone-600">·</span>
                                         <span class="text-stone-400 dark:text-stone-500">5 April 2026</span>
                                     </div>
                                     <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                        Detik-Detik Proklamasi 17 Agustus 1945
+                                        Apollo 11: Ketika Manusia Menginjakkan Kaki di Bulan
                                     </h3>
                                     <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                        Dari Rengasdengklok hingga pembacaan teks proklamasi: 48 jam yang menentukan.
+                                        "That's one small step for man, one giant leap for mankind." 20 Juli 1969.
                                     </p>
                                 </div>
                             </a>
@@ -272,12 +279,12 @@
                             <h2 class="font-serif text-base font-bold">Kategori</h2>
                         </div>
                         <ul class="space-y-0.5 text-sm">
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Prasejarah</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Hindu–Buddha</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">2</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Islam</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Kolonial</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Pergerakan</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
-                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Kemerdekaan</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
+                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Perang Dunia</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">3</span></a></li>
+                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Kekaisaran</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
+                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Revolusi</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
+                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Abad Pertengahan</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
+                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Kuno</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
+                            <li><a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]"><span class="text-stone-600 dark:text-stone-300">Kontemporer</span><span class="text-xs font-semibold text-stone-400 dark:text-stone-500">1</span></a></li>
                         </ul>
                     </div>
 
@@ -288,8 +295,8 @@
                                 <a href="{{ route('artikel.sriwijaya') }}" class="group flex gap-3.5">
                                     <span class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-stone-100 font-serif text-xs font-bold text-stone-400 group-hover:bg-[#1e3a5f] group-hover:text-white dark:bg-white/[0.05] dark:text-stone-500 dark:group-hover:bg-[#5b9bd5] dark:group-hover:text-[#0f0f0e]">1</span>
                                     <div>
-                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Sriwijaya: Raksasa Maritim di Selat Malaka</p>
-                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">12.480 dibaca</p>
+                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Perang Dunia II: Konflik Terbesar dalam Sejarah</p>
+                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">24.820 dibaca</p>
                                     </div>
                                 </a>
                             </li>
@@ -297,8 +304,8 @@
                                 <a href="#" class="group flex gap-3.5">
                                     <span class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-stone-100 font-serif text-xs font-bold text-stone-400 group-hover:bg-[#1e3a5f] group-hover:text-white dark:bg-white/[0.05] dark:text-stone-500 dark:group-hover:bg-[#5b9bd5] dark:group-hover:text-[#0f0f0e]">2</span>
                                     <div>
-                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Detik-Detik Proklamasi 17 Agustus 1945</p>
-                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">9.731 dibaca</p>
+                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Bangkit dan Jatuhnya Nazi Jerman</p>
+                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">18.430 dibaca</p>
                                     </div>
                                 </a>
                             </li>
@@ -306,8 +313,8 @@
                                 <a href="#" class="group flex gap-3.5">
                                     <span class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-stone-100 font-serif text-xs font-bold text-stone-400 group-hover:bg-[#1e3a5f] group-hover:text-white dark:bg-white/[0.05] dark:text-stone-500 dark:group-hover:bg-[#5b9bd5] dark:group-hover:text-[#0f0f0e]">3</span>
                                     <div>
-                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Borobudur: Keajaiban Dunia dari Dinasti Syailendra</p>
-                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">8.204 dibaca</p>
+                                        <p class="text-sm font-semibold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">Revolusi Prancis: Akhir Monarki Absolut</p>
+                                        <p class="mt-0.5 text-[11px] text-stone-400 dark:text-stone-500">12.091 dibaca</p>
                                     </div>
                                 </a>
                             </li>
@@ -317,8 +324,8 @@
                     <div id="tentang" class="rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716]">
                         <h2 class="font-serif text-base font-bold">Tentang Blog Ini</h2>
                         <p class="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
-                            Look at History menyajikan artikel sejarah secara ringkas dan terpercaya,
-                            untuk siapa saja yang ingin memahami masa lalu.
+                            Look at History menyajikan artikel sejarah dunia secara ringkas dan terpercaya,
+                            dari peradaban kuno hingga konflik modern.
                         </p>
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="mt-4 inline-block rounded-lg bg-stone-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
@@ -333,39 +340,39 @@
                 <h2 class="font-serif text-xl font-bold tracking-tight">Jelajahi Topik</h2>
                 <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                     <a href="#" class="group relative col-span-2 row-span-2 h-72 overflow-hidden rounded-2xl sm:h-80">
-                        <img src="https://picsum.photos/seed/topic-maritim/800/600" alt="Maritim" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                        <img src="https://picsum.photos/seed/topic-worldwars/800/600" alt="Perang Dunia" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-6">
-                            <h3 class="font-serif text-2xl font-bold text-white">Maritim</h3>
-                            <p class="mt-1 text-sm text-white/70">Kapal, pelabuhan, dan jalur perdagangan.</p>
+                            <h3 class="font-serif text-2xl font-bold text-white">Perang Dunia</h3>
+                            <p class="mt-1 text-sm text-white/70">WW1, WW2, dan dampaknya hingga hari ini.</p>
                         </div>
                     </a>
                     <a href="#" class="group relative h-36 overflow-hidden rounded-2xl sm:h-[calc(2rem+160px-1rem)]">
-                        <img src="https://picsum.photos/seed/topic-candi/400/300" alt="Candi & Arsitektur" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                        <img src="https://picsum.photos/seed/topic-empires/400/300" alt="Kekaisaran & Dinasti" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-4">
-                            <h3 class="font-serif text-sm font-bold text-white">Candi & Arsitektur</h3>
+                            <h3 class="font-serif text-sm font-bold text-white">Kekaisaran & Dinasti</h3>
                         </div>
                     </a>
                     <a href="#" class="group relative h-36 overflow-hidden rounded-2xl sm:h-[calc(2rem+160px-1rem)]">
-                        <img src="https://picsum.photos/seed/topic-perang/400/300" alt="Perang & Perlawanan" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                        <img src="https://picsum.photos/seed/topic-revolutions/400/300" alt="Revolusi & Pemberontakan" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-4">
-                            <h3 class="font-serif text-sm font-bold text-white">Perang & Perlawanan</h3>
+                            <h3 class="font-serif text-sm font-bold text-white">Revolusi & Pemberontakan</h3>
                         </div>
                     </a>
                     <a href="#" class="group relative h-36 overflow-hidden rounded-2xl sm:h-[calc(2rem+160px-1rem)]">
-                        <img src="https://picsum.photos/seed/topic-budaya/400/300" alt="Budaya & Adat" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                        <img src="https://picsum.photos/seed/topic-exploration/400/300" alt="Penjelajahan & Ekspedisi" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-4">
-                            <h3 class="font-serif text-sm font-bold text-white">Budaya & Adat</h3>
+                            <h3 class="font-serif text-sm font-bold text-white">Penjelajahan & Ekspedisi</h3>
                         </div>
                     </a>
                     <a href="#" class="group relative h-36 overflow-hidden rounded-2xl sm:h-[calc(2rem+160px-1rem)]">
-                        <img src="https://picsum.photos/seed/topic-tekno/400/300" alt="Teknologi Kuno" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                        <img src="https://picsum.photos/seed/topic-science/400/300" alt="Sains & Penemuan" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-4">
-                            <h3 class="font-serif text-sm font-bold text-white">Teknologi Kuno</h3>
+                            <h3 class="font-serif text-sm font-bold text-white">Sains & Penemuan</h3>
                         </div>
                     </a>
                 </div>
@@ -375,7 +382,7 @@
                 <div class="mx-auto max-w-xl text-center">
                     <h2 class="font-serif text-2xl font-bold tracking-tight text-white sm:text-3xl dark:text-[#e5e5e3]">Tidak Ketinggalan Cerita</h2>
                     <p class="mt-3 text-sm leading-relaxed text-stone-400 dark:text-stone-500">
-                        Dapatkan artikel sejarah terbaru langsung di inbox kamu. Tanpa spam, kapan saja.
+                        Dapatkan artikel sejarah dunia terbaru langsung di inbox kamu. Tanpa spam, kapan saja.
                     </p>
                     <form class="mt-6 flex flex-col gap-3 sm:flex-row">
                         <input type="email" placeholder="email@kamu.com" class="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:border-[#5b9bd5] focus:outline-none focus:ring-1 focus:ring-[#5b9bd5] dark:border-stone-700 dark:bg-stone-800 dark:text-[#e5e5e3] dark:placeholder:text-stone-500">
@@ -389,7 +396,7 @@
         <footer class="mt-16 border-t border-stone-200/80 dark:border-white/[0.06]">
             <div class="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-stone-400 sm:flex-row sm:px-8 dark:text-stone-500">
                 <p>&copy; {{ date('Y') }} {{ config('app.name', 'Look at History') }}.</p>
-                <p>Belajar Sejarah</p>
+                <p>Belajar Sejarah Dunia</p>
             </div>
         </footer>
     </body>

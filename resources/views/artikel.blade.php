@@ -3,8 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="google-adsense-account" content="ca-pub-9007848909516103">
 
-        <title>Sriwijaya: Raksasa Maritim di Selat Malaka — {{ config('app.name', 'Look at History') }}</title>
+        <title>Perang Dunia II: Konflik Terbesar dalam Sejarah Manusia — {{ config('app.name', 'Look at History') }}</title>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 
@@ -21,11 +22,6 @@
             .article-body blockquote,
             .article-body .key-point { text-indent: 0; }
 
-            @keyframes progress-fill {
-                from { width: 0%; }
-                to { width: 100%; }
-            }
-
             .reading-progress {
                 position: fixed;
                 top: 0;
@@ -37,18 +33,23 @@
                 animation-timeline: scroll(root);
             }
 
+            @keyframes progress-fill {
+                from { width: 0%; }
+                to { width: 100%; }
+            }
+
             @supports not (animation-timeline: scroll()) {
                 .reading-progress { display: none; }
             }
 
             .toc-link.active {
                 color: #1e3a5f;
-                background: #1e3a5f/5;
+                background: #1e3a5f0d;
             }
 
             :is(.dark) .toc-link.active {
                 color: #5b9bd5;
-                background: #5b9bd5/5;
+                background: #5b9bd50d;
             }
 
             .grain-overlay {
@@ -56,10 +57,57 @@
                 inset: 0;
                 pointer-events: none;
                 z-index: 40;
-                opacity: 0.03;
-                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+                opacity: 0.025;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
                 background-repeat: repeat;
                 background-size: 200px 200px;
+            }
+
+            .ad-slot {
+                min-height: 250px;
+                background: linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%);
+                border: 1px dashed #d6d3d1;
+                border-radius: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            :is(.dark) .ad-slot {
+                background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.04) 100%);
+                border-color: rgba(255,255,255,0.08);
+            }
+
+            .ad-slot-label {
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                color: #a8a29e;
+            }
+
+            .anchor-ad {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 30;
+                background: white;
+                border-top: 1px solid #e7e5e4;
+                padding: 0.75rem 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100px;
+            }
+
+            :is(.dark) .anchor-ad {
+                background: #171716;
+                border-color: rgba(255,255,255,0.06);
+            }
+
+            @media (min-width: 1024px) {
+                .anchor-ad { display: none; }
             }
         </style>
     </head>
@@ -98,7 +146,7 @@
             {{-- Hero --}}
             <section class="relative overflow-hidden">
                 <div class="absolute inset-0">
-                    <img src="https://picsum.photos/seed/history-sriwijaya/1600/900" alt="" class="h-full w-full object-cover" loading="eager">
+                    <img src="https://picsum.photos/seed/ww2-dunkirk-hero/1600/900" alt="" class="h-full w-full object-cover" loading="eager">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#faf9f7] via-[#faf9f7]/60 to-transparent dark:from-[#0f0f0e] dark:via-[#0f0f0e]/60"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-[#faf9f7]/80 to-transparent dark:from-[#0f0f0e]/80"></div>
                 </div>
@@ -111,20 +159,20 @@
 
                     <div class="mt-10 max-w-2xl sm:mt-14">
                         <div class="flex items-center gap-2.5 text-xs font-semibold">
-                            <span class="rounded-full bg-[#1e3a5f]/10 px-3 py-1 text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">Hindu–Buddha</span>
+                            <span class="rounded-full bg-[#1e3a5f]/10 px-3 py-1 text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">Perang Dunia</span>
                             <span class="text-stone-300 dark:text-stone-600">·</span>
                             <span class="text-stone-400 dark:text-stone-500">12 Mei 2026</span>
                             <span class="text-stone-300 dark:text-stone-600">·</span>
-                            <span class="text-stone-400 dark:text-stone-500">5 menit baca</span>
+                            <span class="text-stone-400 dark:text-stone-500">8 menit baca</span>
                         </div>
 
                         <h1 class="mt-5 font-serif text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
-                            Sriwijaya: Raksasa Maritim<br class="hidden sm:block"> di Selat Malaka
+                            Perang Dunia II: Konflik Terbesar<br class="hidden sm:block"> dalam Sejarah Manusia
                         </h1>
 
                         <p class="mt-5 max-w-xl text-base leading-relaxed text-stone-500 dark:text-stone-400">
-                            Selama lebih dari enam abad, Kerajaan Sriwijaya menguasai jalur pelayaran dan perdagangan
-                            Nusantara. Namun siapa sebenarnya penguasa laut yang nyaris tak meninggalkan jejak bangunan megah ini?
+                            Dengan lebih dari 70 juta korban jiwa, Perang Dunia II mengubah peta politik dunia selamanya.
+                            Dari invasi Polandia hingga bom atom Hiroshima — ini adalah kisah bagaimana dunia nyaris hancur.
                         </p>
 
                         <div class="mt-8 flex items-center gap-3.5">
@@ -140,77 +188,89 @@
 
             {{-- Article Content + Sidebar --}}
             <div class="mx-auto max-w-[1400px] px-5 sm:px-8">
-                <div class="grid gap-12 lg:grid-cols-[1fr_260px]">
+                <div class="grid gap-12 lg:grid-cols-[1fr_300px]">
                     {{-- Article Body --}}
                     <article class="py-8 sm:py-12">
                         <div class="article-body space-y-6 text-[17px] leading-[1.85] text-stone-600 dark:text-stone-300">
                             <p class="text-lg font-medium text-stone-900 first:text-indent-0 dark:text-[#e5e5e3]">
-                                Selama lebih dari enam abad, Kerajaan Sriwijaya menguasai jalur pelayaran dan perdagangan
-                                Nusantara. Namun siapa sebenarnya penguasa laut yang nyaris tak meninggalkan jejak bangunan megah ini?
+                                Perang Dunia II adalah konflik bersenjata terbesar dalam sejarah manusia. Berlangsung dari tahun 1939 hingga 1945, perang ini melibatkan lebih dari 30 negara dan menelan lebih dari 70 juta korban jiwa — sebagian besar sipil.
                             </p>
 
                             <p>
-                                Nama Sriwijaya pertama kali muncul dalam prasasti Kedukan Bukit yang ditemukan di tepi
-                                Sungai Talang, dekat Palembang. Prasasti bertanggal 683 M ini ditulis dalam bahasa Melayu
-                                kuno dan menceritakan perjalanan suci seorang raja bersama dua ribu pasukannya. Dari sinilah
-                                para sejarawan meyakini pusat kerajaan berada di sekitar Palembang, Sumatra Selatan.
+                                Semuanya dimulai pada 1 September 1939, ketika Jerman Nazi di bawah Adolf Hitler menginvasi Polandia. Dua hari kemudian, Inggris dan Prancis menyatakan perang terhadap Jerman. Apa yang dimulai sebagai konflik di Eropa dengan cepat meluas menjadi perang global, melibatkan kekuatan Poros (Jerman, Italia, Jepang) melawan Sekutu (Inggris, Prancis, Uni Soviet, Amerika Serikat, dan lainnya).
                             </p>
 
                             <p>
-                                Sepanjang abad ke-7 hingga ke-12, Sriwijaya tumbuh menjadi kekuatan maritim yang
-                                disegani. Pelabuhannya menjadi titik pertemuan pedagang dari Tiongkok, India, bahkan
-                                Timur Tengah. Rempah, kain, dan logam mulia mengalir melalui selat yang dikendalikan
-                                oleh armada Sriwijaya.
+                                Tahun-tahun pertama perang didominasi oleh keberhasilan Jerman. Blitzkrieg — strategi "perang kilat" — memungkinkan Wehrmacht menaklukkan Polandia, Prancis, Belanda, Belgia, dan sebagian besar Eropa dalam waktu singkat. Uni Soviet, yang sebelumnya menandatangani pakta non-agresi dengan Jerman, turut menjadi korban ketika Hitler melancarkan Operasi Barbarossa pada Juni 1941.
                             </p>
+                        </div>
 
+                        {{-- Ad Slot: In-Article 1 --}}
+                        <div class="my-8">
+                            <!-- adsense -->
+                            <div class="ad-slot">
+                                <span class="ad-slot-label">Iklan</span>
+                            </div>
+                        </div>
+
+                        <div class="article-body space-y-6 text-[17px] leading-[1.85] text-stone-600 dark:text-stone-300">
                             <figure class="my-10">
                                 <div class="overflow-hidden rounded-2xl bg-stone-100 dark:bg-white/[0.03]">
-                                    <img src="https://picsum.photos/seed/sriwijaya-armada/800/450" alt="Ilustrasi armada laut Sriwijaya" class="h-56 w-full object-cover sm:h-72" loading="lazy">
+                                    <img src="https://picsum.photos/seed/ww2-dunkirk-article/800/450" alt="Evakuasi Dunkirk, Mei–Juni 1940" class="h-56 w-full object-cover sm:h-72" loading="lazy">
                                 </div>
                                 <figcaption class="mt-3 text-center text-xs text-stone-400 dark:text-stone-500">
-                                    Ilustrasi: Armada laut Sriwijaya menguasai jalur perdagangan Selat Malaka.
+                                    Evakuasi Dunkirk, Mei–Juni 1940: lebih dari 300.000 tentara Sekutu dievakuasi dari Prancis utara.
                                 </figcaption>
                             </figure>
 
-                            <h2 id="penguasa-selat" class="pt-4 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-[#e5e5e3]">
-                                Penguasa Selat yang Menentukan Arah Komoditas
+                            <h2 id="titik-balik" class="pt-4 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-[#e5e5e3]">
+                                Titik Balik: Stalingrad dan Midway
                             </h2>
 
                             <p>
-                                Letak Sriwijaya di tepi Selat Malaka bukanlah kebetulan. Selat ini menjadi pintu masuk utama
-                                kapal-kapal dari India dan Tiongkok yang membawa rempah, sutra, dan emas. Dengan menguasai
-                                selat beserta pelabuhan-pelabuhan di sekitarnya, Sriwijaya dapat memungut pajak, mengendalikan
-                                harga komoditas, bahkan memaksa kapal asing untuk singgah di pelabuhannya.
+                                Dua pertempuran pada tahun 1942 menjadi titik balik perang. Di Front Timur, Pertempuran Stalingrad berlangsung selama lima bulan dengan korban jiwa yang luar biasa — diperkirakan hampir 2 juta orang tewas, terluka, atau hilang. Kekalahan Jerman di Stalingrad menandai awal mundurnya pasukan Hitler dari Uni Soviet.
+                            </p>
+
+                            <p>
+                                Sementara itu, di Pasifik, Pertempuran Midway pada Juni 1942 menjadi momen penentu. Angkatan Laut AS berhasil menenggelamkan empat kapal induk Jepang, membalikkan keadaan di Teater Pasifik. Sejak saat itu, Jepang berada dalam posisi bertahan.
                             </p>
 
                             <blockquote class="my-8 rounded-r-2xl border-l-[3px] border-[#1e3a5f] bg-[#1e3a5f]/5 py-4 pl-6 pr-6 font-serif text-lg italic leading-relaxed text-stone-600 dark:border-[#5b9bd5] dark:bg-[#5b9bd5]/5 dark:text-stone-400">
-                                "Sebuah kerajaan yang wilayahnya lebih terasa di laut daripada di darat — kekuasaan diukur
-                                dari siapa yang berani berlayar melewati selatnya."
+                                "Kami akan bertempur di pantai, kami akan bertempur di lapangan pendaratan, kami akan bertempur di ladang dan di jalan-jalan, kami tidak akan pernah menyerah."
                             </blockquote>
+                        </div>
 
-                            <p>
-                                Kekuasaan maritim ini juga menjadikan Sriwijaya pusat pembelajaran agama Buddha yang
-                                disegani. I Tsing, seorang biksu Tiongkok, singgah di Sriwijaya selama bertahun-tahun dan
-                                mencatat bahwa ribuan biksu belajar di sana. Kerajaan ini juga membangun hubungan diplomatik
-                                dengan Dinasti Tang dan Dinasti Chola di India selatan.
-                            </p>
+                        {{-- Ad Slot: In-Article 2 --}}
+                        <div class="my-8">
+                            <!-- adsense -->
+                            <div class="ad-slot">
+                                <span class="ad-slot-label">Iklan</span>
+                            </div>
+                        </div>
 
-                            <h2 id="kehancuran" class="pt-4 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-[#e5e5e3]">
-                                Kehancuran dan Warisan yang Tersisa
+                        <div class="article-body space-y-6 text-[17px] leading-[1.85] text-stone-600 dark:text-stone-300">
+                            <h2 id="d-day" class="pt-4 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-[#e5e5e3]">
+                                D-Day: Invasi Normandia
                             </h2>
 
                             <p>
-                                Kekuasaan Sriwijaya mulai goyah pada abad ke-11 setelah serangan besar dari Kerajaan Chola
-                                pada tahun 1025. Meski mampu pulih sebagian, Sriwijaya tak pernah kembali ke masa kejayaannya.
-                                Pergeseran jalur perdagangan dan bangkitnya kekuatan baru di Jawa dan Sumatra akhirnya
-                                mengakhiri dominasi kerajaan ini pada abad ke-13.
+                                6 Juni 1944, dikenal sebagai D-Day, adalah hari dimulainya Operasi Overlord — invasi sekutu ke Normandia, Prancis. Lebih dari 156.000 tentara dari Amerika Serikat, Inggris, Kanada, dan negara sekutu lainnya mendarat di pantai Normandia. Ini adalah operasi amfibi terbesar dalam sejarah.
                             </p>
 
                             <p>
-                                Kendati istananya tak pernah ditemukan utuh, warisan Sriwijaya tetap terasa. Bahasa Melayu
-                                yang dipakainya menjadi cikal bakal bahasa Indonesia. Konsep kekuasaan maritimnya menjadi
-                                rujukan bagi bangsa-bangsa di Nusantara. Dari prasasti dan catatan asing, kita tahu: jauh
-                                sebelum kapal-kapal Eropa tiba, Nusantara sudah punya raksasa lautnya sendiri.
+                                Keberhasilan D-Day membuka Front Barat dan mempercepat kejatuhan Jerman. Sementara itu, Uni Soviet melancarkan Operasi Bagration di Front Timur, menghancurkan pasukan Jerman di Belarusia. Pada April 1945, Soviet mencapai Berlin. Hitler bunuh diri pada 30 April, dan Jerman menyerah tanpa syarat pada 8 Mei 1945 — Hari Kemenangan di Eropa.
+                            </p>
+
+                            <h2 id="bom-atom" class="pt-4 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-[#e5e5e3]">
+                                Bom Atom dan Akhir Perang
+                            </h2>
+
+                            <p>
+                                Di Teater Pasifik, perang berlanjut setelah kejatuhan Eropa. Amerika Serikat memutuskan untuk menggunakan senjata nuklir — yang baru saja dikembangkan melalui Proyek Manhattan — untuk memaksa Jepang menyerah tanpa invasi daratan yang diperkirakan akan menelan jutaan korban jiwa.
+                            </p>
+
+                            <p>
+                                Pada 6 Agustus 1945, bom atom "Little Boy" dijatuhkan di Hiroshima. Tiga hari kemudian, "Fat Man" dijatuhkan di Nagasaki. Lebih dari 200.000 orang tewas akibat ledakan dan radiasi. Pada 15 Agustus 1945, Kaisar Hirohito mengumumkan penyerahan Jepang. Perang Dunia II resmi berakhir.
                             </p>
 
                             <div class="key-point my-10 rounded-2xl border border-[#1e3a5f]/20 bg-[#1e3a5f]/5 p-6 dark:border-[#5b9bd5]/20 dark:bg-[#5b9bd5]/5">
@@ -223,20 +283,21 @@
                                     <h3 class="font-serif text-lg font-bold text-[#1e3a5f] dark:text-[#5b9bd5]">Poin Penting</h3>
                                 </div>
                                 <ul class="list-disc space-y-2 pl-5 text-sm leading-relaxed">
-                                    <li>Berdiri sekitar abad ke-7, pusat di kawasan Palembang.</li>
-                                    <li>Menguasai Selat Malaka sebagai poros perdagangan dunia.</li>
-                                    <li>Pusat agama Buddha yang dikunjungi I Tsing pada abad ke-7.</li>
-                                    <li>Melemah setelah serangan Chola (1025 M) dan runtuh di abad ke-13.</li>
+                                    <li>Berlangsung 1939–1945, melibatkan lebih dari 30 negara.</li>
+                                    <li>Lebih dari 70 juta korban jiwa — sebagian besar sipil.</li>
+                                    <li>Titik balik: Stalingrad (Front Timur) dan Midway (Pasifik).</li>
+                                    <li>D-Day (6 Juni 1944): invasi sekutu terbesar dalam sejarah.</li>
+                                    <li>Bom atom Hiroshima dan Nagasaki memaksa Jepang menyerah.</li>
                                 </ul>
                             </div>
                         </div>
 
                         {{-- Tags --}}
                         <div class="flex flex-wrap gap-2 border-t border-stone-200/80 pt-6 dark:border-white/[0.06]">
-                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#Sejarah</a>
-                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#Sriwijaya</a>
-                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#Maritim</a>
-                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#Nusantara</a>
+                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#PerangDunia</a>
+                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#WW2</a>
+                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#Jerman</a>
+                            <a href="#" class="rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-semibold text-stone-500 transition hover:bg-[#1e3a5f]/10 hover:text-[#1e3a5f] dark:bg-white/[0.05] dark:text-stone-400 dark:hover:text-[#5b9bd5]">#Sekutu</a>
                         </div>
 
                         {{-- Author Bio --}}
@@ -245,7 +306,7 @@
                                 <img src="{{ asset('logo_LAH.jpg') }}" alt="Redaksi" class="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
                                 <div>
                                     <p class="font-semibold">Redaksi Look at History</p>
-                                    <p class="mt-1 text-sm leading-relaxed text-stone-500 dark:text-stone-400">Menulis tentang sejarah untuk pembaca yang ingin memahami masa lalu. Artikel ditulis berdasarkan referensi sejarah terpercaya.</p>
+                                    <p class="mt-1 text-sm leading-relaxed text-stone-500 dark:text-stone-400">Menulis tentang sejarah dunia untuk pembaca yang ingin memahami masa lalu. Artikel ditulis berdasarkan referensi sejarah terpercaya.</p>
                                     <a href="/" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Lihat semua artikel &rarr;</a>
                                 </div>
                             </div>
@@ -259,13 +320,24 @@
                             <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]">
                                 <h2 class="mb-3 text-xs font-bold uppercase tracking-widest text-stone-400 dark:text-stone-500">Daftar Isi</h2>
                                 <nav class="space-y-0.5">
-                                    <a href="#penguasa-selat" class="toc-link block rounded-lg px-3 py-2 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white">
-                                        Penguasa Selat
+                                    <a href="#titik-balik" class="toc-link block rounded-lg px-3 py-2 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white">
+                                        Titik Balik: Stalingrad dan Midway
                                     </a>
-                                    <a href="#kehancuran" class="toc-link block rounded-lg px-3 py-2 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white">
-                                        Kehancuran dan Warisan
+                                    <a href="#d-day" class="toc-link block rounded-lg px-3 py-2 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white">
+                                        D-Day: Invasi Normandia
+                                    </a>
+                                    <a href="#bom-atom" class="toc-link block rounded-lg px-3 py-2 text-sm text-stone-500 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white">
+                                        Bom Atom dan Akhir Perang
                                     </a>
                                 </nav>
+                            </div>
+
+                            {{-- Sidebar Ad --}}
+                            <div>
+                                <!-- adsense -->
+                                <div class="ad-slot" style="min-height: 250px;">
+                                    <span class="ad-slot-label">Iklan</span>
+                                </div>
                             </div>
 
                             {{-- Newsletter --}}
@@ -284,63 +356,71 @@
                     </aside>
                 </div>
 
+                {{-- Multiplex Ad --}}
+                <div class="my-10">
+                    <!-- adsense -->
+                    <div class="ad-slot" style="min-height: 250px;">
+                        <span class="ad-slot-label">Iklan</span>
+                    </div>
+                </div>
+
                 {{-- Related Articles --}}
                 <section class="border-t border-stone-200/80 py-12 dark:border-white/[0.06] sm:py-16">
                     <h2 class="font-serif text-2xl font-bold tracking-tight">Baca Juga</h2>
                     <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                         <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                             <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                <img src="https://picsum.photos/seed/history-borobudur/600/400" alt="Borobudur" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                <img src="https://picsum.photos/seed/nazi-germany-mini/600/400" alt="Nazi Jerman" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                             </div>
                             <div class="p-5">
                                 <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Hindu–Buddha</span>
+                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
                                     <span class="text-stone-300 dark:text-stone-600">·</span>
-                                    <span class="text-stone-400 dark:text-stone-500">2 Mei 2026</span>
+                                    <span class="text-stone-400 dark:text-stone-500">8 Mei 2026</span>
                                 </div>
                                 <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                    Borobudur: Keajaiban Dunia dari Dinasti Syailendra
+                                    Bangkit dan Jatuhnya Nazi Jerman
                                 </h3>
                                 <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                    Satu juta batu, 2.672 panel relief, dan makna tersembunyi di balik stupa terbesar.
+                                    Dari Partai Buruh Jerman menjadi kekuatan totaliter yang mengguncang dunia.
                                 </p>
                             </div>
                         </a>
 
                         <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                             <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                <img src="https://picsum.photos/seed/history-diponegoro/600/400" alt="Diponegoro" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                <img src="https://picsum.photos/seed/ww1-trenches-mini/600/400" alt="Perang Dunia I" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                             </div>
                             <div class="p-5">
                                 <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kolonial</span>
+                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Perang Dunia</span>
                                     <span class="text-stone-300 dark:text-stone-600">·</span>
-                                    <span class="text-stone-400 dark:text-stone-500">19 April 2026</span>
+                                    <span class="text-stone-400 dark:text-stone-500">12 April 2026</span>
                                 </div>
                                 <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                    Perang Diponegoro: Perlawanan Terpanjang Abad ke-19
+                                    Perang Dunia I: The Great War
                                 </h3>
                                 <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                    Lima tahun perang besar yang melahirkan strategi perang gerilya.
+                                    Konflik yang menelan 20 juta jiwa dan mengubah wajah Eropa selamanya.
                                 </p>
                             </div>
                         </a>
 
                         <a href="#" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                             <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
-                                <img src="https://picsum.photos/seed/history-proklamasi/600/400" alt="Proklamasi" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                <img src="https://picsum.photos/seed/cold-war-mini/600/400" alt="Perang Dingin" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                             </div>
                             <div class="p-5">
                                 <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kemerdekaan</span>
+                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">Kontemporer</span>
                                     <span class="text-stone-300 dark:text-stone-600">·</span>
-                                    <span class="text-stone-400 dark:text-stone-500">5 April 2026</span>
+                                    <span class="text-stone-400 dark:text-stone-500">29 Maret 2026</span>
                                 </div>
                                 <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
-                                    Detik-Detik Proklamasi 17 Agustus 1945
+                                    Perang Dingin: Dua Kubu yang Menguasai Dunia
                                 </h3>
                                 <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                    Dari Rengasdengklok hingga pembacaan teks proklamasi: 48 jam yang menentukan.
+                                    AS melawan Uni Soviet tanpa perang langsung — tapi dunia selalu di ambang kehancuran.
                                 </p>
                             </div>
                         </a>
@@ -352,9 +432,17 @@
         <footer class="border-t border-stone-200/80 dark:border-white/[0.06]">
             <div class="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-stone-400 sm:flex-row sm:px-8 dark:text-stone-500">
                 <p>&copy; {{ date('Y') }} {{ config('app.name', 'Look at History') }}.</p>
-                <p>Belajar Sejarah</p>
+                <p>Belajar Sejarah Dunia</p>
             </div>
         </footer>
+
+        {{-- Anchor Ad: Mobile only --}}
+        <div class="anchor-ad" id="anchor-ad">
+            <!-- adsense -->
+            <div class="w-full max-w-md text-center">
+                <span class="ad-slot-label">Iklan</span>
+            </div>
+        </div>
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {

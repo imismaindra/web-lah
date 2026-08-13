@@ -56,12 +56,12 @@
                         </p>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <a href="#" class="rounded-full bg-stone-900 px-4 py-1.5 text-xs font-semibold text-white dark:bg-white dark:text-stone-900">Semua</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Perang Dunia</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Kekaisaran</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Revolusi</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Abad Pertengahan</a>
-                        <a href="#" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Kuno</a>
+                        <a href="#artikel" class="rounded-full bg-stone-900 px-4 py-1.5 text-xs font-semibold text-white dark:bg-white dark:text-stone-900">Semua</a>
+                        @forelse ($kategoris as $kategori)
+                            <a href="{{ route('kategori.show', $kategori) }}" class="rounded-full border border-stone-200 px-4 py-1.5 text-xs font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">{{ $kategori->nama }}</a>
+                        @empty
+                            <span class="text-xs text-stone-300 dark:text-stone-600">Belum ada kategori</span>
+                        @endforelse
                     </div>
                 </div>
             </section>
@@ -69,54 +69,22 @@
             <section class="py-8 sm:py-10">
                 <h2 class="font-serif text-xl font-bold tracking-tight">Perjalanan Waktu</h2>
                 <div class="mt-5 flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                    <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-ancient/400/500" alt="Kuno" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">3000 SM – 500 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Zaman Kuno</h3>
+                    @forelse ($eras as $era)
+                        <div class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
+                            @if ($era->gambar)
+                                <img src="{{ asset('storage/' . $era->gambar) }}" alt="{{ $era->nama }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                            @else
+                                <img src="https://picsum.photos/seed/era-{{ $era->slug }}/400/500" alt="{{ $era->nama }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                            @endif
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 p-5">
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">{{ $era->periode }}</p>
+                                <h3 class="mt-1 font-serif text-lg font-bold text-white">{{ $era->nama }}</h3>
+                            </div>
                         </div>
-                    </a>
-                    <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-medieval/400/500" alt="Abad Pertengahan" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">500 – 1500 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Abad Pertengahan</h3>
-                        </div>
-                    </a>
-                    <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-renaissance/400/500" alt="Modern Awal" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1500 – 1800 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Modern Awal</h3>
-                        </div>
-                    </a>
-                    <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-industrial/400/500" alt="Abad ke-19" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1800 – 1914 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Abad ke-19</h3>
-                        </div>
-                    </a>
-                    <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-worldwars/400/500" alt="Perang Dunia" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1914 – 1945 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Perang Dunia</h3>
-                        </div>
-                    </a>
-                    <a href="#" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
-                        <img src="https://picsum.photos/seed/era-coldwar/400/500" alt="Perang Dingin" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-5">
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">1945 – 1991 M</p>
-                            <h3 class="mt-1 font-serif text-lg font-bold text-white">Perang Dingin</h3>
-                        </div>
-                    </a>
+                    @empty
+                        <div class="flex h-64 w-full flex-shrink-0 items-center justify-center rounded-2xl border border-dashed border-stone-200 text-sm text-stone-400 dark:border-white/[0.06] dark:text-stone-500">Belum ada era</div>
+                    @endforelse
                 </div>
             </section>
 
@@ -245,42 +213,24 @@
             <section class="py-10 sm:py-14">
                 <h2 class="font-serif text-xl font-bold tracking-tight">Jelajahi Topik</h2>
                 <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                    <a href="#" class="group relative col-span-2 row-span-2 h-72 overflow-hidden rounded-2xl sm:h-80">
-                        <img src="https://picsum.photos/seed/topic-worldwars/800/600" alt="Perang Dunia" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6">
-                            <h3 class="font-serif text-2xl font-bold text-white">Perang Dunia</h3>
-                            <p class="mt-1 text-sm text-white/70">WW1, WW2, dan dampaknya hingga hari ini.</p>
+                    @forelse ($topiks as $index => $topik)
+                        <div class="group relative overflow-hidden rounded-2xl {{ $index === 0 ? 'col-span-2 row-span-2 h-72 sm:h-80' : 'h-36 sm:h-[calc(2rem+160px-1rem)]' }}">
+                            @if ($topik->gambar)
+                                <img src="{{ asset('storage/' . $topik->gambar) }}" alt="{{ $topik->nama }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                            @else
+                                <img src="https://picsum.photos/seed/topic-{{ $topik->slug }}/400/300" alt="{{ $topik->nama }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                            @endif
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 {{ $index === 0 ? 'p-6' : 'p-4' }}">
+                                <h3 class="font-serif font-bold text-white {{ $index === 0 ? 'text-2xl' : 'text-sm' }}">{{ $topik->nama }}</h3>
+                                @if ($index === 0 && $topik->deskripsi)
+                                    <p class="mt-1 text-sm text-white/70">{{ $topik->deskripsi }}</p>
+                                @endif
+                            </div>
                         </div>
-                    </a>
-                    <a href="#" class="group relative h-36 overflow-hidden rounded-2xl sm:h-[calc(2rem+160px-1rem)]">
-                        <img src="https://picsum.photos/seed/topic-empires/400/300" alt="Kekaisaran & Dinasti" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-4">
-                            <h3 class="font-serif text-sm font-bold text-white">Kekaisaran & Dinasti</h3>
-                        </div>
-                    </a>
-                    <a href="#" class="group relative h-36 overflow-hidden rounded-2xl sm:h-[calc(2rem+160px-1rem)]">
-                        <img src="https://picsum.photos/seed/topic-revolutions/400/300" alt="Revolusi & Pemberontakan" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-4">
-                            <h3 class="font-serif text-sm font-bold text-white">Revolusi & Pemberontakan</h3>
-                        </div>
-                    </a>
-                    <a href="#" class="group relative h-36 overflow-hidden rounded-2xl sm:h-[calc(2rem+160px-1rem)]">
-                        <img src="https://picsum.photos/seed/topic-exploration/400/300" alt="Penjelajahan & Ekspedisi" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-4">
-                            <h3 class="font-serif text-sm font-bold text-white">Penjelajahan & Ekspedisi</h3>
-                        </div>
-                    </a>
-                    <a href="#" class="group relative h-36 overflow-hidden rounded-2xl sm:h-[calc(2rem+160px-1rem)]">
-                        <img src="https://picsum.photos/seed/topic-science/400/300" alt="Sains & Penemuan" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-4">
-                            <h3 class="font-serif text-sm font-bold text-white">Sains & Penemuan</h3>
-                        </div>
-                    </a>
+                    @empty
+                        <div class="col-span-2 row-span-2 flex h-72 items-center justify-center rounded-2xl border border-dashed border-stone-200 text-sm text-stone-400 sm:h-80 dark:border-white/[0.06] dark:text-stone-500">Belum ada topik</div>
+                    @endforelse
                 </div>
             </section>
 
@@ -290,8 +240,19 @@
                     <p class="mt-3 text-sm leading-relaxed text-stone-400 dark:text-stone-500">
                         Dapatkan artikel sejarah dunia terbaru langsung di inbox kamu. Tanpa spam, kapan saja.
                     </p>
-                    <form class="mt-6 flex flex-col gap-3 sm:flex-row">
-                        <input type="email" placeholder="email@kamu.com" class="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:border-[#5b9bd5] focus:outline-none focus:ring-1 focus:ring-[#5b9bd5] dark:border-stone-700 dark:bg-stone-800 dark:text-[#e5e5e3] dark:placeholder:text-stone-500">
+                    @if (session('success'))
+                        <div class="mt-6 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm font-medium text-emerald-300">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if ($errors->has('email'))
+                        <div class="mt-6 rounded-xl border border-red-400/20 bg-red-400/10 p-4 text-sm font-medium text-red-300">
+                            {{ $errors->first('email') }}
+                        </div>
+                    @endif
+                    <form method="POST" action="{{ route('newsletter.subscribe') }}" class="mt-6 flex flex-col gap-3 sm:flex-row">
+                        @csrf
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="email@kamu.com" class="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:border-[#5b9bd5] focus:outline-none focus:ring-1 focus:ring-[#5b9bd5] dark:border-stone-700 dark:bg-stone-800 dark:text-[#e5e5e3] dark:placeholder:text-stone-500">
                         <button type="submit" class="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-stone-900 transition hover:bg-stone-200 dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">Berlangganan</button>
                     </form>
                     <p class="mt-3 text-[11px] text-stone-500 dark:text-stone-600">Kami hormati privasi kamu. Berhenti kapan saja.</p>

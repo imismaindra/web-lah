@@ -34,16 +34,16 @@ class PenulisController extends Controller
     {
         $validated = $request->validate([
             'user_id' => 'nullable|exists:users,id',
-            'name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255|unique:users,email',
-            'password' => 'nullable|string|min:8|confirmed',
+            'name' => 'required_without:user_id|string|max:255',
+            'email' => 'required_without:user_id|email|max:255|unique:users,email',
+            'password' => 'required_without:user_id|string|min:8|confirmed',
             'nama' => 'required|string|max:255',
             'bio' => 'nullable|string',
             'avatar' => 'nullable|image|max:2048',
             'website' => 'nullable|url|max:255',
         ]);
 
-        if ($validated['user_id']) {
+        if (! empty($validated['user_id'])) {
             $user = User::findOrFail($validated['user_id']);
         } else {
             $user = User::create([

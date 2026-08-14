@@ -13,6 +13,7 @@ use App\Http\Controllers\SearchController;
 use App\Models\Artikel;
 use App\Models\Era;
 use App\Models\Kategori;
+use App\Models\Penulis;
 use App\Models\Topik;
 use Illuminate\Support\Facades\Route;
 
@@ -139,6 +140,17 @@ Route::get('/topik/{topik:slug}', function (Topik $topik) {
 
     return view('topik', compact('topik', 'artikels'));
 })->name('topik.show');
+
+Route::get('/penulis/{penulis:slug}', function (Penulis $penulis) {
+    $artikels = $penulis->artikel()
+        ->published()
+        ->latest()
+        ->paginate(9);
+
+    $penulis->loadCount(['artikel' => fn ($q) => $q->published()]);
+
+    return view('penulis', compact('penulis', 'artikels'));
+})->name('penulis.show');
 
 Route::get('/artikel/{artikel}', function (Artikel $artikel) {
     $artikel->load(['kategori', 'author']);

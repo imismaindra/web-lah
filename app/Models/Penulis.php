@@ -34,7 +34,7 @@ class Penulis extends Model
 
     public function artikel(): HasMany
     {
-        return $this->hasMany(Artikel::class);
+        return $this->hasMany(Artikel::class, 'user_id', 'user_id');
     }
 
     public function getRouteKeyName(): string

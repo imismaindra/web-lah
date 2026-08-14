@@ -40,7 +40,14 @@
                                     {{ substr($p->name, 0, 1) }}
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <h3 class="font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $p->name }}</h3>
+                                    @if ($p->penulis)
+                                        <a href="{{ route('penulis.show', $p->penulis) }}" target="_blank" class="font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] flex items-center gap-1.5">
+                                            {{ $p->name }}
+                                            <svg class="h-3.5 w-3.5 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                                        </a>
+                                    @else
+                                        <h3 class="font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $p->name }}</h3>
+                                    @endif
                                     <p class="mt-0.5 text-xs text-stone-400 dark:text-stone-500">{{ $p->email }}</p>
                                 </div>
                             </div>

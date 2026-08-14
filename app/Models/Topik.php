@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 class Topik extends Model
@@ -23,6 +24,11 @@ class Topik extends Model
                 $topik->slug = Str::slug($topik->nama);
             }
         });
+    }
+
+    public function artikel(): BelongsToMany
+    {
+        return $this->belongsToMany(Artikel::class);
     }
 
     public function getRouteKeyName(): string

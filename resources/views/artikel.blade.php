@@ -6,6 +6,19 @@
 
         <title>{{ $artikel->judul }} — {{ config('app.name', 'Look at History') }}</title>
 
+        @include('partials.seo', [
+            'title' => $artikel->judul,
+            'description' => $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 160),
+            'image' => $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('logo_LAH.jpg'),
+            'url' => route('artikel.show', $artikel),
+            'type' => 'article',
+            'publishedTime' => $artikel->created_at?->toIso8601String(),
+            'modifiedTime' => $artikel->updated_at?->toIso8601String(),
+            'author' => $artikel->author->name ?? config('app.name', 'Look at History'),
+            'section' => $artikel->kategori->nama ?? 'Umum',
+            'tags' => $artikel->topik->pluck('nama')->toArray(),
+        ])
+
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 
         @fonts
@@ -177,6 +190,17 @@
                     <a href="/#kategori" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Kategori</a>
                     <a href="/#tentang" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang</a>
                 </div>
+                <div class="hidden sm:flex items-center gap-2">
+                    <form action="{{ route('search') }}" method="GET" class="relative">
+                        <input
+                            type="text"
+                            name="q"
+                            placeholder="Cari..."
+                            class="w-48 sm:w-64 rounded-lg border border-stone-200 bg-white px-3.5 py-1.5 pl-9 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                        >
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </form>
+                </div>
                 <div class="flex items-center gap-2 text-sm font-medium">
                     @if (Route::has('login'))
                         @auth
@@ -280,8 +304,9 @@
                                 <p class="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
                                     Artikel sejarah terbaru langsung di inbox kamu.
                                 </p>
-                                <form class="mt-4 space-y-2.5">
-                                    <input type="email" placeholder="email@kamu.com" class="w-full rounded-lg border border-stone-200 bg-stone-50 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]">
+                                <form id="newsletter-form-sidebar" action="{{ route('newsletter.subscribe') }}" method="POST" class="mt-4 space-y-2.5">
+                                    @csrf
+                                    <input type="email" name="email" placeholder="email@kamu.com" class="w-full rounded-lg border border-stone-200 bg-stone-50 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]">
                                     <button type="submit" class="w-full rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">Berlangganan</button>
                                 </form>
                                 <p class="mt-2 text-[11px] text-stone-400 dark:text-stone-500">Kami hormati privasi kamu.</p>
@@ -338,5 +363,61 @@
                 <p>Belajar Sejarah Dunia</p>
             </div>
         </footer>
+
+        <script>
+            function initNewsletterForm(formId) {
+                const form = document.getElementById(formId);
+                if (!form) return;
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const btn = form.querySelector('button[type="submit"]');
+                    const originalBtnText = btn.textContent;
+                    btn.disabled = true;
+                    btn.textContent = 'Mendaftar...';
+
+                    try {
+                        const formData = new FormData(form);
+                        const res = await fetch(form.action, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': form.querySelector('[name="_token"]').value,
+                            },
+                            body: formData,
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            form.reset();
+                            showToast(data.message, 'success');
+                        } else {
+                            showToast(data.message || 'Terjadi kesalahan', 'error');
+                        }
+                    } catch {
+                        showToast('Terjadi kesalahan jaringan', 'error');
+                    } finally {
+                        btn.disabled = false;
+                        btn.textContent = originalBtnText;
+                    }
+                });
+            }
+
+            function showToast(message, type = 'success') {
+                const toast = document.createElement('div');
+                toast.className = `fixed bottom-6 right-6 z-50 px-4 py-3 rounded-lg text-sm font-medium shadow-lg transition-all duration-300 ${
+                    type === 'success'
+                        ? 'bg-emerald-500 text-white'
+                        : 'bg-red-500 text-white'
+                }`;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.style.opacity = '0', 3000);
+                setTimeout(() => toast.remove(), 3500);
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                initNewsletterForm('newsletter-form');
+                initNewsletterForm('newsletter-form-sidebar');
+            });
+        </script>
     </body>
 </html>

@@ -7,3 +7,34 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@keyframes hero-rise {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes hero-drift {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero-rise {
+        animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .hero-drift {
+        animation: hero-drift 9s ease-in-out infinite;
+    }
+}

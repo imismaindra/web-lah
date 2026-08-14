@@ -11,16 +11,12 @@ class EraSeeder extends Seeder
     public function run(): void
     {
         $eras = [
-            ['nama' => 'Praaksara', 'periode' => 'Sebelum abad ke-4 M', 'urutan' => 1],
-            ['nama' => 'Klasik Hindu-Buddha', 'periode' => 'Abad ke-4 – ke-15 M', 'urutan' => 2],
-            ['nama' => 'Penyebaran Islam', 'periode' => 'Abad ke-13 – ke-16 M', 'urutan' => 3],
-            ['nama' => 'Kejayaan Kesultanan', 'periode' => 'Abad ke-16 – ke-17 M', 'urutan' => 4],
-            ['nama' => 'Kolonialisme Barat', 'periode' => 'Abad ke-16 – 1945', 'urutan' => 5],
-            ['nama' => 'Pergerakan Nasional', 'periode' => '1908 – 1945', 'urutan' => 6],
-            ['nama' => 'Revolusi & Kemerdekaan', 'periode' => '1945 – 1949', 'urutan' => 7],
-            ['nama' => 'Era Orde Lama', 'periode' => '1950 – 1966', 'urutan' => 8],
-            ['nama' => 'Era Orde Baru', 'periode' => '1966 – 1998', 'urutan' => 9],
-            ['nama' => 'Era Reformasi', 'periode' => '1998 – Sekarang', 'urutan' => 10],
+            ['nama' => 'Praaksara', 'periode' => 'Sebelum 3500 SM', 'urutan' => 1],
+            ['nama' => 'Peradaban Kuno', 'periode' => '3500 SM – 500 M', 'urutan' => 2],
+            ['nama' => 'Abad Pertengahan', 'periode' => '500 – 1500 M', 'urutan' => 3],
+            ['nama' => 'Zaman Modern Awal', 'periode' => '1500 – 1800 M', 'urutan' => 4],
+            ['nama' => 'Zaman Modern', 'periode' => '1800 – 1945', 'urutan' => 5],
+            ['nama' => 'Zaman Kontemporer', 'periode' => '1945 – Sekarang', 'urutan' => 6],
         ];
 
         foreach ($eras as $era) {

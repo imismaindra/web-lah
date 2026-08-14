@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\TopikController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\SearchController;
 use App\Models\Artikel;
 use App\Models\Era;
 use App\Models\Kategori;
@@ -37,9 +38,13 @@ Route::get('/', function () {
         ->take(5)
         ->get();
 
-    $eras = Era::orderBy('urutan')->get();
+    $eras = Era::withCount(['artikel' => function ($q) {
+        $q->published();
+    }])->orderBy('urutan')->get();
 
-    $topiks = Topik::orderBy('urutan')->get();
+    $topiks = Topik::withCount(['artikel' => function ($q) {
+        $q->published();
+    }])->orderBy('urutan')->get();
 
     return view('welcome', compact(
         'featuredArtikel',
@@ -57,6 +62,57 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
+Route::get('/cari', [SearchController::class, 'index'])->name('search');
+
+Route::get('/sitemap.xml', function () {
+    $artikels = Artikel::published()->latest()->get();
+    $kategoris = Kategori::all();
+    $eras = Era::all();
+    $topiks = Topik::all();
+
+    $staticUrls = [
+        ['url' => url('/'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '1.0'],
+    ];
+
+    $urls = array_merge($staticUrls, $artikels->map(function ($artikel) {
+        return [
+            'url' => route('artikel.show', $artikel),
+            'lastmod' => $artikel->updated_at->toAtomString(),
+            'changefreq' => 'weekly',
+            'priority' => '0.8',
+        ];
+    }), $kategoris->map(function ($kategori) {
+        return [
+            'url' => route('kategori.show', $kategori),
+            'lastmod' => now()->toAtomString(),
+            'changefreq' => 'daily',
+            'priority' => '0.6',
+        ];
+    }), $eras->map(function ($era) {
+        return [
+            'url' => route('era.show', $era),
+            'lastmod' => now()->toAtomString(),
+            'changefreq' => 'weekly',
+            'priority' => '0.6',
+        ];
+    }), $topiks->map(function ($topik) {
+        return [
+            'url' => route('topik.show', $topik),
+            'lastmod' => now()->toAtomString(),
+            'changefreq' => 'weekly',
+            'priority' => '0.5',
+        ];
+    }));
+
+    return response()->view('sitemap', compact('urls'))->header('Content-Type', 'application/xml');
+})->name('sitemap');
+
+Route::get('/feed', function () {
+    $artikels = Artikel::published()->latest()->take(20)->get();
+
+    return response()->view('rss', compact('artikels'))->header('Content-Type', 'application/xml');
+})->name('feed');
+
 Route::get('/kategori/{kategori:slug}', function (Kategori $kategori) {
     $artikels = $kategori->artikel()
         ->published()
@@ -65,6 +121,24 @@ Route::get('/kategori/{kategori:slug}', function (Kategori $kategori) {
 
     return view('kategori', compact('kategori', 'artikels'));
 })->name('kategori.show');
+
+Route::get('/era/{era:slug}', function (Era $era) {
+    $artikels = $era->artikel()
+        ->published()
+        ->latest()
+        ->paginate(9);
+
+    return view('era', compact('era', 'artikels'));
+})->name('era.show');
+
+Route::get('/topik/{topik:slug}', function (Topik $topik) {
+    $artikels = $topik->artikel()
+        ->published()
+        ->latest()
+        ->paginate(9);
+
+    return view('topik', compact('topik', 'artikels'));
+})->name('topik.show');
 
 Route::get('/artikel/{artikel}', function (Artikel $artikel) {
     $artikel->load(['kategori', 'author']);

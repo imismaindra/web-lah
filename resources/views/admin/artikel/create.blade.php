@@ -178,6 +178,36 @@
                         @enderror
                     </div>
 
+                    {{-- Era --}}
+                    <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]">
+                        <h3 class="mb-4 text-sm font-bold text-stone-800 dark:text-stone-200">Era (Zaman)</h3>
+                        <select id="era_id" name="era_id" class="w-full rounded-xl border border-stone-200 bg-stone-50 px-3 py-2.5 text-sm text-stone-700 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">
+                            <option value="">Pilih era</option>
+                            @foreach ($eras as $era)
+                                <option value="{{ $era->id }}" {{ old('era_id') == $era->id ? 'selected' : '' }}>{{ $era->nama }} ({{ $era->periode }})</option>
+                            @endforeach
+                        </select>
+                        @error('era_id')
+                            <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Topik --}}
+                    <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]">
+                        <h3 class="mb-4 text-sm font-bold text-stone-800 dark:text-stone-200">Topik</h3>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($topiks as $topik)
+                                <label class="flex cursor-pointer items-center gap-1.5 rounded-lg border border-stone-200 bg-stone-50 px-2.5 py-1.5 text-xs text-stone-600 transition hover:border-stone-300 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:hover:border-white/20">
+                                    <input type="checkbox" name="topik_ids[]" value="{{ $topik->id }}" class="h-3.5 w-3.5 accent-[#1e3a5f] dark:accent-[#5b9bd5]" {{ in_array($topik->id, old('topik_ids', [])) ? 'checked' : '' }}>
+                                    {{ $topik->nama }}
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('topik_ids')
+                            <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     {{-- Gambar Sampul --}}
                     <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]">
                         <h3 class="mb-4 text-sm font-bold text-stone-800 dark:text-stone-200">Gambar Sampul</h3>

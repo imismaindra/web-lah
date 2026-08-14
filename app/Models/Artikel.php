@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -14,6 +15,7 @@ class Artikel extends Model
 
     protected $fillable = [
         'kategori_id',
+        'era_id',
         'user_id',
         'judul',
         'slug',
@@ -48,6 +50,16 @@ class Artikel extends Model
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(Kategori::class);
+    }
+
+    public function era(): BelongsTo
+    {
+        return $this->belongsTo(Era::class);
+    }
+
+    public function topiks(): BelongsToMany
+    {
+        return $this->belongsToMany(Topik::class);
     }
 
     public function author(): BelongsTo

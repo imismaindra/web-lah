@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\ImageManager;
 
 class ImageOptimizer
@@ -24,7 +25,7 @@ class ImageOptimizer
      */
     public function optimizeAndStore(UploadedFile $file, string $directory = 'artikel', int $maxWidth = 1200, int $quality = 80): string
     {
-        $image = $this->manager->read($file);
+        $image = $this->manager->decode($file);
 
         // Resize if width exceeds maxWidth, maintaining aspect ratio
         if ($image->width() > $maxWidth) {
@@ -35,7 +36,7 @@ class ImageOptimizer
         $filename = Str::uuid().'.webp';
         $path = $directory.'/'.$filename;
 
-        $image->toWebp($quality)->save(storage_path('app/public/'.$path));
+        $image->encode(new WebpEncoder($quality))->save(storage_path('app/public/'.$path));
 
         return $path;
     }
@@ -47,7 +48,7 @@ class ImageOptimizer
      */
     public function optimizeResponsive(UploadedFile $file, string $directory = 'artikel'): array
     {
-        $image = $this->manager->read($file);
+        $image = $this->manager->decode($file);
         $baseName = Str::uuid();
 
         $variants = [
@@ -65,7 +66,7 @@ class ImageOptimizer
             }
             $filename = $baseName.'-'.$key.'.webp';
             $path = $directory.'/'.$filename;
-            $variantImage->toWebp(80)->save(storage_path('app/public/'.$path));
+            $variantImage->encode(new WebpEncoder(80))->save(storage_path('app/public/'.$path));
             $paths[$key] = $path;
         }
 
@@ -74,7 +75,7 @@ class ImageOptimizer
             $image->scale(width: 1600);
         }
         $originalPath = $directory.'/'.$baseName.'-original.webp';
-        $image->toWebp(85)->save(storage_path('app/public/'.$originalPath));
+        $image->encode(new WebpEncoder(85))->save(storage_path('app/public/'.$originalPath));
         $paths['original'] = $originalPath;
 
         return $paths;

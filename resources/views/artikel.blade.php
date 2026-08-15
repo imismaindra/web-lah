@@ -16,7 +16,7 @@
             'modifiedTime' => $artikel->updated_at?->toIso8601String(),
             'author' => $artikel->author->name ?? config('app.name', 'Look at History'),
             'section' => $artikel->kategori->nama ?? 'Umum',
-            'tags' => $artikel->topik->pluck('nama')->toArray(),
+            'tags' => $artikel->topiks?->pluck('nama')->toArray() ?? [],
         ])
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">

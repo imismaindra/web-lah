@@ -57,6 +57,18 @@ Route::get('/', function () {
     ));
 });
 
+Route::get('/tentang', function () {
+    $statistik = [
+        'artikel' => Artikel::published()->count(),
+        'kategori' => Kategori::count(),
+        'era' => Era::count(),
+        'topik' => Topik::count(),
+        'pembaca' => Artikel::published()->sum('views'),
+    ];
+
+    return view('tentang', compact('statistik'));
+})->name('tentang');
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -73,6 +85,7 @@ Route::get('/sitemap.xml', function () {
 
     $staticUrls = [
         ['url' => url('/'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '1.0'],
+        ['url' => route('tentang'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.5'],
     ];
 
     $urls = array_merge($staticUrls, $artikels->map(function ($artikel) {
@@ -143,6 +156,7 @@ Route::get('/topik/{topik:slug}', function (Topik $topik) {
 
 Route::get('/penulis/{penulis:slug}', function (Penulis $penulis) {
     $artikels = $penulis->artikel()
+        ->with('kategori')
         ->published()
         ->latest()
         ->paginate(9);
@@ -153,7 +167,7 @@ Route::get('/penulis/{penulis:slug}', function (Penulis $penulis) {
 })->name('penulis.show');
 
 Route::get('/artikel/{artikel}', function (Artikel $artikel) {
-    $artikel->load(['kategori', 'author']);
+    $artikel->load(['kategori', 'author', 'author.penulis']);
     $artikel->increment('views');
 
     $relatedArtikels = Artikel::with('kategori')

@@ -32,7 +32,7 @@
                     <a href="/" class="rounded-lg bg-stone-900 px-3 py-1.5 text-white dark:bg-white dark:text-stone-900">Beranda</a>
                     <a href="/#artikel" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Artikel</a>
                     <a href="/#kategori" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Kategori</a>
-                    <a href="/#tentang" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang</a>
+                    <a href="{{ route('tentang') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang</a>
                 </div>
                 <div class="hidden sm:flex items-center gap-2">
                     <form action="{{ route('search') }}" method="GET" class="relative">
@@ -215,6 +215,7 @@
                             Look at History menyajikan artikel sejarah dunia secara ringkas dan terpercaya,
                             dari peradaban kuno hingga konflik modern.
                         </p>
+                        <a href="{{ route('tentang') }}" class="mt-4 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Tentang kami selengkapnya &rarr;</a>
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="mt-4 inline-block rounded-lg bg-stone-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
                                 Mulai Belajar

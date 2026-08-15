@@ -188,7 +188,7 @@
                     <a href="/" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Beranda</a>
                     <a href="/#artikel" class="rounded-lg bg-stone-900 px-3 py-1.5 text-white dark:bg-white dark:text-stone-900">Artikel</a>
                     <a href="/#kategori" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Kategori</a>
-                    <a href="/#tentang" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang</a>
+                    <a href="{{ route('tentang') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang</a>
                 </div>
                 <div class="hidden sm:flex items-center gap-2">
                     <form action="{{ route('search') }}" method="GET" class="relative">
@@ -252,13 +252,33 @@
                         @endif
 
                         <div class="mt-8 flex items-center gap-3.5">
-                            <div class="flex h-11 w-11 items-center justify-center rounded-full bg-stone-100 font-serif text-sm font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
-                                {{ substr($artikel->author->name ?? 'A', 0, 1) }}
-                            </div>
-                            <div class="text-sm">
-                                <p class="font-semibold">{{ $artikel->author->name ?? 'Redaksi' }}</p>
-                                <p class="text-xs text-stone-400 dark:text-stone-500">Penulis</p>
-                            </div>
+                            @if ($artikel->author->penulis)
+                                <a href="{{ route('penulis.show', $artikel->author->penulis) }}" class="flex items-center gap-3.5 group">
+                                    @if ($artikel->author->penulis->avatar)
+                                        <img src="{{ asset('storage/' . $artikel->author->penulis->avatar) }}" alt="{{ $artikel->author->penulis->nama }}" class="h-11 w-11 rounded-full object-cover">
+                                    @else
+                                        <div class="flex h-11 w-11 items-center justify-center rounded-full bg-stone-100 font-serif text-sm font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                            {{ substr($artikel->author->name ?? 'A', 0, 1) }}
+                                        </div>
+                                    @endif
+                                    <div class="text-sm">
+                                        <p class="font-semibold transition group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $artikel->author->penulis->nama }}</p>
+                                        <p class="text-xs text-stone-400 dark:text-stone-500">Penulis</p>
+                                    </div>
+                                </a>
+                            @else
+                                @if ($artikel->author->penulis?->avatar)
+                                    <img src="{{ asset('storage/' . $artikel->author->penulis->avatar) }}" alt="{{ $artikel->author->name ?? 'Penulis' }}" class="h-11 w-11 rounded-full object-cover">
+                                @else
+                                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-stone-100 font-serif text-sm font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                        {{ substr($artikel->author->name ?? 'A', 0, 1) }}
+                                    </div>
+                                @endif
+                                <div class="text-sm">
+                                    <p class="font-semibold">{{ $artikel->author->name ?? 'Redaksi' }}</p>
+                                    <p class="text-xs text-stone-400 dark:text-stone-500">Penulis</p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -276,13 +296,31 @@
                         {{-- Author Bio --}}
                         <div class="mt-10 rounded-2xl border border-stone-200/60 bg-white p-6 sm:p-8 dark:border-white/[0.06] dark:bg-[#171716]">
                             <div class="flex items-start gap-4">
-                                <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-stone-100 font-serif text-lg font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
-                                    {{ substr($artikel->author->name ?? 'A', 0, 1) }}
-                                </div>
+                                @if ($artikel->author->penulis)
+                                    <a href="{{ route('penulis.show', $artikel->author->penulis) }}">
+                                        @if ($artikel->author->penulis->avatar)
+                                            <img src="{{ asset('storage/' . $artikel->author->penulis->avatar) }}" alt="{{ $artikel->author->penulis->nama }}" class="h-14 w-14 flex-shrink-0 rounded-full object-cover">
+                                        @else
+                                            <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-stone-100 font-serif text-lg font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                                {{ substr($artikel->author->name ?? 'A', 0, 1) }}
+                                            </div>
+                                        @endif
+                                    </a>
+                                @else
+                                    @if ($artikel->author->penulis?->avatar)
+                                        <img src="{{ asset('storage/' . $artikel->author->penulis->avatar) }}" alt="{{ $artikel->author->name ?? 'Penulis' }}" class="h-14 w-14 flex-shrink-0 rounded-full object-cover">
+                                    @else
+                                        <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-stone-100 font-serif text-lg font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                            {{ substr($artikel->author->name ?? 'A', 0, 1) }}
+                                        </div>
+                                    @endif
+                                @endif
                                 <div>
-                                    <p class="font-semibold">{{ $artikel->author->name ?? 'Redaksi' }}</p>
-                                    <p class="mt-1 text-sm leading-relaxed text-stone-500 dark:text-stone-400">Menulis tentang sejarah dunia untuk pembaca yang ingin memahami masa lalu.</p>
-                                    <a href="/" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Lihat semua artikel &rarr;</a>
+                                    <p class="font-semibold">{{ $artikel->author->penulis?->nama ?? $artikel->author->name ?? 'Redaksi' }}</p>
+                                    <p class="mt-1 text-sm leading-relaxed text-stone-500 dark:text-stone-400">{{ $artikel->author->penulis?->bio ?? 'Menulis tentang sejarah dunia untuk pembaca yang ingin memahami masa lalu.' }}</p>
+                                    @if ($artikel->author->penulis)
+                                        <a href="{{ route('penulis.show', $artikel->author->penulis) }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Lihat semua artikel &rarr;</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

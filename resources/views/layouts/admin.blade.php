@@ -96,29 +96,45 @@
                             <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Artikel</span>
                         </a>
 
-                        <a href="{{ route('admin.kategori.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}" title="Kategori">
+                        @if (auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.kategori.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}" title="Kategori">
                             <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10h10V2Z"/><path d="M22 12H12v10h10V12Z"/><path d="M22 2H12v5h10V2Z"/><path d="M7 12H2v10h5V12Z"/></svg>
                             <span class="sidebar-label">Kategori</span>
                             <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Kategori</span>
                         </a>
+                    @endif
 
-                        <a href="{{ route('admin.era.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.era.*') ? 'active' : '' }}" title="Era">
+                        @if (auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.era.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.era.*') ? 'active' : '' }}" title="Era">
                             <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                             <span class="sidebar-label">Era</span>
                             <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Era</span>
                         </a>
+                    @endif
 
-                        <a href="{{ route('admin.topik.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.topik.*') ? 'active' : '' }}" title="Topik">
+                        @if (auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.topik.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.topik.*') ? 'active' : '' }}" title="Topik">
                             <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z"/></svg>
                             <span class="sidebar-label">Topik</span>
                             <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Topik</span>
                         </a>
+                    @endif
 
-                        <a href="{{ route('admin.penulis.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.penulis.*') ? 'active' : '' }}" title="Penulis">
+                        @if (auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.penulis.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.penulis.*') ? 'active' : '' }}" title="Penulis">
                             <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             <span class="sidebar-label">Penulis</span>
                             <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Penulis</span>
                         </a>
+                    @endif
+
+                        @if (auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.pengguna.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.pengguna.*') ? 'active' : '' }}" title="Pengguna">
+                            <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <span class="sidebar-label">Pengguna</span>
+                            <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Pengguna</span>
+                        </a>
+                    @endif
                     </div>
                 </nav>
 

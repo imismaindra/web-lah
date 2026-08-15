@@ -202,10 +202,12 @@
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                         Tulis Artikel Baru
                     </a>
-                    <a href="{{ route('admin.kategori.create') }}" class="flex items-center gap-3 rounded-xl border border-stone-100 px-4 py-3 text-sm font-medium text-stone-600 transition hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/5 hover:text-[#1e3a5f] dark:border-white/[0.04] dark:text-stone-400 dark:hover:border-[#5b9bd5]/20 dark:hover:bg-[#5b9bd5]/5 dark:hover:text-[#5b9bd5]">
-                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10h10V2Z"/><path d="M22 12H12v10h10V12Z"/><path d="M22 2H12v5h10V2Z"/><path d="M7 12H2v10h5V12Z"/></svg>
-                        Tambah Kategori
-                    </a>
+                    @if (auth()->user()->hasRole('admin'))
+                        <a href="{{ route('admin.kategori.create') }}" class="flex items-center gap-3 rounded-xl border border-stone-100 px-4 py-3 text-sm font-medium text-stone-600 transition hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/5 hover:text-[#1e3a5f] dark:border-white/[0.04] dark:text-stone-400 dark:hover:border-[#5b9bd5]/20 dark:hover:bg-[#5b9bd5]/5 dark:hover:text-[#5b9bd5]">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10h10V2Z"/><path d="M22 12H12v10h10V12Z"/><path d="M22 2H12v5h10V2Z"/><path d="M7 12H2v10h5V12Z"/></svg>
+                            Tambah Kategori
+                        </a>
+                    @endif
                 </div>
             </div>
 

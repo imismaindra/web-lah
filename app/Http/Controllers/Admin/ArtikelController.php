@@ -23,6 +23,10 @@ class ArtikelController extends Controller
     {
         $query = Artikel::with(['kategori', 'author'])->latest();
 
+        if (! auth()->user()->hasRole('admin')) {
+            $query->where('user_id', auth()->id());
+        }
+
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -81,6 +85,8 @@ class ArtikelController extends Controller
 
     public function edit(Artikel $artikel): View
     {
+        abort_unless(auth()->user()->hasRole('admin') || $artikel->user_id === auth()->id(), 403);
+
         $kategoris = Kategori::orderBy('nama')->get();
         $eras = Era::orderBy('urutan')->get();
         $topiks = Topik::orderBy('urutan')->get();
@@ -91,6 +97,8 @@ class ArtikelController extends Controller
 
     public function update(Request $request, Artikel $artikel): RedirectResponse
     {
+        abort_unless(auth()->user()->hasRole('admin') || $artikel->user_id === auth()->id(), 403);
+
         $validated = $request->validate([
             'kategori_id' => 'required|exists:kategoris,id',
             'era_id' => 'nullable|exists:eras,id',
@@ -121,6 +129,8 @@ class ArtikelController extends Controller
 
     public function destroy(Artikel $artikel): RedirectResponse
     {
+        abort_unless(auth()->user()->hasRole('admin') || $artikel->user_id === auth()->id(), 403);
+
         if ($artikel->gambar) {
             $this->imageOptimizer->delete($artikel->gambar);
         }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Penulis;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PenulisController extends Controller
@@ -69,6 +71,48 @@ class PenulisController extends Controller
         $user->penulis()->create($penulisData);
 
         return redirect()->route('admin.penulis.index')->with('success', 'Penulis berhasil ditambahkan.');
+    }
+
+    public function edit(Penulis $penulis): View
+    {
+        $users = User::whereNotIn('id', Penulis::where('id', '!=', $penulis->id)->pluck('user_id'))
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.penulis.edit', compact('penulis', 'users'));
+    }
+
+    public function update(Request $request, Penulis $penulis): RedirectResponse
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'nama' => 'required|string|max:255',
+            'bio' => 'nullable|string',
+            'avatar' => 'nullable|image|max:2048',
+            'website' => 'nullable|url|max:255',
+        ]);
+
+        $penulisData = [
+            'user_id' => $validated['user_id'],
+            'nama' => $validated['nama'],
+            'bio' => $validated['bio'],
+            'website' => $validated['website'],
+        ];
+
+        if ($request->hasFile('avatar')) {
+            if ($penulis->avatar) {
+                Storage::disk('public')->delete($penulis->avatar);
+            }
+            $penulisData['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        if ($validated['user_id'] !== $penulis->user_id) {
+            User::findOrFail($validated['user_id'])->assignRole('penulis');
+        }
+
+        $penulis->update($penulisData);
+
+        return redirect()->route('admin.penulis.index')->with('success', 'Penulis berhasil diperbarui.');
     }
 
     public function destroy(User $user): RedirectResponse

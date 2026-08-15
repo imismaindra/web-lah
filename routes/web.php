@@ -4,11 +4,14 @@ use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EraController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\PenulisController;
 use App\Http\Controllers\Admin\TopikController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SearchController;
 use App\Models\Artikel;
 use App\Models\Era;
@@ -72,6 +75,16 @@ Route::get('/tentang', function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->name('password.email');
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('password.store');
+});
 
 Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
@@ -183,15 +196,23 @@ Route::get('/artikel/{artikel}', function (Artikel $artikel) {
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-    Route::resource('kategori', KategoriController::class)->except(['show']);
     Route::resource('artikel', ArtikelController::class)->except(['show']);
-    Route::resource('era', EraController::class)->except(['show']);
-    Route::resource('topik', TopikController::class)->except(['show']);
-
-    Route::get('/penulis', [PenulisController::class, 'index'])->name('penulis.index');
-    Route::get('/penulis/create', [PenulisController::class, 'create'])->name('penulis.create');
-    Route::post('/penulis', [PenulisController::class, 'store'])->name('penulis.store');
-    Route::delete('/penulis/{user}', [PenulisController::class, 'destroy'])->name('penulis.destroy');
-
     Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
+
+    Route::middleware('admin')->group(function () {
+        Route::resource('kategori', KategoriController::class)->except(['show']);
+        Route::resource('era', EraController::class)->except(['show']);
+        Route::resource('topik', TopikController::class)->except(['show']);
+
+        Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna.index');
+        Route::post('/pengguna/{user}/approve', [PenggunaController::class, 'approve'])->name('pengguna.approve');
+        Route::delete('/pengguna/{user}', [PenggunaController::class, 'destroy'])->name('pengguna.destroy');
+
+        Route::get('/penulis', [PenulisController::class, 'index'])->name('penulis.index');
+        Route::get('/penulis/create', [PenulisController::class, 'create'])->name('penulis.create');
+        Route::post('/penulis', [PenulisController::class, 'store'])->name('penulis.store');
+        Route::get('/penulis/{penulis}/edit', [PenulisController::class, 'edit'])->name('penulis.edit');
+        Route::put('/penulis/{penulis}', [PenulisController::class, 'update'])->name('penulis.update');
+        Route::delete('/penulis/{user}', [PenulisController::class, 'destroy'])->name('penulis.destroy');
+    });
 });

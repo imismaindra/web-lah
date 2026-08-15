@@ -4,88 +4,96 @@
 @section('page-title', 'Edit Artikel')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/trix@2.1.3/dist/trix.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
     <style>
-        /* Trix - Dark Theme */
+        /* Quill - Editor */
+        .ql-toolbar.ql-snow {
+            border: 1px solid #e7e5e4;
+            border-radius: 0.75rem 0.75rem 0 0;
+            background: #fff;
+            border-bottom: none;
+        }
+        .ql-container.ql-snow {
+            border: 1px solid #e7e5e4;
+            border-radius: 0 0 0.75rem 0.75rem;
+            background: #fff;
+            font-size: 0.9375rem;
+        }
+        .ql-container.ql-snow:focus-within {
+            border-color: rgb(91 155 213 / 0.5);
+            box-shadow: 0 0 0 3px rgb(91 155 213 / 0.1);
+        }
+        .ql-editor {
+            min-height: 400px;
+            line-height: 1.75;
+            padding: 1.25rem 1.5rem;
+            color: #44403c;
+        }
+        .ql-editor.ql-blank::before {
+            color: #a8a29e;
+            font-style: normal;
+        }
+        .ql-editor h1 { font-size: 1.5rem; font-weight: 700; }
+        .ql-editor h2 { font-size: 1.25rem; font-weight: 700; }
+        .ql-editor h3 { font-size: 1.125rem; font-weight: 600; }
+        .ql-editor blockquote {
+            border-left: 3px solid rgb(91 155 213 / 0.3);
+            padding-left: 1rem;
+            color: #78716c;
+            font-style: italic;
+        }
+        .ql-editor img {
+            border-radius: 0.75rem;
+            max-width: 100%;
+        }
+        .ql-editor a { color: #1e3a5f; }
+
         @media (prefers-color-scheme: dark) {
-            .trix-button--icon {
-                -webkit-filter: invert(100%) !important;
-                filter: invert(100%) !important;
+            .ql-toolbar.ql-snow {
+                background: #171716;
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #e2e8f0;
             }
-            .trix-toolbar .trix-button {
-                background: #ffffff !important;
+            .ql-toolbar.ql-snow .ql-stroke { stroke: #e2e8f0; }
+            .ql-toolbar.ql-snow .ql-fill { fill: #e2e8f0; }
+            .ql-toolbar.ql-snow .ql-picker { color: #e2e8f0; }
+            .ql-toolbar.ql-snow .ql-picker-options {
+                background: #171716;
+                border-color: rgba(255, 255, 255, 0.1);
             }
-            trix-editor {
-                background-color: #1a202c !important;
-                color: #e2e8f0 !important;
+            .ql-toolbar.ql-snow .ql-picker-item,
+            .ql-toolbar.ql-snow .ql-picker-label { color: #e2e8f0; }
+            .ql-toolbar.ql-snow button:hover .ql-stroke,
+            .ql-toolbar.ql-snow button.ql-active .ql-stroke,
+            .ql-toolbar.ql-snow .ql-picker-label:hover .ql-stroke,
+            .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-stroke { stroke: #5b9bd5; }
+            .ql-toolbar.ql-snow button:hover .ql-fill,
+            .ql-toolbar.ql-snow button.ql-active .ql-fill,
+            .ql-toolbar.ql-snow .ql-picker-label:hover .ql-fill,
+            .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-fill { fill: #5b9bd5; }
+            .ql-toolbar.ql-snow button:hover,
+            .ql-toolbar.ql-snow button.ql-active,
+            .ql-toolbar.ql-snow .ql-picker-label:hover,
+            .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label { color: #5b9bd5; }
+            .ql-toolbar.ql-snow .ql-picker-item:hover { color: #5b9bd5; }
+            .ql-container.ql-snow {
+                background: #1a202c;
+                border-color: rgba(255, 255, 255, 0.1);
             }
-        }
-
-        /* Trix Content Area */
-        .trix-content {
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-top: none !important;
-            border-radius: 0 0 0.75rem 0.75rem !important;
-            background: rgba(255, 255, 255, 0.02) !important;
-            color: rgb(229 229 227) !important;
-            font-size: 0.9375rem !important;
-            line-height: 1.75 !important;
-            padding: 1.25rem 1.5rem !important;
-            min-height: 400px !important;
-        }
-        .trix-content:focus {
-            outline: none;
-            border-color: rgb(91 155 213 / 0.5) !important;
-            box-shadow: 0 0 0 3px rgb(91 155 213 / 0.1) !important;
-        }
-        .trix-content h1 { font-size: 1.5rem !important; font-weight: 700 !important; margin-bottom: 0.5rem !important; }
-        .trix-content h2 { font-size: 1.25rem !important; font-weight: 700 !important; margin-bottom: 0.5rem !important; }
-        .trix-content h3 { font-size: 1.125rem !important; font-weight: 600 !important; margin-bottom: 0.5rem !important; }
-        .trix-content blockquote {
-            border-left: 3px solid rgb(91 155 213 / 0.3) !important;
-            padding-left: 1rem !important;
-            color: rgb(168 162 158) !important;
-            font-style: italic !important;
-        }
-        .trix-content img {
-            border-radius: 0.75rem !important;
-            max-width: 100% !important;
-        }
-        .trix-placeholder {
-            color: rgb(128 128 128) !important;
-        }
-
-        /* Trix Dialog */
-        .trix-dialog {
-            background: #1e1e1d !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 0.75rem !important;
-            box-shadow: 0 10px 25px rgb(0 0 0 / 0.3) !important;
-        }
-        .trix-dialog__link-fields {
-            padding: 0.75rem !important;
-        }
-        .trix-input {
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 0.5rem !important;
-            padding: 0.5rem 0.75rem !important;
-            font-size: 0.875rem !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            color: rgb(229 229 227) !important;
-        }
-        .trix-input:focus {
-            border-color: rgb(91 155 213 / 0.5) !important;
-            outline: none !important;
-        }
-        .trix-dialog__button {
-            border-radius: 0.5rem !important;
-            font-size: 0.875rem !important;
-            padding: 0.5rem 1rem !important;
-        }
-        .trix-dialog__button--primary {
-            background: rgb(91 155 213) !important;
-            color: rgb(15 15 14) !important;
-            border: none !important;
+            .ql-editor { color: #e2e8f0; }
+            .ql-editor blockquote { color: #a8a29e; }
+            .ql-editor a { color: #5b9bd5; }
+            .ql-tooltip.ql-snow {
+                background: #171716;
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #e2e8f0;
+            }
+            .ql-tooltip.ql-snow input[type="text"] {
+                background: rgba(255, 255, 255, 0.04);
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #e2e8f0;
+            }
+            .ql-tooltip.ql-snow .ql-action { color: #5b9bd5; }
         }
 
         /* Custom select styling */
@@ -136,7 +144,7 @@
                 {{-- Content Editor --}}
                 <div>
                     <input id="konten" type="hidden" name="konten" value="{{ old('konten', $artikel->konten) }}">
-                    <trix-editor input="konten" placeholder="Mulai menulis artikel sejarah..."></trix-editor>
+                    <div id="editor"></div>
                     @error('konten')
                         <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -288,40 +296,68 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/trix@2.1.3/dist/trix.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Trix image upload handler
-            document.addEventListener('trix-attachment-add', function(event) {
-                const attachment = event.attachment;
-                if (attachment.file) {
-                    uploadTrixFile(attachment);
-                }
+            const quill = new Quill('#editor', {
+                theme: 'snow',
+                placeholder: 'Mulai menulis artikel sejarah...',
+                modules: {
+                    toolbar: [
+                        [{ header: [1, 2, 3, 4, false] }],
+                        [{ font: [] }],
+                        [{ size: ['small', false, 'large', 'huge'] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ color: [] }, { background: [] }],
+                        ['blockquote', 'code-block'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        [{ script: 'sub' }, { script: 'super' }],
+                        [{ indent: '-1' }, { indent: '+1' }],
+                        [{ align: [false, 'center', 'right', 'justify'] }],
+                        ['link', 'image', 'video'],
+                        ['clean'],
+                    ],
+                },
             });
 
-            function uploadTrixFile(attachment) {
-                const file = attachment.file;
-                const form = new FormData();
-                form.append('file', file);
-                form.append('_token', '{{ csrf_token() }}');
+            const konten = document.getElementById('konten');
+            quill.setContents(quill.clipboard.convert({ html: konten.value }));
+            quill.on('text-change', function() {
+                konten.value = quill.root.innerHTML;
+            });
 
-                attachment.setUploadProgress(0);
+            document.getElementById('artikel-form').addEventListener('submit', function() {
+                konten.value = quill.root.innerHTML;
+            });
 
-                fetch('{{ route("admin.upload.store") }}', {
-                    method: 'POST',
-                    body: form,
-                })
-                .then(function(response) { return response.json(); })
-                .then(function(data) {
-                    attachment.setAttributes({
-                        href: data.url,
-                        url: data.url,
+            // Quill image upload handler
+            quill.getModule('toolbar').addHandler('image', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = function() {
+                    const file = input.files[0];
+                    if (!file) return;
+                    const range = quill.getSelection(true);
+                    const form = new FormData();
+                    form.append('file', file);
+                    form.append('_token', '{{ csrf_token() }}');
+
+                    fetch('{{ route("admin.upload.store") }}', {
+                        method: 'POST',
+                        body: form,
+                    })
+                    .then(function(response) { return response.json(); })
+                    .then(function(data) {
+                        quill.insertEmbed(range.index, 'image', data.url);
+                        quill.setSelection(range.index + 1, 0);
+                    })
+                    .catch(function() {
+                        alert('Gagal mengunggah gambar.');
                     });
-                })
-                .catch(function() {
-                    attachment.remove();
-                });
-            }
+                };
+                input.click();
+            });
 
             // Image preview
             const gambarInput = document.getElementById('gambar');

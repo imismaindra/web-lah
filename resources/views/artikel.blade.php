@@ -163,6 +163,44 @@
                 margin: 0.5rem 0;
             }
 
+            .article-body .ql-align-left { text-align: left; }
+            .article-body .ql-align-center { text-align: center; }
+            .article-body .ql-align-right { text-align: right; }
+            .article-body .ql-align-justify { text-align: justify; }
+
+            .article-body li.ql-indent-1 { padding-left: 2em; }
+            .article-body li.ql-indent-2 { padding-left: 4em; }
+            .article-body li.ql-indent-3 { padding-left: 6em; }
+
+            .article-body .ql-font-serif { font-family: Georgia, 'Times New Roman', serif; }
+            .article-body .ql-font-monospace { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+            .article-body .ql-size-small { font-size: 0.75em; }
+            .article-body .ql-size-large { font-size: 1.5em; }
+            .article-body .ql-size-huge { font-size: 2.5em; }
+
+            .article-body pre {
+                background: #f5f5f4;
+                border: 1px solid #e7e5e4;
+                border-radius: 1rem;
+                padding: 1rem 1.25rem;
+                overflow-x: auto;
+                font-size: 0.875rem;
+                line-height: 1.7;
+            }
+
+            :is(.dark) .article-body pre {
+                background: rgba(255, 255, 255, 0.03);
+                border-color: rgba(255, 255, 255, 0.08);
+                color: #e5e5e3;
+            }
+
+            .article-body iframe.ql-video {
+                display: block;
+                width: 100%;
+                aspect-ratio: 16 / 9;
+                border-radius: 1rem;
+            }
+
             .article-body a {
                 color: #1e3a5f;
                 text-decoration: underline;

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\TopikController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\KontakController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SearchController;
@@ -72,6 +73,13 @@ Route::get('/tentang', function () {
     return view('tentang', compact('statistik'));
 })->name('tentang');
 
+Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
+Route::post('/kontak', [KontakController::class, 'store'])->name('kontak.store');
+
+Route::get('/kebijakan-privasi', function () {
+    return view('kebijakan-privasi');
+})->name('privasi');
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -99,6 +107,8 @@ Route::get('/sitemap.xml', function () {
     $staticUrls = [
         ['url' => url('/'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '1.0'],
         ['url' => route('tentang'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['url' => route('kontak'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.4'],
+        ['url' => route('privasi'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'yearly', 'priority' => '0.3'],
     ];
 
     $urls = array_merge($staticUrls, $artikels->map(function ($artikel) {

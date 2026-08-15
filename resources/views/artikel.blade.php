@@ -319,7 +319,7 @@
                                     <p class="font-semibold">{{ $artikel->author->penulis?->nama ?? $artikel->author->name ?? 'Redaksi' }}</p>
                                     <p class="mt-1 text-sm leading-relaxed text-stone-500 dark:text-stone-400">{{ $artikel->author->penulis?->bio ?? 'Menulis tentang sejarah dunia untuk pembaca yang ingin memahami masa lalu.' }}</p>
                                     @if ($artikel->author->penulis)
-                                        <a href="{{ route('penulis.show', $artikel->author->penulis) }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Lihat semua artikel &rarr;</a>
+                                        <a href="{{ route('artikel.index') }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Lihat semua artikel &rarr;</a>
                                     @endif
                                 </div>
                             </div>

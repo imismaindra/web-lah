@@ -109,6 +109,7 @@ Route::get('/sitemap.xml', function () {
 
     $staticUrls = [
         ['url' => url('/'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '1.0'],
+        ['url' => route('artikel.index'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '0.9'],
         ['url' => route('tentang'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.5'],
         ['url' => route('kontak'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.4'],
         ['url' => route('privasi'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'yearly', 'priority' => '0.3'],
@@ -191,6 +192,15 @@ Route::get('/penulis/{penulis:slug}', function (Penulis $penulis) {
 
     return view('penulis', compact('penulis', 'artikels'));
 })->name('penulis.show');
+
+Route::get('/artikel', function () {
+    $artikels = Artikel::with('kategori')
+        ->published()
+        ->latest()
+        ->paginate(9);
+
+    return view('artikel-index', compact('artikels'));
+})->name('artikel.index');
 
 Route::get('/artikel/{artikel}', function (Artikel $artikel) {
     $artikel->load(['kategori', 'author', 'author.penulis']);

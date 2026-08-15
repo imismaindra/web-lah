@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class PenulisController extends Controller
 {
@@ -55,13 +56,14 @@ class PenulisController extends Controller
             ]);
         }
 
+        Role::firstOrCreate(['name' => 'penulis']);
         $user->assignRole('penulis');
 
         $penulisData = [
             'user_id' => $user->id,
             'nama' => $validated['nama'],
-            'bio' => $validated['bio'],
-            'website' => $validated['website'],
+            'bio' => $validated['bio'] ?? null,
+            'website' => $validated['website'] ?? null,
         ];
 
         if ($request->hasFile('avatar')) {
@@ -95,8 +97,8 @@ class PenulisController extends Controller
         $penulisData = [
             'user_id' => $validated['user_id'],
             'nama' => $validated['nama'],
-            'bio' => $validated['bio'],
-            'website' => $validated['website'],
+            'bio' => $validated['bio'] ?? null,
+            'website' => $validated['website'] ?? null,
         ];
 
         if ($request->hasFile('avatar')) {
@@ -107,6 +109,7 @@ class PenulisController extends Controller
         }
 
         if ($validated['user_id'] !== $penulis->user_id) {
+            Role::firstOrCreate(['name' => 'penulis']);
             User::findOrFail($validated['user_id'])->assignRole('penulis');
         }
 

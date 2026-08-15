@@ -97,6 +97,14 @@
                         </a>
 
                         @if (auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.komentar.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.komentar.*') ? 'active' : '' }}" title="Komentar">
+                            <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span class="sidebar-label">Komentar</span>
+                            <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Komentar</span>
+                        </a>
+                    @endif
+
+                        @if (auth()->user()->hasRole('admin'))
                             <a href="{{ route('admin.kategori.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}" title="Kategori">
                             <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10h10V2Z"/><path d="M22 12H12v10h10V12Z"/><path d="M22 2H12v5h10V2Z"/><path d="M7 12H2v10h5V12Z"/></svg>
                             <span class="sidebar-label">Kategori</span>
@@ -143,6 +151,12 @@
                             <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Buletin</span>
                         </a>
                     @endif
+
+                        <a href="{{ route('profil.edit') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('profil.*') ? 'active' : '' }}" title="Profil">
+                            <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <span class="sidebar-label">Profil</span>
+                            <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Profil</span>
+                        </a>
                     </div>
                 </nav>
 

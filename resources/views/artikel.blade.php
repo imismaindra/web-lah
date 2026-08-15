@@ -204,7 +204,10 @@
                 <div class="flex items-center gap-2 text-sm font-medium">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Dashboard</a>
+                            @if (auth()->user()->hasRole(['admin', 'penulis']))
+                                <a href="{{ route('admin.dashboard') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Panel</a>
+                            @endif
+                            <a href="{{ route('profil.edit') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Profil</a>
                         @else
                             <a href="{{ route('login') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
                         @endauth
@@ -324,6 +327,130 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- Reactions --}}
+                        <div class="mt-10 flex flex-wrap items-center gap-4">
+                            @auth
+                                <button type="button" id="btn-suka" data-url="{{ route('reaksi.toggle', $artikel) }}" data-active="{{ $isLiked ? 'true' : 'false' }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold transition hover:border-stone-300 dark:border-white/10 dark:hover:border-white/20" aria-pressed="{{ $isLiked ? 'true' : 'false' }}">
+                                    <svg id="suka-icon" class="h-4 w-4 transition" viewBox="0 0 24 24" fill="{{ $isLiked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                                    <span>Suka</span>
+                                    <span id="suka-count" class="text-stone-400 dark:text-stone-500">{{ $reaksiCount }}</span>
+                                </button>
+                                <button type="button" id="btn-bookmark" data-url="{{ route('bookmark.toggle', $artikel) }}" data-active="{{ $isBookmarked ? 'true' : 'false' }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold transition hover:border-stone-300 dark:border-white/10 dark:hover:border-white/20" aria-pressed="{{ $isBookmarked ? 'true' : 'false' }}">
+                                    <svg id="bookmark-icon" class="h-4 w-4 transition" viewBox="0 0 24 24" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                                    <span id="bookmark-label">{{ $isBookmarked ? 'Tersimpan' : 'Simpan' }}</span>
+                                </button>
+                            @else
+                                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">
+                                    Masuk untuk menyukai atau menyimpan artikel ini
+                                </a>
+                            @endauth
+                        </div>
+
+                        {{-- Comments --}}
+                        <section id="komentar" class="mt-12">
+                            <h2 class="font-serif text-2xl font-bold tracking-tight">Komentar <span class="text-stone-300 dark:text-stone-600">({{ $komentarCount }})</span></h2>
+
+                            @if (session('success'))
+                                <div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if ($errors->any())
+                                <div class="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/30 dark:bg-red-900/10 dark:text-red-300">
+                                    @foreach ($errors->all() as $error)
+                                        <p>{{ $error }}</p>
+                                    @endforeach
+                                </div>
+                            @endif
+
+                            {{-- Form --}}
+                            <form method="POST" action="{{ route('komentar.store', $artikel) }}" class="mt-6 rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716]">
+                                @csrf
+                                @if (! auth()->check())
+                                    <input
+                                        type="text"
+                                        name="nama"
+                                        value="{{ old('nama') }}"
+                                        required
+                                        placeholder="Nama Anda"
+                                        class="mb-3 block w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                                    >
+                                @endif
+                                <textarea
+                                    name="isi"
+                                    rows="4"
+                                    required
+                                    placeholder="Tulis komentar Anda..."
+                                    class="block w-full rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                                >{{ old('isi') }}</textarea>
+                                <div class="mt-4 flex items-center justify-between gap-3">
+                                    <p class="text-[11px] text-stone-400 dark:text-stone-500">Komentar sopan dan relevan sangat dihargai.</p>
+                                    <button type="submit" class="rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-stone-800 active:scale-[0.98] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
+                                        Kirim Komentar
+                                    </button>
+                                </div>
+                            </form>
+
+                            {{-- List --}}
+                            <div class="mt-8 space-y-6">
+                                @forelse ($komentars as $komentar)
+                                    <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]">
+                                        <div class="flex items-start gap-3.5">
+                                            <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-stone-100 font-serif text-sm font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                                {{ substr($komentar->displayName(), 0, 1) }}
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                                                    <p class="text-sm font-semibold">{{ $komentar->displayName() }}</p>
+                                                    <span class="text-[11px] text-stone-400 dark:text-stone-500">{{ $komentar->created_at->diffForHumans() }}</span>
+                                                </div>
+                                                <p class="mt-1.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{{ $komentar->isi }}</p>
+                                                <button type="button" class="mt-2 text-xs font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]" data-reply-toggle>Balas</button>
+                                            </div>
+                                        </div>
+
+                                        {{-- Replies --}}
+                                        @if ($komentar->replies->isNotEmpty())
+                                            <div class="mt-4 space-y-4 border-l-2 border-stone-100 pl-4 dark:border-white/[0.06]">
+                                                @foreach ($komentar->replies as $reply)
+                                                    <div class="flex items-start gap-3">
+                                                        <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-stone-100 font-serif text-xs font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                                            {{ substr($reply->displayName(), 0, 1) }}
+                                                        </div>
+                                                        <div class="min-w-0 flex-1">
+                                                            <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                                                                <p class="text-sm font-semibold">{{ $reply->displayName() }}</p>
+                                                                <span class="text-[11px] text-stone-400 dark:text-stone-500">{{ $reply->created_at->diffForHumans() }}</span>
+                                                            </div>
+                                                            <p class="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{{ $reply->isi }}</p>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+
+                                        {{-- Reply form --}}
+                                        <form method="POST" action="{{ route('komentar.store', $artikel) }}" class="mt-3 hidden" data-reply-form>
+                                            @csrf
+                                            <input type="hidden" name="parent_id" value="{{ $komentar->id }}">
+                                            @if (! auth()->check())
+                                                <input type="text" name="nama" required placeholder="Nama Anda" class="mb-2 block w-full rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]">
+                                            @endif
+                                            <div class="flex items-center gap-2">
+                                                <textarea name="isi" rows="2" required placeholder="Tulis balasan..." class="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"></textarea>
+                                                <button type="submit" class="rounded-lg bg-stone-900 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">Balas</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                @empty
+                                    <p class="rounded-2xl border border-dashed border-stone-200 p-8 text-center text-sm text-stone-400 dark:border-white/[0.06] dark:text-stone-500">
+                                        Belum ada komentar. Jadilah yang pertama.
+                                    </p>
+                                @endforelse
+                            </div>
+                        </section>
                     </article>
 
                     {{-- Sidebar --}}
@@ -455,9 +582,75 @@
                 setTimeout(() => toast.remove(), 3500);
             }
 
+            function initToggleButton(button, onSuccess) {
+                if (!button) return;
+                button.addEventListener('click', async () => {
+                    const active = button.dataset.active === 'true';
+                    button.disabled = true;
+
+                    try {
+                        const res = await fetch(button.dataset.url, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                            },
+                        });
+
+                        if (!res.ok) throw new Error('Gagal');
+
+                        const data = await res.json();
+                        button.dataset.active = data.active === undefined ? String(data.bookmarked) : String(data.active);
+                        button.setAttribute('aria-pressed', button.dataset.active);
+                        onSuccess(data);
+                    } catch {
+                        showToast('Terjadi kesalahan, silakan coba lagi.', 'error');
+                    } finally {
+                        button.disabled = false;
+                    }
+                });
+            }
+
+            function initReplyToggles() {
+                document.querySelectorAll('[data-reply-toggle]').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const form = btn.closest('.rounded-2xl')?.querySelector('[data-reply-form]');
+                        if (form) form.classList.toggle('hidden');
+                    });
+                });
+            }
+
+            function initMetaCsrf() {
+                if (!document.querySelector('meta[name="csrf-token"]')) {
+                    const meta = document.createElement('meta');
+                    meta.name = 'csrf-token';
+                    meta.content = document.querySelector('[name="_token"]')?.value || '';
+                    document.head.appendChild(meta);
+                }
+            }
+
             document.addEventListener('DOMContentLoaded', () => {
                 initNewsletterForm('newsletter-form');
                 initNewsletterForm('newsletter-form-sidebar');
+                initMetaCsrf();
+                initReplyToggles();
+
+                initToggleButton(document.getElementById('btn-suka'), (data) => {
+                    const icon = document.getElementById('suka-icon');
+                    if (icon) {
+                        icon.setAttribute('fill', data.active ? 'currentColor' : 'none');
+                        icon.classList.toggle('text-red-500', data.active);
+                    }
+                    const count = document.getElementById('suka-count');
+                    if (count) count.textContent = data.count;
+                });
+
+                initToggleButton(document.getElementById('btn-bookmark'), (data) => {
+                    const icon = document.getElementById('bookmark-icon');
+                    if (icon) icon.setAttribute('fill', data.bookmarked ? 'currentColor' : 'none');
+                    const label = document.getElementById('bookmark-label');
+                    if (label) label.textContent = data.bookmarked ? 'Tersimpan' : 'Simpan';
+                });
             });
         </script>
     </body>

@@ -1,11 +1,11 @@
 @extends('layouts.auth')
 
-@section('title', 'Masuk')
-@section('heading', 'Masuk ke Akun')
-@section('subtitle', 'Halaman masuk untuk pembaca.')
+@section('title', 'Masuk ke Panel')
+@section('heading', 'Masuk ke Panel')
+@section('subtitle', 'Halaman khusus admin & penulis. Pengguna biasa menggunakan halaman masuk pembaca.')
 
 @section('form')
-    <form method="POST" action="{{ route('login') }}" class="mt-8 space-y-5">
+    <form method="POST" action="{{ route('panel.login') }}" class="mt-8 space-y-5">
         @csrf
 
         <div>
@@ -56,12 +56,12 @@
             type="submit"
             class="w-full rounded-lg bg-stone-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-stone-800 active:scale-[0.98] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200"
         >
-            Masuk
+            Masuk ke Panel
         </button>
     </form>
 
     <p class="mt-8 text-center text-sm text-stone-400 dark:text-stone-500">
-        Belum punya akun?
-        <a href="{{ route('register') }}" class="font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Daftar sekarang</a>
+        Bukan admin/penulis?
+        <a href="{{ route('login') }}" class="font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Masuk sebagai pembaca</a>
     </p>
 @endsection

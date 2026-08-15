@@ -4,21 +4,29 @@ use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EraController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\KomentarController as AdminKomentarController;
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\PenulisController;
 use App\Http\Controllers\Admin\TopikController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ReaksiController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SearchController;
 use App\Models\Artikel;
+use App\Models\Bookmark;
 use App\Models\Era;
 use App\Models\Kategori;
 use App\Models\Penulis;
+use App\Models\Reaksi;
 use App\Models\Topik;
 use Illuminate\Support\Facades\Route;
 
@@ -83,6 +91,8 @@ Route::get('/kebijakan-privasi', function () {
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/panel/login', [AuthController::class, 'showPanelLogin'])->name('panel.login');
+Route::post('/panel/login', [AuthController::class, 'panelLogin']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('guest')->group(function () {
@@ -100,6 +110,28 @@ Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'uns
 Route::post('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'destroySubscription'])->name('newsletter.unsubscribe.destroy');
 
 Route::get('/cari', [SearchController::class, 'index'])->name('search');
+
+Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
+    ->middleware('auth')
+    ->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+    ->middleware('signed')
+    ->name('verification.verify');
+
+Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.resend');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profil', [ProfilController::class, 'edit'])->name('profil.edit');
+    Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
+    Route::put('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.password');
+
+    Route::get('/bookmark', [BookmarkController::class, 'index'])->name('bookmark.index');
+    Route::post('/artikel/{artikel}/bookmark', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
+    Route::post('/artikel/{artikel}/reaksi', [ReaksiController::class, 'toggle'])->name('reaksi.toggle');
+});
 
 Route::get('/sitemap.xml', function () {
     $artikels = Artikel::published()->latest()->get();
@@ -202,9 +234,30 @@ Route::get('/artikel', function () {
     return view('artikel-index', compact('artikels'));
 })->name('artikel.index');
 
+Route::post('/artikel/{artikel}/komentar', [KomentarController::class, 'store'])->name('komentar.store');
+
 Route::get('/artikel/{artikel}', function (Artikel $artikel) {
     $artikel->load(['kategori', 'author', 'author.penulis']);
     $artikel->increment('views');
+
+    $isLiked = auth()->check() && Reaksi::where('artikel_id', $artikel->id)
+        ->where('user_id', auth()->id())
+        ->where('tipe', 'suka')
+        ->exists();
+
+    $isBookmarked = auth()->check() && Bookmark::where('artikel_id', $artikel->id)
+        ->where('user_id', auth()->id())
+        ->exists();
+
+    $reaksiCount = $artikel->reaksis()->where('tipe', 'suka')->count();
+    $komentarCount = $artikel->komentars()->published()->count();
+
+    $komentars = $artikel->komentars()
+        ->published()
+        ->with(['user', 'replies' => fn ($q) => $q->published()->with('user')])
+        ->whereNull('parent_id')
+        ->latest()
+        ->get();
 
     $relatedArtikels = Artikel::with('kategori')
         ->published()
@@ -213,10 +266,18 @@ Route::get('/artikel/{artikel}', function (Artikel $artikel) {
         ->take(3)
         ->get();
 
-    return view('artikel', compact('artikel', 'relatedArtikels'));
+    return view('artikel', compact(
+        'artikel',
+        'relatedArtikels',
+        'isLiked',
+        'isBookmarked',
+        'reaksiCount',
+        'komentarCount',
+        'komentars',
+    ));
 })->name('artikel.show');
 
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'penulis'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('artikel', ArtikelController::class)->except(['show']);
@@ -242,5 +303,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('/penulis/{penulis}/edit', [PenulisController::class, 'edit'])->name('penulis.edit');
         Route::put('/penulis/{penulis}', [PenulisController::class, 'update'])->name('penulis.update');
         Route::delete('/penulis/{user}', [PenulisController::class, 'destroy'])->name('penulis.destroy');
+
+        Route::get('/komentar', [AdminKomentarController::class, 'index'])->name('komentar.index');
+        Route::delete('/komentar/{komentar}', [AdminKomentarController::class, 'destroy'])->name('komentar.destroy');
     });
 });

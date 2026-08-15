@@ -30,7 +30,7 @@
                 </a>
                 <div class="hidden items-center gap-1 text-sm font-medium sm:flex">
                     <a href="/" class="rounded-lg bg-stone-900 px-3 py-1.5 text-white dark:bg-white dark:text-stone-900">Beranda</a>
-                    <a href="/#artikel" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Artikel</a>
+                    <a href="/artikel" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Artikel</a>
                     <a href="/#kategori" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Kategori</a>
                     <a href="{{ route('tentang') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang</a>
                 </div>
@@ -48,8 +48,13 @@
                 <div class="flex items-center gap-2 text-sm font-medium">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Dashboard</a>
-                        @endif
+                            @if (auth()->user()->hasRole(['admin', 'penulis']))
+                                <a href="{{ route('admin.dashboard') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Panel</a>
+                            @endif
+                            <a href="{{ route('profil.edit') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Profil</a>
+                        @else
+                            <a href="{{ route('login') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
+                        @endauth
                     @endif
                 </div>
             </nav>
@@ -129,7 +134,7 @@
                 </div>
             </section>
 
-            <section id="perjalanan-waktu" class="py-8 sm:py-10">
+            <section id="perjalanan-waktu" class="scroll-mt-24 py-8 sm:py-10">
                 <h2 class="font-serif text-xl font-bold tracking-tight">Perjalanan Waktu</h2>
                 <div class="mt-5 flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
                     @forelse ($eras as $era)
@@ -154,7 +159,7 @@
 
             <div class="grid gap-8 lg:grid-cols-[1fr_320px]">
                 <div>
-                    <div id="artikel">
+                    <div id="artikel" class="scroll-mt-24">
                         <h2 class="font-serif text-xl font-bold tracking-tight">Artikel Terbaru</h2>
 
                         <div class="mt-6 grid gap-5 sm:grid-cols-2">
@@ -192,7 +197,7 @@
 
                 <aside class="space-y-6 lg:sticky lg:top-20 lg:self-start">
                     <div class="rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716]">
-                        <div id="kategori" class="mb-4">
+                        <div id="kategori" class="mb-4 scroll-mt-24">
                             <h2 class="font-serif text-base font-bold">Kategori</h2>
                         </div>
                         <ul class="space-y-0.5 text-sm">
@@ -209,7 +214,7 @@
                         </ul>
                     </div>
 
-                    <div id="tentang" class="rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716]">
+                    <div id="tentang" class="scroll-mt-24 rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716]">
                         <h2 class="font-serif text-base font-bold">Tentang Blog Ini</h2>
                         <p class="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
                             Look at History menyajikan artikel sejarah dunia secara ringkas dan terpercaya,
@@ -290,6 +295,16 @@
         </footer>
 
         <script>
+            document.querySelectorAll('a[href="/#kategori"]').forEach((link) => {
+                link.addEventListener('click', (e) => {
+                    const target = document.getElementById('kategori');
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
             document.getElementById('newsletter-form')?.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const form = e.target;

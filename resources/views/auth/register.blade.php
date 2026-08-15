@@ -2,7 +2,7 @@
 
 @section('title', 'Daftar')
 @section('heading', 'Buat Akun')
-@section('subtitle', 'Daftar untuk menjadi penulis. Akun Anda akan diverifikasi oleh admin terlebih dahulu.')
+@section('subtitle', 'Daftar untuk menjadi penulis. Verifikasi email Anda, lalu tunggu persetujuan admin.')
 
 @section('form')
     <form method="POST" action="{{ route('register') }}" class="mt-8 space-y-5">

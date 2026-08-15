@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EraController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\PenulisController;
 use App\Http\Controllers\Admin\TopikController;
@@ -95,6 +96,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+Route::post('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'destroySubscription'])->name('newsletter.unsubscribe.destroy');
 
 Route::get('/cari', [SearchController::class, 'index'])->name('search');
 
@@ -217,6 +220,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna.index');
         Route::post('/pengguna/{user}/approve', [PenggunaController::class, 'approve'])->name('pengguna.approve');
         Route::delete('/pengguna/{user}', [PenggunaController::class, 'destroy'])->name('pengguna.destroy');
+
+        Route::get('/newsletter', [AdminNewsletterController::class, 'index'])->name('newsletter.index');
+        Route::get('/newsletter/create', [AdminNewsletterController::class, 'create'])->name('newsletter.create');
+        Route::post('/newsletter', [AdminNewsletterController::class, 'store'])->name('newsletter.store');
+        Route::delete('/newsletter/{subscriber}', [AdminNewsletterController::class, 'destroy'])->name('newsletter.destroy');
 
         Route::get('/penulis', [PenulisController::class, 'index'])->name('penulis.index');
         Route::get('/penulis/create', [PenulisController::class, 'create'])->name('penulis.create');

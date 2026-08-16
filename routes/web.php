@@ -154,28 +154,28 @@ Route::get('/sitemap.xml', function () {
             'changefreq' => 'weekly',
             'priority' => '0.8',
         ];
-    }), $kategoris->map(function ($kategori) {
+    })->all(), $kategoris->map(function ($kategori) {
         return [
             'url' => route('kategori.show', $kategori),
             'lastmod' => now()->toAtomString(),
             'changefreq' => 'daily',
             'priority' => '0.6',
         ];
-    }), $eras->map(function ($era) {
+    })->all(), $eras->map(function ($era) {
         return [
             'url' => route('era.show', $era),
             'lastmod' => now()->toAtomString(),
             'changefreq' => 'weekly',
             'priority' => '0.6',
         ];
-    }), $topiks->map(function ($topik) {
+    })->all(), $topiks->map(function ($topik) {
         return [
             'url' => route('topik.show', $topik),
             'lastmod' => now()->toAtomString(),
             'changefreq' => 'weekly',
             'priority' => '0.5',
         ];
-    }));
+    })->all());
 
     return response()->view('sitemap', compact('urls'))->header('Content-Type', 'application/xml');
 })->name('sitemap');

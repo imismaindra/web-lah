@@ -50,7 +50,7 @@
                     </div>
                 @else
                     <div class="rounded-2xl border border-stone-200/60 bg-white p-8 text-center dark:border-white/[0.06] dark:bg-[#171716]">
-                        <h1 class="font-serif text-xl font-bold tracking-tight">Link tidak valid</h1>
+                        <h1 class="font-serif text-xl font-bold tracking-tight">Link tidak validd</h1>
                         <p class="mt-2 text-sm text-stone-500 dark:text-stone-400">Tautan berhenti berlangganan ini tidak valid atau sudah dipakai.</p>
                         <a href="/" class="mt-6 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5]">Kembali ke beranda &rarr;</a>
                     </div>

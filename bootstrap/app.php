@@ -15,6 +15,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->prepend(function ($request, $next) {
+            if ($request->getHost() === 'www.lookathistory.web.id') {
+                return redirect()->to(
+                    'https://lookathistory.web.id'.$request->getRequestUri(),
+                    301,
+                );
+            }
+
+            return $next($request);
+        });
+
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,
             'penulis' => EnsureUserIsPenulis::class,

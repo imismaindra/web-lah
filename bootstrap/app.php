@@ -3,6 +3,7 @@
 use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\EnsureUserIsPenulis;
+use App\Http\Middleware\RedirectToNonWww;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,16 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->prepend(function ($request, $next) {
-            if ($request->getHost() === 'www.lookathistory.web.id') {
-                return redirect()->to(
-                    'https://lookathistory.web.id'.$request->getRequestUri(),
-                    301,
-                );
-            }
-
-            return $next($request);
-        });
+        $middleware->prepend(RedirectToNonWww::class);
 
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,

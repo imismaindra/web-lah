@@ -131,18 +131,19 @@
             }
 
             :is(.dark) .toc-link {
-                color: #78716c;
+                color: #a8a29e;
             }
 
             :is(.dark) .toc-link:hover {
                 color: #5b9bd5;
-                border-left-color: rgba(255,255,255,0.1);
+                border-left-color: rgba(255,255,255,0.15);
+                background: rgba(255,255,255,0.03);
             }
 
             :is(.dark) .toc-link.active {
-                color: #5b9bd5;
+                color: #93c5fd;
                 border-left-color: #5b9bd5;
-                background: #5b9bd50d;
+                background: rgba(91, 155, 213, 0.08);
             }
 
             .grain-overlay {
@@ -219,7 +220,17 @@
                 line-height: 1.3;
             }
 
-            .article-body h2:first-child {
+            .article-body > h1:first-child {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+
+            .article-body h2:first-of-type {
                 margin-top: 0;
                 padding-top: 0;
                 border-top: none;
@@ -717,9 +728,12 @@
                     <aside class="hidden lg:block">
                         <div class="sticky top-24 space-y-8">
                             {{-- Table of Contents --}}
-                            <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]" id="toc-wrapper">
-                                <h2 class="text-sm font-bold tracking-tight text-stone-900 dark:text-white mb-3">Daftar Isi</h2>
-                                <nav id="toc" class="space-y-0.5" aria-label="Daftar isi">
+                            <div class="rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]" id="toc-wrapper">
+                                <button type="button" id="toc-toggle" class="flex w-full items-center justify-between p-5 text-left" aria-expanded="false" aria-controls="toc">
+                                    <h2 class="text-sm font-bold tracking-tight text-stone-900 dark:text-white">Daftar Isi</h2>
+                                    <svg id="toc-chevron" class="h-4 w-4 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                                </button>
+                                <nav id="toc" class="hidden space-y-0.5 border-t border-stone-100 px-5 pb-4 pt-3 dark:border-white/[0.06]" aria-label="Daftar isi">
                                     {{-- Populated by JS --}}
                                 </nav>
                             </div>
@@ -909,9 +923,11 @@
             function initTableOfContents() {
                 const tocNav = document.getElementById('toc');
                 const tocWrapper = document.getElementById('toc-wrapper');
-                if (!tocNav || !tocWrapper) return;
+                const tocToggle = document.getElementById('toc-toggle');
+                const tocChevron = document.getElementById('toc-chevron');
+                if (!tocNav || !tocWrapper || !tocToggle) return;
 
-                const headings = document.querySelectorAll('.article-body h1, .article-body h2, .article-body h3');
+                const headings = document.querySelectorAll('.article-body h2, .article-body h3');
                 if (headings.length < 2) {
                     tocWrapper.style.display = 'none';
                     return;
@@ -941,6 +957,13 @@
                 });
 
                 const tocLinks = tocNav.querySelectorAll('.toc-link');
+
+                tocToggle.addEventListener('click', () => {
+                    const isHidden = tocNav.classList.contains('hidden');
+                    tocNav.classList.toggle('hidden');
+                    tocToggle.setAttribute('aria-expanded', isHidden);
+                    tocChevron.style.transform = isHidden ? 'rotate(180deg)' : '';
+                });
 
                 function updateActiveTocLink() {
                     const scrollPos = window.scrollY + 120;

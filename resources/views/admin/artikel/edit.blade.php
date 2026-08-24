@@ -10,8 +10,23 @@
         .ql-toolbar.ql-snow {
             border: 1px solid #e7e5e4;
             border-radius: 0.75rem 0.75rem 0 0;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+        .ql-toolbar.ql-snow::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -4px;
+            height: 4px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.04), transparent);
+            pointer-events: none;
         }
         .ql-container.ql-snow {
             border: 1px solid #e7e5e4;
@@ -50,7 +65,7 @@
 
         @media (prefers-color-scheme: dark) {
             .ql-toolbar.ql-snow {
-                background: #171716;
+                background: rgba(23, 23, 22, 0.9);
                 border-color: rgba(255, 255, 255, 0.1);
                 color: #e2e8f0;
             }

@@ -9,17 +9,58 @@
 
         <title>{{ $artikel->judul }} — {{ config('app.name', 'Look at History') }}</title>
 
+        @php
+            $articleDescription = $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 160);
+            $articleImage = $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('logo_LAH.jpg');
+            $articleUrl = route('artikel.show', $artikel);
+            $articleAuthor = $artikel->author->penulis->nama ?? $artikel->author->name ?? 'Look at History';
+
+            $articleSchema = [
+                '@context' => 'https://schema.org',
+                '@type' => 'Article',
+                'headline' => $artikel->judul,
+                'description' => $articleDescription,
+                'image' => $articleImage,
+                'url' => $articleUrl,
+                'datePublished' => $artikel->created_at?->toIso8601String(),
+                'dateModified' => $artikel->updated_at?->toIso8601String(),
+                'author' => [
+                    '@type' => 'Person',
+                    'name' => $articleAuthor,
+                ],
+                'publisher' => [
+                    '@type' => 'Organization',
+                    'name' => config('app.name', 'Look at History'),
+                    'logo' => [
+                        '@type' => 'ImageObject',
+                        'url' => asset('logo_LAH.jpg'),
+                    ],
+                ],
+                'mainEntityOfPage' => [
+                    '@type' => 'WebPage',
+                    '@id' => $articleUrl,
+                ],
+                'inLanguage' => 'id',
+                'keywords' => implode(', ', $artikel->topiks?->pluck('nama')->toArray() ?? []),
+            ];
+
+            if ($artikel->kategori) {
+                $articleSchema['articleSection'] = $artikel->kategori->nama;
+            }
+        @endphp
+
         @include('partials.seo', [
             'title' => $artikel->judul,
-            'description' => $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 160),
-            'image' => $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('logo_LAH.jpg'),
-            'url' => route('artikel.show', $artikel),
+            'description' => $articleDescription,
+            'image' => $articleImage,
+            'url' => $articleUrl,
             'type' => 'article',
             'publishedTime' => $artikel->created_at?->toIso8601String(),
             'modifiedTime' => $artikel->updated_at?->toIso8601String(),
-            'author' => $artikel->author->name ?? config('app.name', 'Look at History'),
+            'author' => $articleAuthor,
             'section' => $artikel->kategori->nama ?? 'Umum',
             'tags' => $artikel->topiks?->pluck('nama')->toArray() ?? [],
+            'schema' => $articleSchema,
         ])
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
@@ -59,13 +100,41 @@
                 .reading-progress { display: none; }
             }
 
+            .toc-link {
+                display: block;
+                padding: 0.4rem 0.75rem;
+                font-size: 0.8125rem;
+                line-height: 1.5;
+                color: #78716c;
+                border-left: 2px solid transparent;
+                transition: all 0.2s ease;
+                text-decoration: none;
+            }
+
+            .toc-link:hover {
+                color: #1e3a5f;
+                border-left-color: #d6d3d1;
+            }
+
             .toc-link.active {
                 color: #1e3a5f;
+                border-left-color: #1e3a5f;
                 background: #1e3a5f0d;
+                font-weight: 600;
+            }
+
+            :is(.dark) .toc-link {
+                color: #78716c;
+            }
+
+            :is(.dark) .toc-link:hover {
+                color: #5b9bd5;
+                border-left-color: rgba(255,255,255,0.1);
             }
 
             :is(.dark) .toc-link.active {
                 color: #5b9bd5;
+                border-left-color: #5b9bd5;
                 background: #5b9bd50d;
             }
 
@@ -111,23 +180,37 @@
             .article-body h2 {
                 font-size: 1.5rem;
                 font-weight: 700;
-                padding-top: 1rem;
-                color: #1c1917;
+                margin-top: 2.5rem;
+                margin-bottom: 1rem;
+                padding-top: 1.5rem;
+                border-top: 1px solid #e7e5e4;
+                color: #0c0a09;
+                letter-spacing: -0.01em;
+                line-height: 1.3;
+            }
+
+            .article-body h2:first-child {
+                margin-top: 0;
+                padding-top: 0;
+                border-top: none;
             }
 
             :is(.dark) .article-body h2 {
-                color: #e5e5e3;
+                color: #fafaf9;
+                border-top-color: rgba(255,255,255,0.08);
             }
 
             .article-body h3 {
                 font-size: 1.25rem;
                 font-weight: 600;
-                padding-top: 0.75rem;
+                margin-top: 1.75rem;
+                margin-bottom: 0.75rem;
                 color: #1c1917;
+                line-height: 1.4;
             }
 
             :is(.dark) .article-body h3 {
-                color: #e5e5e3;
+                color: #e7e5e4;
             }
 
             .article-body blockquote {
@@ -213,6 +296,48 @@
             :is(.dark) .article-body a {
                 color: #5b9bd5;
             }
+
+            .breadcrumb-sep {
+                color: #a8a29e;
+                margin: 0 0.25rem;
+            }
+
+            :is(.dark) .breadcrumb-sep {
+                color: #57534e;
+            }
+
+            .faq-item summary {
+                cursor: pointer;
+                list-style: none;
+            }
+
+            .faq-item summary::-webkit-details-marker {
+                display: none;
+            }
+
+            .faq-item summary::marker {
+                display: none;
+                content: '';
+            }
+
+            .faq-item[open] .faq-chevron {
+                transform: rotate(180deg);
+            }
+
+            .key-point {
+                background: linear-gradient(135deg, #1e3a5f08 0%, #1e3a5f03 100%);
+                border: 1px solid #1e3a5f15;
+                border-left: 4px solid #1e3a5f;
+                border-radius: 0 0.75rem 0.75rem 0;
+                padding: 1.25rem 1.5rem;
+                margin: 1.5rem 0;
+            }
+
+            :is(.dark) .key-point {
+                background: linear-gradient(135deg, #5b9bd508 0%, #5b9bd503 100%);
+                border-color: #5b9bd515;
+                border-left-color: #5b9bd5;
+            }
         </style>
     </head>
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
@@ -258,6 +383,34 @@
         </header>
 
         <main>
+            {{-- Breadcrumb --}}
+            <nav class="mx-auto max-w-[1400px] px-5 pt-4 sm:px-8" aria-label="Breadcrumb">
+                <ol class="flex flex-wrap items-center text-xs font-medium text-stone-400 dark:text-stone-500" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a href="/" itemprop="item" class="transition hover:text-stone-600 dark:hover:text-stone-300">
+                            <span itemprop="name">Beranda</span>
+                        </a>
+                        <meta itemprop="position" content="1">
+                    </li>
+                    <li class="breadcrumb-sep" aria-hidden="true">/</li>
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a href="{{ route('artikel.index') }}" itemprop="item" class="transition hover:text-stone-600 dark:hover:text-stone-300">
+                            <span itemprop="name">Artikel</span>
+                        </a>
+                        <meta itemprop="position" content="2">
+                    </li>
+                    @if ($artikel->kategori)
+                        <li class="breadcrumb-sep" aria-hidden="true">/</li>
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <a href="{{ route('kategori.show', $artikel->kategori) }}" itemprop="item" class="transition hover:text-stone-600 dark:hover:text-stone-300">
+                                <span itemprop="name">{{ $artikel->kategori->nama }}</span>
+                            </a>
+                            <meta itemprop="position" content="3">
+                        </li>
+                    @endif
+                </ol>
+            </nav>
+
             {{-- Hero --}}
             <section class="relative overflow-hidden">
                 <div class="absolute inset-0">
@@ -520,6 +673,14 @@
                     {{-- Sidebar --}}
                     <aside class="hidden lg:block">
                         <div class="sticky top-24 space-y-8">
+                            {{-- Table of Contents --}}
+                            <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]" id="toc-wrapper">
+                                <h2 class="text-sm font-bold tracking-tight text-stone-900 dark:text-white mb-3">Daftar Isi</h2>
+                                <nav id="toc" class="space-y-0.5" aria-label="Daftar isi">
+                                    {{-- Populated by JS --}}
+                                </nav>
+                            </div>
+
                             {{-- Sidebar Ad --}}
                             <div>
                                 <div class="ad-slot" style="min-height: 250px;">
@@ -702,11 +863,78 @@
                 }
             }
 
+            function initTableOfContents() {
+                const tocNav = document.getElementById('toc');
+                const tocWrapper = document.getElementById('toc-wrapper');
+                if (!tocNav || !tocWrapper) return;
+
+                const headings = document.querySelectorAll('.article-body h2');
+                if (headings.length < 2) {
+                    tocWrapper.style.display = 'none';
+                    return;
+                }
+
+                headings.forEach((heading, index) => {
+                    if (!heading.id) {
+                        heading.id = 'section-' + index;
+                    }
+
+                    const link = document.createElement('a');
+                    link.href = '#' + heading.id;
+                    link.className = 'toc-link';
+                    link.textContent = heading.textContent;
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const target = document.getElementById(heading.id);
+                        if (target) {
+                            const offset = 100;
+                            const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                            window.scrollTo({ top, behavior: 'smooth' });
+                        }
+                    });
+                    tocNav.appendChild(link);
+                });
+
+                const tocLinks = tocNav.querySelectorAll('.toc-link');
+
+                function updateActiveTocLink() {
+                    const scrollPos = window.scrollY + 120;
+                    let currentId = '';
+
+                    headings.forEach((heading) => {
+                        if (heading.offsetTop <= scrollPos) {
+                            currentId = heading.id;
+                        }
+                    });
+
+                    tocLinks.forEach((link) => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + currentId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+
+                let ticking = false;
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            updateActiveTocLink();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+
+                updateActiveTocLink();
+            }
+
             document.addEventListener('DOMContentLoaded', () => {
                 initNewsletterForm('newsletter-form');
                 initNewsletterForm('newsletter-form-sidebar');
                 initMetaCsrf();
                 initReplyToggles();
+                initTableOfContents();
 
                 initToggleButton(document.getElementById('btn-suka'), (data) => {
                     const icon = document.getElementById('suka-icon');

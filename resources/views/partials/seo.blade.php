@@ -14,6 +14,7 @@
     $author = $author ?? config('app.name', 'Look at History');
     $section = $section ?? null;
     $tags = $tags ?? [];
+    $schema = $schema ?? null;
 @endphp
 
 @if ($noindex)
@@ -21,10 +22,13 @@
 @endif
 
 <meta name="description" content="{{ $description }}">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:image" content="{{ $image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="{{ $url }}">
 <meta property="og:type" content="{{ $type }}">
 <meta property="og:site_name" content="{{ config('app.name', 'Look at History') }}">
@@ -54,3 +58,7 @@
 <meta name="twitter:image" content="{{ $image }}">
 
 <link rel="canonical" href="{{ $canonicalUrl }}">
+
+@if ($schema)
+<script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endif

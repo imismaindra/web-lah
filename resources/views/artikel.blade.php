@@ -72,7 +72,15 @@
         @endif
 
         <style>
-            .article-body p { text-indent: 1.5em; }
+            .article-body p {
+                text-indent: 1.5em;
+                margin-bottom: 0.75em;
+            }
+
+            .article-body p:last-child {
+                margin-bottom: 0;
+            }
+
             .article-body p:first-child,
             .article-body h1,
             .article-body h2,
@@ -104,28 +112,27 @@
 
             .toc-link {
                 display: block;
-                padding: 0.4rem 0.75rem;
+                padding: 0.35rem 0.625rem;
                 font-size: 0.8125rem;
                 line-height: 1.5;
                 color: #78716c;
-                border-left: 2px solid transparent;
-                transition: all 0.2s ease;
+                border-radius: 0.375rem;
+                transition: all 0.15s ease;
                 text-decoration: none;
             }
 
             .toc-link[data-level="3"] {
-                padding-left: 1.5rem;
+                padding-left: 1.25rem;
                 font-size: 0.75rem;
             }
 
             .toc-link:hover {
                 color: #1e3a5f;
-                border-left-color: #d6d3d1;
+                background: #1e3a5f08;
             }
 
             .toc-link.active {
                 color: #1e3a5f;
-                border-left-color: #1e3a5f;
                 background: #1e3a5f0d;
                 font-weight: 600;
             }
@@ -135,15 +142,14 @@
             }
 
             :is(.dark) .toc-link:hover {
-                color: #5b9bd5;
-                border-left-color: rgba(255,255,255,0.15);
-                background: rgba(255,255,255,0.03);
+                color: #d6d3d1;
+                background: rgba(255,255,255,0.05);
             }
 
             :is(.dark) .toc-link.active {
-                color: #93c5fd;
-                border-left-color: #5b9bd5;
-                background: rgba(91, 155, 213, 0.08);
+                color: #e2e8f0;
+                background: rgba(255,255,255,0.06);
+                font-weight: 600;
             }
 
             .grain-overlay {
@@ -188,36 +194,11 @@
             .article-body h1 {
                 font-size: 1.875rem;
                 font-weight: 800;
-                margin-top: 2.5rem;
-                margin-bottom: 1rem;
-                padding-top: 1.5rem;
-                border-top: 1px solid #e7e5e4;
+                margin-top: 2rem;
+                margin-bottom: 0.75rem;
                 color: #0c0a09;
                 letter-spacing: -0.02em;
                 line-height: 1.2;
-            }
-
-            .article-body h1:first-child {
-                margin-top: 0;
-                padding-top: 0;
-                border-top: none;
-            }
-
-            :is(.dark) .article-body h1 {
-                color: #fafaf9;
-                border-top-color: rgba(255,255,255,0.08);
-            }
-
-            .article-body h2 {
-                font-size: 1.5rem;
-                font-weight: 700;
-                margin-top: 2.5rem;
-                margin-bottom: 1rem;
-                padding-top: 1.5rem;
-                border-top: 1px solid #e7e5e4;
-                color: #0c0a09;
-                letter-spacing: -0.01em;
-                line-height: 1.3;
             }
 
             .article-body > h1:first-child {
@@ -230,22 +211,33 @@
                 border: 0;
             }
 
+            :is(.dark) .article-body h1 {
+                color: #fafaf9;
+            }
+
+            .article-body h2 {
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-top: 2rem;
+                margin-bottom: 0.75rem;
+                color: #0c0a09;
+                letter-spacing: -0.01em;
+                line-height: 1.3;
+            }
+
             .article-body h2:first-of-type {
                 margin-top: 0;
-                padding-top: 0;
-                border-top: none;
             }
 
             :is(.dark) .article-body h2 {
                 color: #fafaf9;
-                border-top-color: rgba(255,255,255,0.08);
             }
 
             .article-body h3 {
                 font-size: 1.25rem;
                 font-weight: 600;
-                margin-top: 1.75rem;
-                margin-bottom: 0.75rem;
+                margin-top: 1.5rem;
+                margin-bottom: 0.5rem;
                 color: #1c1917;
                 line-height: 1.4;
             }
@@ -257,7 +249,7 @@
             .article-body h4 {
                 font-size: 1.125rem;
                 font-weight: 600;
-                margin-top: 1.5rem;
+                margin-top: 1.25rem;
                 margin-bottom: 0.5rem;
                 color: #1c1917;
                 line-height: 1.5;
@@ -540,7 +532,7 @@
                 <div class="grid gap-12 lg:grid-cols-[1fr_300px]">
                     {{-- Article Body --}}
                     <article class="py-8 sm:py-12">
-                        <div class="article-body space-y-6 text-[17px] leading-[1.85] text-stone-600 dark:text-stone-300">
+                        <div class="article-body text-[17px] leading-[1.8] text-stone-600 dark:text-stone-300">
                             {!! $artikel->konten !!}
                         </div>
 
@@ -728,12 +720,12 @@
                     <aside class="hidden lg:block">
                         <div class="sticky top-24 space-y-8">
                             {{-- Table of Contents --}}
-                            <div class="rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]" id="toc-wrapper">
-                                <button type="button" id="toc-toggle" class="flex w-full items-center justify-between p-5 text-left" aria-expanded="false" aria-controls="toc">
-                                    <h2 class="text-sm font-bold tracking-tight text-stone-900 dark:text-white">Daftar Isi</h2>
-                                    <svg id="toc-chevron" class="h-4 w-4 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                            <div class="rounded-2xl border border-stone-200/60 bg-stone-50 dark:border-white/[0.04] dark:bg-white/[0.02]" id="toc-wrapper">
+                                <button type="button" id="toc-toggle" class="flex w-full items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="toc">
+                                    <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Daftar Isi</h2>
+                                    <svg id="toc-chevron" class="h-3.5 w-3.5 text-stone-400 transition-transform duration-200 dark:text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                                 </button>
-                                <nav id="toc" class="hidden space-y-0.5 border-t border-stone-100 px-5 pb-4 pt-3 dark:border-white/[0.06]" aria-label="Daftar isi">
+                                <nav id="toc" class="hidden space-y-0.5 border-t border-stone-200/40 px-4 pb-3 pt-2 dark:border-white/[0.04]" aria-label="Daftar isi">
                                     {{-- Populated by JS --}}
                                 </nav>
                             </div>

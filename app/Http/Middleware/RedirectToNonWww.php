@@ -10,9 +10,22 @@ class RedirectToNonWww
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->getHost() === 'www.lookathistory.web.id') {
+        $host = $request->getHost();
+        $isSecure = $request->isSecure();
+        $needsRedirect = false;
+
+        if ($host === 'www.lookathistory.web.id') {
+            $host = 'lookathistory.web.id';
+            $needsRedirect = true;
+        }
+
+        if (! $isSecure) {
+            $needsRedirect = true;
+        }
+
+        if ($needsRedirect) {
             return redirect()->to(
-                'https://lookathistory.web.id'.$request->getRequestUri(),
+                'https://'.$host.$request->getRequestUri(),
                 301,
             );
         }

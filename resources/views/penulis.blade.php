@@ -7,7 +7,13 @@
 
         <title>{{ $penulis->nama }} — {{ config('app.name', 'Look at History') }}</title>
 
-        <meta name="description" content="{{ $penulis->bio ?? 'Halaman profil penulis ' . $penulis->nama . ' di ' . config('app.name', 'Look at History') }}">
+        @include('partials.seo', [
+            'title' => $penulis->nama,
+            'description' => $penulis->bio ?? 'Halaman profil penulis ' . $penulis->nama . ' di ' . config('app.name', 'Look at History'),
+            'image' => $penulis->avatar ? asset('storage/' . $penulis->avatar) : asset('logo_LAH.jpg'),
+            'url' => route('penulis.show', $penulis),
+            'section' => 'Penulis',
+        ])
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 

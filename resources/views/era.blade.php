@@ -7,6 +7,14 @@
 
         <title>{{ $era->nama }} — {{ config('app.name', 'Look at History') }}</title>
 
+        @include('partials.seo', [
+            'title' => $era->nama,
+            'description' => "Artikel sejarah era {$era->nama} ({$era->periode}). Jelajahi peristiwa dan peradaban penting dari masa ini.",
+            'image' => $era->gambar ? asset('storage/' . $era->gambar) : asset('logo_LAH.jpg'),
+            'url' => route('era.show', $era),
+            'section' => 'Era',
+        ])
+
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 
         @fonts

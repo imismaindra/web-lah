@@ -7,6 +7,14 @@
 
         <title>{{ $topik->nama }} — {{ config('app.name', 'Look at History') }}</title>
 
+        @include('partials.seo', [
+            'title' => $topik->nama,
+            'description' => "Artikel sejarah tentang {$topik->nama}. Temukan peristiwa, tokoh, dan fakta menarik seputar topik ini.",
+            'image' => $topik->gambar ? asset('storage/' . $topik->gambar) : asset('logo_LAH.jpg'),
+            'url' => route('topik.show', $topik),
+            'section' => 'Topik',
+        ])
+
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 
         @fonts

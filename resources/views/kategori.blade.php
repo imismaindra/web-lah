@@ -10,7 +10,7 @@
         @include('partials.seo', [
             'title' => $kategori->nama,
             'description' => $kategori->deskripsi ?? "Artikel sejarah kategori {$kategori->nama}. Jelajahi topik-topik menarik seputar {$kategori->nama}.",
-            'image' => $kategori->gambar ?? asset('logo_LAH.jpg'),
+            'image' => $kategori->gambar ? asset('storage/' . $kategori->gambar) : asset('logo_LAH.jpg'),
             'url' => route('kategori.show', $kategori),
             'section' => 'Kategori',
         ])

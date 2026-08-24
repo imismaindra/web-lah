@@ -138,6 +138,7 @@ Route::get('/sitemap.xml', function () {
     $kategoris = Kategori::all();
     $eras = Era::all();
     $topiks = Topik::all();
+    $penulises = Penulis::all();
 
     $staticUrls = [
         ['url' => url('/'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '1.0'],
@@ -174,6 +175,13 @@ Route::get('/sitemap.xml', function () {
             'lastmod' => now()->toAtomString(),
             'changefreq' => 'weekly',
             'priority' => '0.5',
+        ];
+    })->all(), $penulises->map(function ($penulis) {
+        return [
+            'url' => route('penulis.show', $penulis),
+            'lastmod' => $penulis->updated_at->toAtomString(),
+            'changefreq' => 'monthly',
+            'priority' => '0.4',
         ];
     })->all());
 

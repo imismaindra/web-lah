@@ -12,7 +12,7 @@
             'description' => $total > 0
                 ? "Ditemukan {$total} artikel untuk \"{$query}\""
                 : "Tidak ada hasil untuk \"{$query}\"",
-            'url' => route('search', ['q' => $query]),
+            'noindex' => true,
             'section' => 'Pencarian',
         ])
 

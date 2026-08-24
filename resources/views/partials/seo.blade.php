@@ -2,10 +2,11 @@
     $title = $title ?? config('app.name', 'Look at History');
     $description = $description ?? 'Blog sejarah dunia ringkas & terpercaya. Temukan artikel peradaban kuno, perang dunia, tokoh sejarah, dan peristiwa penting masa lalu.';
     $image = $image ?? asset('logo_LAH.jpg');
+    $noindex = $noindex ?? false;
 
     $canonicalUrl = rtrim(config('app.url'), '/') . '/' . ltrim(request()->path(), '/');
 
-    $url = $url ?? $canonicalUrl;
+    $url = $canonicalUrl;
 
     $type = $type ?? 'website';
     $publishedTime = $publishedTime ?? null;
@@ -14,6 +15,12 @@
     $section = $section ?? null;
     $tags = $tags ?? [];
 @endphp
+
+@if ($noindex)
+<meta name="robots" content="noindex, nofollow">
+@endif
+
+<meta name="description" content="{{ $description }}">
 
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $description }}">
@@ -40,8 +47,6 @@
 @foreach ($tags as $tag)
 <meta property="article:tag" content="{{ $tag }}">
 @endforeach
-
-<meta name="description" content="{{ $description }}">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ $title }}">

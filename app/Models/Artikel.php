@@ -22,6 +22,7 @@ class Artikel extends Model
         'slug',
         'ringkasan',
         'konten',
+        'faq',
         'gambar',
         'status',
         'views',
@@ -31,6 +32,7 @@ class Artikel extends Model
     {
         return [
             'views' => 'integer',
+            'faq' => 'array',
         ];
     }
 

@@ -63,9 +63,16 @@ class ArtikelController extends Controller
             'judul' => 'required|string|max:255',
             'ringkasan' => 'nullable|string|max:1000',
             'konten' => 'required|string',
+            'faq' => 'nullable|array|max:20',
+            'faq.*.question' => 'required_with:faq|string|max:255',
+            'faq.*.answer' => 'required_with:faq|string|max:2000',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
         ]);
+
+        $validated['faq'] = collect($validated['faq'] ?? [])
+            ->filter(fn ($f) => filled($f['question'] ?? null) && filled($f['answer'] ?? null))
+            ->values()->all() ?: null;
 
         $validated['slug'] = Str::slug($validated['judul']);
         $validated['user_id'] = auth()->id();
@@ -107,9 +114,16 @@ class ArtikelController extends Controller
             'judul' => 'required|string|max:255',
             'ringkasan' => 'nullable|string|max:1000',
             'konten' => 'required|string',
+            'faq' => 'nullable|array|max:20',
+            'faq.*.question' => 'required_with:faq|string|max:255',
+            'faq.*.answer' => 'required_with:faq|string|max:2000',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
         ]);
+
+        $validated['faq'] = collect($validated['faq'] ?? [])
+            ->filter(fn ($f) => filled($f['question'] ?? null) && filled($f['answer'] ?? null))
+            ->values()->all() ?: null;
 
         if ($request->hasFile('gambar')) {
             if ($artikel->gambar) {

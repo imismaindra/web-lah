@@ -19,7 +19,7 @@ class RedirectToNonWww
             $needsRedirect = true;
         }
 
-        if (! $isSecure) {
+        if (app()->environment('production') && ! $isSecure) {
             $needsRedirect = true;
         }
 

@@ -47,6 +47,19 @@
             if ($artikel->kategori) {
                 $articleSchema['articleSection'] = $artikel->kategori->nama;
             }
+
+            $faqSchema = null;
+            if (!empty($artikel->faq) && is_array($artikel->faq)) {
+                $faqSchema = [
+                    '@context' => 'https://schema.org',
+                    '@type' => 'FAQPage',
+                    'mainEntity' => array_map(fn ($f) => [
+                        '@type' => 'Question',
+                        'name' => $f['question'],
+                        'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['answer']],
+                    ], $artikel->faq),
+                ];
+            }
         @endphp
 
         @include('partials.seo', [
@@ -62,6 +75,10 @@
             'tags' => $artikel->topiks?->pluck('nama')->toArray() ?? [],
             'schema' => $articleSchema,
         ])
+
+        @if ($faqSchema)
+            <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
+        @endif
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 
@@ -81,11 +98,11 @@
                 margin-bottom: 0;
             }
 
-            .article-body p:first-child,
-            .article-body h1,
-            .article-body h2,
-            .article-body h3,
-            .article-body h4,
+            .article-body > :first-child,
+            .article-body h1 + p,
+            .article-body h2 + p,
+            .article-body h3 + p,
+            .article-body h4 + p,
             .article-body blockquote,
             .article-body .key-point,
             .article-body figure { text-indent: 0; }
@@ -115,7 +132,7 @@
                 padding: 0.35rem 0.625rem;
                 font-size: 0.8125rem;
                 line-height: 1.5;
-                color: #78716c;
+                color: #57534e;
                 border-radius: 0.375rem;
                 transition: all 0.15s ease;
                 text-decoration: none;
@@ -263,7 +280,8 @@
                 border-left: 3px solid #1e3a5f;
                 background: rgb(30 58 95 / 0.05);
                 padding: 1rem 1.5rem;
-                border-radius: 0 1rem 1rem 0;
+                margin: 1.5rem 0;
+                border-radius: 0 0.75rem 0.75rem 0;
                 font-style: italic;
                 color: #57534e;
             }
@@ -275,13 +293,17 @@
             }
 
             .article-body figure {
-                margin: 2.5rem 0;
+                margin: 2rem 0;
             }
 
             .article-body figcaption {
                 margin-top: 0.75rem;
                 text-align: center;
                 font-size: 0.75rem;
+                color: #78716c;
+            }
+
+            :is(.dark) .article-body figcaption {
                 color: #a8a29e;
             }
 
@@ -292,7 +314,11 @@
             }
 
             .article-body li {
-                margin: 0.5rem 0;
+                margin: 0.25rem 0;
+            }
+
+            .article-body li p {
+                margin-bottom: 0;
             }
 
             .article-body .ql-align-left { text-align: left; }
@@ -313,8 +339,9 @@
             .article-body pre {
                 background: #f5f5f4;
                 border: 1px solid #e7e5e4;
-                border-radius: 1rem;
+                border-radius: 0.75rem;
                 padding: 1rem 1.25rem;
+                margin: 1.5rem 0;
                 overflow-x: auto;
                 font-size: 0.875rem;
                 line-height: 1.7;
@@ -339,17 +366,16 @@
                 text-underline-offset: 2px;
             }
 
+            .article-body a:hover {
+                color: #16304a;
+            }
+
             :is(.dark) .article-body a {
                 color: #5b9bd5;
             }
 
-            .breadcrumb-sep {
-                color: #a8a29e;
-                margin: 0 0.25rem;
-            }
-
-            :is(.dark) .breadcrumb-sep {
-                color: #57534e;
+            :is(.dark) .article-body a:hover {
+                color: #7ab3e0;
             }
 
             .faq-item summary {
@@ -429,34 +455,6 @@
         </header>
 
         <main>
-            {{-- Breadcrumb --}}
-            <nav class="mx-auto max-w-[1400px] px-5 pt-4 sm:px-8" aria-label="Breadcrumb">
-                <ol class="flex flex-wrap items-center text-xs font-medium text-stone-400 dark:text-stone-500" itemscope itemtype="https://schema.org/BreadcrumbList">
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <a href="/" itemprop="item" class="transition hover:text-stone-600 dark:hover:text-stone-300">
-                            <span itemprop="name">Beranda</span>
-                        </a>
-                        <meta itemprop="position" content="1">
-                    </li>
-                    <li class="breadcrumb-sep" aria-hidden="true">/</li>
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <a href="{{ route('artikel.index') }}" itemprop="item" class="transition hover:text-stone-600 dark:hover:text-stone-300">
-                            <span itemprop="name">Artikel</span>
-                        </a>
-                        <meta itemprop="position" content="2">
-                    </li>
-                    @if ($artikel->kategori)
-                        <li class="breadcrumb-sep" aria-hidden="true">/</li>
-                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                            <a href="{{ route('kategori.show', $artikel->kategori) }}" itemprop="item" class="transition hover:text-stone-600 dark:hover:text-stone-300">
-                                <span itemprop="name">{{ $artikel->kategori->nama }}</span>
-                            </a>
-                            <meta itemprop="position" content="3">
-                        </li>
-                    @endif
-                </ol>
-            </nav>
-
             {{-- Hero --}}
             <section class="relative overflow-hidden">
                 <div class="absolute inset-0">
@@ -465,31 +463,58 @@
                     @else
                         <img src="https://picsum.photos/seed/artikel-hero-{{ $artikel->id }}/1600/900" alt="{{ $artikel->judul }}" class="h-full w-full object-cover" loading="eager">
                     @endif
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#faf9f7] via-[#faf9f7]/60 to-transparent dark:from-[#0f0f0e] dark:via-[#0f0f0e]/60"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#faf9f7]/80 to-transparent dark:from-[#0f0f0e]/80"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0f0f0e] via-[#0f0f0e]/70 to-[#0f0f0e]/40"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#0f0f0e]/80 via-[#0f0f0e]/40 to-transparent"></div>
                 </div>
 
-                <div class="relative mx-auto max-w-[1400px] px-5 pt-8 pb-16 sm:px-8 sm:pt-12 sm:pb-24">
-                    <a href="/" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">
-                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-                        Kembali
-                    </a>
+                <div class="relative mx-auto max-w-[1400px] px-5 pt-6 pb-16 sm:px-8 sm:pt-8 sm:pb-24">
+                    {{-- Breadcrumb — menyatu dengan hero overlay, bukan strip terpisah --}}
+                    <nav aria-label="Breadcrumb">
+                        <ol class="flex flex-wrap items-center gap-1.5 text-[11px] font-medium tracking-wide text-white/60" itemscope itemtype="https://schema.org/BreadcrumbList">
+                            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                <a href="/" itemprop="item" class="transition hover:text-white">
+                                    <span itemprop="name">Beranda</span>
+                                </a>
+                                <meta itemprop="position" content="1">
+                            </li>
+                            <li aria-hidden="true" class="flex items-center text-white/25">
+                                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </li>
+                            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                <a href="{{ route('artikel.index') }}" itemprop="item" class="transition hover:text-white">
+                                    <span itemprop="name">Artikel</span>
+                                </a>
+                                <meta itemprop="position" content="2">
+                            </li>
+                            @if ($artikel->kategori)
+                                <li aria-hidden="true" class="flex items-center text-white/25">
+                                    <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                </li>
+                                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                    <a href="{{ route('kategori.show', $artikel->kategori) }}" itemprop="item" class="transition hover:text-white">
+                                        <span itemprop="name">{{ $artikel->kategori->nama }}</span>
+                                    </a>
+                                    <meta itemprop="position" content="3">
+                                </li>
+                            @endif
+                        </ol>
+                    </nav>
 
-                    <div class="mt-10 max-w-2xl sm:mt-14">
+                    <div class="mt-8 max-w-2xl sm:mt-10">
                         <div class="flex items-center gap-2.5 text-xs font-semibold">
-                            <span class="rounded-full bg-[#1e3a5f]/10 px-3 py-1 text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
-                            <span class="text-stone-300 dark:text-stone-600">&middot;</span>
-                            <span class="text-stone-400 dark:text-stone-500">{{ $artikel->created_at->format('d M Y') }}</span>
-                            <span class="text-stone-300 dark:text-stone-600">&middot;</span>
-                            <span class="text-stone-400 dark:text-stone-500">{{ ceil(str_word_count(strip_tags($artikel->konten)) / 200) }} menit baca</span>
+                            <span class="rounded-full bg-white/10 px-3 py-1 text-white backdrop-blur">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
+                            <span class="text-white/25">&middot;</span>
+                            <span class="font-medium text-white/60">{{ $artikel->created_at->format('d M Y') }}</span>
+                            <span class="text-white/25">&middot;</span>
+                            <span class="font-medium text-white/60">{{ ceil(str_word_count(strip_tags($artikel->konten)) / 200) }} menit baca</span>
                         </div>
 
-                        <h1 class="mt-5 font-serif text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
+                        <h1 class="mt-5 font-serif text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl">
                             {{ $artikel->judul }}
                         </h1>
 
                         @if ($artikel->ringkasan)
-                            <p class="mt-5 max-w-xl text-base leading-relaxed text-stone-500 dark:text-stone-400">
+                            <p class="mt-5 max-w-xl text-base leading-relaxed text-white/70">
                                 {{ $artikel->ringkasan }}
                             </p>
                         @endif
@@ -498,28 +523,28 @@
                             @if ($artikel->author->penulis)
                                 <a href="{{ route('penulis.show', $artikel->author->penulis) }}" class="flex items-center gap-3.5 group">
                                     @if ($artikel->author->penulis->avatar)
-                                        <img src="{{ asset('storage/' . $artikel->author->penulis->avatar) }}" alt="{{ $artikel->author->penulis->nama }}" class="h-11 w-11 rounded-full object-cover">
+                                        <img src="{{ asset('storage/' . $artikel->author->penulis->avatar) }}" alt="{{ $artikel->author->penulis->nama }}" class="h-11 w-11 rounded-full object-cover ring-1 ring-white/10">
                                     @else
-                                        <div class="flex h-11 w-11 items-center justify-center rounded-full bg-stone-100 font-serif text-sm font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                        <div class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 font-serif text-sm font-bold text-white ring-1 ring-white/10">
                                             {{ substr($artikel->author->name ?? 'A', 0, 1) }}
                                         </div>
                                     @endif
                                     <div class="text-sm">
-                                        <p class="font-semibold transition group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $artikel->author->penulis->nama }}</p>
-                                        <p class="text-xs text-stone-400 dark:text-stone-500">Penulis</p>
+                                        <p class="font-semibold text-white transition group-hover:text-white">{{ $artikel->author->penulis->nama }}</p>
+                                        <p class="text-xs text-white/60">Penulis</p>
                                     </div>
                                 </a>
                             @else
                                 @if ($artikel->author->penulis?->avatar)
-                                    <img src="{{ asset('storage/' . $artikel->author->penulis->avatar) }}" alt="{{ $artikel->author->name ?? 'Penulis' }}" class="h-11 w-11 rounded-full object-cover">
+                                    <img src="{{ asset('storage/' . $artikel->author->penulis->avatar) }}" alt="{{ $artikel->author->name ?? 'Penulis' }}" class="h-11 w-11 rounded-full object-cover ring-1 ring-white/10">
                                 @else
-                                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-stone-100 font-serif text-sm font-bold text-stone-500 dark:bg-white/[0.05] dark:text-stone-400">
+                                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 font-serif text-sm font-bold text-white ring-1 ring-white/10">
                                         {{ substr($artikel->author->name ?? 'A', 0, 1) }}
                                     </div>
                                 @endif
                                 <div class="text-sm">
-                                    <p class="font-semibold">{{ $artikel->author->name ?? 'Redaksi' }}</p>
-                                    <p class="text-xs text-stone-400 dark:text-stone-500">Penulis</p>
+                                    <p class="font-semibold text-white">{{ $artikel->author->name ?? 'Redaksi' }}</p>
+                                    <p class="text-xs text-white/60">Penulis</p>
                                 </div>
                             @endif
                         </div>
@@ -535,6 +560,25 @@
                         <div class="article-body text-[17px] leading-[1.8] text-stone-600 dark:text-stone-300">
                             {!! $artikel->konten !!}
                         </div>
+
+                        @if (!empty($artikel->faq))
+                            <section class="mt-10" aria-label="FAQ">
+                                <h2 class="font-serif text-xl font-bold tracking-tight">Pertanyaan Umum</h2>
+                                <div class="mt-4 space-y-3">
+                                    @foreach ($artikel->faq as $faq)
+                                        <details class="faq-item group rounded-xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
+                                            <summary class="flex items-center justify-between gap-4 px-5 py-4 text-sm font-semibold">
+                                                <span>{{ $faq['question'] }}</span>
+                                                <svg class="faq-chevron h-4 w-4 shrink-0 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                                            </summary>
+                                            <div class="px-5 pb-4 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
+                                                {{ $faq['answer'] }}
+                                            </div>
+                                        </details>
+                                    @endforeach
+                                </div>
+                            </section>
+                        @endif
 
                         {{-- Author Bio --}}
                         <div class="mt-10 rounded-2xl border border-stone-200/60 bg-white p-6 sm:p-8 dark:border-white/[0.06] dark:bg-[#171716]">
@@ -720,12 +764,12 @@
                     <aside class="hidden lg:block">
                         <div class="sticky top-24 space-y-8">
                             {{-- Table of Contents --}}
-                            <div class="rounded-2xl border border-stone-200/60 bg-stone-50 dark:border-white/[0.04] dark:bg-white/[0.02]" id="toc-wrapper">
-                                <button type="button" id="toc-toggle" class="flex w-full items-center justify-between px-5 py-4 text-left" aria-expanded="false" aria-controls="toc">
-                                    <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Daftar Isi</h2>
-                                    <svg id="toc-chevron" class="h-3.5 w-3.5 text-stone-400 transition-transform duration-200 dark:text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                            <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]" id="toc-wrapper">
+                                <button type="button" id="toc-toggle" class="flex w-full items-center justify-between text-left" aria-expanded="false" aria-controls="toc">
+                                    <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">Daftar Isi</h2>
+                                    <svg id="toc-chevron" class="h-3.5 w-3.5 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                                 </button>
-                                <nav id="toc" class="hidden space-y-0.5 border-t border-stone-200/40 px-4 pb-3 pt-2 dark:border-white/[0.04]" aria-label="Daftar isi">
+                                <nav id="toc" class="hidden space-y-0.5 border-t border-stone-100 mt-3 pt-3 dark:border-white/[0.06]" aria-label="Daftar isi">
                                     {{-- Populated by JS --}}
                                 </nav>
                             </div>

@@ -240,6 +240,29 @@
                     @enderror
                 </div>
 
+                {{-- FAQ --}}
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">FAQ</label>
+                        <button type="button" id="faq-add" class="text-xs font-semibold text-[#1e3a5f] hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">+ Tambah FAQ</button>
+                    </div>
+                    <p class="mb-3 text-[11px] text-stone-400 dark:text-stone-500">Opsional. Maks 20. Kosongkan jika tidak perlu — tampil sebagai accordion + FAQ schema SEO.</p>
+                    <div id="faq-list" class="space-y-3">
+                        @php $oldFaq = old('faq', []); @endphp
+                        @forelse ($oldFaq as $i => $f)
+                            <div class="faq-row rounded-lg border border-stone-200 bg-white p-3 dark:border-white/10 dark:bg-white/[0.03]">
+                                <input type="text" name="faq[{{ $i }}][question]" value="{{ $f['question'] ?? '' }}" placeholder="Pertanyaan" class="mb-2 w-full rounded-md border border-stone-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200">
+                                <textarea name="faq[{{ $i }}][answer]" rows="2" placeholder="Jawaban" class="w-full rounded-md border border-stone-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200">{{ $f['answer'] ?? '' }}</textarea>
+                                <button type="button" class="faq-remove mt-2 text-xs font-medium text-red-500 hover:text-red-600">Hapus</button>
+                            </div>
+                        @empty
+                        @endforelse
+                    </div>
+                    @error('faq')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                    @error('faq.*.question')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                    @error('faq.*.answer')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                </div>
+
                 {{-- Divider --}}
                 <div class="h-px bg-stone-200/60 dark:bg-white/[0.06]"></div>
 
@@ -354,6 +377,20 @@
             }
             ringkasan.addEventListener('input', updateCount);
             updateCount();
+
+            // FAQ
+            const faqList = document.getElementById('faq-list');
+            const faqAdd = document.getElementById('faq-add');
+            function faqIndex(){ return faqList.querySelectorAll('.faq-row').length; }
+            function addFaqRow(q='',a=''){
+                const i = faqIndex();
+                const div = document.createElement('div');
+                div.className = 'faq-row rounded-lg border border-stone-200 bg-white p-3 dark:border-white/10 dark:bg-white/[0.03]';
+                div.innerHTML = '<input type="text" name="faq['+i+'][question]" value="'+q.replaceAll('"','&quot;')+'" placeholder="Pertanyaan" class="mb-2 w-full rounded-md border border-stone-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200"><textarea name="faq['+i+'][answer]" rows="2" placeholder="Jawaban" class="w-full rounded-md border border-stone-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200">'+a+'</textarea><button type="button" class="faq-remove mt-2 text-xs font-medium text-red-500 hover:text-red-600">Hapus</button>';
+                faqList.appendChild(div);
+            }
+            faqAdd.addEventListener('click', function(){ if(faqIndex()<20) addFaqRow(); });
+            faqList.addEventListener('click', function(e){ if(e.target.classList.contains('faq-remove')) e.target.closest('.faq-row').remove(); });
         });
     </script>
 @endpush

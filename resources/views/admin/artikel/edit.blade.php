@@ -82,11 +82,19 @@
             font-style: italic;
             outline: none;
             min-height: 1em;
+            cursor: pointer;
         }
         .ql-editor figure figcaption:empty::before {
-            content: 'Tulis caption...';
+            content: 'Klik untuk tulis caption...';
             color: #a8a29e;
         }
+        .ql-editor figure { position: relative; }
+        .ql-editor figure.ql-figure-selected { outline: 2px solid #5b9bd5; outline-offset: 2px; border-radius: 0.5rem; }
+        .ql-editor .ql-resize-handle {
+            position: absolute; width: 12px; height: 12px; background: #5b9bd5; border: 2px solid #fff; border-radius: 2px;
+            right: -6px; bottom: 18px; cursor: nwse-resize; display: none; box-shadow: 0 1px 4px rgba(0,0,0,.2);
+        }
+        .ql-editor figure.ql-figure-selected .ql-resize-handle { display: block; }
         .ql-editor a { color: #1e3a5f; }
 
         @media (prefers-color-scheme: dark) {
@@ -391,17 +399,19 @@
                     const img = document.createElement('img');
                     img.setAttribute('src', value.src);
                     if (value.caption) img.setAttribute('alt', value.caption);
+                    if (value.width) img.style.width = value.width;
                     node.appendChild(img);
                     const cap = document.createElement('figcaption');
                     cap.innerText = value.caption || '';
-                    cap.setAttribute('contenteditable', 'true');
                     node.appendChild(cap);
                     return node;
                 }
                 static value(node) {
+                    const img = node.querySelector('img');
                     return {
-                        src: node.querySelector('img')?.getAttribute('src') || '',
-                        caption: node.querySelector('figcaption')?.innerText || ''
+                        src: img?.getAttribute('src') || '',
+                        caption: node.querySelector('figcaption')?.innerText || '',
+                        width: img?.style.width || ''
                     };
                 }
             }
@@ -438,6 +448,61 @@
 
             document.getElementById('artikel-form').addEventListener('submit', function() {
                 konten.value = quill.root.innerHTML;
+            });
+
+            quill.root.addEventListener('click', function(e) {
+                const cap = e.target.closest('figcaption');
+                if (cap && cap.closest('figure')) {
+                    e.preventDefault(); e.stopPropagation();
+                    const fig = cap.closest('figure');
+                    const img = fig.querySelector('img');
+                    const old = cap.innerText;
+                    const next = prompt('Edit caption:', old);
+                    if (next === null) return;
+                    cap.innerText = next;
+                    if (img) img.setAttribute('alt', next);
+                    konten.value = quill.root.innerHTML;
+                }
+            });
+            let selFig = null, startX = 0, startW = 0;
+            function ensureHandle(fig) {
+                if (!fig.querySelector('.ql-resize-handle')) {
+                    const h = document.createElement('span');
+                    h.className = 'ql-resize-handle';
+                    fig.appendChild(h);
+                    h.addEventListener('mousedown', function(ev) {
+                        ev.preventDefault();
+                        const img = fig.querySelector('img');
+                        startX = ev.clientX; startW = img.offsetWidth;
+                        selFig = fig;
+                        document.addEventListener('mousemove', onDrag);
+                        document.addEventListener('mouseup', stopDrag);
+                    });
+                }
+            }
+            function onDrag(ev) {
+                if (!selFig) return;
+                const img = selFig.querySelector('img');
+                const dx = ev.clientX - startX;
+                const maxW = selFig.parentElement.offsetWidth;
+                const newW = Math.max(120, Math.min(maxW, startW + dx));
+                img.style.width = newW + 'px';
+            }
+            function stopDrag() {
+                document.removeEventListener('mousemove', onDrag);
+                document.removeEventListener('mouseup', stopDrag);
+                konten.value = quill.root.innerHTML;
+                selFig = null;
+            }
+            quill.root.addEventListener('click', function(e) {
+                const fig = e.target.closest('figure');
+                if (fig && e.target.tagName === 'IMG') {
+                    document.querySelectorAll('.ql-editor figure.ql-figure-selected').forEach(function(f){ f.classList.remove('ql-figure-selected'); });
+                    fig.classList.add('ql-figure-selected');
+                    ensureHandle(fig);
+                } else if (!e.target.closest('figure')) {
+                    document.querySelectorAll('.ql-editor figure.ql-figure-selected').forEach(function(f){ f.classList.remove('ql-figure-selected'); });
+                }
             });
 
             // Quill image upload handler

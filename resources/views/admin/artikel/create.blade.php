@@ -270,6 +270,25 @@
                     @enderror
                 </div>
 
+                {{-- SEO --}}
+                <div class="space-y-3">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">SEO</h3>
+                    <div>
+                        <label for="meta_title" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Meta Title <span class="font-normal text-stone-400">(opsional)</span></label>
+                        <input type="text" id="meta_title" name="meta_title" value="{{ old('meta_title') }}" maxlength="255" placeholder="Kosongkan = pakai judul" class="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">
+                        <p class="mt-1 text-right text-[10px] text-stone-300 dark:text-stone-600"><span id="meta-title-count">0</span>/60 ideal, 255 max</p>
+                        @error('meta_title')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                    </div>
+                    <div>
+                        <label for="meta_description" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Meta Description <span class="font-normal text-stone-400">(opsional)</span></label>
+                        <textarea id="meta_description" name="meta_description" rows="3" maxlength="300" placeholder="Kosongkan = pakai ringkasan" class="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">{{ old('meta_description') }}</textarea>
+                        <p class="mt-1 text-right text-[10px] text-stone-300 dark:text-stone-600"><span id="meta-desc-count">0</span>/160 ideal, 300 max</p>
+                        @error('meta_description')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                    </div>
+                </div>
+
+                <div class="h-px bg-stone-200/60 dark:bg-white/[0.06]"></div>
+
                 {{-- FAQ --}}
                 <div>
                     <div class="flex items-center justify-between mb-2">
@@ -483,6 +502,12 @@
             }
             ringkasan.addEventListener('input', updateCount);
             updateCount();
+            // SEO counters
+            const mt = document.getElementById('meta_title'), mtc = document.getElementById('meta-title-count');
+            const md = document.getElementById('meta_description'), mdc = document.getElementById('meta-desc-count');
+            function updMt(){ if(mt&&mtc) mtc.textContent = mt.value.length; }
+            function updMd(){ if(md&&mdc) mdc.textContent = md.value.length; }
+            mt?.addEventListener('input', updMt); md?.addEventListener('input', updMd); updMt(); updMd();
 
             // FAQ
             const faqList = document.getElementById('faq-list');

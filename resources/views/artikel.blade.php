@@ -7,10 +7,11 @@
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9007848909516103"
             crossorigin="anonymous"></script>
 
-        <title>{{ $artikel->judul }} — {{ config('app.name', 'Look at History') }}</title>
+        @php $seoTitle = $artikel->meta_title ?: $artikel->judul; @endphp
+        <title>{{ $seoTitle }} — {{ config('app.name', 'Look at History') }}</title>
 
         @php
-            $articleDescription = $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 160);
+            $articleDescription = $artikel->meta_description ?: ($artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 160));
             $articleImage = $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('logo_LAH.jpg');
             $articleUrl = route('artikel.show', $artikel);
             $articleAuthor = $artikel->author->penulis->nama ?? $artikel->author->name ?? 'Look at History';
@@ -63,7 +64,7 @@
         @endphp
 
         @include('partials.seo', [
-            'title' => $artikel->judul,
+            'title' => $seoTitle,
             'description' => $articleDescription,
             'image' => $articleImage,
             'url' => $articleUrl,

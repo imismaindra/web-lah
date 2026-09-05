@@ -19,6 +19,8 @@ class Artikel extends Model
         'era_id',
         'user_id',
         'judul',
+        'meta_title',
+        'meta_description',
         'slug',
         'ringkasan',
         'konten',

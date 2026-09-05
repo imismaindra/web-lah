@@ -45,7 +45,7 @@ Route::get('/', function () {
 
     $kategoris = Kategori::withCount(['artikel' => function ($q) {
         $q->published();
-    }])->orderByDesc('artikel_count')->get();
+    }])->whereHas('artikel', fn ($q) => $q->published())->orderByDesc('artikel_count')->get();
 
     $popularArtikels = Artikel::published()
         ->orderByDesc('views')
@@ -60,6 +60,13 @@ Route::get('/', function () {
         $q->published();
     }])->orderBy('urutan')->get();
 
+    $kategoriSorotan = Kategori::withCount(['artikel' => fn ($q) => $q->published()])
+        ->whereHas('artikel', fn ($q) => $q->published())
+        ->orderByDesc('artikel_count')->take(3)->get()
+        ->load(['artikel' => fn ($q) => $q->published()->latest()->take(3)->with('kategori')]);
+
+    $totalArtikels = Artikel::published()->count();
+
     return view('welcome', compact(
         'featuredArtikel',
         'latestArtikels',
@@ -67,6 +74,8 @@ Route::get('/', function () {
         'popularArtikels',
         'eras',
         'topiks',
+        'kategoriSorotan',
+        'totalArtikels',
     ));
 });
 

@@ -136,25 +136,31 @@
                 </div>
             </section>
 
-            <section id="perjalanan-waktu" class="scroll-mt-24 py-8 sm:py-10">
-                <h2 class="font-serif text-xl font-bold tracking-tight">Perjalanan Waktu</h2>
-                <div class="mt-5 flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                    @forelse ($eras as $era)
-                        <a href="{{ route('era.show', $era) }}" class="group relative h-64 w-56 flex-shrink-0 overflow-hidden rounded-2xl sm:w-64">
+            <section id="perjalanan-waktu" class="scroll-mt-24 border-y border-stone-200/60 py-10 dark:border-white/[0.06] sm:py-12">
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Linimasa</p>
+                        <h2 class="mt-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Perjalanan Waktu</h2>
+                    </div>
+                    <p class="max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400">Telusuri era — dari kuno hingga modern, tiap periode punya arsipnya sendiri.</p>
+                </div>
+                <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    @forelse ($eras as $i => $era)
+                        <a href="{{ route('era.show', $era) }}" class="group relative overflow-hidden rounded-[1.25rem] bg-stone-900 {{ $i === 0 ? 'sm:col-span-2 lg:col-span-2 lg:row-span-1' : '' }}">
                             @if ($era->gambar)
-                                <img src="{{ asset('storage/' . $era->gambar) }}" alt="{{ $era->nama }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                                <img src="{{ asset('storage/' . $era->gambar) }}" alt="{{ $era->nama }}" class="h-64 w-full object-cover transition duration-700 group-hover:scale-[1.04] {{ $i === 0 ? 'lg:h-72' : 'h-64' }}" loading="lazy">
                             @else
-                                <img src="https://picsum.photos/seed/era-{{ $era->slug }}/400/500" alt="{{ $era->nama }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy">
+                                <img src="https://picsum.photos/seed/era-{{ $era->slug }}/400/500" alt="{{ $era->nama }}" class="h-64 w-full object-cover transition duration-700 group-hover:scale-[1.04] {{ $i === 0 ? 'lg:h-72' : 'h-64' }}" loading="lazy">
                             @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                            <div class="absolute bottom-0 left-0 p-5">
-                                <p class="text-[10px] font-bold uppercase tracking-widest text-white/60">{{ $era->periode }}</p>
-                                <h3 class="mt-1 font-serif text-lg font-bold text-white">{{ $era->nama }}</h3>
-                                <p class="mt-1 text-[11px] font-semibold text-white/50">{{ $era->artikel_count }} artikel</p>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent"></div>
+                            <div class="absolute inset-x-0 bottom-0 p-5">
+                                <span class="inline-flex rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur">{{ $era->periode }}</span>
+                                <h3 class="mt-2 font-serif text-lg font-bold leading-tight text-white">{{ $era->nama }}</h3>
+                                <p class="mt-1 text-xs font-medium text-white/60">{{ $era->artikel_count }} artikel &rarr;</p>
                             </div>
                         </a>
                     @empty
-                        <div class="flex h-64 w-full flex-shrink-0 items-center justify-center rounded-2xl border border-dashed border-stone-200 text-sm text-stone-400 dark:border-white/[0.06] dark:text-stone-500">Belum ada era</div>
+                        <div class="col-span-full flex h-64 items-center justify-center rounded-2xl border border-dashed border-stone-200 text-sm text-stone-400 dark:border-white/[0.06] dark:text-stone-500">Belum ada era</div>
                     @endforelse
                 </div>
             </section>
@@ -162,38 +168,54 @@
             <div class="grid gap-8 lg:grid-cols-[1fr_320px]">
                 <div>
                     <div id="artikel" class="scroll-mt-24">
-                        <h2 class="font-serif text-xl font-bold tracking-tight">Artikel Terbaru</h2>
+                        <div class="flex flex-wrap items-baseline justify-between gap-3">
+                            <h2 class="font-serif text-xl font-bold tracking-tight">Artikel Terbaru</h2>
+                            <a href="{{ route('artikel.index') }}" class="text-xs font-semibold text-stone-500 transition hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200">Lihat semua {{ $totalArtikels ?? $latestArtikels->count() }} &rarr;</a>
+                        </div>
+                        <p class="mt-1 text-xs text-stone-500 dark:text-stone-400">Menampilkan 6 terbaru — arsip {{ $totalArtikels ?? '—' }} artikel terkurasi</p>
 
-                        <div class="mt-6 grid gap-5 sm:grid-cols-2">
-                            @forelse ($latestArtikels as $artikel)
-                                <a href="{{ route('artikel.show', $artikel) }}" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
+                        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+                            @forelse ($latestArtikels as $i => $artikel)
+                                @php $isHero = $i === 0; @endphp
+                                <a href="{{ route('artikel.show', $artikel) }}" class="group flex flex-col overflow-hidden rounded-[1.25rem] border border-stone-200/60 bg-white transition hover:border-stone-300/60 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:border-white/[0.06] dark:bg-[#171716] dark:hover:border-white/[0.10] {{ $isHero ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2' : '' }}">
                                     <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
                                         @if ($artikel->gambar)
-                                            <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                            <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="w-full object-cover transition duration-700 group-hover:scale-[1.04] {{ $isHero ? 'h-64 sm:h-72 lg:h-[22rem]' : 'h-44' }}" loading="lazy">
                                         @else
-                                            <img src="https://picsum.photos/seed/artikel-{{ $artikel->id }}/600/400" alt="{{ $artikel->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                            <img src="https://picsum.photos/seed/artikel-{{ $artikel->id }}/600/400" alt="{{ $artikel->judul }}" class="w-full object-cover transition duration-700 group-hover:scale-[1.04] {{ $isHero ? 'h-64 sm:h-72 lg:h-[22rem]' : 'h-44' }}" loading="lazy">
+                                        @endif
+                                        @if ($isHero)
+                                            <span class="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-stone-900 backdrop-blur dark:bg-white dark:text-stone-900">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
                                         @endif
                                     </div>
-                                    <div class="p-5">
+                                    <div class="flex flex-1 flex-col p-5">
                                         <div class="flex items-center gap-2 text-xs font-semibold">
-                                            <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
-                                            <span class="text-stone-300 dark:text-stone-600">&middot;</span>
+                                            @if (!$isHero)
+                                                <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
+                                                <span class="text-stone-300 dark:text-stone-600">&middot;</span>
+                                            @endif
                                             <span class="text-stone-400 dark:text-stone-500">{{ $artikel->created_at->format('d M Y') }}</span>
                                         </div>
-                                        <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
+                                        <h3 class="mt-2 line-clamp-2 font-serif font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] {{ $isHero ? 'text-xl lg:text-2xl' : 'text-[15px]' }}">
                                             {{ $artikel->judul }}
                                         </h3>
-                                        <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                                            {{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 120) }}
+                                        <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400 {{ $isHero ? 'sm:text-sm' : '' }}">
+                                            {{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), $isHero ? 140 : 90) }}
                                         </p>
+                                        @if ($isHero)
+                                            <span class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#1e3a5f] dark:text-[#5b9bd5]">Baca &rarr;</span>
+                                        @endif
                                     </div>
                                 </a>
                             @empty
-                                <div class="col-span-2 rounded-2xl border border-dashed border-stone-200 bg-white p-8 text-center dark:border-white/[0.06] dark:bg-[#171716]">
+                                <div class="col-span-full rounded-2xl border border-dashed border-stone-200 bg-white p-8 text-center dark:border-white/[0.06] dark:bg-[#171716]">
                                     <p class="text-sm text-stone-400 dark:text-stone-500">Belum ada artikel yang dipublikasikan.</p>
                                 </div>
                             @endforelse
                         </div>
+                        @if (($totalArtikels ?? 0) > 6)
+                            <a href="{{ route('artikel.index') }}" class="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:bg-stone-50 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-200 dark:hover:bg-white/[0.07]">Jelajahi {{ $totalArtikels }} artikel &rarr;</a>
+                        @endif
                     </div>
                 </div>
 
@@ -232,56 +254,87 @@
                 </aside>
             </div>
 
-            <section class="py-10 sm:py-14">
-                <div class="flex items-baseline justify-between gap-4">
-                    <h2 class="font-serif text-xl font-bold tracking-tight sm:text-2xl">Jelajahi Topik</h2>
-                    <p class="text-xs font-semibold text-stone-400 dark:text-stone-500">{{ $topiks->count() }} topik sejarah</p>
+            @if (($kategoriSorotan ?? collect())->isNotEmpty())
+            <section class="border-t border-stone-200/60 py-12 dark:border-white/[0.06] sm:py-16">
+                <div class="flex flex-wrap items-end justify-between gap-6">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Indeks Kategori</p>
+                        <h2 class="mt-2 font-serif text-3xl font-bold tracking-tight sm:text-4xl">Sorotan Kategori</h2>
+                    </div>
+                    <p class="max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400">Text-first, bukan kartu lagi — beda keluarga layout dari Artikel Terbaru yang image-bento.</p>
                 </div>
-                <div class="mt-6 grid gap-x-10 sm:grid-cols-2">
-                    @php $n = 0; @endphp
-                    @forelse ($topiks->chunk(8) as $column)
-                        <ul>
-                            @foreach ($column as $topik)
-                                @php $n++; @endphp
-                                <li>
-                                    <a href="{{ route('topik.show', $topik) }}" class="group flex items-baseline justify-between gap-4 border-b border-stone-200/70 py-3.5 transition hover:border-[#1e3a5f]/40 dark:border-white/[0.06] dark:hover:border-[#5b9bd5]/40">
-                                        <span class="flex min-w-0 items-baseline gap-3">
-                                            <span class="shrink-0 font-serif text-sm font-bold text-stone-300 dark:text-stone-600">{{ str_pad($n, 2, '0', STR_PAD_LEFT) }}</span>
-                                            <span class="truncate font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-200 dark:group-hover:text-[#5b9bd5]">{{ $topik->nama }}</span>
-                                        </span>
-                                        <span class="shrink-0 text-xs font-semibold text-stone-400 transition group-hover:text-[#1e3a5f] dark:text-stone-500 dark:group-hover:text-[#5b9bd5]">{{ $topik->artikel_count }}</span>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @empty
-                        <div class="col-span-2 flex h-40 items-center justify-center rounded-2xl border border-dashed border-stone-200 text-sm text-stone-400 dark:border-white/[0.06] dark:text-stone-500">Belum ada topik</div>
-                    @endforelse
+                <div class="mt-8 grid gap-10 lg:grid-cols-3">
+                    @foreach ($kategoriSorotan as $kat)
+                        <div class="border-t-2 border-stone-900 pt-5 dark:border-white">
+                            <div class="flex items-baseline justify-between gap-3">
+                                <a href="{{ route('kategori.show', $kat) }}" class="font-serif text-lg font-bold tracking-tight hover:text-[#1e3a5f] dark:hover:text-[#5b9bd5]">{{ $kat->nama }}</a>
+                                <span class="font-mono text-xs font-semibold text-stone-400 dark:text-stone-500">{{ $kat->artikel_count }} arsip</span>
+                            </div>
+                            <ol class="mt-5 space-y-4">
+                                @foreach ($kat->artikel as $idx => $art)
+                                    <li class="group flex gap-4">
+                                        <span class="shrink-0 font-serif text-sm font-bold text-stone-300 dark:text-stone-600">0{{ $idx + 1 }}</span>
+                                        <div class="min-w-0 flex-1">
+                                            <a href="{{ route('artikel.show', $art) }}" class="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-[#5b9bd5]">{{ $art->judul }}</a>
+                                            <p class="mt-1 text-[11px] font-medium text-stone-400 dark:text-stone-500">{{ $art->created_at->format('d M Y') }}</p>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ol>
+                            <a href="{{ route('kategori.show', $kat) }}" class="mt-6 inline-flex items-center gap-1.5 border-t border-stone-200 pt-4 text-xs font-semibold uppercase tracking-widest text-stone-500 transition hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:text-white">Lihat arsip <span class="transition group-hover:translate-x-0.5">&rarr;</span></a>
+                        </div>
+                    @endforeach
                 </div>
             </section>
+            @endif
 
-            <section class="overflow-hidden rounded-2xl bg-stone-900 px-6 py-12 sm:px-12 sm:py-16 dark:bg-white/[0.04]">
-                <div class="mx-auto max-w-xl text-center">
-                    <h2 class="font-serif text-2xl font-bold tracking-tight text-white sm:text-3xl dark:text-[#e5e5e3]">Tidak Ketinggalan Cerita</h2>
-                    <p class="mt-3 text-sm leading-relaxed text-stone-400 dark:text-stone-500">
-                        Dapatkan artikel sejarah dunia terbaru langsung di inbox kamu. Tanpa spam, kapan saja.
-                    </p>
-                    @if (session('success'))
-                        <div class="mt-6 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm font-medium text-emerald-300">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                    @if ($errors->has('email'))
-                        <div class="mt-6 rounded-xl border border-red-400/20 bg-red-400/10 p-4 text-sm font-medium text-red-300">
-                            {{ $errors->first('email') }}
-                        </div>
-                    @endif
-                    <form id="newsletter-form" method="POST" action="{{ route('newsletter.subscribe') }}" class="mt-6 flex flex-col gap-3 sm:flex-row">
-                        @csrf
-                        <input type="email" name="email" value="{{ old('email') }}" placeholder="email@kamu.com" class="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:border-[#5b9bd5] focus:outline-none focus:ring-1 focus:ring-[#5b9bd5] dark:border-stone-700 dark:bg-stone-800 dark:text-[#e5e5e3] dark:placeholder:text-stone-500">
-                        <button type="submit" class="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-stone-900 transition hover:bg-stone-200 dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">Berlangganan</button>
-                    </form>
-                    <p class="mt-3 text-[11px] text-stone-500 dark:text-stone-600">Kami hormati privasi kamu. Berhenti kapan saja.</p>
+            <section class="border-t border-stone-200/60 py-10 dark:border-white/[0.06] sm:py-14">
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Tagar Sejarah</p>
+                        <h2 class="mt-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Jelajahi Topik</h2>
+                    </div>
+                    <p class="max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400">Loncat ke minatmu — {{ $topiks->count() }} topik kurasi, semua terhubung ke arsip.</p>
+                </div>
+                @if ($topiks->isNotEmpty())
+                    <div class="mt-6 flex flex-wrap gap-2.5">
+                        @foreach ($topiks as $topik)
+                            <a href="{{ route('topik.show', $topik) }}" class="group inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/5 hover:text-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-[#5b9bd5]/20 dark:hover:bg-[#5b9bd5]/10 dark:hover:text-[#5b9bd5]">
+                                <span>{{ $topik->nama }}</span>
+                                <span class="rounded-full bg-stone-100 px-1.5 py-0.5 text-xs font-semibold text-stone-500 group-hover:bg-[#1e3a5f]/10 dark:bg-white/10 dark:text-stone-400">{{ $topik->artikel_count }}</span>
+                            </a>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="mt-6 flex h-24 items-center justify-center rounded-2xl border border-dashed border-stone-200 text-sm text-stone-400 dark:border-white/[0.06] dark:text-stone-500">Belum ada topik</div>
+                @endif
+            </section>
+
+            <section class="overflow-hidden rounded-[1.5rem] border border-stone-900 bg-stone-900 px-6 py-10 dark:border-white/[0.06] dark:bg-[#171716] sm:px-10 sm:py-12">
+                <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-white/50">Newsletter</p>
+                        <h2 class="mt-2 font-serif text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">Tidak Ketinggalan<br>Cerita</h2>
+                        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/60">
+                            Artikel sejarah terbaru, sekali seminggu. Tanpa spam — berhenti kapan saja.
+                        </p>
+                    </div>
+                    <div>
+                        @if (session('success'))
+                            <div class="mb-4 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-3 text-sm font-medium text-emerald-200">{{ session('success') }}</div>
+                        @endif
+                        @if ($errors->has('email'))
+                            <div class="mb-4 rounded-xl border border-red-400/20 bg-red-400/10 p-3 text-sm font-medium text-red-200">{{ $errors->first('email') }}</div>
+                        @endif
+                        <form id="newsletter-form" method="POST" action="{{ route('newsletter.subscribe') }}" class="flex flex-col gap-3">
+                            @csrf
+                            <div class="flex flex-col gap-3 sm:flex-row">
+                                <input type="email" name="email" value="{{ old('email') }}" placeholder="email@kamu.com" class="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-white/20 focus:outline-none focus:ring-1 focus:ring-white/20">
+                                <button type="submit" class="shrink-0 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-stone-900 transition hover:bg-stone-100 active:scale-[0.98]">Berlangganan</button>
+                            </div>
+                            <p class="text-[11px] leading-relaxed text-white/40">Kami hormati privasi kamu. Satu klik berhenti.</p>
+                        </form>
+                    </div>
                 </div>
             </section>
         </main>

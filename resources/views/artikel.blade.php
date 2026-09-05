@@ -206,6 +206,21 @@
             .article-body img {
                 border-radius: 1rem;
                 max-width: 100%;
+                height: auto;
+            }
+
+            .article-body p.ql-align-center { text-align: center; }
+            .article-body p.ql-align-center img,
+            .article-body img.ql-align-center,
+            .article-body .ql-align-center img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .article-body figure img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .article-body h1 {

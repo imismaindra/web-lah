@@ -45,6 +45,32 @@
         .ql-editor img {
             border-radius: 0.75rem;
             max-width: 100%;
+            height: auto;
+        }
+        .ql-editor .ql-align-center img,
+        .ql-editor img.ql-align-center { display: block; margin-left: auto; margin-right: auto; }
+        .ql-editor p.ql-align-center { text-align: center; }
+        .ql-editor figure {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .ql-editor figure img {
+            display: block;
+            margin: 0 auto;
+            border-radius: 0.75rem;
+            max-width: 100%;
+        }
+        .ql-editor figcaption {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #78716c;
+            font-style: italic;
+            outline: none;
+            min-height: 1em;
+        }
+        .ql-editor figure figcaption:empty::before {
+            content: 'Tulis caption...';
+            color: #a8a29e;
         }
         .ql-editor a { color: #1e3a5f; }
 
@@ -291,6 +317,31 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const BlockEmbed = Quill.import('blots/block/embed');
+            class FigureBlot extends BlockEmbed {
+                static create(value) {
+                    const node = super.create();
+                    const img = document.createElement('img');
+                    img.setAttribute('src', value.src);
+                    if (value.caption) img.setAttribute('alt', value.caption);
+                    node.appendChild(img);
+                    const cap = document.createElement('figcaption');
+                    cap.innerText = value.caption || '';
+                    cap.setAttribute('contenteditable', 'true');
+                    node.appendChild(cap);
+                    return node;
+                }
+                static value(node) {
+                    return {
+                        src: node.querySelector('img')?.getAttribute('src') || '',
+                        caption: node.querySelector('figcaption')?.innerText || ''
+                    };
+                }
+            }
+            FigureBlot.blotName = 'figure';
+            FigureBlot.tagName = 'figure';
+            Quill.register(FigureBlot);
+
             const quill = new Quill('#editor', {
                 theme: 'snow',
                 placeholder: 'Mulai menulis artikel sejarah...',
@@ -341,7 +392,8 @@
                     })
                     .then(function(response) { return response.json(); })
                     .then(function(data) {
-                        quill.insertEmbed(range.index, 'image', data.url);
+                        const caption = prompt('Caption gambar (opsional, bisa dikosongkan):', '') || '';
+                        quill.insertEmbed(range.index, 'figure', { src: data.url, caption: caption });
                         quill.setSelection(range.index + 1, 0);
                     })
                     .catch(function() {

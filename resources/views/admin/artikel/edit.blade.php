@@ -128,7 +128,7 @@
         @csrf
         @method('PUT')
 
-        <div class="flex flex-col gap-8 lg:flex-row">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-start">
             {{-- Main Writing Area --}}
             <div class="flex-1 min-w-0">
                 {{-- Back link --}}
@@ -167,7 +167,7 @@
             </div>
 
             {{-- Sidebar --}}
-            <div class="w-full space-y-6 lg:w-72 xl:w-80">
+            <div class="w-full space-y-6 lg:w-72 xl:w-80 lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto lg:self-start lg:pr-1">
                 {{-- Publish Actions --}}
                 <div class="space-y-3">
                     <button type="submit" class="w-full rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#16304a] hover:shadow dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">

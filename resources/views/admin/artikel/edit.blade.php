@@ -186,6 +186,10 @@
                 <div>
                     <input id="konten" type="hidden" name="konten" value="{{ old('konten', $artikel->konten) }}">
                     <div id="editor"></div>
+                    <div class="mt-2 flex items-center gap-3">
+                        <button type="button" id="btn-wrap-caption" class="rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-xs font-medium text-stone-600 transition hover:bg-stone-50 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300">Tambah caption ke gambar terpilih</button>
+                        <span class="text-[11px] text-stone-400">Klik gambar lama dulu, lalu klik tombol ini</span>
+                    </div>
                     @error('konten')
                         <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -446,6 +450,55 @@
                 };
                 input.click();
             });
+
+            function wrapCaption() {
+                const sel = window.getSelection();
+                let img = null;
+                if (sel && sel.anchorNode) {
+                    const el = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement;
+                    img = el?.closest?.('.ql-editor')?.querySelector('img:focus') || el?.querySelector?.('img') || document.activeElement?.tagName === 'IMG' ? document.activeElement : null;
+                    if (!img) img = sel.anchorNode.parentElement?.closest?.('.ql-editor')?.querySelector('img');
+                    const range = quill.getSelection();
+                    if (range) {
+                        const [leaf] = quill.getLeaf(range.index);
+                        if (leaf && leaf.domNode && leaf.domNode.tagName === 'IMG') img = leaf.domNode;
+                        else if (leaf && leaf.parent && leaf.parent.domNode?.tagName === 'IMG') img = leaf.parent.domNode;
+                    }
+                }
+                if (!img) img = quill.root.querySelector('img:not(figure img)');
+                if (!img) return alert('Klik gambar yang mau diberi caption dulu.');
+                if (img.closest('figure')) return alert('Gambar ini sudah punya caption (figure). Klik caption untuk edit langsung.');
+                const oldAlt = img.getAttribute('alt') || '';
+                const caption = prompt('Tulis caption:', oldAlt);
+                if (caption === null) return;
+                const range = quill.getSelection(true);
+                const src = img.getAttribute('src');
+                try {
+                    const blot = Quill.find(img);
+                    const idx = blot ? quill.getIndex(blot) : range.index;
+                    quill.deleteText(idx, 1);
+                    quill.insertEmbed(idx, 'figure', { src: src, caption: caption });
+                    quill.setSelection(idx + 1, 0);
+                } catch (e) {
+                    const fig = document.createElement('figure');
+                    fig.innerHTML = '<img src="'+src+'" alt="'+caption.replaceAll('"','&quot;')+'"><figcaption>'+caption+'</figcaption>';
+                    img.replaceWith(fig);
+                    konten.value = quill.root.innerHTML;
+                }
+            }
+            document.getElementById('btn-wrap-caption')?.addEventListener('click', wrapCaption);
+            const qlToolbar = document.querySelector('.ql-toolbar');
+            if (qlToolbar) {
+                const fmt = document.createElement('span');
+                fmt.className = 'ql-formats';
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.title = 'Tambah caption ke gambar terpilih';
+                btn.innerHTML = '<svg viewBox="0 0 18 18" width="18" height="18"><rect x="2" y="3" width="14" height="9" stroke="currentColor" fill="none" stroke-width="1.2" rx="1"/><line x1="2" y1="14.5" x2="16" y2="14.5" stroke="currentColor" stroke-width="1.2"/><text x="9" y="10" text-anchor="middle" font-size="6" fill="currentColor" font-family="serif">T</text></svg>';
+                btn.addEventListener('click', wrapCaption);
+                fmt.appendChild(btn);
+                qlToolbar.appendChild(fmt);
+            }
 
             // Image preview
             const gambarInput = document.getElementById('gambar');

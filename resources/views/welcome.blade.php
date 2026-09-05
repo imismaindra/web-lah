@@ -137,31 +137,33 @@
             </section>
 
             <section id="perjalanan-waktu" class="scroll-mt-24 border-y border-stone-200/60 py-10 dark:border-white/[0.06] sm:py-12">
-                <div class="flex flex-wrap items-end justify-between gap-4">
+                <div class="flex flex-wrap items-end justify-between gap-6">
                     <div>
                         <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Linimasa</p>
                         <h2 class="mt-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Perjalanan Waktu</h2>
                     </div>
-                    <p class="max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400">Telusuri era — dari kuno hingga modern, tiap periode punya arsipnya sendiri.</p>
+                    <p class="hidden max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400 sm:block">Telusuri era — dari kuno hingga modern.</p>
                 </div>
-                <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    @forelse ($eras as $i => $era)
-                        <a href="{{ route('era.show', $era) }}" class="group relative overflow-hidden rounded-[1.25rem] bg-stone-900 {{ $i === 0 ? 'sm:col-span-2 lg:col-span-2 lg:row-span-1' : '' }}">
-                            @if ($era->gambar)
-                                <img src="{{ asset('storage/' . $era->gambar) }}" alt="{{ $era->nama }}" class="h-64 w-full object-cover transition duration-700 group-hover:scale-[1.04] {{ $i === 0 ? 'lg:h-72' : 'h-64' }}" loading="lazy">
-                            @else
-                                <img src="https://picsum.photos/seed/era-{{ $era->slug }}/400/500" alt="{{ $era->nama }}" class="h-64 w-full object-cover transition duration-700 group-hover:scale-[1.04] {{ $i === 0 ? 'lg:h-72' : 'h-64' }}" loading="lazy">
-                            @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent"></div>
-                            <div class="absolute inset-x-0 bottom-0 p-5">
-                                <span class="inline-flex rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur">{{ $era->periode }}</span>
-                                <h3 class="mt-2 font-serif text-lg font-bold leading-tight text-white">{{ $era->nama }}</h3>
-                                <p class="mt-1 text-xs font-medium text-white/60">{{ $era->artikel_count }} artikel &rarr;</p>
-                            </div>
-                        </a>
-                    @empty
-                        <div class="col-span-full flex h-64 items-center justify-center rounded-2xl border border-dashed border-stone-200 text-sm text-stone-400 dark:border-white/[0.06] dark:text-stone-500">Belum ada era</div>
-                    @endforelse
+                <div class="relative mt-8">
+                    <div class="pointer-events-none absolute left-0 right-0 top-[22px] hidden h-px bg-stone-200 dark:bg-white/10 lg:block"></div>
+                    <div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+                        @forelse ($eras as $i => $era)
+                            <a href="{{ route('era.show', $era) }}" class="group relative w-[260px] shrink-0 snap-start sm:w-[280px] {{ $i === 0 ? 'sm:w-[300px]' : '' }}">
+                                <span class="absolute left-1/2 top-[16px] hidden h-3 w-3 -translate-x-1/2 rounded-full border-4 border-[#faf9f7] bg-stone-900 dark:border-[#0f0f0e] dark:bg-white lg:block"></span>
+                                <div class="mt-8 rounded-[1.25rem] border border-stone-200 bg-white p-5 transition hover:border-stone-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] dark:border-white/[0.06] dark:bg-[#171716] dark:hover:border-white/10">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <span class="font-serif text-3xl font-bold leading-none text-stone-200 dark:text-white/15">0{{ $i + 1 }}</span>
+                                        <span class="rounded-full bg-stone-900 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-white dark:text-stone-900">{{ $era->periode }}</span>
+                                    </div>
+                                    <h3 class="mt-4 font-serif text-lg font-bold leading-tight tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $era->nama }}</h3>
+                                    <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">{{ Str::limit($era->deskripsi ?? 'Jelajahi arsip periode ini.', 80) }}</p>
+                                    <p class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-stone-900 dark:text-white">{{ $era->artikel_count }} artikel <span class="transition group-hover:translate-x-0.5">&rarr;</span></p>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="flex h-32 w-full items-center justify-center rounded-2xl border border-dashed border-stone-200 text-sm text-stone-400 dark:border-white/[0.06] dark:text-stone-500">Belum ada era</div>
+                        @endforelse
+                    </div>
                 </div>
             </section>
 
@@ -256,12 +258,9 @@
 
             @if (($kategoriSorotan ?? collect())->isNotEmpty())
             <section class="border-t border-stone-200/60 py-12 dark:border-white/[0.06] sm:py-16">
-                <div class="flex flex-wrap items-end justify-between gap-6">
-                    <div>
-                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Indeks Kategori</p>
-                        <h2 class="mt-2 font-serif text-3xl font-bold tracking-tight sm:text-4xl">Sorotan Kategori</h2>
-                    </div>
-                    <p class="max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400">Text-first, bukan kartu lagi — beda keluarga layout dari Artikel Terbaru yang image-bento.</p>
+                <div>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Indeks Kategori</p>
+                    <h2 class="mt-2 font-serif text-3xl font-bold tracking-tight sm:text-4xl">Sorotan Kategori</h2>
                 </div>
                 <div class="mt-8 grid gap-10 lg:grid-cols-3">
                     @foreach ($kategoriSorotan as $kat)

@@ -4,8 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9007848909516103"
-            crossorigin="anonymous"></script>
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 
         @php $seoTitle = $artikel->meta_title ?: $artikel->judul; @endphp
         <title>{{ $seoTitle }} — {{ config('app.name', 'Look at History') }}</title>
@@ -111,6 +110,10 @@
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+
+        @if ($artikel->gambar)
+            <link rel="preload" as="image" href="{{ asset('storage/' . $artikel->gambar) }}" fetchpriority="high">
+        @endif
 
         @fonts
 
@@ -464,7 +467,7 @@
         <header class="sticky top-0 z-20 border-b border-stone-200/80 dark:border-white/[0.06] bg-[#faf9f7]/80 dark:bg-[#0f0f0e]/80 backdrop-blur-xl">
             <nav class="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8">
                 <a href="/" class="flex items-center gap-3">
-                    <img src="{{ asset('logo_LAH.jpg') }}" alt="{{ config('app.name', 'Look at History') }}" class="h-9 w-9 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
+                    <img src="{{ asset('logo_LAH_thumb.webp') }}" onerror="this.onerror=null;this.src='{{ asset('logo_LAH.jpg') }}'" alt="{{ config('app.name', 'Look at History') }}" width="36" height="36" class="h-9 w-9 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
                     <span class="font-serif text-lg font-bold tracking-tight">Look at History</span>
                 </a>
                 <div class="hidden items-center gap-1 text-sm font-medium sm:flex">
@@ -504,9 +507,9 @@
             <section class="relative overflow-hidden">
                 <div class="absolute inset-0">
                     @if ($artikel->gambar)
-                        <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="h-full w-full object-cover" loading="eager">
+                        <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" width="1600" height="900" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
                     @else
-                        <img src="https://picsum.photos/seed/artikel-hero-{{ $artikel->id }}/1600/900" alt="{{ $artikel->judul }}" class="h-full w-full object-cover" loading="eager">
+                        <img src="https://picsum.photos/seed/artikel-hero-{{ $artikel->id }}/1600/900" alt="{{ $artikel->judul }}" width="1600" height="900" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
                     @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-[#0f0f0e] via-[#0f0f0e]/70 to-[#0f0f0e]/40"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-[#0f0f0e]/80 via-[#0f0f0e]/40 to-transparent"></div>
@@ -1102,6 +1105,35 @@
                     if (label) label.textContent = data.bookmarked ? 'Tersimpan' : 'Simpan';
                 });
             });
+        </script>
+        <script>
+            (function () {
+                var adsLoaded = false;
+                function loadAds() {
+                    if (adsLoaded) return;
+                    adsLoaded = true;
+                    var s = document.createElement('script');
+                    s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9007848909516103";
+                    s.async = true;
+                    s.crossOrigin = "anonymous";
+                    document.head.appendChild(s);
+                }
+                var events = ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'];
+                var onUserEvent = function () {
+                    loadAds();
+                    events.forEach(function (e) {
+                        window.removeEventListener(e, onUserEvent, { passive: true });
+                    });
+                };
+                events.forEach(function (e) {
+                    window.addEventListener(e, onUserEvent, { passive: true, once: true });
+                });
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(function () { setTimeout(loadAds, 3500); });
+                } else {
+                    setTimeout(loadAds, 3500);
+                }
+            })();
         </script>
     </body>
 </html>

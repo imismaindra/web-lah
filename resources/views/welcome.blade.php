@@ -190,11 +190,11 @@
                             @forelse ($latestArtikels as $i => $artikel)
                                 @php $isHero = $i === 0; @endphp
                                 <a href="{{ route('artikel.show', $artikel) }}" class="group flex flex-col overflow-hidden rounded-[1.25rem] border border-stone-200/60 bg-white transition hover:border-stone-300/60 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:border-white/[0.06] dark:bg-[#171716] dark:hover:border-white/[0.10] {{ $isHero ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2' : '' }}">
-                                    <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
+                                    <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50 {{ $isHero ? 'h-64 sm:h-72 lg:h-[22rem]' : 'h-44' }}">
                                         @if ($artikel->gambar)
-                                            <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="w-full object-cover transition duration-700 group-hover:scale-[1.04] {{ $isHero ? 'h-64 sm:h-72 lg:h-[22rem]' : 'h-44' }}" loading="lazy">
+                                            <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" width="600" height="400" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" decoding="async">
                                         @else
-                                            <img src="https://picsum.photos/seed/artikel-{{ $artikel->id }}/600/400" alt="{{ $artikel->judul }}" class="w-full object-cover transition duration-700 group-hover:scale-[1.04] {{ $isHero ? 'h-64 sm:h-72 lg:h-[22rem]' : 'h-44' }}" loading="lazy">
+                                            <img src="https://picsum.photos/seed/artikel-{{ $artikel->id }}/600/400" alt="{{ $artikel->judul }}" width="600" height="400" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" decoding="async">
                                         @endif
                                         @if ($isHero)
                                             <span class="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-stone-900 backdrop-blur dark:bg-white dark:text-stone-900">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
@@ -411,6 +411,35 @@
                 setTimeout(() => toast.style.opacity = '0', 3000);
                 setTimeout(() => toast.remove(), 3500);
             }
+        </script>
+        <script>
+            (function () {
+                var adsLoaded = false;
+                function loadAds() {
+                    if (adsLoaded) return;
+                    adsLoaded = true;
+                    var s = document.createElement('script');
+                    s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9007848909516103";
+                    s.async = true;
+                    s.crossOrigin = "anonymous";
+                    document.head.appendChild(s);
+                }
+                var events = ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'];
+                var onUserEvent = function () {
+                    loadAds();
+                    events.forEach(function (e) {
+                        window.removeEventListener(e, onUserEvent, { passive: true });
+                    });
+                };
+                events.forEach(function (e) {
+                    window.addEventListener(e, onUserEvent, { passive: true, once: true });
+                });
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(function () { setTimeout(loadAds, 3500); });
+                } else {
+                    setTimeout(loadAds, 3500);
+                }
+            })();
         </script>
     </body>
 </html>

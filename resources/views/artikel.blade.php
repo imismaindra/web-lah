@@ -77,11 +77,40 @@
             'schema' => $articleSchema,
         ])
 
+        @php
+            $breadcrumbSchema = [
+                '@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => array_values(array_filter([
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 1,
+                        'name' => 'Beranda',
+                        'item' => rtrim(config('app.url'), '/'),
+                    ],
+                    $artikel->kategori ? [
+                        '@type' => 'ListItem',
+                        'position' => 2,
+                        'name' => $artikel->kategori->nama,
+                        'item' => route('kategori.show', $artikel->kategori),
+                    ] : null,
+                    [
+                        '@type' => 'ListItem',
+                        'position' => $artikel->kategori ? 3 : 2,
+                        'name' => $artikel->judul,
+                        'item' => $articleUrl,
+                    ],
+                ])),
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+
         @if ($faqSchema)
             <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
         @endif
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
 
         @fonts
 

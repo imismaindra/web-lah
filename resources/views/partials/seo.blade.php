@@ -4,7 +4,12 @@
     $image = $image ?? asset('logo_LAH.jpg');
     $noindex = $noindex ?? false;
 
+    // Canonical: gunakan URL tanpa query string untuk hindari duplikasi
     $canonicalUrl = rtrim(config('app.url'), '/') . '/' . ltrim(request()->path(), '/');
+    // Normalize root URL (bukan "/")
+    if ($canonicalUrl === rtrim(config('app.url'), '/') . '/') {
+        $canonicalUrl = rtrim(config('app.url'), '/');
+    }
 
     $url = $canonicalUrl;
 
@@ -15,6 +20,8 @@
     $section = $section ?? null;
     $tags = $tags ?? [];
     $schema = $schema ?? null;
+    $keywords = $keywords ?? ($tags ? implode(', ', $tags) : null);
+    $isHomepage = $isHomepage ?? false;
 @endphp
 
 @if ($noindex)
@@ -22,6 +29,9 @@
 @endif
 
 <meta name="description" content="{{ $description }}">
+@if ($keywords)
+<meta name="keywords" content="{{ $keywords }}">
+@endif
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
 <meta property="og:title" content="{{ $title }}">
@@ -58,7 +68,37 @@
 <meta name="twitter:image" content="{{ $image }}">
 
 <link rel="canonical" href="{{ $canonicalUrl }}">
+<link rel="alternate" type="application/rss+xml" title="{{ config('app.name', 'Look at History') }} RSS" href="{{ route('feed') }}">
+<link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
 @if ($schema)
 <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endif
+
+@if ($isHomepage)
+<script type="application/ld+json">{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'WebSite',
+    'name' => config('app.name', 'Look at History'),
+    'url' => rtrim(config('app.url'), '/'),
+    'description' => $description,
+    'inLanguage' => 'id',
+    'potentialAction' => [
+        '@type' => 'SearchAction',
+        'target' => [
+            '@type' => 'EntryPoint',
+            'urlTemplate' => rtrim(config('app.url'), '/') . '/cari?q={search_term_string}',
+        ],
+        'query-input' => 'required name=search_term_string',
+    ],
+    'publisher' => [
+        '@type' => 'Organization',
+        'name' => config('app.name', 'Look at History'),
+        'url' => rtrim(config('app.url'), '/'),
+        'logo' => [
+            '@type' => 'ImageObject',
+            'url' => asset('logo_LAH.jpg'),
+        ],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 @endif

@@ -158,12 +158,19 @@ Route::get('/sitemap.xml', function () {
     ];
 
     $urls = array_merge($staticUrls, $artikels->map(function ($artikel) {
-        return [
+        $entry = [
             'url' => route('artikel.show', $artikel),
             'lastmod' => $artikel->updated_at->toAtomString(),
             'changefreq' => 'weekly',
             'priority' => '0.8',
         ];
+        if ($artikel->gambar) {
+            $entry['image'] = [
+                'loc' => asset('storage/' . $artikel->gambar),
+                'title' => $artikel->judul,
+            ];
+        }
+        return $entry;
     })->all(), $kategoris->map(function ($kategori) {
         return [
             'url' => route('kategori.show', $kategori),

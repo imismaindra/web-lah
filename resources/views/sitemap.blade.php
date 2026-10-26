@@ -7,6 +7,14 @@
         <lastmod>{{ $url['lastmod'] }}</lastmod>
         <changefreq>{{ $url['changefreq'] }}</changefreq>
         <priority>{{ $url['priority'] }}</priority>
+        @if (!empty($url['image']))
+        <image:image>
+            <image:loc>{{ $url['image']['loc'] }}</image:loc>
+            @if (!empty($url['image']['title']))
+            <image:title>{{ $url['image']['title'] }}</image:title>
+            @endif
+        </image:image>
+        @endif
     </url>
     @endforeach
 </urlset>

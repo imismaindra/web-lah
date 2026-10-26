@@ -7,15 +7,18 @@
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9007848909516103"
             crossorigin="anonymous"></script>
 
-        <title>{{ config('app.name', 'Look at History') }}</title>
+        <title>Look at History | Belajar Sejarah Dunia</title>
 
         @include('partials.seo', [
-            'title' => config('app.name', 'Look at History'),
+            'title' => 'Look at History | Belajar Sejarah Dunia',
             'description' => 'Blog sejarah dunia ringkas & terpercaya. Temukan artikel peradaban kuno, perang dunia, tokoh sejarah, dan peristiwa penting masa lalu.',
             'url' => url('/'),
+            'keywords' => 'sejarah dunia, artikel sejarah, peradaban kuno, perang dunia, tokoh sejarah, sejarah indonesia, belajar sejarah',
+            'isHomepage' => true,
         ])
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
 
         @fonts
 

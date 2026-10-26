@@ -5,17 +5,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
 
-        <title>{{ $kategori->nama }} — {{ config('app.name', 'Look at History') }}</title>
+        <title>{{ $kategori->nama }} — Artikel Sejarah | {{ config('app.name', 'Look at History') }}</title>
 
         @include('partials.seo', [
-            'title' => $kategori->nama,
-            'description' => $kategori->deskripsi ?? "Artikel sejarah kategori {$kategori->nama}. Jelajahi topik-topik menarik seputar {$kategori->nama}.",
+            'title' => $kategori->nama . ' — Artikel Sejarah | Look at History',
+            'description' => $kategori->deskripsi ?? "Kumpulan artikel sejarah kategori {$kategori->nama}. Jelajahi topik-topik menarik seputar {$kategori->nama} di Look at History.",
             'image' => $kategori->gambar ? asset('storage/' . $kategori->gambar) : asset('logo_LAH.jpg'),
             'url' => route('kategori.show', $kategori),
             'section' => 'Kategori',
         ])
+        <script type="application/ld+json">{!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => rtrim(config('app.url'), '/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => $kategori->nama, 'item' => route('kategori.show', $kategori)],
+            ],
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
 
         @fonts
 

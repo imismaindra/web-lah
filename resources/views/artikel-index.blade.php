@@ -5,17 +5,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
 
-        <title>Semua Artikel — {{ config('app.name', 'Look at History') }}</title>
+        <title>Semua Artikel Sejarah — {{ config('app.name', 'Look at History') }}</title>
 
         @include('partials.seo', [
-            'title' => 'Semua Artikel',
-            'description' => 'Jelajahi semua artikel sejarah dunia di Look at History: peristiwa, tokoh, dan peradaban dari berbagai era.',
+            'title' => 'Semua Artikel Sejarah | Look at History',
+            'description' => 'Jelajahi semua artikel sejarah dunia di Look at History: peristiwa, tokoh, dan peradaban dari berbagai era. Dari perang dunia hingga peradaban kuno.',
             'image' => asset('logo_LAH.jpg'),
             'url' => route('artikel.index'),
             'section' => 'Artikel',
+            'keywords' => 'artikel sejarah, sejarah dunia, peristiwa sejarah, tokoh sejarah, peradaban kuno, sejarah indonesia',
         ])
+        <script type="application/ld+json">{!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => rtrim(config('app.url'), '/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Artikel', 'item' => route('artikel.index')],
+            ],
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
 
         @fonts
 

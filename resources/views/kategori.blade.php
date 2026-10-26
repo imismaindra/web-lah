@@ -14,14 +14,17 @@
             'url' => route('kategori.show', $kategori),
             'section' => 'Kategori',
         ])
-        <script type="application/ld+json">{!! json_encode([
-            '@context' => 'https://schema.org',
-            '@type' => 'BreadcrumbList',
-            'itemListElement' => [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => rtrim(config('app.url'), '/')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => $kategori->nama, 'item' => route('kategori.show', $kategori)],
-            ],
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        @php
+            $kategoriBreadcrumb = [
+                '@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => rtrim(config('app.url'), '/')],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => $kategori->nama, 'item' => route('kategori.show', $kategori)],
+                ],
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($kategoriBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">

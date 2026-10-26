@@ -76,29 +76,32 @@
 @endif
 
 @if ($isHomepage)
-<script type="application/ld+json">{!! json_encode([
-    '@context' => 'https://schema.org',
-    '@type' => 'WebSite',
-    'name' => config('app.name', 'Look at History'),
-    'url' => rtrim(config('app.url'), '/'),
-    'description' => $description,
-    'inLanguage' => 'id',
-    'potentialAction' => [
-        '@type' => 'SearchAction',
-        'target' => [
-            '@type' => 'EntryPoint',
-            'urlTemplate' => rtrim(config('app.url'), '/') . '/cari?q={search_term_string}',
-        ],
-        'query-input' => 'required name=search_term_string',
-    ],
-    'publisher' => [
-        '@type' => 'Organization',
+@php
+    $websiteSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
         'name' => config('app.name', 'Look at History'),
         'url' => rtrim(config('app.url'), '/'),
-        'logo' => [
-            '@type' => 'ImageObject',
-            'url' => asset('logo_LAH.jpg'),
+        'description' => $description,
+        'inLanguage' => 'id',
+        'potentialAction' => [
+            '@type' => 'SearchAction',
+            'target' => [
+                '@type' => 'EntryPoint',
+                'urlTemplate' => rtrim(config('app.url'), '/') . '/cari?q={search_term_string}',
+            ],
+            'query-input' => 'required name=search_term_string',
         ],
-    ],
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        'publisher' => [
+            '@type' => 'Organization',
+            'name' => config('app.name', 'Look at History'),
+            'url' => rtrim(config('app.url'), '/'),
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => asset('logo_LAH.jpg'),
+            ],
+        ],
+    ];
+@endphp
+<script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 @endif

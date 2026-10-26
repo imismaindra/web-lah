@@ -15,14 +15,17 @@
             'section' => 'Artikel',
             'keywords' => 'artikel sejarah, sejarah dunia, peristiwa sejarah, tokoh sejarah, peradaban kuno, sejarah indonesia',
         ])
-        <script type="application/ld+json">{!! json_encode([
-            '@context' => 'https://schema.org',
-            '@type' => 'BreadcrumbList',
-            'itemListElement' => [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => rtrim(config('app.url'), '/')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Artikel', 'item' => route('artikel.index')],
-            ],
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        @php
+            $indexBreadcrumb = [
+                '@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => rtrim(config('app.url'), '/')],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => 'Artikel', 'item' => route('artikel.index')],
+                ],
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($indexBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">

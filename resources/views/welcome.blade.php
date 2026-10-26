@@ -4,8 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9007848909516103"
-            crossorigin="anonymous"></script>
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 
         <title>Look at History | Belajar Sejarah Dunia</title>
 
@@ -20,6 +19,14 @@
         <link rel="icon" href="{{ asset('favicon.ico') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
 
+        @php
+            $spotlight = $featuredArtikel ?? $latestArtikels->first();
+            $heroImageUrl = $spotlight?->gambar ? asset('storage/' . $spotlight->gambar) : ($spotlight ? 'https://picsum.photos/seed/hero-' . $spotlight->id . '/1200/800' : null);
+        @endphp
+        @if ($heroImageUrl)
+            <link rel="preload" as="image" href="{{ $heroImageUrl }}" fetchpriority="high">
+        @endif
+
         @fonts
 
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -30,7 +37,7 @@
         <header class="sticky top-0 z-20 border-b border-stone-200/80 dark:border-white/[0.06] bg-[#faf9f7]/80 dark:bg-[#0f0f0e]/80 backdrop-blur-xl">
             <nav class="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8">
                 <a href="/" class="flex items-center gap-3">
-                    <img src="{{ asset('logo_LAH.jpg') }}" alt="{{ config('app.name', 'Look at History') }}" class="h-9 w-9 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
+                    <img src="{{ asset('logo_LAH_thumb.webp') }}" onerror="this.onerror=null;this.src='{{ asset('logo_LAH.jpg') }}'" alt="{{ config('app.name', 'Look at History') }}" width="36" height="36" class="h-9 w-9 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
                     <span class="font-serif text-lg font-bold tracking-tight">Look at History</span>
                 </a>
                 <div class="hidden items-center gap-1 text-sm font-medium sm:flex">
@@ -85,7 +92,7 @@
                     <article class="hero-rise group relative overflow-hidden rounded-2xl border border-stone-200/60 bg-stone-100 dark:border-white/[0.06] dark:bg-stone-800/50" style="animation-delay: 140ms">
                         @if ($spotlight)
                             <a href="{{ route('artikel.show', $spotlight) }}" class="block">
-                                <img src="{{ $spotlight->gambar ? asset('storage/' . $spotlight->gambar) : 'https://picsum.photos/seed/hero-' . $spotlight->id . '/1200/800' }}" alt="{{ $spotlight->judul }}" class="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-[1.03] sm:aspect-[16/9] lg:aspect-[16/10]" loading="eager">
+                                <img src="{{ $heroImageUrl }}" alt="{{ $spotlight->judul }}" width="1200" height="900" class="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-[1.03] sm:aspect-[16/9] lg:aspect-[16/10]" loading="eager" fetchpriority="high" decoding="async">
                                 <div class="absolute inset-0 bg-gradient-to-t from-[#0f0f0e]/85 via-[#0f0f0e]/20 to-transparent"></div>
                                 <div class="absolute inset-x-0 bottom-0 p-6 sm:p-8">
                                     <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">

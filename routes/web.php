@@ -166,10 +166,11 @@ Route::get('/sitemap.xml', function () {
         ];
         if ($artikel->gambar) {
             $entry['image'] = [
-                'loc' => asset('storage/' . $artikel->gambar),
+                'loc' => asset('storage/'.$artikel->gambar),
                 'title' => $artikel->judul,
             ];
         }
+
         return $entry;
     })->all(), $kategoris->map(function ($kategori) {
         return [

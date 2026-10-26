@@ -20,7 +20,7 @@ Platform blog dan artikel berbasis Laravel. Dibangun dengan Blade + Tailwind CSS
 | Komponen       | Teknologi                          |
 | -------------- | ---------------------------------- |
 | Backend        | Laravel 13, PHP ^8.3               |
-| Database       | MySQL / SQLite                     |
+| Database       | MySQL                     |
 | Frontend       | Blade, Tailwind CSS v4             |
 | Build Tool     | Vite 8                             |
 | Font           | Instrument Sans (via Bunny)        |
@@ -34,7 +34,7 @@ Platform blog dan artikel berbasis Laravel. Dibangun dengan Blade + Tailwind CSS
 - PHP ^8.3
 - Composer
 - Node.js ^18
-- MySQL atau SQLite
+- MySQL
 
 ### Instalasi
 

@@ -21,9 +21,11 @@
                 background: rgba(30, 58, 95, 0.08);
                 color: #1e3a5f;
             }
-            :is(.dark) .sidebar-link.active {
-                background: rgba(91, 155, 213, 0.1);
-                color: #5b9bd5;
+            @media (prefers-color-scheme: dark) {
+                .sidebar-link.active {
+                    background: rgba(91, 155, 213, 0.1);
+                    color: #5b9bd5;
+                }
             }
 
             /* Collapsed sidebar */

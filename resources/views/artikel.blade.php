@@ -187,19 +187,21 @@
                 font-weight: 600;
             }
 
-            :is(.dark) .toc-link {
-                color: #a8a29e;
-            }
+            @media (prefers-color-scheme: dark) {
+                .toc-link {
+                    color: #a8a29e;
+                }
 
-            :is(.dark) .toc-link:hover {
-                color: #d6d3d1;
-                background: rgba(255,255,255,0.05);
-            }
+                .toc-link:hover {
+                    color: #d6d3d1;
+                    background: rgba(255,255,255,0.05);
+                }
 
-            :is(.dark) .toc-link.active {
-                color: #e2e8f0;
-                background: rgba(255,255,255,0.06);
-                font-weight: 600;
+                .toc-link.active {
+                    color: #e2e8f0;
+                    background: rgba(255,255,255,0.06);
+                    font-weight: 600;
+                }
             }
 
             .grain-overlay {
@@ -223,9 +225,11 @@
                 justify-content: center;
             }
 
-            :is(.dark) .ad-slot {
-                background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.04) 100%);
-                border-color: rgba(255,255,255,0.08);
+            @media (prefers-color-scheme: dark) {
+                .ad-slot {
+                    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.04) 100%);
+                    border-color: rgba(255,255,255,0.08);
+                }
             }
 
             .ad-slot-label {
@@ -276,8 +280,10 @@
                 border: 0;
             }
 
-            :is(.dark) .article-body h1 {
-                color: #fafaf9;
+            @media (prefers-color-scheme: dark) {
+                .article-body h1 {
+                    color: #fafaf9;
+                }
             }
 
             .article-body h2 {
@@ -294,8 +300,10 @@
                 margin-top: 0;
             }
 
-            :is(.dark) .article-body h2 {
-                color: #fafaf9;
+            @media (prefers-color-scheme: dark) {
+                .article-body h2 {
+                    color: #fafaf9;
+                }
             }
 
             .article-body h3 {
@@ -307,8 +315,10 @@
                 line-height: 1.4;
             }
 
-            :is(.dark) .article-body h3 {
-                color: #e7e5e4;
+            @media (prefers-color-scheme: dark) {
+                .article-body h3 {
+                    color: #e7e5e4;
+                }
             }
 
             .article-body h4 {
@@ -320,8 +330,10 @@
                 line-height: 1.5;
             }
 
-            :is(.dark) .article-body h4 {
-                color: #e7e5e4;
+            @media (prefers-color-scheme: dark) {
+                .article-body h4 {
+                    color: #e7e5e4;
+                }
             }
 
             .article-body blockquote {
@@ -334,10 +346,12 @@
                 color: #57534e;
             }
 
-            :is(.dark) .article-body blockquote {
-                border-left-color: #5b9bd5;
-                background: rgb(91 155 213 / 0.05);
-                color: #a8a29e;
+            @media (prefers-color-scheme: dark) {
+                .article-body blockquote {
+                    border-left-color: #5b9bd5;
+                    background: rgb(91 155 213 / 0.05);
+                    color: #a8a29e;
+                }
             }
 
             .article-body figure {
@@ -351,8 +365,10 @@
                 color: #78716c;
             }
 
-            :is(.dark) .article-body figcaption {
-                color: #a8a29e;
+            @media (prefers-color-scheme: dark) {
+                .article-body figcaption {
+                    color: #a8a29e;
+                }
             }
 
             .article-body ul,
@@ -395,10 +411,12 @@
                 line-height: 1.7;
             }
 
-            :is(.dark) .article-body pre {
-                background: rgba(255, 255, 255, 0.03);
-                border-color: rgba(255, 255, 255, 0.08);
-                color: #e5e5e3;
+            @media (prefers-color-scheme: dark) {
+                .article-body pre {
+                    background: rgba(255, 255, 255, 0.03);
+                    border-color: rgba(255, 255, 255, 0.08);
+                    color: #e5e5e3;
+                }
             }
 
             .article-body iframe.ql-video {
@@ -418,12 +436,14 @@
                 color: #16304a;
             }
 
-            :is(.dark) .article-body a {
-                color: #5b9bd5;
-            }
+            @media (prefers-color-scheme: dark) {
+                .article-body a {
+                    color: #5b9bd5;
+                }
 
-            :is(.dark) .article-body a:hover {
-                color: #7ab3e0;
+                .article-body a:hover {
+                    color: #7ab3e0;
+                }
             }
 
             .faq-item summary {
@@ -453,10 +473,12 @@
                 margin: 1.5rem 0;
             }
 
-            :is(.dark) .key-point {
-                background: linear-gradient(135deg, #5b9bd508 0%, #5b9bd503 100%);
-                border-color: #5b9bd515;
-                border-left-color: #5b9bd5;
+            @media (prefers-color-scheme: dark) {
+                .key-point {
+                    background: linear-gradient(135deg, #5b9bd508 0%, #5b9bd503 100%);
+                    border-color: #5b9bd515;
+                    border-left-color: #5b9bd5;
+                }
             }
         </style>
     </head>

@@ -102,9 +102,9 @@
                                     <div class="flex items-center gap-2 text-xs font-semibold">
                                         <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $featured->kategori->nama ?? 'Umum' }}</span>
                                         <span class="text-stone-300 dark:text-stone-600">&middot;</span>
-                                        <span class="font-normal text-stone-400 dark:text-stone-500">{{ $featured->created_at->translatedFormat('d M Y') }}</span>
+                                        <span class="font-normal text-stone-400 dark:text-stone-500">{{ ($featured->published_at ?? $featured->created_at)->translatedFormat('d M Y') }}</span>
                                         <span class="text-stone-300 dark:text-stone-600">&middot;</span>
-                                        <span class="font-normal text-stone-400 dark:text-stone-500">{{ ceil(str_word_count(strip_tags($featured->konten))/200) }} menit</span>
+                                        <span class="font-normal text-stone-400 dark:text-stone-500">{{ $featured->reading_time ?? 1 }} menit</span>
                                     </div>
                                     <h2 class="mt-3 font-serif text-xl font-bold leading-tight tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] sm:text-2xl">{{ $featured->judul }}</h2>
                                     <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-stone-500 dark:text-stone-400">{{ $featured->ringkasan ?? Str::limit(strip_tags($featured->konten), 160) }}</p>

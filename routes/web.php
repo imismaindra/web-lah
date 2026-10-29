@@ -28,6 +28,7 @@ use App\Models\Kategori;
 use App\Models\Penulis;
 use App\Models\Reaksi;
 use App\Models\Topik;
+use App\Services\AnalyticsTracker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -275,9 +276,21 @@ Route::get('/artikel', function (Request $request) {
 
 Route::post('/artikel/{artikel}/komentar', [KomentarController::class, 'store'])->middleware('throttle:3,1')->name('komentar.store');
 
-Route::get('/artikel/{artikel}', function (Artikel $artikel) {
+Route::get('/artikel/{artikel}', function (Artikel $artikel, Request $request) {
     $artikel->load(['kategori', 'author', 'author.penulis']);
-    $artikel->increment('views');
+
+    $isPreview = false;
+    if (! $artikel->isPublished()) {
+        $canPreview = auth()->check() && (auth()->user()->hasRole('admin') || auth()->id() === $artikel->user_id);
+        if (! $canPreview && ! $request->hasValidSignature()) {
+            abort(404);
+        }
+        $isPreview = true;
+    }
+
+    if (! $isPreview) {
+        app(AnalyticsTracker::class)->recordArtikelView($artikel, $request);
+    }
 
     $isLiked = auth()->check() && Reaksi::where('artikel_id', $artikel->id)
         ->where('user_id', auth()->id())
@@ -324,12 +337,14 @@ Route::get('/artikel/{artikel}', function (Artikel $artikel) {
         'reaksiCount',
         'komentarCount',
         'komentars',
+        'isPreview',
     ));
 })->name('artikel.show');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'penulis'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
+    Route::get('/artikel/{artikel}/preview', [ArtikelController::class, 'preview'])->name('artikel.preview');
     Route::resource('artikel', ArtikelController::class)->except(['show']);
     Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
 

@@ -39,6 +39,7 @@
                 <option value="">Semua Status</option>
                 <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
                 <option value="published" {{ request('status') === 'published' ? 'selected' : '' }}>Published</option>
+                <option value="scheduled" {{ request('status') === 'scheduled' ? 'selected' : '' }}>Scheduled</option>
                 <option value="archived" {{ request('status') === 'archived' ? 'selected' : '' }}>Archived</option>
             </select>
             <button type="submit" class="rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-600 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:bg-[#171716] dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">Filter</button>
@@ -70,16 +71,21 @@
 
                         {{-- Content --}}
                         <div class="p-4">
-                            <div class="flex items-center gap-2">
+                            <div class="flex flex-wrap items-center gap-2">
                                 <span class="inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide
                                     {{ match($artikel->status) {
                                         'published' => 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400',
+                                        'scheduled' => 'bg-sky-50 text-sky-600 dark:bg-sky-500/10 dark:text-sky-400',
                                         'archived' => 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400',
                                         default => 'bg-stone-100 text-stone-500 dark:bg-white/[0.05] dark:text-stone-400',
                                     } }}">
                                     {{ $artikel->status }}
                                 </span>
-                                <span class="text-[11px] text-stone-400 dark:text-stone-500">{{ $artikel->created_at->format('d M Y') }}</span>
+                                @if ($artikel->status === 'scheduled' && $artikel->published_at)
+                                    <span class="text-[11px] font-medium text-sky-600 dark:text-sky-400">Jadwal: {{ $artikel->published_at->format('d M H:i') }}</span>
+                                @else
+                                    <span class="text-[11px] text-stone-400 dark:text-stone-500">{{ ($artikel->published_at ?? $artikel->created_at)->format('d M Y') }}</span>
+                                @endif
                             </div>
 
                             <h3 class="mt-2 line-clamp-2 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $artikel->judul }}</h3>
@@ -92,9 +98,14 @@
                                 <div class="flex items-center gap-2 text-[11px] text-stone-400 dark:text-stone-500">
                                     <span>{{ $artikel->kategori->nama ?? '-' }}</span>
                                     <span>&middot;</span>
+                                    <span>{{ $artikel->reading_time ?? 1 }} mnt</span>
+                                    <span>&middot;</span>
                                     <span>{{ number_format($artikel->views) }} dibaca</span>
                                 </div>
                                 <div class="flex items-center gap-1">
+                                    <a href="{{ route('admin.artikel.preview', $artikel) }}" target="_blank" rel="noopener" class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.05] dark:hover:text-[#5b9bd5]" title="Pratinjau">
+                                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </a>
                                     <a href="{{ route('admin.artikel.edit', $artikel) }}" class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.05] dark:hover:text-[#5b9bd5]" title="Edit">
                                         <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                                     </a>

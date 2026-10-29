@@ -23,7 +23,7 @@
                 'description' => $articleDescription,
                 'image' => $articleImage,
                 'url' => $articleUrl,
-                'datePublished' => $artikel->created_at?->toIso8601String(),
+                'datePublished' => ($artikel->published_at ?? $artikel->created_at)?->toIso8601String(),
                 'dateModified' => $artikel->updated_at?->toIso8601String(),
                 'author' => [
                     '@type' => 'Person',
@@ -69,7 +69,7 @@
             'image' => $articleImage,
             'url' => $articleUrl,
             'type' => 'article',
-            'publishedTime' => $artikel->created_at?->toIso8601String(),
+            'publishedTime' => ($artikel->published_at ?? $artikel->created_at)?->toIso8601String(),
             'modifiedTime' => $artikel->updated_at?->toIso8601String(),
             'author' => $articleAuthor,
             'section' => $artikel->kategori->nama ?? 'Umum',
@@ -468,6 +468,21 @@
         </style>
     </head>
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
+        @if ($isPreview ?? false)
+            <div class="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-2 border-b border-amber-300 bg-amber-50 px-4 py-2.5 text-xs font-medium text-amber-900 shadow-sm dark:border-amber-500/20 dark:bg-amber-950/80 dark:text-amber-200">
+                <div class="flex items-center gap-2">
+                    <span class="inline-block h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    <span><strong>Mode Pratinjau:</strong> Artikel ini berstatus <strong class="uppercase font-semibold">{{ $artikel->status }}</strong>@if($artikel->status === 'scheduled' && $artikel->published_at) (dijadwalkan: {{ $artikel->published_at->format('d M Y H:i') }})@endif dan belum terbit untuk publik.</span>
+                </div>
+                @auth
+                    @if (auth()->user()->hasRole('admin') || auth()->id() === $artikel->user_id)
+                        <a href="{{ route('admin.artikel.edit', $artikel) }}" class="inline-flex items-center gap-1 font-semibold underline hover:text-amber-700 dark:hover:text-amber-100">
+                            Kembali ke Editor &rarr;
+                        </a>
+                    @endif
+                @endauth
+            </div>
+        @endif
         <div class="grain-overlay"></div>
         <div class="reading-progress"></div>
 
@@ -523,9 +538,9 @@
                         <div class="flex items-center gap-2.5 text-xs font-semibold">
                             <span class="rounded-full bg-white/10 px-3 py-1 text-white backdrop-blur">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
                             <span class="text-white/25">&middot;</span>
-                            <span class="font-medium text-white/60">{{ $artikel->created_at->format('d M Y') }}</span>
+                            <span class="font-medium text-white/60">{{ ($artikel->published_at ?? $artikel->created_at)->format('d M Y') }}</span>
                             <span class="text-white/25">&middot;</span>
-                            <span class="font-medium text-white/60">{{ ceil(str_word_count(strip_tags($artikel->konten)) / 200) }} menit baca</span>
+                            <span class="font-medium text-white/60">{{ $artikel->reading_time ?? 1 }} menit baca</span>
                         </div>
 
                         <h1 class="mt-5 font-serif text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl">

@@ -216,8 +216,24 @@
                         <select id="status" name="status" class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">
                             <option value="draft" {{ old('status', 'draft') === 'draft' ? 'selected' : '' }}>Draft</option>
                             <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published</option>
+                            <option value="scheduled" {{ old('status') === 'scheduled' ? 'selected' : '' }}>Scheduled (Terjadwal)</option>
                             <option value="archived" {{ old('status') === 'archived' ? 'selected' : '' }}>Archived</option>
                         </select>
+                    </div>
+
+                    <div id="scheduled-at-container" class="{{ old('status', 'draft') === 'scheduled' ? '' : 'hidden' }}">
+                        <label for="published_at" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Jadwal Publikasi</label>
+                        <input
+                            type="datetime-local"
+                            id="published_at"
+                            name="published_at"
+                            value="{{ old('published_at') }}"
+                            class="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                        >
+                        @error('published_at')
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 text-[11px] text-stone-400">Artikel otomatis terbit saat waktu ini tiba.</p>
                     </div>
                 </div>
 
@@ -590,6 +606,15 @@
             function updMt(){ if(mt&&mtc) mtc.textContent = mt.value.length; }
             function updMd(){ if(md&&mdc) mdc.textContent = md.value.length; }
             mt?.addEventListener('input', updMt); md?.addEventListener('input', updMd); updMt(); updMd();
+
+            // Status / Scheduling toggle
+            const statusSelect = document.getElementById('status');
+            const scheduleContainer = document.getElementById('scheduled-at-container');
+            if (statusSelect && scheduleContainer) {
+                statusSelect.addEventListener('change', function () {
+                    scheduleContainer.classList.toggle('hidden', this.value !== 'scheduled');
+                });
+            }
 
             // FAQ
             const faqList = document.getElementById('faq-list');

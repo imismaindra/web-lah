@@ -25,7 +25,7 @@
                 <guid isPermaLink="true">{{ route('artikel.show', $artikel) }}</guid>
                 <description>{{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 200) }}</description>
                 <content:encoded><![CDATA[{{ $artikel->konten }}]]></content:encoded>
-                <pubDate>{{ $artikel->created_at->format('D, d M Y H:i:s O') }}</pubDate>
+                <pubDate>{{ ($artikel->published_at ?? $artikel->created_at)->format('D, d M Y H:i:s O') }}</pubDate>
                 <dc:creator>{{ $artikel->author->name ?? config('app.name', 'Look at History') }}</dc:creator>
                 <category>{{ $artikel->kategori->nama ?? 'Umum' }}</category>
                 @if ($artikel->gambar)

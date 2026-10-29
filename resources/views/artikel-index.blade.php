@@ -152,7 +152,9 @@
                             </div>
                             <div class="p-5">
                                 <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-stone-500 dark:text-stone-400">{{ $artikel->created_at->translatedFormat('d M Y') }}</span>
+                                    <span class="text-stone-500 dark:text-stone-400">{{ ($artikel->published_at ?? $artikel->created_at)->translatedFormat('d M Y') }}</span>
+                                    <span class="text-stone-300 dark:text-stone-600">&middot;</span>
+                                    <span class="text-stone-500 dark:text-stone-400">{{ $artikel->reading_time ?? 1 }} mnt</span>
                                     @if ($artikel->kategori)
                                         <span class="text-stone-300 dark:text-stone-600">&middot;</span>
                                         <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama }}</span>

@@ -62,7 +62,7 @@
                                 <div class="absolute inset-x-0 bottom-0 p-6 sm:p-8">
                                     <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                                         <span class="rounded-full bg-[#1e3a5f] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-[#5b9bd5] dark:text-[#0f0f0e]">{{ $spotlight->kategori->nama ?? 'Umum' }}</span>
-                                        <span class="text-[11px] font-semibold text-white/70">{{ $spotlight->created_at->format('d M Y') }}</span>
+                                        <span class="text-[11px] font-semibold text-white/70">{{ ($spotlight->published_at ?? $spotlight->created_at)->format('d M Y') }}</span>
                                     </div>
                                     <h1 class="mt-4 line-clamp-2 font-serif text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">{{ $spotlight->judul }}</h1>
                                     <p class="mt-3 line-clamp-2 max-w-xl text-sm leading-relaxed text-white/70">{{ $spotlight->ringkasan ?? Str::limit(strip_tags($spotlight->konten), 140) }}</p>
@@ -183,7 +183,7 @@
                                                 <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
                                                 <span class="text-stone-300 dark:text-stone-600">&middot;</span>
                                             @endif
-                                            <span class="text-stone-500 dark:text-stone-400">{{ $artikel->created_at->format('d M Y') }}</span>
+                                            <span class="text-stone-500 dark:text-stone-400">{{ ($artikel->published_at ?? $artikel->created_at)->format('d M Y') }}</span>
                                         </div>
                                         <h3 class="mt-2 line-clamp-2 font-serif font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] {{ $isHero ? 'text-xl lg:text-2xl' : 'text-[15px]' }}">
                                             {{ $artikel->judul }}
@@ -262,7 +262,7 @@
                                         <span class="shrink-0 font-serif text-sm font-bold text-stone-300 dark:text-stone-600">0{{ $idx + 1 }}</span>
                                         <div class="min-w-0 flex-1">
                                             <a href="{{ route('artikel.show', $art) }}" class="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-[#5b9bd5]">{{ $art->judul }}</a>
-                                            <p class="mt-1 text-[11px] font-medium text-stone-500 dark:text-stone-400">{{ $art->created_at->format('d M Y') }}</p>
+                                            <p class="mt-1 text-[11px] font-medium text-stone-500 dark:text-stone-400">{{ ($art->published_at ?? $art->created_at)->format('d M Y') }}</p>
                                         </div>
                                     </li>
                                 @endforeach

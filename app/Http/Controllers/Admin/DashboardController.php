@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Artikel;
 use App\Models\Kategori;
+use App\Models\Pageview;
 use App\Models\Penulis;
 use Carbon\Carbon;
 use Illuminate\View\View;
@@ -29,8 +30,19 @@ class DashboardController extends Controller
         $totalPenulis = Penulis::count();
 
         $totalViews = Artikel::when(! $isAdmin, $ownOnly)->sum('views');
-        $viewsBulanIni = Artikel::when(! $isAdmin, $ownOnly)->where('created_at', '>=', $startOfMonth)->sum('views');
-        $viewsBulanLalu = Artikel::when(! $isAdmin, $ownOnly)->whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->sum('views');
+        $hasPageviews = Pageview::exists();
+
+        if ($hasPageviews) {
+            $viewsBulanIni = Pageview::where('created_at', '>=', $startOfMonth)
+                ->when(! $isAdmin, fn ($q) => $q->whereHas('artikel', fn ($aq) => $aq->where('user_id', auth()->id())))
+                ->count();
+            $viewsBulanLalu = Pageview::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])
+                ->when(! $isAdmin, fn ($q) => $q->whereHas('artikel', fn ($aq) => $aq->where('user_id', auth()->id())))
+                ->count();
+        } else {
+            $viewsBulanIni = Artikel::when(! $isAdmin, $ownOnly)->where('created_at', '>=', $startOfMonth)->sum('views');
+            $viewsBulanLalu = Artikel::when(! $isAdmin, $ownOnly)->whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->sum('views');
+        }
 
         $recentArtikel = Artikel::with('kategori')
             ->when(! $isAdmin, $ownOnly)
@@ -47,7 +59,13 @@ class DashboardController extends Controller
         $viewsChart = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = $now->copy()->subDays($i)->startOfDay();
-            $views = Artikel::when(! $isAdmin, $ownOnly)->whereDate('created_at', $date)->sum('views');
+            if ($hasPageviews) {
+                $views = Pageview::whereDate('created_at', $date->toDateString())
+                    ->when(! $isAdmin, fn ($q) => $q->whereHas('artikel', fn ($aq) => $aq->where('user_id', auth()->id())))
+                    ->count();
+            } else {
+                $views = Artikel::when(! $isAdmin, $ownOnly)->whereDate('created_at', $date)->sum('views');
+            }
             $viewsChart[] = [
                 'date' => $date->format('d M'),
                 'views' => $views,

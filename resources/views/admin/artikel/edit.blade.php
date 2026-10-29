@@ -226,13 +226,33 @@
                     <button type="submit" class="w-full rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#16304a] hover:shadow dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">
                         Perbarui Artikel
                     </button>
+                    <a href="{{ route('admin.artikel.preview', $artikel) }}" target="_blank" rel="noopener" class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:bg-stone-50 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:bg-white/[0.08]">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        Pratinjau Artikel
+                    </a>
                     <div>
                         <label for="status" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Status</label>
                         <select id="status" name="status" class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">
                             <option value="draft" {{ old('status', $artikel->status) === 'draft' ? 'selected' : '' }}>Draft</option>
                             <option value="published" {{ old('status', $artikel->status) === 'published' ? 'selected' : '' }}>Published</option>
+                            <option value="scheduled" {{ old('status', $artikel->status) === 'scheduled' ? 'selected' : '' }}>Scheduled (Terjadwal)</option>
                             <option value="archived" {{ old('status', $artikel->status) === 'archived' ? 'selected' : '' }}>Archived</option>
                         </select>
+                    </div>
+
+                    <div id="scheduled-at-container" class="{{ old('status', $artikel->status) === 'scheduled' ? '' : 'hidden' }}">
+                        <label for="published_at" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Jadwal Publikasi</label>
+                        <input
+                            type="datetime-local"
+                            id="published_at"
+                            name="published_at"
+                            value="{{ old('published_at', $artikel->published_at ? $artikel->published_at->format('Y-m-d\TH:i') : '') }}"
+                            class="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                        >
+                        @error('published_at')
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 text-[11px] text-stone-400">Artikel otomatis terbit saat waktu ini tiba.</p>
                     </div>
                 </div>
 
@@ -242,6 +262,13 @@
                 {{-- Metadata --}}
                 <div class="space-y-4">
                     <h3 class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">Metadata</h3>
+
+                    <div class="rounded-lg bg-stone-50 p-2.5 text-xs text-stone-500 dark:bg-white/[0.02] dark:text-stone-400">
+                        <div class="flex items-center justify-between">
+                            <span>Waktu Baca Tersimpan:</span>
+                            <span class="font-semibold text-stone-700 dark:text-stone-200">{{ $artikel->reading_time ?? 1 }} menit</span>
+                        </div>
+                    </div>
 
                     {{-- Kategori --}}
                     <div>
@@ -629,6 +656,15 @@
             function updMt(){ if(mt&&mtc) mtc.textContent = mt.value.length; }
             function updMd(){ if(md&&mdc) mdc.textContent = md.value.length; }
             mt?.addEventListener('input', updMt); md?.addEventListener('input', updMd); updMt(); updMd();
+
+            // Status / Scheduling toggle
+            const statusSelect = document.getElementById('status');
+            const scheduleContainer = document.getElementById('scheduled-at-container');
+            if (statusSelect && scheduleContainer) {
+                statusSelect.addEventListener('change', function () {
+                    scheduleContainer.classList.toggle('hidden', this.value !== 'scheduled');
+                });
+            }
 
             // FAQ
             const faqList = document.getElementById('faq-list');

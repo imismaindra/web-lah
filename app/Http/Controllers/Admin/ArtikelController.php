@@ -69,8 +69,13 @@ class ArtikelController extends Controller
             'faq.*.question' => 'required_with:faq|string|max:255',
             'faq.*.answer' => 'required_with:faq|string|max:2000',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'status' => 'required|in:draft,published,archived',
+            'status' => 'required|in:draft,published,scheduled,archived',
+            'published_at' => 'nullable|required_if:status,scheduled|date',
         ]);
+
+        if ($validated['status'] === 'published' && empty($validated['published_at'])) {
+            $validated['published_at'] = now();
+        }
 
         $validated['faq'] = collect($validated['faq'] ?? [])
             ->filter(fn ($f) => filled($f['question'] ?? null) && filled($f['answer'] ?? null))
@@ -122,8 +127,13 @@ class ArtikelController extends Controller
             'faq.*.question' => 'required_with:faq|string|max:255',
             'faq.*.answer' => 'required_with:faq|string|max:2000',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'status' => 'required|in:draft,published,archived',
+            'status' => 'required|in:draft,published,scheduled,archived',
+            'published_at' => 'nullable|required_if:status,scheduled|date',
         ]);
+
+        if ($validated['status'] === 'published' && empty($validated['published_at'])) {
+            $validated['published_at'] = now();
+        }
 
         $validated['faq'] = collect($validated['faq'] ?? [])
             ->filter(fn ($f) => filled($f['question'] ?? null) && filled($f['answer'] ?? null))
@@ -156,5 +166,31 @@ class ArtikelController extends Controller
         $artikel->delete();
 
         return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil dihapus.');
+    }
+
+    public function preview(Artikel $artikel): View
+    {
+        abort_unless(auth()->user()->hasRole('admin') || $artikel->user_id === auth()->id(), 403);
+
+        $artikel->load(['kategori', 'author', 'author.penulis', 'topiks']);
+
+        $isPreview = true;
+        $isLiked = false;
+        $isBookmarked = false;
+        $reaksiCount = $artikel->reaksis()->where('tipe', 'suka')->count();
+        $komentarCount = $artikel->komentars()->published()->count();
+        $komentars = collect();
+        $relatedArtikels = collect();
+
+        return view('artikel', compact(
+            'artikel',
+            'relatedArtikels',
+            'isLiked',
+            'isBookmarked',
+            'reaksiCount',
+            'komentarCount',
+            'komentars',
+            'isPreview',
+        ));
     }
 }

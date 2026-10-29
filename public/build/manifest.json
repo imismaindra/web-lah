@@ -1,7 +1,7 @@
 {
-  "_fonts-C9MNnjVw.css": {
-    "file": "assets/fonts-C9MNnjVw.css",
-    "src": "_fonts-C9MNnjVw.css"
+  "_fonts-DpR-pGO9.css": {
+    "file": "assets/fonts-DpR-pGO9.css",
+    "src": "_fonts-DpR-pGO9.css"
   },
   "_instrument-sans-400-normal-D1W7dsQl.woff": {
     "file": "assets/instrument-sans-400-normal-D1W7dsQl.woff",
@@ -27,8 +27,32 @@
     "file": "assets/instrument-sans-600-normal-B9e8oLYv.woff",
     "src": "_instrument-sans-600-normal-B9e8oLYv.woff"
   },
+  "_newsreader-400-normal-BFBkh4jY.woff2": {
+    "file": "assets/newsreader-400-normal-BFBkh4jY.woff2",
+    "src": "_newsreader-400-normal-BFBkh4jY.woff2"
+  },
+  "_newsreader-400-normal-gRTjlS2D.woff": {
+    "file": "assets/newsreader-400-normal-gRTjlS2D.woff",
+    "src": "_newsreader-400-normal-gRTjlS2D.woff"
+  },
+  "_newsreader-600-normal-30OJ_TG_.woff2": {
+    "file": "assets/newsreader-600-normal-30OJ_TG_.woff2",
+    "src": "_newsreader-600-normal-30OJ_TG_.woff2"
+  },
+  "_newsreader-600-normal-DUnT2r2g.woff": {
+    "file": "assets/newsreader-600-normal-DUnT2r2g.woff",
+    "src": "_newsreader-600-normal-DUnT2r2g.woff"
+  },
+  "_newsreader-700-normal-CluIqIw6.woff": {
+    "file": "assets/newsreader-700-normal-CluIqIw6.woff",
+    "src": "_newsreader-700-normal-CluIqIw6.woff"
+  },
+  "_newsreader-700-normal-rIgV_oaK.woff2": {
+    "file": "assets/newsreader-700-normal-rIgV_oaK.woff2",
+    "src": "_newsreader-700-normal-rIgV_oaK.woff2"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-DtgUjKCm.css",
+    "file": "assets/app-CzspdboY.css",
     "name": "app",
     "names": [
       "app.css"

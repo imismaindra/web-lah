@@ -37,7 +37,7 @@
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
         @include('partials.site-header', ['active' => 'beranda'])
 
-        <main class="mx-auto max-w-[1400px] px-5 sm:px-8">
+        <main id="main" class="mx-auto max-w-[1400px] px-5 sm:px-8">
             <section class="pt-10 pb-2 sm:pt-14">
                 @php
                     $spotlight = $featuredArtikel ?? $latestArtikels->first();
@@ -95,7 +95,7 @@
                                         <span class="w-8 shrink-0 font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-[#5b9bd5]">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                                         <div class="min-w-0 flex-1">
                                             <p class="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-200 dark:group-hover:text-[#5b9bd5]">{{ $artikel->judul }}</p>
-                                            <p class="mt-1 text-[11px] font-semibold text-stone-400 dark:text-stone-500">{{ number_format($artikel->views) }} dibaca</p>
+                                            <p class="mt-1 text-[11px] font-semibold text-stone-500 dark:text-stone-400">{{ number_format($artikel->views) }} dibaca</p>
                                         </div>
                                     </a>
                                 </li>
@@ -171,7 +171,7 @@
                                                 <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
                                                 <span class="text-stone-300 dark:text-stone-600">&middot;</span>
                                             @endif
-                                            <span class="text-stone-400 dark:text-stone-500">{{ $artikel->created_at->format('d M Y') }}</span>
+                                            <span class="text-stone-500 dark:text-stone-400">{{ $artikel->created_at->format('d M Y') }}</span>
                                         </div>
                                         <h3 class="mt-2 line-clamp-2 font-serif font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] {{ $isHero ? 'text-xl lg:text-2xl' : 'text-[15px]' }}">
                                             {{ $artikel->judul }}
@@ -206,7 +206,7 @@
                                 <li>
                                     <a href="{{ route('kategori.show', $kategori) }}" class="flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-stone-50 dark:hover:bg-white/[0.03]">
                                         <span class="text-stone-600 dark:text-stone-300">{{ $kategori->nama }}</span>
-                                        <span class="text-xs font-semibold text-stone-400 dark:text-stone-500">{{ $kategori->artikel_count }}</span>
+                                        <span class="text-xs font-semibold text-stone-500 dark:text-stone-400">{{ $kategori->artikel_count }}</span>
                                     </a>
                                 </li>
                             @empty
@@ -242,7 +242,7 @@
                         <div class="border-t-2 border-stone-900 pt-5 dark:border-white">
                             <div class="flex items-baseline justify-between gap-3">
                                 <a href="{{ route('kategori.show', $kat) }}" class="font-serif text-lg font-bold tracking-tight hover:text-[#1e3a5f] dark:hover:text-[#5b9bd5]">{{ $kat->nama }}</a>
-                                <span class="font-mono text-xs font-semibold text-stone-400 dark:text-stone-500">{{ $kat->artikel_count }} arsip</span>
+                                <span class="font-mono text-xs font-semibold text-stone-500 dark:text-stone-400">{{ $kat->artikel_count }} arsip</span>
                             </div>
                             <ol class="mt-5 space-y-4">
                                 @foreach ($kat->artikel as $idx => $art)
@@ -250,7 +250,7 @@
                                         <span class="shrink-0 font-serif text-sm font-bold text-stone-300 dark:text-stone-600">0{{ $idx + 1 }}</span>
                                         <div class="min-w-0 flex-1">
                                             <a href="{{ route('artikel.show', $art) }}" class="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-[#5b9bd5]">{{ $art->judul }}</a>
-                                            <p class="mt-1 text-[11px] font-medium text-stone-400 dark:text-stone-500">{{ $art->created_at->format('d M Y') }}</p>
+                                            <p class="mt-1 text-[11px] font-medium text-stone-500 dark:text-stone-400">{{ $art->created_at->format('d M Y') }}</p>
                                         </div>
                                     </li>
                                 @endforeach

@@ -65,7 +65,7 @@
 
         @include('partials.site-header', ['active' => 'tentang'])
 
-        <main class="mx-auto max-w-[1400px] px-5 sm:px-8">
+        <main id="main" class="mx-auto max-w-[1400px] px-5 sm:px-8">
             {{-- Hero --}}
             <section class="pt-12 pb-16 sm:pt-16 sm:pb-20">
                 <div class="grid gap-12 lg:grid-cols-[1fr_0.75fr] lg:items-center lg:gap-20">

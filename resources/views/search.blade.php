@@ -21,7 +21,7 @@
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
         @include('partials.site-header')
 
-        <main class="mx-auto max-w-[1400px] px-5 sm:px-8">
+        <main id="main" class="mx-auto max-w-[1400px] px-5 sm:px-8">
             {{-- Masthead + Search --}}
             <section class="border-b border-stone-200/80 dark:border-white/[0.06] pb-8 pt-10 sm:pt-12">
                 <div class="flex flex-wrap items-center justify-between gap-3">
@@ -126,7 +126,7 @@
                                         <div class="min-w-0 flex-1">
                                             <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold">
                                                 <span class="rounded-full bg-stone-900 px-2 py-0.5 text-white dark:bg-white dark:text-stone-900">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
-                                                <span class="font-normal text-stone-400 dark:text-stone-500">{{ $artikel->created_at->translatedFormat('d M Y') }}</span>
+                                                <span class="font-normal text-stone-500 dark:text-stone-400">{{ $artikel->created_at->translatedFormat('d M Y') }}</span>
                                             </div>
                                             <h3 class="mt-2 line-clamp-2 font-serif text-[15px] font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $artikel->judul }}</h3>
                                             <p class="mt-1.5 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">{{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 120) }}</p>

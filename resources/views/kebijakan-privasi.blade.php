@@ -65,7 +65,7 @@
 
         @include('partials.site-header')
 
-        <main class="mx-auto max-w-3xl px-5 sm:px-8">
+        <main id="main" class="mx-auto max-w-3xl px-5 sm:px-8">
             {{-- Hero --}}
             <section class="pt-12 pb-14 sm:pt-16">
                 <p class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">

@@ -20,7 +20,7 @@
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
         @include('partials.site-header')
 
-        <main class="mx-auto flex min-h-[70vh] max-w-[1400px] items-center justify-center px-5 py-16 sm:px-8">
+        <main id="main" class="mx-auto flex min-h-[70vh] max-w-[1400px] items-center justify-center px-5 py-16 sm:px-8">
             <div class="w-full max-w-md text-center">
                 <p class="font-mono text-6xl font-bold tracking-tight text-stone-300 dark:text-stone-600">@yield('code')</p>
                 <h1 class="mt-4 font-serif text-2xl font-bold tracking-tight">@yield('title')</h1>

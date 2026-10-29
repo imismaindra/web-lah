@@ -18,7 +18,7 @@
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
         @include('partials.site-header')
 
-        <main class="flex min-h-[70vh] items-center justify-center px-5 py-16 sm:px-8">
+        <main id="main" class="flex min-h-[70vh] items-center justify-center px-5 py-16 sm:px-8">
             <div class="w-full max-w-md">
                 @if (session('status'))
                     <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center dark:border-emerald-500/20 dark:bg-emerald-500/10">

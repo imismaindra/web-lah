@@ -18,7 +18,7 @@
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
         @include('partials.site-header')
 
-        <main class="mx-auto max-w-[1400px] px-5 sm:px-8">
+        <main id="main" class="mx-auto max-w-[1400px] px-5 sm:px-8">
             <section class="pt-12 pb-8 sm:pt-16">
                 <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Akun</p>
                 <h1 class="mt-3 font-serif text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl">Profil Saya</h1>

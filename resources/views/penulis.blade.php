@@ -27,7 +27,7 @@
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
         @include('partials.site-header')
 
-        <main class="mx-auto max-w-[1400px] px-5 sm:px-8">
+        <main id="main" class="mx-auto max-w-[1400px] px-5 sm:px-8">
             {{-- Profile --}}
             <section class="pt-12 pb-8 sm:pt-16">
                 <a href="/" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">

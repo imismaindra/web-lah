@@ -478,7 +478,7 @@
 
         @include('partials.site-header', ['active' => 'artikel'])
 
-        <main>
+        <main id="main">
             {{-- Hero --}}
             <section class="relative overflow-hidden">
                 <div class="absolute inset-0">
@@ -665,7 +665,7 @@
                                 <button type="button" id="btn-suka" data-url="{{ route('reaksi.toggle', $artikel) }}" data-active="{{ $isLiked ? 'true' : 'false' }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold transition hover:border-stone-300 dark:border-white/10 dark:hover:border-white/20" aria-pressed="{{ $isLiked ? 'true' : 'false' }}">
                                     <svg id="suka-icon" class="h-4 w-4 transition" viewBox="0 0 24 24" fill="{{ $isLiked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                                     <span>Suka</span>
-                                    <span id="suka-count" class="text-stone-400 dark:text-stone-500">{{ $reaksiCount }}</span>
+                                    <span id="suka-count" class="text-stone-500 dark:text-stone-400">{{ $reaksiCount }}</span>
                                 </button>
                                 <button type="button" id="btn-bookmark" data-url="{{ route('bookmark.toggle', $artikel) }}" data-active="{{ $isBookmarked ? 'true' : 'false' }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold transition hover:border-stone-300 dark:border-white/10 dark:hover:border-white/20" aria-pressed="{{ $isBookmarked ? 'true' : 'false' }}">
                                     <svg id="bookmark-icon" class="h-4 w-4 transition" viewBox="0 0 24 24" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
@@ -738,7 +738,7 @@
                                             <div class="min-w-0 flex-1">
                                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                                                     <p class="text-sm font-semibold">{{ $komentar->displayName() }}</p>
-                                                    <span class="text-[11px] text-stone-400 dark:text-stone-500">{{ $komentar->created_at->diffForHumans() }}</span>
+                                                    <span class="text-[11px] text-stone-500 dark:text-stone-400">{{ $komentar->created_at->diffForHumans() }}</span>
                                                 </div>
                                                 <p class="mt-1.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{{ $komentar->isi }}</p>
                                                 <button type="button" class="mt-2 text-xs font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]" data-reply-toggle>Balas</button>
@@ -756,7 +756,7 @@
                                                         <div class="min-w-0 flex-1">
                                                             <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                                                                 <p class="text-sm font-semibold">{{ $reply->displayName() }}</p>
-                                                                <span class="text-[11px] text-stone-400 dark:text-stone-500">{{ $reply->created_at->diffForHumans() }}</span>
+                                                                <span class="text-[11px] text-stone-500 dark:text-stone-400">{{ $reply->created_at->diffForHumans() }}</span>
                                                             </div>
                                                             <p class="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{{ $reply->isi }}</p>
                                                         </div>
@@ -853,7 +853,7 @@
                                         <div class="flex items-center gap-2 text-xs font-semibold">
                                             <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $related->kategori->nama ?? 'Umum' }}</span>
                                             <span class="text-stone-300 dark:text-stone-600">&middot;</span>
-                                            <span class="text-stone-400 dark:text-stone-500">{{ $related->created_at->format('d M Y') }}</span>
+                                            <span class="text-stone-500 dark:text-stone-400">{{ $related->created_at->format('d M Y') }}</span>
                                         </div>
                                         <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
                                             {{ $related->judul }}

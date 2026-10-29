@@ -40,7 +40,7 @@
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
         @include('partials.site-header', ['active' => 'artikel'])
 
-        <main class="mx-auto max-w-[1400px] px-5 sm:px-8">
+        <main id="main" class="mx-auto max-w-[1400px] px-5 sm:px-8">
             {{-- Hero --}}
             <section class="pt-12 pb-8 sm:pt-16">
                 <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Artikel</p>
@@ -99,7 +99,7 @@
                             </div>
                             <div class="p-5">
                                 <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-stone-400 dark:text-stone-500">{{ $artikel->created_at->translatedFormat('d M Y') }}</span>
+                                    <span class="text-stone-500 dark:text-stone-400">{{ $artikel->created_at->translatedFormat('d M Y') }}</span>
                                     @if ($artikel->kategori)
                                         <span class="text-stone-300 dark:text-stone-600">&middot;</span>
                                         <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama }}</span>

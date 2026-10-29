@@ -41,6 +41,23 @@
             >
             <svg class="absolute left-3 top-[1.15rem] h-4 w-4 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </form>
+
+        <div class="border-t border-stone-200/70 pt-3 mt-3 dark:border-white/[0.06]">
+            @if (Route::has('login'))
+                @auth
+                    @if (auth()->user()->hasRole(['admin', 'penulis']))
+                        <a href="{{ route('admin.dashboard') }}" class="block rounded-lg px-3 py-2 text-sm font-semibold text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">Panel Admin</a>
+                    @endif
+                    <a href="{{ route('profil.edit') }}" class="block rounded-lg px-3 py-2 text-sm font-semibold text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">Profil Saya</a>
+                    <form method="POST" action="{{ route('logout') }}" class="block">
+                        @csrf
+                        <button type="submit" class="w-full text-left rounded-lg px-3 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10">Keluar</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="block rounded-lg bg-stone-900 px-3 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">Masuk</a>
+                @endauth
+            @endif
+        </div>
     </div>
 </div>
 

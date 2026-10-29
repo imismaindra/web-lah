@@ -33,11 +33,11 @@
             @if (Route::has('login'))
                 @auth
                     @if (auth()->user()->hasRole(['admin', 'penulis']))
-                        <a href="{{ route('admin.dashboard') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Panel</a>
+                        <a href="{{ route('admin.dashboard') }}" class="hidden sm:inline-flex rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Panel</a>
                     @endif
-                    <a href="{{ route('profil.edit') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Profil</a>
+                    <a href="{{ route('profil.edit') }}" class="hidden sm:inline-flex rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Profil</a>
                 @else
-                    <a href="{{ route('login') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
+                    <a href="{{ route('login') }}" class="hidden sm:inline-flex rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
                 @endauth
             @endif
             <a href="{{ route('search') }}" class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-stone-500 transition hover:bg-stone-100 hover:text-stone-900 sm:hidden dark:text-stone-400 dark:hover:bg-white/10 dark:hover:text-white" aria-label="Cari artikel">

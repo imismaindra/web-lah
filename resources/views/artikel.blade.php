@@ -123,6 +123,11 @@
         @endif
 
         <style>
+            .article-body {
+                overflow-wrap: break-word;
+                word-break: break-word;
+            }
+
             .article-body p {
                 text-indent: 0;
                 margin-bottom: 1.35em;
@@ -417,6 +422,8 @@
                 color: #1e3a5f;
                 text-decoration: underline;
                 text-underline-offset: 2px;
+                word-break: break-word;
+                overflow-wrap: anywhere;
             }
 
             .article-body a:hover {

@@ -28,6 +28,7 @@ use App\Models\Kategori;
 use App\Models\Penulis;
 use App\Models\Reaksi;
 use App\Models\Topik;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -92,29 +93,29 @@ Route::get('/tentang', function () {
 })->name('tentang');
 
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
-Route::post('/kontak', [KontakController::class, 'store'])->name('kontak.store');
+Route::post('/kontak', [KontakController::class, 'store'])->middleware('throttle:3,1')->name('kontak.store');
 
 Route::get('/kebijakan-privasi', function () {
     return view('kebijakan-privasi');
 })->name('privasi');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::get('/panel/login', [AuthController::class, 'showPanelLogin'])->name('panel.login');
-Route::post('/panel/login', [AuthController::class, 'panelLogin']);
+Route::post('/panel/login', [AuthController::class, 'panelLogin'])->middleware('throttle:5,1');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
 
     Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])->name('password.request');
-    Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->name('password.email');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->middleware('throttle:3,1')->name('password.email');
     Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create'])->name('password.reset');
-    Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('password.store');
+    Route::post('/reset-password', [ResetPasswordController::class, 'store'])->middleware('throttle:3,1')->name('password.store');
 });
 
-Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->middleware('throttle:3,1')->name('newsletter.subscribe');
 Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
 Route::post('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'destroySubscription'])->name('newsletter.unsubscribe.destroy');
 
@@ -250,16 +251,29 @@ Route::get('/penulis/{penulis:slug}', function (Penulis $penulis) {
     return view('penulis', compact('penulis', 'artikels'));
 })->name('penulis.show');
 
-Route::get('/artikel', function () {
-    $artikels = Artikel::with('kategori')
-        ->published()
-        ->latest()
-        ->paginate(9);
+Route::get('/artikel', function (Request $request) {
+    $kategoriId = $request->filled('kategori') ? Kategori::where('slug', trim($request->kategori))->value('id') : null;
+    $eraId = $request->filled('era') ? Era::where('slug', trim($request->era))->value('id') : null;
+    $topikId = $request->filled('topik') ? Topik::where('slug', trim($request->topik))->value('id') : null;
 
-    return view('artikel-index', compact('artikels'));
+    $artikels = Artikel::query()
+        ->published()
+        ->with('kategori')
+        ->when($kategoriId, fn ($q) => $q->where('kategori_id', $kategoriId))
+        ->when($eraId, fn ($q) => $q->where('era_id', $eraId))
+        ->when($topikId, fn ($q) => $q->whereRelation('topiks', 'topiks.id', $topikId))
+        ->when($request->urut === 'populer', fn ($q) => $q->orderByDesc('views'), fn ($q) => $q->latest())
+        ->paginate(9)
+        ->withQueryString();
+
+    $kategoris = Kategori::orderBy('nama')->get();
+    $eras = Era::orderBy('urutan')->get();
+    $topiks = Topik::orderBy('urutan')->get();
+
+    return view('artikel-index', compact('artikels', 'kategoris', 'eras', 'topiks', 'kategoriId', 'eraId', 'topikId'));
 })->name('artikel.index');
 
-Route::post('/artikel/{artikel}/komentar', [KomentarController::class, 'store'])->name('komentar.store');
+Route::post('/artikel/{artikel}/komentar', [KomentarController::class, 'store'])->middleware('throttle:3,1')->name('komentar.store');
 
 Route::get('/artikel/{artikel}', function (Artikel $artikel) {
     $artikel->load(['kategori', 'author', 'author.penulis']);
@@ -284,12 +298,23 @@ Route::get('/artikel/{artikel}', function (Artikel $artikel) {
         ->latest()
         ->get();
 
-    $relatedArtikels = Artikel::with('kategori')
-        ->published()
+    $relatedArtikels = Artikel::published()
+        ->where('kategori_id', $artikel->kategori_id)
         ->where('id', '!=', $artikel->id)
         ->latest()
         ->take(3)
         ->get();
+
+    if ($relatedArtikels->count() < 3) {
+        $relatedArtikels = $relatedArtikels->concat(
+            Artikel::published()
+                ->latest()
+                ->take(8)
+                ->get()
+                ->filter(fn ($a) => $a->id !== $artikel->id && ! $relatedArtikels->contains('id', $a->id))
+                ->take(3 - $relatedArtikels->count())
+        );
+    }
 
     return view('artikel', compact(
         'artikel',
@@ -330,6 +355,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'penulis
         Route::delete('/penulis/{user}', [PenulisController::class, 'destroy'])->name('penulis.destroy');
 
         Route::get('/komentar', [AdminKomentarController::class, 'index'])->name('komentar.index');
+        Route::post('/komentar/{komentar}/approve', [AdminKomentarController::class, 'approve'])->name('komentar.approve');
         Route::delete('/komentar/{komentar}', [AdminKomentarController::class, 'destroy'])->name('komentar.destroy');
     });
 });

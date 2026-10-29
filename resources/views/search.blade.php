@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
         <title>Hasil Pencarian: {{ $query ?? '' }} — {{ config('app.name', 'Look at History') }}</title>
@@ -18,30 +19,7 @@
         @endif
     </head>
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
-        <header class="sticky top-0 z-20 border-b border-stone-200/80 dark:border-white/[0.06] bg-[#faf9f7]/80 dark:bg-[#0f0f0e]/80 backdrop-blur-xl">
-            <nav class="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8">
-                <a href="/" class="flex items-center gap-3">
-                    <img src="{{ asset('logo_LAH_thumb.webp') }}" onerror="this.onerror=null;this.src='{{ asset('logo_LAH.jpg') }}'" alt="{{ config('app.name', 'Look at History') }}" width="36" height="36" class="h-9 w-9 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
-                    <span class="font-serif text-lg font-bold tracking-tight">Look at History</span>
-                </a>
-                <div class="hidden items-center gap-1 text-sm font-medium sm:flex">
-                    <a href="/" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Beranda</a>
-                    <a href="{{ route('artikel.index') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Artikel</a>
-                    <a href="/#kategori" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Kategori</a>
-                    <a href="{{ route('tentang') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang</a>
-                </div>
-                <div class="flex items-center gap-2 text-sm font-medium">
-                    @auth
-                        @if (auth()->user()->hasRole(['admin', 'penulis']))
-                            <a href="{{ route('admin.dashboard') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Panel</a>
-                        @endif
-                        <a href="{{ route('profil.edit') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Profil</a>
-                    @else
-                        <a href="{{ route('login') }}" class="hidden sm:inline-flex rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
-                    @endauth
-                </div>
-            </nav>
-        </header>
+        @include('partials.site-header')
 
         <main class="mx-auto max-w-[1400px] px-5 sm:px-8">
             {{-- Masthead + Search --}}
@@ -116,7 +94,7 @@
                                     @if($featured->gambar)
                                         <img src="{{ asset('storage/'.$featured->gambar) }}" alt="{{ $featured->judul }}" class="aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-[1.03] sm:aspect-[4/3] sm:h-full" loading="eager">
                                     @else
-                                        <img src="https://picsum.photos/seed/search-feat-{{ $featured->id }}/800/600" alt="{{ $featured->judul }}" class="aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-[1.03] sm:aspect-[4/3] sm:h-full" loading="eager">
+                                        <img src="{{ asset('placeholder.svg') }}" alt="{{ $featured->judul }}" class="aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-[1.03] sm:aspect-[4/3] sm:h-full" loading="eager">
                                     @endif
                                     <span class="absolute left-3 top-3 rounded-full bg-[#1e3a5f] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-[#5b9bd5] dark:text-[#0f0f0e]">Paling relevan</span>
                                 </div>
@@ -142,7 +120,7 @@
                                             @if($artikel->gambar)
                                                 <img src="{{ asset('storage/'.$artikel->gambar) }}" alt="{{ $artikel->judul }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
                                             @else
-                                                <img src="https://picsum.photos/seed/search-{{ $artikel->id }}/300/200" alt="{{ $artikel->judul }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+                                                <img src="{{ asset('placeholder.svg') }}" alt="{{ $artikel->judul }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
                                             @endif
                                         </div>
                                         <div class="min-w-0 flex-1">
@@ -232,7 +210,7 @@
                     </div>
                     <aside class="space-y-5">
                         <div class="overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
-                            <img src="https://picsum.photos/seed/search-empty/600/400" alt="" class="h-40 w-full object-cover" loading="lazy">
+                            <img src="{{ asset('placeholder.svg') }}" alt="" class="h-40 w-full object-cover" loading="lazy">
                             <div class="p-6">
                                 <h3 class="font-serif text-sm font-bold">Jelajahi tanpa kata kunci</h3>
                                 <p class="mt-1 text-xs leading-relaxed text-stone-500 dark:text-stone-400">Telusuri kategori atau baca artikel terbaru.</p>
@@ -244,14 +222,6 @@
             @endif
         </main>
 
-        <footer class="mt-8 border-t border-stone-200/80 dark:border-white/[0.06]">
-            <div class="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-stone-400 sm:flex-row sm:px-8 dark:text-stone-500">
-                <p>&copy; {{ date('Y') }} {{ config('app.name', 'Look at History') }}.</p>
-                <div class="flex items-center gap-5">
-                    <a href="{{ route('kontak') }}" class="transition hover:text-stone-600 dark:hover:text-stone-300">Kontak</a>
-                    <a href="{{ route('privasi') }}" class="transition hover:text-stone-600 dark:hover:text-stone-300">Kebijakan Privasi</a>
-                </div>
-            </div>
-        </footer>
+        @include('partials.site-footer')
     </body>
 </html>

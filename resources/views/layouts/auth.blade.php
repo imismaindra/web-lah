@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>@yield('title', 'Masuk') — {{ config('app.name', 'Look at History') }}</title>
@@ -18,7 +19,7 @@
         <div class="flex min-h-[100dvh] flex-col lg:flex-row">
             {{-- Left Panel: Branding --}}
             <div class="relative hidden min-h-[300px] overflow-hidden bg-stone-900 lg:block lg:w-5/12 xl:w-[45%]">
-                <img src="https://picsum.photos/seed/history-login/1200/900" alt="" class="absolute inset-0 h-full w-full object-cover opacity-60" loading="eager">
+                <img src="{{ asset('placeholder.svg') }}" alt="" class="absolute inset-0 h-full w-full object-cover opacity-60" loading="eager">
                 <div class="absolute inset-0 bg-gradient-to-br from-stone-900/80 via-stone-900/60 to-stone-900/40 dark:from-[#0f0f0e]/90 dark:via-[#0f0f0e]/70 dark:to-[#0f0f0e]/50"></div>
 
                 <div class="relative z-10 flex min-h-[100dvh] flex-col justify-between p-10 xl:p-14">

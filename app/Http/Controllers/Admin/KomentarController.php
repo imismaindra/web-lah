@@ -23,6 +23,13 @@ class KomentarController extends Controller
         return view('admin.komentar.index', compact('komentars'));
     }
 
+    public function approve(Komentar $komentar): RedirectResponse
+    {
+        $komentar->update(['status' => 'published']);
+
+        return back()->with('success', 'Komentar disetujui.');
+    }
+
     public function destroy(Komentar $komentar): RedirectResponse
     {
         $komentar->delete();

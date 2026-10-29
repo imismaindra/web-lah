@@ -265,6 +265,62 @@ class AkunFiturTest extends TestCase
             ->assertJson(['bookmarked' => false]);
     }
 
+    public function test_komentar_baru_menunggu_moderasi_dan_tidak_tampil_publik(): void
+    {
+        $artikel = $this->makeArtikel();
+
+        $this->post('/artikel/'.$artikel->slug.'/komentar', ['isi' => 'Menunggu review', 'nama' => 'Tamu'])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('komentars', ['isi' => 'Menunggu review', 'status' => 'pending']);
+        $this->get('/artikel/'.$artikel->slug)->assertDontSee('Menunggu review');
+    }
+
+    public function test_komentar_dari_bot_honeypot_diabaikan(): void
+    {
+        $artikel = $this->makeArtikel();
+
+        $this->post('/artikel/'.$artikel->slug.'/komentar', [
+            'isi' => 'Spam',
+            'nama' => 'Bot',
+            'website' => 'https://spam.example',
+        ])->assertRedirect();
+
+        $this->assertDatabaseMissing('komentars', ['isi' => 'Spam']);
+    }
+
+    public function test_admin_bisa_menyetujui_komentar(): void
+    {
+        $artikel = $this->makeArtikel();
+        $komentar = Komentar::create([
+            'artikel_id' => $artikel->id,
+            'nama' => 'Tamu',
+            'isi' => 'Menunggu review',
+            'status' => 'pending',
+        ]);
+
+        $admin = $this->makeUser();
+        $admin->assignRole('admin');
+
+        $this->actingAs($admin)
+            ->post('/admin/komentar/'.$komentar->id.'/approve')
+            ->assertRedirect();
+
+        $this->assertSame('published', $komentar->fresh()->status);
+    }
+
+    public function test_percobaan_login_dibatasi(): void
+    {
+        $user = $this->makeUser();
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/login', ['email' => $user->email, 'password' => 'salah']);
+        }
+
+        $this->post('/login', ['email' => $user->email, 'password' => 'salah'])
+            ->assertStatus(429);
+    }
+
     public function test_halaman_artikel_menampilkan_komentar(): void
     {
         $artikel = $this->makeArtikel();

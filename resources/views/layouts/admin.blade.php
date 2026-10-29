@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>@yield('title', 'Dashboard') — {{ config('app.name', 'Look at History') }}</title>
@@ -21,12 +22,11 @@
                 background: rgba(30, 58, 95, 0.08);
                 color: #1e3a5f;
             }
-            @media (prefers-color-scheme: dark) {
-                .sidebar-link.active {
+
+                .dark .sidebar-link.active {
                     background: rgba(91, 155, 213, 0.1);
                     color: #5b9bd5;
                 }
-            }
 
             /* Collapsed sidebar */
             #sidebar[data-collapsed="true"] {

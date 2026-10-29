@@ -52,7 +52,12 @@
                                     <p class="mt-1 text-[11px] font-semibold text-stone-400 dark:text-stone-500">Balasan</p>
                                 @endif
                             </td>
-                            <td class="px-5 py-4 text-sm font-semibold">{{ $komentar->displayName() }}</td>
+                            <td class="px-5 py-4 text-sm font-semibold">
+                                {{ $komentar->displayName() }}
+                                @if ($komentar->status !== 'published')
+                                    <span class="ml-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">Pending</span>
+                                @endif
+                            </td>
                             <td class="max-w-[180px] px-5 py-4">
                                 @if ($komentar->artikel)
                                     <a href="{{ route('artikel.show', $komentar->artikel) }}" target="_blank" class="line-clamp-1 text-sm text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">{{ $komentar->artikel->judul }}</a>
@@ -63,6 +68,14 @@
                             <td class="px-5 py-4 text-sm text-stone-500 dark:text-stone-400">{{ $komentar->created_at->translatedFormat('d M Y, H:i') }}</td>
                             <td class="px-5 py-4">
                                 <div class="flex items-center justify-end">
+                                    @if ($komentar->status !== 'published')
+                                        <form method="POST" action="{{ route('admin.komentar.approve', $komentar) }}" class="inline">
+                                            @csrf
+                                            <button type="submit" class="mr-1 rounded-lg p-1.5 text-stone-400 transition hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-400" title="Setujui komentar">
+                                                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                            </button>
+                                        </form>
+                                    @endif
                                     <form method="POST" action="{{ route('admin.komentar.destroy', $komentar) }}" onsubmit="return confirm('Yakin ingin menghapus komentar ini?')" class="inline">
                                         @csrf
                                         @method('DELETE')

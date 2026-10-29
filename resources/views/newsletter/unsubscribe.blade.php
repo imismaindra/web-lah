@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Berhenti Berlangganan — {{ config('app.name', 'Look at History') }}</title>
@@ -15,14 +16,7 @@
         @endif
     </head>
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
-        <header class="sticky top-0 z-20 border-b border-stone-200/80 dark:border-white/[0.06] bg-[#faf9f7]/80 dark:bg-[#0f0f0e]/80 backdrop-blur-xl">
-            <nav class="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8">
-                <a href="/" class="flex items-center gap-3">
-                    <img src="{{ asset('logo_LAH.jpg') }}" alt="{{ config('app.name', 'Look at History') }}" class="h-9 w-9 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
-                    <span class="font-serif text-lg font-bold tracking-tight">Look at History</span>
-                </a>
-            </nav>
-        </header>
+        @include('partials.site-header')
 
         <main class="flex min-h-[70vh] items-center justify-center px-5 py-16 sm:px-8">
             <div class="w-full max-w-md">
@@ -58,10 +52,6 @@
             </div>
         </main>
 
-        <footer class="border-t border-stone-200/80 dark:border-white/[0.06]">
-            <div class="mx-auto flex max-w-[1400px] items-center justify-center px-5 py-8 text-sm text-stone-400 sm:px-8 dark:text-stone-500">
-                <p>&copy; {{ date('Y') }} {{ config('app.name', 'Look at History') }}.</p>
-            </div>
-        </footer>
+        @include('partials.site-footer')
     </body>
 </html>

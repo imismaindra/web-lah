@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
@@ -187,22 +188,21 @@
                 font-weight: 600;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .toc-link {
+
+                .dark .toc-link {
                     color: #a8a29e;
                 }
 
-                .toc-link:hover {
+                .dark .toc-link:hover {
                     color: #d6d3d1;
                     background: rgba(255,255,255,0.05);
                 }
 
-                .toc-link.active {
+                .dark .toc-link.active {
                     color: #e2e8f0;
                     background: rgba(255,255,255,0.06);
                     font-weight: 600;
                 }
-            }
 
             .grain-overlay {
                 position: fixed;
@@ -225,12 +225,11 @@
                 justify-content: center;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .ad-slot {
+
+                .dark .ad-slot {
                     background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.04) 100%);
                     border-color: rgba(255,255,255,0.08);
                 }
-            }
 
             .ad-slot-label {
                 font-size: 11px;
@@ -280,11 +279,10 @@
                 border: 0;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .article-body h1 {
+
+                .dark .article-body h1 {
                     color: #fafaf9;
                 }
-            }
 
             .article-body h2 {
                 font-size: 1.5rem;
@@ -300,11 +298,10 @@
                 margin-top: 0;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .article-body h2 {
+
+                .dark .article-body h2 {
                     color: #fafaf9;
                 }
-            }
 
             .article-body h3 {
                 font-size: 1.25rem;
@@ -315,11 +312,10 @@
                 line-height: 1.4;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .article-body h3 {
+
+                .dark .article-body h3 {
                     color: #e7e5e4;
                 }
-            }
 
             .article-body h4 {
                 font-size: 1.125rem;
@@ -330,11 +326,10 @@
                 line-height: 1.5;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .article-body h4 {
+
+                .dark .article-body h4 {
                     color: #e7e5e4;
                 }
-            }
 
             .article-body blockquote {
                 border-left: 3px solid #1e3a5f;
@@ -346,13 +341,12 @@
                 color: #57534e;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .article-body blockquote {
+
+                .dark .article-body blockquote {
                     border-left-color: #5b9bd5;
                     background: rgb(91 155 213 / 0.05);
                     color: #a8a29e;
                 }
-            }
 
             .article-body figure {
                 margin: 2rem 0;
@@ -365,11 +359,10 @@
                 color: #78716c;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .article-body figcaption {
+
+                .dark .article-body figcaption {
                     color: #a8a29e;
                 }
-            }
 
             .article-body ul,
             .article-body ol {
@@ -411,13 +404,12 @@
                 line-height: 1.7;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .article-body pre {
+
+                .dark .article-body pre {
                     background: rgba(255, 255, 255, 0.03);
                     border-color: rgba(255, 255, 255, 0.08);
                     color: #e5e5e3;
                 }
-            }
 
             .article-body iframe.ql-video {
                 display: block;
@@ -436,15 +428,14 @@
                 color: #16304a;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .article-body a {
+
+                .dark .article-body a {
                     color: #5b9bd5;
                 }
 
-                .article-body a:hover {
+                .dark .article-body a:hover {
                     color: #7ab3e0;
                 }
-            }
 
             .faq-item summary {
                 cursor: pointer;
@@ -473,56 +464,19 @@
                 margin: 1.5rem 0;
             }
 
-            @media (prefers-color-scheme: dark) {
-                .key-point {
+
+                .dark .key-point {
                     background: linear-gradient(135deg, #5b9bd508 0%, #5b9bd503 100%);
                     border-color: #5b9bd515;
                     border-left-color: #5b9bd5;
                 }
-            }
         </style>
     </head>
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
         <div class="grain-overlay"></div>
         <div class="reading-progress"></div>
 
-        <header class="sticky top-0 z-20 border-b border-stone-200/80 dark:border-white/[0.06] bg-[#faf9f7]/80 dark:bg-[#0f0f0e]/80 backdrop-blur-xl">
-            <nav class="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8">
-                <a href="/" class="flex items-center gap-3">
-                    <img src="{{ asset('logo_LAH_thumb.webp') }}" onerror="this.onerror=null;this.src='{{ asset('logo_LAH.jpg') }}'" alt="{{ config('app.name', 'Look at History') }}" width="36" height="36" class="h-9 w-9 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
-                    <span class="font-serif text-lg font-bold tracking-tight">Look at History</span>
-                </a>
-                <div class="hidden items-center gap-1 text-sm font-medium sm:flex">
-                    <a href="/" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Beranda</a>
-                    <a href="/#artikel" class="rounded-lg bg-stone-900 px-3 py-1.5 text-white dark:bg-white dark:text-stone-900">Artikel</a>
-                    <a href="/#kategori" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Kategori</a>
-                    <a href="{{ route('tentang') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang</a>
-                </div>
-                <div class="hidden sm:flex items-center gap-2">
-                    <form action="{{ route('search') }}" method="GET" class="relative">
-                        <input
-                            type="text"
-                            name="q"
-                            placeholder="Cari..."
-                            class="w-48 sm:w-64 rounded-lg border border-stone-200 bg-white px-3.5 py-1.5 pl-9 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
-                        >
-                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                    </form>
-                </div>
-                <div class="flex items-center gap-2 text-sm font-medium">
-                    @if (Route::has('login'))
-                        @auth
-                            @if (auth()->user()->hasRole(['admin', 'penulis']))
-                                <a href="{{ route('admin.dashboard') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Panel</a>
-                            @endif
-                            <a href="{{ route('profil.edit') }}" class="rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Profil</a>
-                        @else
-                            <a href="{{ route('login') }}" class="rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
-                        @endauth
-                    @endif
-                </div>
-            </nav>
-        </header>
+        @include('partials.site-header', ['active' => 'artikel'])
 
         <main>
             {{-- Hero --}}
@@ -531,7 +485,7 @@
                     @if ($artikel->gambar)
                         <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" width="1600" height="900" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
                     @else
-                        <img src="https://picsum.photos/seed/artikel-hero-{{ $artikel->id }}/1600/900" alt="{{ $artikel->judul }}" width="1600" height="900" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
+                        <img src="{{ asset('placeholder.svg') }}" alt="{{ $artikel->judul }}" width="1600" height="900" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
                     @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-[#0f0f0e] via-[#0f0f0e]/70 to-[#0f0f0e]/40"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-[#0f0f0e]/80 via-[#0f0f0e]/40 to-transparent"></div>
@@ -745,6 +699,9 @@
                             {{-- Form --}}
                             <form method="POST" action="{{ route('komentar.store', $artikel) }}" class="mt-6 rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716]">
                                 @csrf
+                                <div class="hidden" aria-hidden="true">
+                                    <input type="text" name="website" tabindex="-1" autocomplete="off">
+                                </div>
                                 @if (! auth()->check())
                                     <input
                                         type="text"
@@ -811,6 +768,9 @@
                                         {{-- Reply form --}}
                                         <form method="POST" action="{{ route('komentar.store', $artikel) }}" class="mt-3 hidden" data-reply-form>
                                             @csrf
+                                            <div class="hidden" aria-hidden="true">
+                                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                                            </div>
                                             <input type="hidden" name="parent_id" value="{{ $komentar->id }}">
                                             @if (! auth()->check())
                                                 <input type="text" name="nama" required placeholder="Nama Anda" class="mb-2 block w-full rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]">
@@ -886,7 +846,7 @@
                                         @if ($related->gambar)
                                             <img src="{{ asset('storage/' . $related->gambar) }}" alt="{{ $related->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                         @else
-                                            <img src="https://picsum.photos/seed/related-{{ $related->id }}/600/400" alt="{{ $related->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                            <img src="{{ asset('placeholder.svg') }}" alt="{{ $related->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                         @endif
                                     </div>
                                     <div class="p-5">
@@ -910,15 +870,7 @@
             </div>
         </main>
 
-        <footer class="border-t border-stone-200/80 dark:border-white/[0.06]">
-            <div class="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-stone-400 sm:flex-row sm:px-8 dark:text-stone-500">
-                <p>&copy; {{ date('Y') }} {{ config('app.name', 'Look at History') }}.</p>
-                <div class="flex items-center gap-5">
-                    <a href="{{ route('kontak') }}" class="transition hover:text-stone-600 dark:hover:text-stone-300">Kontak</a>
-                    <a href="{{ route('privasi') }}" class="transition hover:text-stone-600 dark:hover:text-stone-300">Kebijakan Privasi</a>
-                </div>
-            </div>
-        </footer>
+        @include('partials.site-footer')
 
         <script>
             function initNewsletterForm(formId) {

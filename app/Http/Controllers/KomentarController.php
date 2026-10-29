@@ -14,6 +14,10 @@ class KomentarController extends Controller
             abort(404);
         }
 
+        if (filled($request->input('website'))) {
+            return back();
+        }
+
         $rules = [
             'isi' => ['required', 'string', 'max:5000'],
             'parent_id' => ['nullable', 'exists:komentars,id'],
@@ -30,9 +34,9 @@ class KomentarController extends Controller
             'parent_id' => $validated['parent_id'] ?? null,
             'nama' => $validated['nama'] ?? null,
             'isi' => $validated['isi'],
-            'status' => 'published',
+            'status' => 'pending',
         ]);
 
-        return back()->with('success', 'Komentar berhasil dikirim.');
+        return back()->with('success', 'Komentar terkirim dan akan tampil setelah disetujui.');
     }
 }

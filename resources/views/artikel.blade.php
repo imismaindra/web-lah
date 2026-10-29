@@ -124,22 +124,13 @@
 
         <style>
             .article-body p {
-                text-indent: 1.5em;
-                margin-bottom: 0.75em;
+                text-indent: 0;
+                margin-bottom: 1.35em;
             }
 
             .article-body p:last-child {
                 margin-bottom: 0;
             }
-
-            .article-body > :first-child,
-            .article-body h1 + p,
-            .article-body h2 + p,
-            .article-body h3 + p,
-            .article-body h4 + p,
-            .article-body blockquote,
-            .article-body .key-point,
-            .article-body figure { text-indent: 0; }
 
             .reading-progress {
                 position: fixed;
@@ -243,6 +234,12 @@
                 border-radius: 1rem;
                 max-width: 100%;
                 height: auto;
+                cursor: zoom-in;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .article-body img:hover {
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
             }
 
             .article-body p.ql-align-center { text-align: center; }
@@ -578,9 +575,23 @@
 
             {{-- Article Content + Sidebar --}}
             <div class="mx-auto max-w-[1400px] px-5 sm:px-8">
-                <div class="grid gap-12 lg:grid-cols-[1fr_300px]">
+                <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">
                     {{-- Article Body --}}
-                    <article class="py-8 sm:py-12">
+                    <article class="min-w-0 max-w-3xl py-8 sm:py-12">
+                        {{-- Mobile Table of Contents --}}
+                        <div id="toc-mobile-wrapper" class="mb-8 hidden rounded-2xl border border-stone-200/70 bg-stone-100/70 p-4 dark:border-white/[0.06] dark:bg-white/[0.03] lg:hidden">
+                            <button type="button" id="toc-mobile-toggle" class="flex w-full items-center justify-between text-left" aria-expanded="false" aria-controls="toc-mobile">
+                                <span class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-200">
+                                    <svg class="h-4 w-4 text-[#1e3a5f] dark:text-[#5b9bd5]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h14"/></svg>
+                                    Daftar Isi
+                                </span>
+                                <svg id="toc-mobile-chevron" class="h-4 w-4 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                            </button>
+                            <nav id="toc-mobile" class="hidden space-y-1 border-t border-stone-200/70 mt-3 pt-3 dark:border-white/[0.06]" aria-label="Daftar isi artikel">
+                                {{-- Populated by JS --}}
+                            </nav>
+                        </div>
+
                         <div class="article-body text-[17px] leading-[1.8] text-stone-600 dark:text-stone-300">
                             {!! $artikel->konten !!}
                         </div>
@@ -795,11 +806,11 @@
                         <div class="sticky top-24 space-y-8">
                             {{-- Table of Contents --}}
                             <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]" id="toc-wrapper">
-                                <button type="button" id="toc-toggle" class="flex w-full items-center justify-between text-left" aria-expanded="false" aria-controls="toc">
-                                    <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">Daftar Isi</h2>
-                                    <svg id="toc-chevron" class="h-3.5 w-3.5 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                                <button type="button" id="toc-toggle" class="flex w-full items-center justify-between text-left" aria-expanded="true" aria-controls="toc">
+                                    <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Daftar Isi</h2>
+                                    <svg id="toc-chevron" class="h-3.5 w-3.5 rotate-180 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                                 </button>
-                                <nav id="toc" class="hidden space-y-0.5 border-t border-stone-100 mt-3 pt-3 dark:border-white/[0.06]" aria-label="Daftar isi">
+                                <nav id="toc" class="space-y-0.5 border-t border-stone-100 mt-3 pt-3 dark:border-white/[0.06]" aria-label="Daftar isi">
                                     {{-- Populated by JS --}}
                                 </nav>
                             </div>
@@ -867,6 +878,17 @@
                         </div>
                     </section>
                 @endif
+            </div>
+
+            {{-- Lightbox Modal --}}
+            <div id="image-lightbox" class="fixed inset-0 z-50 hidden flex-col items-center justify-center bg-black/90 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Pratinjau Gambar">
+                <button type="button" id="lightbox-close" class="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Tutup pratinjau">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+                <div class="relative flex max-h-[88vh] max-w-[92vw] flex-col items-center justify-center">
+                    <img id="lightbox-img" src="" alt="" class="max-h-[82vh] max-w-full rounded-lg object-contain shadow-2xl cursor-zoom-out">
+                    <p id="lightbox-caption" class="mt-3 text-center text-xs font-medium text-white/80 max-w-2xl"></p>
+                </div>
             </div>
         </main>
 
@@ -983,19 +1005,22 @@
                 const tocWrapper = document.getElementById('toc-wrapper');
                 const tocToggle = document.getElementById('toc-toggle');
                 const tocChevron = document.getElementById('toc-chevron');
-                if (!tocNav || !tocWrapper || !tocToggle) return;
+
+                const tocMobileNav = document.getElementById('toc-mobile');
+                const tocMobileWrapper = document.getElementById('toc-mobile-wrapper');
+                const tocMobileToggle = document.getElementById('toc-mobile-toggle');
+                const tocMobileChevron = document.getElementById('toc-mobile-chevron');
 
                 const headings = document.querySelectorAll('.article-body h2, .article-body h3');
                 if (headings.length < 2) {
-                    tocWrapper.style.display = 'none';
+                    if (tocWrapper) tocWrapper.style.display = 'none';
+                    if (tocMobileWrapper) tocMobileWrapper.style.display = 'none';
                     return;
                 }
 
-                headings.forEach((heading, index) => {
-                    if (!heading.id) {
-                        heading.id = 'section-' + index;
-                    }
+                if (tocMobileWrapper) tocMobileWrapper.classList.remove('hidden');
 
+                function createTocLink(heading, isMobile) {
                     const level = heading.tagName.replace('H', '');
                     const link = document.createElement('a');
                     link.href = '#' + heading.id;
@@ -1009,19 +1034,43 @@
                             const offset = 100;
                             const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
                             window.scrollTo({ top, behavior: 'smooth' });
+                            if (isMobile && tocMobileNav && !tocMobileNav.classList.contains('hidden')) {
+                                tocMobileNav.classList.add('hidden');
+                                if (tocMobileToggle) tocMobileToggle.setAttribute('aria-expanded', 'false');
+                                if (tocMobileChevron) tocMobileChevron.style.transform = '';
+                            }
                         }
                     });
-                    tocNav.appendChild(link);
+                    return link;
+                }
+
+                headings.forEach((heading, index) => {
+                    if (!heading.id) {
+                        heading.id = 'section-' + index;
+                    }
+                    if (tocNav) tocNav.appendChild(createTocLink(heading, false));
+                    if (tocMobileNav) tocMobileNav.appendChild(createTocLink(heading, true));
                 });
 
-                const tocLinks = tocNav.querySelectorAll('.toc-link');
+                if (tocToggle && tocNav && tocChevron) {
+                    tocToggle.addEventListener('click', () => {
+                        const isHidden = tocNav.classList.contains('hidden');
+                        tocNav.classList.toggle('hidden');
+                        tocToggle.setAttribute('aria-expanded', isHidden);
+                        tocChevron.style.transform = isHidden ? 'rotate(180deg)' : '';
+                    });
+                }
 
-                tocToggle.addEventListener('click', () => {
-                    const isHidden = tocNav.classList.contains('hidden');
-                    tocNav.classList.toggle('hidden');
-                    tocToggle.setAttribute('aria-expanded', isHidden);
-                    tocChevron.style.transform = isHidden ? 'rotate(180deg)' : '';
-                });
+                if (tocMobileToggle && tocMobileNav && tocMobileChevron) {
+                    tocMobileToggle.addEventListener('click', () => {
+                        const isHidden = tocMobileNav.classList.contains('hidden');
+                        tocMobileNav.classList.toggle('hidden');
+                        tocMobileToggle.setAttribute('aria-expanded', isHidden);
+                        tocMobileChevron.style.transform = isHidden ? 'rotate(180deg)' : '';
+                    });
+                }
+
+                const allTocLinks = document.querySelectorAll('.toc-link');
 
                 function updateActiveTocLink() {
                     const scrollPos = window.scrollY + 120;
@@ -1033,11 +1082,8 @@
                         }
                     });
 
-                    tocLinks.forEach((link) => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === '#' + currentId) {
-                            link.classList.add('active');
-                        }
+                    allTocLinks.forEach((link) => {
+                        link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
                     });
                 }
 
@@ -1055,12 +1101,54 @@
                 updateActiveTocLink();
             }
 
+            function initImageLightbox() {
+                const lightbox = document.getElementById('image-lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+                const lightboxCaption = document.getElementById('lightbox-caption');
+                const lightboxClose = document.getElementById('lightbox-close');
+                if (!lightbox || !lightboxImg || !lightboxClose) return;
+
+                function openLightbox(src, alt) {
+                    lightboxImg.src = src;
+                    lightboxImg.alt = alt || '';
+                    lightboxCaption.textContent = alt || '';
+                    lightbox.classList.remove('hidden');
+                    lightbox.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeLightbox() {
+                    lightbox.classList.add('hidden');
+                    lightbox.classList.remove('flex');
+                    lightboxImg.src = '';
+                    document.body.style.overflow = '';
+                }
+
+                document.querySelectorAll('.article-body img').forEach((img) => {
+                    img.addEventListener('click', () => {
+                        openLightbox(img.currentSrc || img.src, img.alt);
+                    });
+                });
+
+                lightboxClose.addEventListener('click', closeLightbox);
+                lightboxImg.addEventListener('click', closeLightbox);
+                lightbox.addEventListener('click', (e) => {
+                    if (e.target === lightbox) closeLightbox();
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+                        closeLightbox();
+                    }
+                });
+            }
+
             document.addEventListener('DOMContentLoaded', () => {
                 initNewsletterForm('newsletter-form');
                 initNewsletterForm('newsletter-form-sidebar');
                 initMetaCsrf();
                 initReplyToggles();
                 initTableOfContents();
+                initImageLightbox();
 
                 initToggleButton(document.getElementById('btn-suka'), (data) => {
                     const icon = document.getElementById('suka-icon');

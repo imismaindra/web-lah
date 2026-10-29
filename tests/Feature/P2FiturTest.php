@@ -218,4 +218,3 @@ class P2FiturTest extends TestCase
         $this->assertSame(1, $artikel->reading_time);
     }
 }
-

@@ -27,4 +27,3 @@ class PublishScheduledArtikels extends Command
         return self::SUCCESS;
     }
 }
-

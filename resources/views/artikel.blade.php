@@ -208,26 +208,24 @@
 
             .ad-slot {
                 min-height: 250px;
-                background: linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%);
-                border: 1px dashed #d6d3d1;
-                border-radius: 1rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                border-radius: 1rem;
+                background: rgba(0, 0, 0, 0.015);
             }
 
-
-                .dark .ad-slot {
-                    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.04) 100%);
-                    border-color: rgba(255,255,255,0.08);
-                }
+            .dark .ad-slot {
+                background: rgba(255, 255, 255, 0.01);
+            }
 
             .ad-slot-label {
-                font-size: 11px;
+                font-size: 10px;
                 font-weight: 600;
-                letter-spacing: 0.05em;
+                letter-spacing: 0.12em;
                 text-transform: uppercase;
                 color: #a8a29e;
+                opacity: 0.35;
             }
 
             .article-body img {
@@ -671,7 +669,7 @@
                         </div>
 
                         {{-- Reactions --}}
-                        <div class="mt-8 flex flex-wrap items-center gap-4">
+                        <div class="mt-8 flex flex-wrap items-center gap-3">
                             @auth
                                 <button type="button" id="btn-suka" data-url="{{ route('reaksi.toggle', $artikel) }}" data-active="{{ $isLiked ? 'true' : 'false' }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold transition hover:border-stone-300 dark:border-white/10 dark:hover:border-white/20" aria-pressed="{{ $isLiked ? 'true' : 'false' }}">
                                     <svg id="suka-icon" class="h-4 w-4 transition" viewBox="0 0 24 24" fill="{{ $isLiked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
@@ -683,8 +681,14 @@
                                     <span id="bookmark-label">{{ $isBookmarked ? 'Tersimpan' : 'Simpan' }}</span>
                                 </button>
                             @else
-                                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-500 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white">
-                                    Masuk untuk menyukai atau menyimpan artikel ini
+                                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-50 dark:border-white/10 dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/[0.04]" title="Masuk untuk menyukai artikel ini">
+                                    <svg class="h-4 w-4 text-stone-400 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                                    <span>Suka</span>
+                                    <span class="text-stone-500 dark:text-stone-400">{{ $reaksiCount }}</span>
+                                </a>
+                                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-50 dark:border-white/10 dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/[0.04]" title="Masuk untuk menyimpan artikel ini">
+                                    <svg class="h-4 w-4 text-stone-400 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                                    <span>Simpan</span>
                                 </a>
                             @endauth
                         </div>
@@ -731,7 +735,7 @@
                                     class="block w-full rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
                                 >{{ old('isi') }}</textarea>
                                 <div class="mt-4 flex items-center justify-between gap-3">
-                                    <p class="text-[11px] text-stone-400 dark:text-stone-500">Komentar sopan dan relevan sangat dihargai.</p>
+                                    <p class="text-[11px] text-stone-500 dark:text-stone-400">Komentar sopan dan relevan sangat dihargai.</p>
                                     <button type="submit" class="rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-stone-800 active:scale-[0.98] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
                                         Kirim Komentar
                                     </button>

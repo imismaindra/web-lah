@@ -117,11 +117,23 @@
                         <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Linimasa</p>
                         <h2 class="mt-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Perjalanan Waktu</h2>
                     </div>
-                    <p class="hidden max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400 sm:block">Telusuri era — dari kuno hingga modern.</p>
+                    <div class="flex items-center gap-4">
+                        <p class="hidden max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400 sm:block">Telusuri era — dari kuno hingga modern.</p>
+                        @if ($eras->count() > 1)
+                            <div class="hidden items-center gap-1.5 sm:flex">
+                                <button type="button" id="era-scroll-prev" class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 transition hover:border-stone-300 hover:text-stone-900 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-white/20 dark:hover:text-white" aria-label="Geser linimasa ke kiri">
+                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                                </button>
+                                <button type="button" id="era-scroll-next" class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 transition hover:border-stone-300 hover:text-stone-900 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-white/20 dark:hover:text-white" aria-label="Geser linimasa ke kanan">
+                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                </button>
+                            </div>
+                        @endif
+                    </div>
                 </div>
                 <div class="relative mt-8">
                     <div class="pointer-events-none absolute left-0 right-0 top-[22px] hidden h-px bg-stone-200 dark:bg-white/10 lg:block"></div>
-                    <div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+                    <div id="era-track" class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth scrollbar-hide">
                         @forelse ($eras as $i => $era)
                             <a href="{{ route('era.show', $era) }}" class="group relative w-[260px] shrink-0 snap-start sm:w-[280px] {{ $i === 0 ? 'sm:w-[300px]' : '' }}">
                                 <span class="absolute left-1/2 top-[16px] hidden h-3 w-3 -translate-x-1/2 rounded-full border-4 border-[#faf9f7] bg-stone-900 dark:border-[#0f0f0e] dark:bg-white lg:block"></span>
@@ -316,6 +328,16 @@
         @include('partials.site-footer')
 
         <script>
+            (function () {
+                const eraTrack = document.getElementById('era-track');
+                document.getElementById('era-scroll-prev')?.addEventListener('click', () => {
+                    eraTrack?.scrollBy({ left: -320, behavior: 'smooth' });
+                });
+                document.getElementById('era-scroll-next')?.addEventListener('click', () => {
+                    eraTrack?.scrollBy({ left: 320, behavior: 'smooth' });
+                });
+            })();
+
             document.getElementById('newsletter-form')?.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const form = e.target;

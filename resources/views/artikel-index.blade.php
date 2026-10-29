@@ -80,14 +80,67 @@
                 </select>
             </form>
 
+            @php
+                $selectedKategori = $kategoris->firstWhere('id', $kategoriId);
+                $selectedEra = $eras->firstWhere('id', $eraId);
+                $selectedTopik = $topiks->firstWhere('id', $topikId);
+                $isPopuler = request('urut') === 'populer';
+                $hasActiveFilters = $selectedKategori || $selectedEra || $selectedTopik || $isPopuler;
+            @endphp
+
+            @if ($hasActiveFilters)
+                <div class="mt-4 flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-semibold text-stone-500 dark:text-stone-400">Filter aktif:</span>
+
+                    @if ($selectedKategori)
+                        <a href="{{ request()->fullUrlWithQuery(['kategori' => null]) }}" class="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-medium text-stone-700 transition hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-red-500/30 dark:hover:bg-red-500/10 dark:hover:text-red-400">
+                            <span>Kategori: <strong>{{ $selectedKategori->nama }}</strong></span>
+                            <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        </a>
+                    @endif
+
+                    @if ($selectedEra)
+                        <a href="{{ request()->fullUrlWithQuery(['era' => null]) }}" class="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-medium text-stone-700 transition hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-red-500/30 dark:hover:bg-red-500/10 dark:hover:text-red-400">
+                            <span>Era: <strong>{{ $selectedEra->nama }}</strong></span>
+                            <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        </a>
+                    @endif
+
+                    @if ($selectedTopik)
+                        <a href="{{ request()->fullUrlWithQuery(['topik' => null]) }}" class="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-medium text-stone-700 transition hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-red-500/30 dark:hover:bg-red-500/10 dark:hover:text-red-400">
+                            <span>Topik: <strong>{{ $selectedTopik->nama }}</strong></span>
+                            <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        </a>
+                    @endif
+
+                    @if ($isPopuler)
+                        <a href="{{ request()->fullUrlWithQuery(['urut' => null]) }}" class="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-medium text-stone-700 transition hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-red-500/30 dark:hover:bg-red-500/10 dark:hover:text-red-400">
+                            <span>Urutan: <strong>Populer</strong></span>
+                            <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        </a>
+                    @endif
+
+                    <a href="{{ route('artikel.index') }}" class="ml-1 text-xs font-semibold text-[#1e3a5f] underline underline-offset-4 transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">
+                        Reset filter
+                    </a>
+                </div>
+            @endif
+
             {{-- Articles --}}
             @if ($artikels->isEmpty())
-                <div class="rounded-2xl border border-dashed border-stone-200 bg-white p-12 text-center dark:border-white/[0.06] dark:bg-[#171716]">
+                <div class="mt-8 rounded-2xl border border-dashed border-stone-200 bg-white p-12 text-center dark:border-white/[0.06] dark:bg-[#171716]">
                     <svg class="mx-auto h-12 w-12 text-stone-300 dark:text-stone-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-                    <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">Belum ada artikel.</p>
+                    @if ($hasActiveFilters)
+                        <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">Tidak ada artikel yang cocok dengan filter yang dipilih.</p>
+                        <a href="{{ route('artikel.index') }}" class="mt-4 inline-block rounded-lg bg-stone-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
+                            Reset Semua Filter
+                        </a>
+                    @else
+                        <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">Belum ada artikel.</p>
+                    @endif
                 </div>
             @else
-                <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($artikels as $artikel)
                         <a href="{{ route('artikel.show', $artikel) }}" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                             <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">

@@ -356,6 +356,7 @@
                     const data = await res.json();
                     if (data.success) {
                         form.reset();
+                        window.trackGa4Event?.('sign_up', { method: 'newsletter' });
                         showToast(data.message, 'success');
                     } else {
                         showToast(data.message || 'Terjadi kesalahan', 'error');

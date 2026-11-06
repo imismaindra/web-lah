@@ -75,6 +75,7 @@
             'section' => $artikel->kategori->nama ?? 'Umum',
             'tags' => $artikel->topiks?->pluck('nama')->toArray() ?? [],
             'schema' => $articleSchema,
+            'noindex' => $isPreview ?? false,
         ])
 
         @php
@@ -103,10 +104,10 @@
                 ])),
             ];
         @endphp
-        <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
         @if ($faqSchema)
-            <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
+            <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
         @endif
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">

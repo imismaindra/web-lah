@@ -36,7 +36,7 @@ return [
     ],
 
     'google_analytics' => [
-        'measurement_id' => env('GA4_MEASUREMENT_ID', 'G-1TZSDZL104'),
+        'measurement_id' => env('GA4_MEASUREMENT_ID'),
     ],
 
 ];

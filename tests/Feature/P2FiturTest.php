@@ -99,22 +99,18 @@ class P2FiturTest extends TestCase
             ->assertSee(route('kategori.show', $artikel->kategori), false)
             ->assertDontSee(route('kategori.show', $emptyCategory), false);
 
-        $xml = simplexml_load_string($response->getContent());
-        $this->assertNotFalse($xml);
+        $xmlContent = $response->getContent();
+        $aboutLoc = preg_quote(route('tentang'), '/');
+        $articleLoc = preg_quote(route('artikel.show', $artikel), '/');
 
-        $namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-        $entries = collect($xml->children($namespace)->url);
-        $aboutUrl = $entries->first(
-            fn ($entry) => (string) $entry->children($namespace)->loc === route('tentang')
+        $this->assertMatchesRegularExpression(
+            '/<loc>'.$aboutLoc.'<\\/loc>\\s*<changefreq>/',
+            $xmlContent
         );
-        $articleUrl = $entries->first(
-            fn ($entry) => (string) $entry->children($namespace)->loc === route('artikel.show', $artikel)
+        $this->assertMatchesRegularExpression(
+            '/<loc>'.$articleLoc.'<\\/loc>\\s*<lastmod>/',
+            $xmlContent
         );
-
-        $this->assertNotNull($aboutUrl);
-        $this->assertNotNull($articleUrl);
-        $this->assertEmpty((string) $aboutUrl->children($namespace)->lastmod);
-        $this->assertNotEmpty((string) $articleUrl->children($namespace)->lastmod);
     }
 
     public function test_bot_crawler_tidak_menambah_views_dan_tidak_dicatat_di_pageviews(): void

@@ -96,11 +96,12 @@
         const trigger = event.target.closest('[data-ga4-event]');
         if (!trigger) return;
 
-        window.trackGa4Event(trigger.dataset.ga4Event, {
-            method: trigger.dataset.ga4Method || undefined,
-            content_type: trigger.dataset.ga4ContentType || undefined,
-            item_id: trigger.dataset.ga4ItemId || undefined,
-        });
+        const parameters = {};
+        if (trigger.dataset.ga4Method) parameters.method = trigger.dataset.ga4Method;
+        if (trigger.dataset.ga4ContentType) parameters.content_type = trigger.dataset.ga4ContentType;
+        if (trigger.dataset.ga4ItemId) parameters.item_id = trigger.dataset.ga4ItemId;
+
+        window.trackGa4Event(trigger.dataset.ga4Event, parameters);
     });
 
     document.addEventListener('submit', (event) => {

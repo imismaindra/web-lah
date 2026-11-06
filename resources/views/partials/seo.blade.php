@@ -4,13 +4,19 @@
     $image = $image ?? asset('logo_LAH.jpg');
     $noindex = $noindex ?? false;
 
-    // Canonical: gunakan URL tanpa query string untuk hindari duplikasi
-    $canonicalUrl = rtrim(config('app.url'), '/') . '/' . ltrim(request()->path(), '/');
-    // Normalize root URL (bukan "/")
-    if ($canonicalUrl === rtrim(config('app.url'), '/') . '/') {
-        $canonicalUrl = rtrim(config('app.url'), '/');
+    // Prefer canonical URL explicitly supplied by the page (e.g. article permalink).
+    // For paginated listing pages, keep only the page parameter; discard tracking/filter queries.
+    $baseCanonicalUrl = rtrim(config('app.url'), '/') . '/' . ltrim(request()->path(), '/');
+    if ($baseCanonicalUrl === rtrim(config('app.url'), '/') . '/') {
+        $baseCanonicalUrl = rtrim(config('app.url'), '/');
     }
 
+    $pageNumber = request()->query('page');
+    if (! isset($url) && is_scalar($pageNumber) && ctype_digit((string) $pageNumber) && (int) $pageNumber > 1) {
+        $baseCanonicalUrl .= '?page=' . (int) $pageNumber;
+    }
+
+    $canonicalUrl = $url ?? $baseCanonicalUrl;
     $url = $canonicalUrl;
 
     $type = $type ?? 'website';
@@ -24,15 +30,12 @@
     $isHomepage = $isHomepage ?? false;
 @endphp
 
-@if ($noindex)
-<meta name="robots" content="noindex, nofollow">
-@endif
+<meta name="robots" content="{{ $noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' }}">
 
 <meta name="description" content="{{ $description }}">
 @if ($keywords)
 <meta name="keywords" content="{{ $keywords }}">
 @endif
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $description }}">
@@ -72,7 +75,7 @@
 <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
 @if ($schema)
-<script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+<script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 @endif
 
 @if ($isHomepage)
@@ -103,5 +106,5 @@
         ],
     ];
 @endphp
-<script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+<script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 @endif

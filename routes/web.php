@@ -388,6 +388,17 @@ Route::get('/artikel/{artikel}', function (Artikel $artikel, Request $request) {
         ->take(3)
         ->get();
 
+    if ($relatedArtikels->count() < 3) {
+        $fallbackArtikels = Artikel::published()
+            ->whereNotIn('id', $relatedArtikels->pluck('id')->push($artikel->id))
+            ->with('kategori')
+            ->latest('published_at')
+            ->take(3 - $relatedArtikels->count())
+            ->get();
+
+        $relatedArtikels = $relatedArtikels->concat($fallbackArtikels);
+    }
+
     return view('artikel', compact(
         'artikel',
         'relatedArtikels',

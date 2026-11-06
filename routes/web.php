@@ -333,7 +333,7 @@ Route::get('/artikel', function (Request $request) {
 Route::post('/artikel/{artikel}/komentar', [KomentarController::class, 'store'])->middleware('throttle:3,1')->name('komentar.store');
 
 Route::get('/artikel/{artikel}', function (Artikel $artikel, Request $request) {
-    $artikel->load(['kategori', 'author', 'author.penulis']);
+    $artikel->load(['kategori', 'era', 'topiks', 'author', 'author.penulis']);
 
     $isPreview = false;
     if (! $artikel->isPublished()) {
@@ -367,23 +367,26 @@ Route::get('/artikel/{artikel}', function (Artikel $artikel, Request $request) {
         ->latest()
         ->get();
 
+    $relatedTopikIds = $artikel->topiks->modelKeys();
+
     $relatedArtikels = Artikel::published()
-        ->where('kategori_id', $artikel->kategori_id)
         ->where('id', '!=', $artikel->id)
-        ->latest()
+        ->with('kategori')
+        ->withCount([
+            'topiks as matching_topiks_count' => fn ($query) => $query->whereIn('topiks.id', $relatedTopikIds),
+        ])
+        ->when($artikel->kategori_id, fn ($query) => $query->orderByRaw(
+            'CASE WHEN kategori_id = ? THEN 1 ELSE 0 END DESC',
+            [$artikel->kategori_id]
+        ))
+        ->when($artikel->era_id, fn ($query) => $query->orderByRaw(
+            'CASE WHEN era_id = ? THEN 1 ELSE 0 END DESC',
+            [$artikel->era_id]
+        ))
+        ->orderByDesc('matching_topiks_count')
+        ->latest('published_at')
         ->take(3)
         ->get();
-
-    if ($relatedArtikels->count() < 3) {
-        $relatedArtikels = $relatedArtikels->concat(
-            Artikel::published()
-                ->latest()
-                ->take(8)
-                ->get()
-                ->filter(fn ($a) => $a->id !== $artikel->id && ! $relatedArtikels->contains('id', $a->id))
-                ->take(3 - $relatedArtikels->count())
-        );
-    }
 
     return view('artikel', compact(
         'artikel',

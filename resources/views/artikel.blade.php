@@ -606,7 +606,7 @@
 
                         @php
                             // The article title is the page's single H1; normalize legacy body H1 tags to H2.
-                            $articleContent = preg_replace('/<\\/?h1(\\b[^>]*)>/i', function ($match) {
+                            $articleContent = preg_replace_callback('/<\\/?h1(\\b[^>]*)>/i', function ($match) {
                                 return str_ends_with(strtolower($match[0]), '</h1>')
                                     ? '</h2>'
                                     : '<h2' . $match[1] . '>';

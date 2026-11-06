@@ -145,27 +145,74 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/sitemap.xml', function () {
+    $publishedArticles = fn ($query) => $query->published();
+
     $artikels = Artikel::published()->latest()->get();
-    $kategoris = Kategori::all();
-    $eras = Era::all();
-    $topiks = Topik::all();
-    $penulises = Penulis::all();
+    $latestArticleUpdate = $artikels->max('updated_at');
+
+    $kategoris = Kategori::query()
+        ->whereHas('artikel', $publishedArticles)
+        ->withMax(['artikel as latest_article_updated_at' => $publishedArticles], 'updated_at')
+        ->get();
+
+    $eras = Era::query()
+        ->whereHas('artikel', $publishedArticles)
+        ->withMax(['artikel as latest_article_updated_at' => $publishedArticles], 'updated_at')
+        ->get();
+
+    $topiks = Topik::query()
+        ->whereHas('artikel', $publishedArticles)
+        ->withMax(['artikel as latest_article_updated_at' => $publishedArticles], 'updated_at')
+        ->get();
+
+    $penulises = Penulis::query()
+        ->whereHas('artikel', $publishedArticles)
+        ->withMax(['artikel as latest_article_updated_at' => $publishedArticles], 'updated_at')
+        ->get();
+
+    $resolveLastmod = static function ($model) {
+        $timestamps = collect([
+            $model->updated_at,
+            $model->latest_article_updated_at,
+        ])->filter();
+
+        if ($timestamps->isEmpty()) {
+            return null;
+        }
+
+        return $timestamps
+            ->map(fn ($timestamp) => \\Illuminate\\Support\\Carbon::parse($timestamp))
+            ->sort()
+            ->last()
+            ->toAtomString();
+    };
 
     $staticUrls = [
-        ['url' => url('/'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '1.0'],
-        ['url' => route('artikel.index'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '0.9'],
-        ['url' => route('tentang'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.5'],
-        ['url' => route('kontak'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.4'],
-        ['url' => route('privasi'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'yearly', 'priority' => '0.3'],
+        [
+            'url' => url('/'),
+            'lastmod' => $latestArticleUpdate?->toAtomString(),
+            'changefreq' => 'daily',
+            'priority' => '1.0',
+        ],
+        [
+            'url' => route('artikel.index'),
+            'lastmod' => $latestArticleUpdate?->toAtomString(),
+            'changefreq' => 'daily',
+            'priority' => '0.9',
+        ],
+        ['url' => route('tentang'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['url' => route('kontak'), 'changefreq' => 'monthly', 'priority' => '0.4'],
+        ['url' => route('privasi'), 'changefreq' => 'yearly', 'priority' => '0.3'],
     ];
 
-    $urls = array_merge($staticUrls, $artikels->map(function ($artikel) {
+    $articleUrls = $artikels->map(function ($artikel) {
         $entry = [
             'url' => route('artikel.show', $artikel),
-            'lastmod' => $artikel->updated_at->toAtomString(),
+            'lastmod' => $artikel->updated_at?->toAtomString(),
             'changefreq' => 'weekly',
             'priority' => '0.8',
         ];
+
         if ($artikel->gambar) {
             $entry['image'] = [
                 'loc' => asset('storage/'.$artikel->gambar),
@@ -174,35 +221,44 @@ Route::get('/sitemap.xml', function () {
         }
 
         return $entry;
-    })->all(), $kategoris->map(function ($kategori) {
-        return [
-            'url' => route('kategori.show', $kategori),
-            'lastmod' => now()->toAtomString(),
-            'changefreq' => 'daily',
-            'priority' => '0.6',
-        ];
-    })->all(), $eras->map(function ($era) {
-        return [
-            'url' => route('era.show', $era),
-            'lastmod' => now()->toAtomString(),
-            'changefreq' => 'weekly',
-            'priority' => '0.6',
-        ];
-    })->all(), $topiks->map(function ($topik) {
-        return [
-            'url' => route('topik.show', $topik),
-            'lastmod' => now()->toAtomString(),
-            'changefreq' => 'weekly',
-            'priority' => '0.5',
-        ];
-    })->all(), $penulises->map(function ($penulis) {
-        return [
-            'url' => route('penulis.show', $penulis),
-            'lastmod' => $penulis->updated_at->toAtomString(),
-            'changefreq' => 'monthly',
-            'priority' => '0.4',
-        ];
-    })->all());
+    });
+
+    $categoryUrls = $kategoris->map(fn ($kategori) => [
+        'url' => route('kategori.show', $kategori),
+        'lastmod' => $resolveLastmod($kategori),
+        'changefreq' => 'daily',
+        'priority' => '0.6',
+    ]);
+
+    $eraUrls = $eras->map(fn ($era) => [
+        'url' => route('era.show', $era),
+        'lastmod' => $resolveLastmod($era),
+        'changefreq' => 'weekly',
+        'priority' => '0.6',
+    ]);
+
+    $topicUrls = $topiks->map(fn ($topik) => [
+        'url' => route('topik.show', $topik),
+        'lastmod' => $resolveLastmod($topik),
+        'changefreq' => 'weekly',
+        'priority' => '0.5',
+    ]);
+
+    $authorUrls = $penulises->map(fn ($penulis) => [
+        'url' => route('penulis.show', $penulis),
+        'lastmod' => $resolveLastmod($penulis),
+        'changefreq' => 'monthly',
+        'priority' => '0.4',
+    ]);
+
+    $urls = $articleUrls
+        ->concat($staticUrls)
+        ->concat($categoryUrls)
+        ->concat($eraUrls)
+        ->concat($topicUrls)
+        ->concat($authorUrls)
+        ->values()
+        ->all();
 
     return response()->view('sitemap', compact('urls'))->header('Content-Type', 'application/xml');
 })->name('sitemap');

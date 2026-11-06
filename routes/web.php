@@ -30,6 +30,7 @@ use App\Models\Reaksi;
 use App\Models\Topik;
 use App\Services\AnalyticsTracker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -181,7 +182,7 @@ Route::get('/sitemap.xml', function () {
         }
 
         return $timestamps
-            ->map(fn ($timestamp) => \Illuminate\Support\Carbon::parse($timestamp))
+            ->map(fn ($timestamp) => Carbon::parse($timestamp))
             ->sort()
             ->last()
             ->toAtomString();

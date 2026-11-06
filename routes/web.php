@@ -181,7 +181,7 @@ Route::get('/sitemap.xml', function () {
         }
 
         return $timestamps
-            ->map(fn ($timestamp) => \\Illuminate\\Support\\Carbon::parse($timestamp))
+            ->map(fn ($timestamp) => \Illuminate\Support\Carbon::parse($timestamp))
             ->sort()
             ->last()
             ->toAtomString();

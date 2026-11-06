@@ -58,7 +58,7 @@
                         @endif
                     </div>
 
-                    <form method="GET" action="{{ route('search') }}" class="w-full lg:w-[420px] shrink-0">
+                    <form method="GET" action="{{ route('search') }}" data-ga4-search class="w-full lg:w-[420px] shrink-0">
                         <label for="q" class="sr-only">Kata kunci</label>
                         <div class="relative">
                             <input

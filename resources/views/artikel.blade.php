@@ -25,17 +25,19 @@
                 'url' => $articleUrl,
                 'datePublished' => ($artikel->published_at ?? $artikel->created_at)?->toIso8601String(),
                 'dateModified' => $artikel->updated_at?->toIso8601String(),
-                'author' => [
+                'author' => array_filter([
                     '@type' => 'Person',
+                    '@id' => $artikel->author?->penulis
+                        ? route('penulis.show', $artikel->author->penulis) . '#person'
+                        : $articleUrl . '#author',
                     'name' => $articleAuthor,
-                ],
+                    'url' => $artikel->author?->penulis
+                        ? route('penulis.show', $artikel->author->penulis)
+                        : $articleUrl,
+                    'description' => $artikel->author?->penulis?->bio,
+                ]),
                 'publisher' => [
-                    '@type' => 'Organization',
-                    'name' => config('app.name', 'Look at History'),
-                    'logo' => [
-                        '@type' => 'ImageObject',
-                        'url' => asset('logo_LAH.jpg'),
-                    ],
+                    '@id' => rtrim(config('app.url'), '/') . '#organization',
                 ],
                 'mainEntityOfPage' => [
                     '@type' => 'WebPage',

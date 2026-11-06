@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Artikel;
 use App\Models\Pageview;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AnalyticsTracker
 {

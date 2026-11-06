@@ -272,17 +272,6 @@
                 line-height: 1.2;
             }
 
-            .article-body > h1:first-child {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                white-space: nowrap;
-                border: 0;
-            }
-
-
                 .dark .article-body h1 {
                     color: #fafaf9;
                 }
@@ -615,8 +604,16 @@
                             </nav>
                         </div>
 
+                        @php
+                            // The article title is the page's single H1; normalize legacy body H1 tags to H2.
+                            $articleContent = preg_replace('/<\\/?h1(\\b[^>]*)>/i', function ($match) {
+                                return str_ends_with(strtolower($match[0]), '</h1>')
+                                    ? '</h2>'
+                                    : '<h2' . $match[1] . '>';
+                            }, $artikel->konten);
+                        @endphp
                         <div class="article-body text-[17px] leading-[1.8] text-stone-600 dark:text-stone-300">
-                            {!! $artikel->konten !!}
+                            {!! $articleContent !!}
                         </div>
 
                         @if (!empty($artikel->faq))

@@ -70,6 +70,7 @@ class P2FiturTest extends TestCase
     public function test_pengunjung_valid_menambah_views_dan_tercatat_di_tabel_pageviews(): void
     {
         $artikel = $this->createArtikel();
+        $originalUpdatedAt = $artikel->updated_at->copy();
 
         $response = $this->withServerVariables([
             'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36',
@@ -77,9 +78,33 @@ class P2FiturTest extends TestCase
 
         $response->assertOk();
         $this->assertSame(1, $artikel->fresh()->views);
+        $this->assertTrue($originalUpdatedAt->equalTo($artikel->fresh()->updated_at));
         $this->assertDatabaseHas('pageviews', [
             'artikel_id' => $artikel->id,
         ]);
+    }
+
+    public function test_sitemap_hanya_memuat_kategori_dengan_artikel_publikasi(): void
+    {
+        $artikel = $this->createArtikel();
+        $emptyCategory = Kategori::create([
+            'nama' => 'Kategori Kosong',
+            'deskripsi' => 'Kategori tanpa artikel publik.',
+        ]);
+
+        $response = $this->get(route('sitemap'));
+
+        $response->assertOk()
+            ->assertHeader('Content-Type', 'application/xml')
+            ->assertSee(route('kategori.show', $artikel->kategori), false)
+            ->assertDontSee(route('kategori.show', $emptyCategory), false);
+
+        $xml = simplexml_load_string($response->getContent());
+        $this->assertNotFalse($xml);
+
+        $urls = collect($xml->url)->keyBy(fn ($url) => (string) $url->loc);
+        $this->assertEmpty($urls[route('tentang')]->lastmod);
+        $this->assertNotEmpty($urls[route('artikel.show', $artikel)]->lastmod);
     }
 
     public function test_bot_crawler_tidak_menambah_views_dan_tidak_dicatat_di_pageviews(): void

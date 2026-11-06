@@ -638,6 +638,23 @@
                             </section>
                         @endif
 
+                        @if ($artikel->kategori || $artikel->era || $artikel->topiks->isNotEmpty())
+                            <nav class="mt-10 border-y border-stone-200/70 py-5 dark:border-white/[0.06]" aria-label="Jelajahi kategori dan topik terkait">
+                                <p class="mb-3 text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500">Jelajahi topik terkait</p>
+                                <div class="flex flex-wrap gap-2">
+                                    @if ($artikel->kategori)
+                                        <a href="{{ route('kategori.show', $artikel->kategori) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $artikel->kategori->nama }}</a>
+                                    @endif
+                                    @if ($artikel->era)
+                                        <a href="{{ route('era.show', $artikel->era) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $artikel->era->nama }}</a>
+                                    @endif
+                                    @foreach ($artikel->topiks as $topik)
+                                        <a href="{{ route('topik.show', $topik) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $topik->nama }}</a>
+                                    @endforeach
+                                </div>
+                            </nav>
+                        @endif
+
                         {{-- Author Bio --}}
                         <div class="mt-10 rounded-2xl border border-stone-200/60 bg-white p-6 sm:p-8 dark:border-white/[0.06] dark:bg-[#171716]">
                             <div class="flex items-start gap-4">

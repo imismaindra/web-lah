@@ -78,6 +78,19 @@ class P2FiturTest extends TestCase
         $this->assertStringNotContainsString('googletagmanager.com/gtag/js', $html);
     }
 
+    public function test_ga4_tidak_dirender_jika_measurement_id_tidak_dikonfigurasi(): void
+    {
+        config(['services.google_analytics.measurement_id' => null]);
+
+        $html = view('partials.seo', [
+            'title' => 'Halaman tanpa GA4',
+            'url' => 'https://lookathistory.web.id/tanpa-ga4',
+        ])->render();
+
+        $this->assertStringNotContainsString('googletagmanager.com/gtag/js', $html);
+        $this->assertStringNotContainsString("gtag('config'", $html);
+    }
+
     public function test_reading_time_dihitung_otomatis_dan_tersimpan_di_database(): void
     {
         $artikel = $this->createArtikel([

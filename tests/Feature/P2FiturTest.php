@@ -102,9 +102,17 @@ class P2FiturTest extends TestCase
         $xml = simplexml_load_string($response->getContent());
         $this->assertNotFalse($xml);
 
-        $urls = collect($xml->url)->keyBy(fn ($url) => (string) $url->loc);
-        $this->assertEmpty($urls[route('tentang')]->lastmod);
-        $this->assertNotEmpty($urls[route('artikel.show', $artikel)]->lastmod);
+        $aboutUrl = collect($xml->url)->first(
+            fn ($url) => (string) $url->loc === route('tentang')
+        );
+        $articleUrl = collect($xml->url)->first(
+            fn ($url) => (string) $url->loc === route('artikel.show', $artikel)
+        );
+
+        $this->assertNotNull($aboutUrl);
+        $this->assertNotNull($articleUrl);
+        $this->assertEmpty((string) $aboutUrl->lastmod);
+        $this->assertNotEmpty((string) $articleUrl->lastmod);
     }
 
     public function test_bot_crawler_tidak_menambah_views_dan_tidak_dicatat_di_pageviews(): void

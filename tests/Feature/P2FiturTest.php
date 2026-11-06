@@ -102,17 +102,19 @@ class P2FiturTest extends TestCase
         $xml = simplexml_load_string($response->getContent());
         $this->assertNotFalse($xml);
 
-        $aboutUrl = collect($xml->url)->first(
-            fn ($url) => (string) $url->loc === route('tentang')
+        $namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+        $entries = collect($xml->children($namespace)->url);
+        $aboutUrl = $entries->first(
+            fn ($entry) => (string) $entry->children($namespace)->loc === route('tentang')
         );
-        $articleUrl = collect($xml->url)->first(
-            fn ($url) => (string) $url->loc === route('artikel.show', $artikel)
+        $articleUrl = $entries->first(
+            fn ($entry) => (string) $entry->children($namespace)->loc === route('artikel.show', $artikel)
         );
 
         $this->assertNotNull($aboutUrl);
         $this->assertNotNull($articleUrl);
-        $this->assertEmpty((string) $aboutUrl->lastmod);
-        $this->assertNotEmpty((string) $articleUrl->lastmod);
+        $this->assertEmpty((string) $aboutUrl->children($namespace)->lastmod);
+        $this->assertNotEmpty((string) $articleUrl->children($namespace)->lastmod);
     }
 
     public function test_bot_crawler_tidak_menambah_views_dan_tidak_dicatat_di_pageviews(): void

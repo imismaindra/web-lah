@@ -74,6 +74,17 @@
 <link rel="alternate" type="application/rss+xml" title="{{ config('app.name', 'Look at History') }} RSS" href="{{ route('feed') }}">
 <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
+@php($ga4MeasurementId = config('services.google_analytics.measurement_id'))
+@if (! $noindex && $ga4MeasurementId)
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ rawurlencode($ga4MeasurementId) }}"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', @json($ga4MeasurementId));
+</script>
+@endif
+
 @if ($schema)
 <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 @endif

@@ -52,6 +52,45 @@ class P2FiturTest extends TestCase
         ], $attributes));
     }
 
+    public function test_ga4_tag_dirender_dengan_measurement_id_dari_konfigurasi(): void
+    {
+        config(['services.google_analytics.measurement_id' => 'G-1TZSDZL104']);
+
+        $html = view('partials.seo', [
+            'title' => 'Pengujian GA4',
+            'url' => 'https://lookathistory.web.id/pengujian',
+        ])->render();
+
+        $this->assertStringContainsString('googletagmanager.com/gtag/js?id=G-1TZSDZL104', $html);
+        $this->assertStringContainsString('gtag(\'config\', "G-1TZSDZL104")', $html);
+    }
+
+    public function test_ga4_tidak_dirender_pada_halaman_noindex(): void
+    {
+        config(['services.google_analytics.measurement_id' => 'G-1TZSDZL104']);
+
+        $html = view('partials.seo', [
+            'title' => 'Pratinjau',
+            'url' => 'https://lookathistory.web.id/pratinjau',
+            'noindex' => true,
+        ])->render();
+
+        $this->assertStringNotContainsString('googletagmanager.com/gtag/js', $html);
+    }
+
+    public function test_ga4_tidak_dirender_jika_measurement_id_tidak_dikonfigurasi(): void
+    {
+        config(['services.google_analytics.measurement_id' => null]);
+
+        $html = view('partials.seo', [
+            'title' => 'Halaman tanpa GA4',
+            'url' => 'https://lookathistory.web.id/tanpa-ga4',
+        ])->render();
+
+        $this->assertStringNotContainsString('googletagmanager.com/gtag/js', $html);
+        $this->assertStringNotContainsString("gtag('config'", $html);
+    }
+
     public function test_reading_time_dihitung_otomatis_dan_tersimpan_di_database(): void
     {
         $artikel = $this->createArtikel([

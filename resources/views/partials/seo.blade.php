@@ -117,24 +117,21 @@
 <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 @endif
 
-@php
-    $organizationSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'Organization',
-        '@id' => rtrim(config('app.url'), '/') . '#organization',
-        'name' => config('app.name', 'Look at History'),
-        'url' => rtrim(config('app.url'), '/'),
-        'description' => 'Media sejarah yang menjelaskan mengapa peristiwa masa lalu masih relevan dengan dunia sekarang.',
-        'logo' => [
-            '@type' => 'ImageObject',
-            'url' => asset('logo_LAH.jpg'),
-        ],
-        'sameAs' => [
-            'https://www.instagram.com/lookathistory/',
-        ],
-    ];
-@endphp
-<script type="application/ld+json">{!! json_encode($organizationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+<script type="application/ld+json">{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'Organization',
+    '@id' => rtrim(config('app.url'), '/') . '#organization',
+    'name' => config('app.name', 'Look at History'),
+    'url' => rtrim(config('app.url'), '/'),
+    'description' => 'Media sejarah yang menjelaskan mengapa peristiwa masa lalu masih relevan dengan dunia sekarang.',
+    'logo' => [
+        '@type' => 'ImageObject',
+        'url' => asset('logo_LAH.jpg'),
+    ],
+    'sameAs' => [
+        'https://www.instagram.com/lookathistory/',
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
 @if ($isHomepage)
 @php

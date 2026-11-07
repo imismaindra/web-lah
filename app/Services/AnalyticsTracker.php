@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Artikel;
 use App\Models\Pageview;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AnalyticsTracker
 {
@@ -33,7 +34,8 @@ class AnalyticsTracker
             $request->session()->put($sessionKey, now()->timestamp);
         }
 
-        $artikel->increment('views');
+        // Keep updated_at reserved for content edits so sitemap lastmod stays meaningful.
+        DB::table('artikels')->where('id', $artikel->id)->increment('views');
 
         Pageview::create([
             'artikel_id' => $artikel->id,

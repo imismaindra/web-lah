@@ -30,6 +30,7 @@ use App\Models\Reaksi;
 use App\Models\Topik;
 use App\Services\AnalyticsTracker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -145,27 +146,74 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/sitemap.xml', function () {
+    $publishedArticles = fn ($query) => $query->published();
+
     $artikels = Artikel::published()->latest()->get();
-    $kategoris = Kategori::all();
-    $eras = Era::all();
-    $topiks = Topik::all();
-    $penulises = Penulis::all();
+    $latestArticleUpdate = $artikels->max('updated_at');
+
+    $kategoris = Kategori::query()
+        ->whereHas('artikel', $publishedArticles)
+        ->withMax(['artikel as latest_article_updated_at' => $publishedArticles], 'updated_at')
+        ->get();
+
+    $eras = Era::query()
+        ->whereHas('artikel', $publishedArticles)
+        ->withMax(['artikel as latest_article_updated_at' => $publishedArticles], 'updated_at')
+        ->get();
+
+    $topiks = Topik::query()
+        ->whereHas('artikel', $publishedArticles)
+        ->withMax(['artikel as latest_article_updated_at' => $publishedArticles], 'updated_at')
+        ->get();
+
+    $penulises = Penulis::query()
+        ->whereHas('artikel', $publishedArticles)
+        ->withMax(['artikel as latest_article_updated_at' => $publishedArticles], 'updated_at')
+        ->get();
+
+    $resolveLastmod = static function ($model) {
+        $timestamps = collect([
+            $model->updated_at,
+            $model->latest_article_updated_at,
+        ])->filter();
+
+        if ($timestamps->isEmpty()) {
+            return null;
+        }
+
+        return $timestamps
+            ->map(fn ($timestamp) => Carbon::parse($timestamp))
+            ->sort()
+            ->last()
+            ->toAtomString();
+    };
 
     $staticUrls = [
-        ['url' => url('/'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '1.0'],
-        ['url' => route('artikel.index'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '0.9'],
-        ['url' => route('tentang'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.5'],
-        ['url' => route('kontak'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.4'],
-        ['url' => route('privasi'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'yearly', 'priority' => '0.3'],
+        [
+            'url' => url('/'),
+            'lastmod' => $latestArticleUpdate?->toAtomString(),
+            'changefreq' => 'daily',
+            'priority' => '1.0',
+        ],
+        [
+            'url' => route('artikel.index'),
+            'lastmod' => $latestArticleUpdate?->toAtomString(),
+            'changefreq' => 'daily',
+            'priority' => '0.9',
+        ],
+        ['url' => route('tentang'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['url' => route('kontak'), 'changefreq' => 'monthly', 'priority' => '0.4'],
+        ['url' => route('privasi'), 'changefreq' => 'yearly', 'priority' => '0.3'],
     ];
 
-    $urls = array_merge($staticUrls, $artikels->map(function ($artikel) {
+    $articleUrls = $artikels->map(function ($artikel) {
         $entry = [
             'url' => route('artikel.show', $artikel),
-            'lastmod' => $artikel->updated_at->toAtomString(),
+            'lastmod' => $artikel->updated_at?->toAtomString(),
             'changefreq' => 'weekly',
             'priority' => '0.8',
         ];
+
         if ($artikel->gambar) {
             $entry['image'] = [
                 'loc' => asset('storage/'.$artikel->gambar),
@@ -174,35 +222,44 @@ Route::get('/sitemap.xml', function () {
         }
 
         return $entry;
-    })->all(), $kategoris->map(function ($kategori) {
-        return [
-            'url' => route('kategori.show', $kategori),
-            'lastmod' => now()->toAtomString(),
-            'changefreq' => 'daily',
-            'priority' => '0.6',
-        ];
-    })->all(), $eras->map(function ($era) {
-        return [
-            'url' => route('era.show', $era),
-            'lastmod' => now()->toAtomString(),
-            'changefreq' => 'weekly',
-            'priority' => '0.6',
-        ];
-    })->all(), $topiks->map(function ($topik) {
-        return [
-            'url' => route('topik.show', $topik),
-            'lastmod' => now()->toAtomString(),
-            'changefreq' => 'weekly',
-            'priority' => '0.5',
-        ];
-    })->all(), $penulises->map(function ($penulis) {
-        return [
-            'url' => route('penulis.show', $penulis),
-            'lastmod' => $penulis->updated_at->toAtomString(),
-            'changefreq' => 'monthly',
-            'priority' => '0.4',
-        ];
-    })->all());
+    });
+
+    $categoryUrls = $kategoris->map(fn ($kategori) => [
+        'url' => route('kategori.show', $kategori),
+        'lastmod' => $resolveLastmod($kategori),
+        'changefreq' => 'daily',
+        'priority' => '0.6',
+    ]);
+
+    $eraUrls = $eras->map(fn ($era) => [
+        'url' => route('era.show', $era),
+        'lastmod' => $resolveLastmod($era),
+        'changefreq' => 'weekly',
+        'priority' => '0.6',
+    ]);
+
+    $topicUrls = $topiks->map(fn ($topik) => [
+        'url' => route('topik.show', $topik),
+        'lastmod' => $resolveLastmod($topik),
+        'changefreq' => 'weekly',
+        'priority' => '0.5',
+    ]);
+
+    $authorUrls = $penulises->map(fn ($penulis) => [
+        'url' => route('penulis.show', $penulis),
+        'lastmod' => $resolveLastmod($penulis),
+        'changefreq' => 'monthly',
+        'priority' => '0.4',
+    ]);
+
+    $urls = $articleUrls
+        ->concat($staticUrls)
+        ->concat($categoryUrls)
+        ->concat($eraUrls)
+        ->concat($topicUrls)
+        ->concat($authorUrls)
+        ->values()
+        ->all();
 
     return response()->view('sitemap', compact('urls'))->header('Content-Type', 'application/xml');
 })->name('sitemap');
@@ -277,7 +334,7 @@ Route::get('/artikel', function (Request $request) {
 Route::post('/artikel/{artikel}/komentar', [KomentarController::class, 'store'])->middleware('throttle:3,1')->name('komentar.store');
 
 Route::get('/artikel/{artikel}', function (Artikel $artikel, Request $request) {
-    $artikel->load(['kategori', 'author', 'author.penulis']);
+    $artikel->load(['kategori', 'era', 'topiks', 'author', 'author.penulis']);
 
     $isPreview = false;
     if (! $artikel->isPublished()) {
@@ -311,22 +368,36 @@ Route::get('/artikel/{artikel}', function (Artikel $artikel, Request $request) {
         ->latest()
         ->get();
 
+    $relatedTopikIds = $artikel->topiks->modelKeys();
+
     $relatedArtikels = Artikel::published()
-        ->where('kategori_id', $artikel->kategori_id)
         ->where('id', '!=', $artikel->id)
-        ->latest()
+        ->with('kategori')
+        ->withCount([
+            'topiks as matching_topiks_count' => fn ($query) => $query->whereIn('topiks.id', $relatedTopikIds),
+        ])
+        ->when($artikel->kategori_id, fn ($query) => $query->orderByRaw(
+            'CASE WHEN kategori_id = ? THEN 1 ELSE 0 END DESC',
+            [$artikel->kategori_id]
+        ))
+        ->when($artikel->era_id, fn ($query) => $query->orderByRaw(
+            'CASE WHEN era_id = ? THEN 1 ELSE 0 END DESC',
+            [$artikel->era_id]
+        ))
+        ->orderByDesc('matching_topiks_count')
+        ->latest('published_at')
         ->take(3)
         ->get();
 
     if ($relatedArtikels->count() < 3) {
-        $relatedArtikels = $relatedArtikels->concat(
-            Artikel::published()
-                ->latest()
-                ->take(8)
-                ->get()
-                ->filter(fn ($a) => $a->id !== $artikel->id && ! $relatedArtikels->contains('id', $a->id))
-                ->take(3 - $relatedArtikels->count())
-        );
+        $fallbackArtikels = Artikel::published()
+            ->whereNotIn('id', $relatedArtikels->pluck('id')->push($artikel->id))
+            ->with('kategori')
+            ->latest('published_at')
+            ->take(3 - $relatedArtikels->count())
+            ->get();
+
+        $relatedArtikels = $relatedArtikels->concat($fallbackArtikels);
     }
 
     return view('artikel', compact(

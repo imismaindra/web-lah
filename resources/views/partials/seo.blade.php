@@ -3,6 +3,7 @@
     $description = $description ?? 'Blog sejarah dunia ringkas & terpercaya. Temukan artikel peradaban kuno, perang dunia, tokoh sejarah, dan peristiwa penting masa lalu.';
     $image = $image ?? asset('logo_LAH.jpg');
     $noindex = $noindex ?? false;
+    $isPreview = $isPreview ?? false;
 
     // Prefer canonical URL explicitly supplied by the page (e.g. article permalink).
     // For paginated listing pages, keep only the page parameter; discard tracking/filter queries.
@@ -75,13 +76,40 @@
 <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
 @php($ga4MeasurementId = config('services.google_analytics.measurement_id'))
-@if (! $noindex && $ga4MeasurementId)
+@if (! $isPreview && $ga4MeasurementId)
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ rawurlencode($ga4MeasurementId) }}"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', @json($ga4MeasurementId));
+
+    window.trackGa4Event = function (eventName, parameters = {}) {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, parameters);
+        }
+    };
+
+    document.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        const trigger = event.target.closest('[data-ga4-event]');
+        if (!trigger) return;
+
+        const parameters = {};
+        if (trigger.dataset.ga4Method) parameters.method = trigger.dataset.ga4Method;
+        if (trigger.dataset.ga4ContentType) parameters.content_type = trigger.dataset.ga4ContentType;
+        if (trigger.dataset.ga4ItemId) parameters.item_id = trigger.dataset.ga4ItemId;
+
+        window.trackGa4Event(trigger.dataset.ga4Event, parameters);
+    });
+
+    document.addEventListener('submit', (event) => {
+        if (!(event.target instanceof HTMLFormElement)) return;
+        if (!event.target.matches('[data-ga4-search]')) return;
+
+        window.trackGa4Event('search');
+    });
 </script>
 @endif
 

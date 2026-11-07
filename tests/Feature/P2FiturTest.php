@@ -65,7 +65,20 @@ class P2FiturTest extends TestCase
         $this->assertStringContainsString('gtag(\'config\', "G-1TZSDZL104")', $html);
     }
 
-    public function test_ga4_tidak_dirender_pada_halaman_noindex(): void
+    public function test_ga4_tetap_dirender_pada_halaman_publik_noindex(): void
+    {
+        config(['services.google_analytics.measurement_id' => 'G-1TZSDZL104']);
+
+        $html = view('partials.seo', [
+            'title' => 'Hasil Pencarian',
+            'url' => 'https://lookathistory.web.id/cari',
+            'noindex' => true,
+        ])->render();
+
+        $this->assertStringContainsString('googletagmanager.com/gtag/js?id=G-1TZSDZL104', $html);
+    }
+
+    public function test_ga4_tidak_dirender_pada_halaman_pratinjau(): void
     {
         config(['services.google_analytics.measurement_id' => 'G-1TZSDZL104']);
 
@@ -73,9 +86,34 @@ class P2FiturTest extends TestCase
             'title' => 'Pratinjau',
             'url' => 'https://lookathistory.web.id/pratinjau',
             'noindex' => true,
+            'isPreview' => true,
         ])->render();
 
         $this->assertStringNotContainsString('googletagmanager.com/gtag/js', $html);
+    }
+
+    public function test_ga4_event_tracking_disediakan_untuk_event_interaksi(): void
+    {
+        config(['services.google_analytics.measurement_id' => 'G-1TZSDZL104']);
+
+        $html = view('partials.seo', [
+            'title' => 'Pengujian event',
+            'url' => 'https://lookathistory.web.id/pengujian',
+        ])->render();
+
+        $this->assertStringContainsString('window.trackGa4Event', $html);
+        $this->assertStringContainsString("window.trackGa4Event('search')", $html);
+    }
+
+    public function test_halaman_pencarian_mengaktifkan_atribut_tracking_ga4(): void
+    {
+        config(['services.google_analytics.measurement_id' => 'G-1TZSDZL104']);
+
+        $response = $this->get(route('search', ['q' => 'sejarah']));
+
+        $response->assertOk()
+            ->assertSee('data-ga4-search', false)
+            ->assertSee('googletagmanager.com/gtag/js?id=G-1TZSDZL104', false);
     }
 
     public function test_ga4_tidak_dirender_jika_measurement_id_tidak_dikonfigurasi(): void

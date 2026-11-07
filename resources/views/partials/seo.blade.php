@@ -75,14 +75,13 @@
 <link rel="alternate" type="application/rss+xml" title="{{ config('app.name', 'Look at History') }} RSS" href="{{ route('feed') }}">
 <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
-@php($ga4MeasurementId = config('services.google_analytics.measurement_id'))
-@if (! $isPreview && $ga4MeasurementId)
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ rawurlencode($ga4MeasurementId) }}"></script>
+@if (! $isPreview && config('services.google_analytics.measurement_id'))
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ rawurlencode(config('services.google_analytics.measurement_id')) }}"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', @json($ga4MeasurementId));
+    gtag('config', @json(config('services.google_analytics.measurement_id')));
 
     window.trackGa4Event = function (eventName, parameters = {}) {
         if (typeof window.gtag === 'function') {
@@ -133,27 +132,24 @@
     ],
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
-<?php if ($isHomepage): ?>
-@php
-    $websiteSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'WebSite',
-        'name' => config('app.name', 'Look at History'),
-        'url' => rtrim(config('app.url'), '/'),
-        'description' => $description,
-        'inLanguage' => 'id',
-        'potentialAction' => [
-            '@type' => 'SearchAction',
-            'target' => [
-                '@type' => 'EntryPoint',
-                'urlTemplate' => rtrim(config('app.url'), '/') . '/cari?q={search_term_string}',
-            ],
-            'query-input' => 'required name=search_term_string',
+@if ($isHomepage)
+<script type="application/ld+json">{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'WebSite',
+    'name' => config('app.name', 'Look at History'),
+    'url' => rtrim(config('app.url'), '/'),
+    'description' => $description,
+    'inLanguage' => 'id',
+    'potentialAction' => [
+        '@type' => 'SearchAction',
+        'target' => [
+            '@type' => 'EntryPoint',
+            'urlTemplate' => rtrim(config('app.url'), '/') . '/cari?q={search_term_string}',
         ],
-        'publisher' => [
-            '@id' => rtrim(config('app.url'), '/') . '#organization',
-        ],
-    ];
-@endphp
-<script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
-<?php endif; ?>
+        'query-input' => 'required name=search_term_string',
+    ],
+    'publisher' => [
+        '@id' => rtrim(config('app.url'), '/') . '#organization',
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+@endif

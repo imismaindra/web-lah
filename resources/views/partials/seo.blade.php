@@ -3,6 +3,7 @@
     $description = $description ?? 'Blog sejarah dunia ringkas & terpercaya. Temukan artikel peradaban kuno, perang dunia, tokoh sejarah, dan peristiwa penting masa lalu.';
     $image = $image ?? asset('logo_LAH.jpg');
     $noindex = $noindex ?? false;
+    $isPreview = $isPreview ?? false;
 
     // Prefer canonical URL explicitly supplied by the page (e.g. article permalink).
     // For paginated listing pages, keep only the page parameter; discard tracking/filter queries.
@@ -74,50 +75,81 @@
 <link rel="alternate" type="application/rss+xml" title="{{ config('app.name', 'Look at History') }} RSS" href="{{ route('feed') }}">
 <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
+@if (! $isPreview && config('services.google_analytics.measurement_id'))
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ rawurlencode(config('services.google_analytics.measurement_id')) }}"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', @json(config('services.google_analytics.measurement_id')));
+
+    window.trackGa4Event = function (eventName, parameters = {}) {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, parameters);
+        }
+    };
+
+    document.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        const trigger = event.target.closest('[data-ga4-event]');
+        if (!trigger) return;
+
+        const parameters = {};
+        if (trigger.dataset.ga4Method) parameters.method = trigger.dataset.ga4Method;
+        if (trigger.dataset.ga4ContentType) parameters.content_type = trigger.dataset.ga4ContentType;
+        if (trigger.dataset.ga4ItemId) parameters.item_id = trigger.dataset.ga4ItemId;
+
+        window.trackGa4Event(trigger.dataset.ga4Event, parameters);
+    });
+
+    document.addEventListener('submit', (event) => {
+        if (!(event.target instanceof HTMLFormElement)) return;
+        if (!event.target.matches('[data-ga4-search]')) return;
+
+        window.trackGa4Event('search');
+    });
+</script>
+@endif
+
 @if ($schema)
 <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 @endif
 
-@php
-    $organizationSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'Organization',
-        '@id' => rtrim(config('app.url'), '/') . '#organization',
-        'name' => config('app.name', 'Look at History'),
-        'url' => rtrim(config('app.url'), '/'),
-        'description' => 'Media sejarah yang menjelaskan mengapa peristiwa masa lalu masih relevan dengan dunia sekarang.',
-        'logo' => [
-            '@type' => 'ImageObject',
-            'url' => asset('logo_LAH.jpg'),
-        ],
-        'sameAs' => [
-            'https://www.instagram.com/lookathistory/',
-        ],
-    ];
-@endphp
-<script type="application/ld+json">{!! json_encode($organizationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+<script type="application/ld+json">{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'Organization',
+    '@id' => rtrim(config('app.url'), '/') . '#organization',
+    'name' => config('app.name', 'Look at History'),
+    'url' => rtrim(config('app.url'), '/'),
+    'description' => 'Media sejarah yang menjelaskan mengapa peristiwa masa lalu masih relevan dengan dunia sekarang.',
+    'logo' => [
+        '@type' => 'ImageObject',
+        'url' => asset('logo_LAH.jpg'),
+    ],
+    'sameAs' => [
+        'https://www.instagram.com/lookathistory/',
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
 @if ($isHomepage)
-@php
-    $websiteSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'WebSite',
-        'name' => config('app.name', 'Look at History'),
-        'url' => rtrim(config('app.url'), '/'),
-        'description' => $description,
-        'inLanguage' => 'id',
-        'potentialAction' => [
-            '@type' => 'SearchAction',
-            'target' => [
-                '@type' => 'EntryPoint',
-                'urlTemplate' => rtrim(config('app.url'), '/') . '/cari?q={search_term_string}',
-            ],
-            'query-input' => 'required name=search_term_string',
+<script type="application/ld+json">{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'WebSite',
+    'name' => config('app.name', 'Look at History'),
+    'url' => rtrim(config('app.url'), '/'),
+    'description' => $description,
+    'inLanguage' => 'id',
+    'potentialAction' => [
+        '@type' => 'SearchAction',
+        'target' => [
+            '@type' => 'EntryPoint',
+            'urlTemplate' => rtrim(config('app.url'), '/') . '/cari?q={search_term_string}',
         ],
-        'publisher' => [
-            '@id' => rtrim(config('app.url'), '/') . '#organization',
-        ],
-    ];
-@endphp
-<script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+        'query-input' => 'required name=search_term_string',
+    ],
+    'publisher' => [
+        '@id' => rtrim(config('app.url'), '/') . '#organization',
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 @endif

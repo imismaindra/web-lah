@@ -25,17 +25,19 @@
                 'url' => $articleUrl,
                 'datePublished' => ($artikel->published_at ?? $artikel->created_at)?->toIso8601String(),
                 'dateModified' => $artikel->updated_at?->toIso8601String(),
-                'author' => [
+                'author' => array_filter([
                     '@type' => 'Person',
+                    '@id' => $artikel->author?->penulis
+                        ? route('penulis.show', $artikel->author->penulis) . '#person'
+                        : $articleUrl . '#author',
                     'name' => $articleAuthor,
-                ],
+                    'url' => $artikel->author?->penulis
+                        ? route('penulis.show', $artikel->author->penulis)
+                        : $articleUrl,
+                    'description' => $artikel->author?->penulis?->bio,
+                ]),
                 'publisher' => [
-                    '@type' => 'Organization',
-                    'name' => config('app.name', 'Look at History'),
-                    'logo' => [
-                        '@type' => 'ImageObject',
-                        'url' => asset('logo_LAH.jpg'),
-                    ],
+                    '@id' => rtrim(config('app.url'), '/') . '#organization',
                 ],
                 'mainEntityOfPage' => [
                     '@type' => 'WebPage',
@@ -75,6 +77,7 @@
             'section' => $artikel->kategori->nama ?? 'Umum',
             'tags' => $artikel->topiks?->pluck('nama')->toArray() ?? [],
             'schema' => $articleSchema,
+            'noindex' => $isPreview ?? false,
         ])
 
         @php
@@ -103,10 +106,10 @@
                 ])),
             ];
         @endphp
-        <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
         @if ($faqSchema)
-            <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
+            <script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
         @endif
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
@@ -268,17 +271,6 @@
                 letter-spacing: -0.02em;
                 line-height: 1.2;
             }
-
-            .article-body > h1:first-child {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                white-space: nowrap;
-                border: 0;
-            }
-
 
                 .dark .article-body h1 {
                     color: #fafaf9;
@@ -612,8 +604,16 @@
                             </nav>
                         </div>
 
+                        @php
+                            // The article title is the page's single H1; normalize legacy body H1 tags to H2.
+                            $articleContent = preg_replace_callback('/<\\/?h1(\\b[^>]*)>/i', function ($match) {
+                                return str_ends_with(strtolower($match[0]), '</h1>')
+                                    ? '</h2>'
+                                    : '<h2' . $match[1] . '>';
+                            }, $artikel->konten);
+                        @endphp
                         <div class="article-body text-[17px] leading-[1.8] text-stone-600 dark:text-stone-300">
-                            {!! $artikel->konten !!}
+                            {!! $articleContent !!}
                         </div>
 
                         @if (!empty($artikel->faq))
@@ -633,6 +633,23 @@
                                     @endforeach
                                 </div>
                             </section>
+                        @endif
+
+                        @if ($artikel->kategori || $artikel->era || $artikel->topiks->isNotEmpty())
+                            <nav class="mt-10 border-y border-stone-200/70 py-5 dark:border-white/[0.06]" aria-label="Jelajahi kategori dan topik terkait">
+                                <p class="mb-3 text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500">Jelajahi topik terkait</p>
+                                <div class="flex flex-wrap gap-2">
+                                    @if ($artikel->kategori)
+                                        <a href="{{ route('kategori.show', $artikel->kategori) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $artikel->kategori->nama }}</a>
+                                    @endif
+                                    @if ($artikel->era)
+                                        <a href="{{ route('era.show', $artikel->era) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $artikel->era->nama }}</a>
+                                    @endif
+                                    @foreach ($artikel->topiks as $topik)
+                                        <a href="{{ route('topik.show', $topik) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $topik->nama }}</a>
+                                    @endforeach
+                                </div>
+                            </nav>
                         @endif
 
                         {{-- Author Bio --}}

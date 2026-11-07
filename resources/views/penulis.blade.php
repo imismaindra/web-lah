@@ -8,12 +8,33 @@
 
         <title>{{ $penulis->nama }} — {{ config('app.name', 'Look at History') }}</title>
 
+        @php
+            $authorProfileUrl = route('penulis.show', $penulis);
+            $authorSchema = [
+                '@context' => 'https://schema.org',
+                '@type' => 'Person',
+                '@id' => $authorProfileUrl . '#person',
+                'name' => $penulis->nama,
+                'url' => $authorProfileUrl,
+                'description' => $penulis->bio,
+                'image' => $penulis->avatar ? asset('storage/' . $penulis->avatar) : null,
+                'worksFor' => [
+                    '@id' => rtrim(config('app.url'), '/') . '#organization',
+                ],
+                'mainEntityOfPage' => [
+                    '@id' => $authorProfileUrl,
+                ],
+            ];
+            $authorSchema = array_filter($authorSchema, fn ($value) => $value !== null);
+        @endphp
+
         @include('partials.seo', [
             'title' => $penulis->nama,
             'description' => $penulis->bio ?? 'Halaman profil penulis ' . $penulis->nama . ' di ' . config('app.name', 'Look at History'),
             'image' => $penulis->avatar ? asset('storage/' . $penulis->avatar) : asset('logo_LAH.jpg'),
-            'url' => route('penulis.show', $penulis),
+            'url' => $authorProfileUrl,
             'section' => 'Penulis',
+            'schema' => $authorSchema,
         ])
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">

@@ -466,7 +466,7 @@
                 placeholder: 'Mulai menulis artikel sejarah...',
                 modules: {
                     toolbar: [
-                        [{ header: [1, 2, 3, 4, false] }],
+                        [{ header: [2, 3, 4, false] }],
                         [{ font: [] }],
                         [{ size: ['small', false, 'large', 'huge'] }],
                         ['bold', 'italic', 'underline', 'strike'],

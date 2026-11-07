@@ -133,7 +133,7 @@
     ],
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
 
-@if ($isHomepage)
+<?php if ($isHomepage): ?>
 @php
     $websiteSchema = [
         '@context' => 'https://schema.org',
@@ -156,4 +156,4 @@
     ];
 @endphp
 <script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
-@endif
+<?php endif; ?>

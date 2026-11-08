@@ -102,8 +102,12 @@ class P2FiturTest extends TestCase
         ])->render();
 
         $this->assertStringContainsString('window.trackGa4Event', $html);
-        $this->assertStringContainsString("window.trackGa4Event('search',", $html);
-        $this->assertStringContainsString('search_term', $html);
+        $this->assertStringContainsString("window.gtag('event', 'search',", $html);
+        $this->assertStringContainsString('search_term: searchTerm', $html);
+        $this->assertStringContainsString('event.preventDefault()', $html);
+        $this->assertStringContainsString('event_callback: continueSearch', $html);
+        $this->assertStringContainsString('event_timeout: 800', $html);
+        $this->assertStringContainsString('window.setTimeout(continueSearch, 1000)', $html);
     }
 
     public function test_halaman_pencarian_mengaktifkan_atribut_tracking_ga4(): void

@@ -552,7 +552,7 @@ Tangkapan layar aktual Search Console (rentang 3 bulan) mencatat:
 - `kekaisaran mongol`: Posisi **50,5** (Tayangan: 2) --- **Content Gap utama**
 - `fasis itu apa` / `fasisme adalah`: Posisi **65,3 -- 84,3** (Tayangan: 6)
 
-### 8.2 Pekerjaan yang Telah Diterapkan
+### 8.2 Pekerjaan yang Telah Diterapkan dan Terverifikasi Live
 
 1.  **Automated Contextual Internal Linker (PR #14)**
     - Membuat service `App\Services\InternalLinker` dan unit test `InternalLinkerTest`.
@@ -560,11 +560,15 @@ Tangkapan layar aktual Search Console (rentang 3 bulan) mencatat:
     - Membatasi tautan maksimal 4 per artikel dan mencegah self-linking.
     - Ter-deploy dan terverifikasi aktif live di produksi (6+ tautan internal aktif di badan artikel).
 2.  **Optimasi Title Tag & Meta Description (CTR Tuning)**
-    - Memperbarui 5 artikel utama agar panjang meta description berada pada batas aman 134--141 karakter (sebelumnya terpotong di Google).
-3.  **Targeting Kueri Relevansi Tinggi (Aksi "Peradaban Eropa Kuno")**
-    - Artikel Romawi diperbarui: menyisipkan frasa persis *"peradaban Eropa kuno"* di kalimat pertama paragraf pembuka (P1), meta title baru (54 karakter), dan meta description baru (143 karakter) untuk menargetkan 144 tayangan pencarian di Google.
+    - Memperbarui artikel utama agar panjang meta description berada pada batas aman 134--151 karakter (sebelumnya terpotong di Google).
+3.  **Targeting Kueri Relevansi Tinggi (Exact-Match Search Console Optimization)**
+    - **Artikel Romawi:** Menyisipkan frasa persis *"peradaban Eropa kuno"* di P1, meta title baru (54 karakter), dan meta description baru (143 karakter) untuk menangkap 144 tayangan pencarian di Google.
+    - **Artikel Indonesia Komunis:** Menyisipkan frasa persis *"apa jadinya jika indonesia menjadi negara komunis"* pada P2 dan awal meta description (150 karakter) untuk mendongkrak posisi dari ranking 22 ke halaman 1.
+    - **Artikel Swiss:** Memperbarui subjudul H1/H2 menjadi *"Lalu, Kenapa Swiss Tidak Dijajah Nazi dan Mengapa Hitler Batal Menyerang?"* untuk mengunci featured snippet Google di posisi #1 & #8.7.
+    - **Artikel Fasisme:** Menyisipkan frasa *"fasisme adalah"* di badan teks dan meta description baru (151 karakter) yang menargetkan kueri definisi *"fasis itu apa"*.
+    - **Status:** Seluruhnya lulus verifikasi 100% pada website produksi (8 November 2026).
 4.  **Content Gap Disepakati**
-    - Ide artikel prioritas berikutnya: *"Mengapa Invasi Kekaisaran Mongol Gagal Menaklukkan Jawa (Majapahit)?"* berdasarkan impresi pencarian Google yang sudah mulai masuk.
+    - Ide artikel prioritas berikutnya: *"Mengapa Invasi Kekaisaran Mongol Gagal Menaklukkan Jawa (Majapahit)?"* berdasarkan impresi pencarian Google yang sudah mulai masuk (posisi 50.5).
 
 ------------------------------------------------------------------------
 

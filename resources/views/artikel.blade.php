@@ -612,6 +612,8 @@
                                     ? '</h2>'
                                     : '<h2' . $match[1] . '>';
                             }, $artikel->konten);
+
+                            $articleContent = \App\Services\InternalLinker::link($articleContent, $artikel);
                         @endphp
                         <div class="article-body text-[17px] leading-[1.8] text-stone-600 dark:text-stone-300">
                             {!! $articleContent !!}

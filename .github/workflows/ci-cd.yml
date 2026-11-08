@@ -115,7 +115,7 @@ jobs:
           set -euo pipefail
 
           KEY_FILE="$RUNNER_TEMP/cpanel_deploy_key"
-          printf '%s\\n' "$SSH_PRIVATE_KEY" > "$KEY_FILE"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$KEY_FILE"
           chmod 600 "$KEY_FILE"
 
           mkdir -p "$HOME/.ssh"
@@ -123,12 +123,12 @@ jobs:
 
           REMOTE_ARGS=$(printf ' %q' "$APP_PATH" "$PHP_BIN" "$COMPOSER_BIN")
 
-          ssh -i "$KEY_FILE" \\
-            -p "$SSH_PORT" \\
-            -o BatchMode=yes \\
-            -o StrictHostKeyChecking=accept-new \\
-            -o ConnectTimeout=20 \\
-            "$SSH_USER@$SSH_HOST" \\
+          ssh -i "$KEY_FILE" \
+            -p "$SSH_PORT" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=accept-new \
+            -o ConnectTimeout=20 \
+            "$SSH_USER@$SSH_HOST" \
             "bash -s --$REMOTE_ARGS" <<'REMOTE_SCRIPT'
           set -euo pipefail
 

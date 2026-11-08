@@ -6,7 +6,7 @@ Dokumen ini menjelaskan event GA4 yang dikirim oleh website Look at History dan 
 
 | Event | Pemicu | Parameter |
 |---|---|---|
-| `search` | Pengunjung mengirim formulir pencarian | Tidak mengirim teks pencarian agar input bebas tidak ikut mengirim data yang berpotensi sensitif |
+| `search` | Pengunjung mengirim formulir pencarian | `search_term` (kata kunci pencarian yang dikirim pengunjung) |
 | `share` | Pengunjung memilih WhatsApp, Facebook, atau Salin Link pada artikel | `method`, `content_type=article`, `item_id` |
 | `sign_up` | Server mengonfirmasi pendaftaran newsletter berhasil | `method=newsletter` |
 | `social_profile_click` | Pengunjung membuka tautan profil Instagram dari halaman artikel | `method=Instagram`, `content_type=article`, `item_id` |
@@ -22,7 +22,7 @@ Website tetap mempertahankan penghitung view artikel dan tabel `pageviews` inter
 3. Buka GA4 **Reports → Realtime** atau **Admin → DebugView** saat menguji.
 4. Uji halaman artikel, tombol WhatsApp/Facebook/Salin Link, formulir pencarian, dan pendaftaran newsletter yang berhasil.
 5. Pastikan halaman pratinjau tidak mengirim page_view maupun event GA4.
-6. Periksa event `search`, `share`, `sign_up`, dan `social_profile_click) muncul sesuai tindakan. Browser dengan ad blocker atau pengaturan privasi dapat memblokir pengiriman.
+6. Periksa event `search`, `share`, `sign_up`, dan `social_profile_click` muncul sesuai tindakan. Browser dengan ad blocker atau pengaturan privasi dapat memblokir pengiriman.
 
 ## Google Search Console
 
@@ -43,7 +43,7 @@ Untuk laporan awal, periksa **Reports → Acquisition → Traffic acquisition**,
 ## Batasan dan privasi
 
 - Jangan menambahkan email, nama, nomor telepon, isi komentar, atau data pribadi lain ke parameter event.
-- Event `search` sengaja tidak mengirim kata kunci pencarian.
+- Event `search` saat ini mengirim parameter `search_term`. Jangan memasukkan data pribadi atau informasi sensitif ke kolom pencarian; jika kebutuhan privasi mengharuskan kata kunci tidak dikirim ke pihak analitik, hapus parameter `search_term` dari implementasi sebelum rilis.
 - Jangan menyamakan `pageviews` internal dengan `views` GA4.
 - Verifikasi laporan berdasarkan data aktual setelah rilis; source code saja tidak membuktikan bahwa event sudah diterima GA4.
 - Koneksi GA4 dan Search Console, izin akun, serta verifikasi domain harus dilakukan oleh pemilik akun.

@@ -105,16 +105,38 @@
 
     document.addEventListener('submit', (event) => {
         if (!(event.target instanceof HTMLFormElement)) return;
-        if (!event.target.matches('[data-ga4-search]')) return;
 
-        const formData = new FormData(event.target);
+        const form = event.target;
+        if (!form.matches('[data-ga4-search]')) return;
+
+        const formData = new FormData(form);
         const searchTerm = String(formData.get('q') ?? '').trim();
 
         if (!searchTerm) return;
 
-        window.trackGa4Event('search', {
-            search_term: searchTerm
+        // Wait for GA4 to dispatch the event before allowing the GET navigation.
+        // The timeout fallback keeps search usable when analytics is blocked or unavailable.
+        event.preventDefault();
+
+        let navigationStarted = false;
+        const continueSearch = () => {
+            if (navigationStarted) return;
+            navigationStarted = true;
+            HTMLFormElement.prototype.submit.call(form);
+        };
+
+        if (typeof window.gtag !== 'function') {
+            continueSearch();
+            return;
+        }
+
+        window.gtag('event', 'search', {
+            search_term: searchTerm,
+            event_callback: continueSearch,
+            event_timeout: 800
         });
+
+        window.setTimeout(continueSearch, 1000);
     });
 </script>
 @endif

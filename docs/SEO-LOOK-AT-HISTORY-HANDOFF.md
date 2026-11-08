@@ -567,8 +567,11 @@ Tangkapan layar aktual Search Console (rentang 3 bulan) mencatat:
     - **Artikel Swiss:** Memperbarui subjudul H1/H2 menjadi *"Lalu, Kenapa Swiss Tidak Dijajah Nazi dan Mengapa Hitler Batal Menyerang?"* untuk mengunci featured snippet Google di posisi #1 & #8.7.
     - **Artikel Fasisme:** Menyisipkan frasa *"fasisme adalah"* di badan teks dan meta description baru (151 karakter) yang menargetkan kueri definisi *"fasis itu apa"*.
     - **Status:** Seluruhnya lulus verifikasi 100% pada website produksi (8 November 2026).
-4.  **Content Gap Disepakati**
-    - Ide artikel prioritas berikutnya: *"Mengapa Invasi Kekaisaran Mongol Gagal Menaklukkan Jawa (Majapahit)?"* berdasarkan impresi pencarian Google yang sudah mulai masuk (posisi 50.5).
+4.  **Content Gap Ditutup (Artikel Kekaisaran Mongol Terbit & Terverifikasi Live)**
+    - Berhasil menerbitkan artikel pilar baru untuk menangkap kueri Search Console *"kekaisaran mongol"* (sebelumnya ranking 50,5 tanpa artikel).
+    - **URL:** `https://lookathistory.web.id/artikel/mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan`
+    - **Verifikasi Live (HTTP 200):** Title optimal (59 karakter), Meta Description (145 karakter), Canonical URL presisi, Schema FAQPage terpasang, terdaftar otomatis di sitemap XML.
+    - **Ekspansi Auto-Linker:** Menambahkan 6 frasa kunci penargetan Mongol (`invasi Mongol ke Jawa`, `invasi Kekaisaran Mongol`, `Kekaisaran Mongol`, `pasukan Kubilai Khan`, `Kubilai Khan`, `Raden Wijaya`) ke dalam `App\Services\InternalLinker`.
 
 ------------------------------------------------------------------------
 
@@ -660,7 +663,7 @@ Salin prompt berikut ketika melanjutkan pekerjaan pada percakapan baru:
 > 4. Artikel Romawi telah dioptimasi dengan frasa kunci "peradaban Eropa kuno" pada paragraf pembuka, meta title, dan meta description.
 > 5. Content gap utama ditemukan: topik Kekaisaran Mongol (posisi 50.5 di GSC meski belum ada artikel).
 >
-> Lanjutkan Sprint 5: pantau kenaikan ranking artikel Romawi dan Swiss di GSC, serta tulis/buat artikel baru tentang Kekaisaran Mongol.
+> Lanjutkan Sprint 5: daftarkan artikel Mongol ke Google Search Console (Request Indexing), pantau kenaikan ranking artikel Romawi, Swiss, dan Mongol di GSC.
 
 ------------------------------------------------------------------------
 
@@ -679,9 +682,10 @@ Salin prompt berikut ketika melanjutkan pekerjaan pada percakapan baru:
                                       Auto-Linker internal link (PR #14),
                                       optimasi CTR meta tags, analisis data
                                       aktual Search Console (Swiss rank 1 &
-                                      8.7), dan optimasi artikel Romawi
-                                      untuk menangkap 144 tayangan
-                                      "peradaban eropa kuno".
+                                      8.7), optimasi artikel Romawi, dan
+                                      penerbitan artikel Kekaisaran Mongol
+                                      terverifikasi live beserta ekspansi
+                                      keyword Auto-Linker.
   -----------------------------------------------------------------------
 
 ## 13. Ringkasan satu halaman
@@ -694,7 +698,7 @@ Salin prompt berikut ketika melanjutkan pekerjaan pada percakapan baru:
 - **CTR Optimization:** 5 artikel telah diperbaiki panjang meta deskripsinya menjadi 134--141 karakter ideal di Google SERP.
 - **Targeting Kueri Search Console:** Artikel Kekaisaran Romawi telah diperbarui langsung di produksi dengan frasa persis *"peradaban Eropa kuno"* (P1, Title, Description) untuk menangkap 144 tayangan pencarian.
 - **Top Ranking Validated:** Artikel Swiss terbukti menempati **Peringkat #1,0** untuk *"kenapa swiss tidak dijajah nazi"* dan **Peringkat #8,7** untuk *"kenapa hitler tidak menyerang swiss"*.
-- **Content Gap Terpetakan:** Kueri *"kekaisaran mongol"* telah mulai muncul di GSC (posisi 50.5) dan menjadi prioritas artikel baru berikutnya.
+- **Content Gap Terisi Penuh:** Artikel pilar baru *"Mengapa Invasi Kekaisaran Mongol Gagal di Jawa? Siasat Raden Wijaya Melawan Pasukan Kubilai Khan"* resmi terbit live (HTTP 200, FAQ schema, sitemap update) dan keyword targetnya telah ditambahkan ke `InternalLinker`.
 
 ------------------------------------------------------------------------
 

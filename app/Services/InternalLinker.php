@@ -36,6 +36,12 @@ class InternalLinker
         'netralitas Swiss' => 'mengapa-swiss-tidak-diserang-jerman-nazi',
         'evakuasi Dunkirk' => 'mengapa-jerman-membiarkan-pasukan-sekutu-melarikan-diri-dari-dunkirk',
         'Dunkirk' => 'mengapa-jerman-membiarkan-pasukan-sekutu-melarikan-diri-dari-dunkirk',
+        'invasi Mongol ke Jawa' => 'mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan',
+        'invasi Kekaisaran Mongol' => 'mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan',
+        'Kekaisaran Mongol' => 'mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan',
+        'pasukan Kubilai Khan' => 'mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan',
+        'Kubilai Khan' => 'mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan',
+        'Raden Wijaya' => 'mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan',
     ];
 
     public static function link(string $html, ?Artikel $currentArticle = null, int $maxLinks = 4): string

@@ -32,7 +32,7 @@
             >{{ $link['label'] }}</a>
         @endforeach
 
-        <form action="{{ route('search') }}" method="GET" class="relative pt-2">
+        <form action="{{ route('search') }}" method="GET" class="relative pt-2" data-ga4-search>
             <input
                 type="text"
                 name="q"

@@ -21,7 +21,23 @@ class ArtikelController extends Controller
 
     public function index(Request $request): View
     {
-        $query = Artikel::with(['kategori', 'author'])->latest();
+        $baseQuery = Artikel::query();
+
+        if (! auth()->user()->hasRole('admin')) {
+            $baseQuery->where('user_id', auth()->id());
+        }
+
+        $statusCounts = [
+            'all' => (clone $baseQuery)->count(),
+            'published' => (clone $baseQuery)->where('status', 'published')->count(),
+            'draft' => (clone $baseQuery)->where('status', 'draft')->count(),
+            'scheduled' => (clone $baseQuery)->where('status', 'scheduled')->count(),
+            'archived' => (clone $baseQuery)->where('status', 'archived')->count(),
+        ];
+
+        $totalViews = (clone $baseQuery)->sum('views');
+
+        $query = Artikel::with(['kategori', 'author']);
 
         if (! auth()->user()->hasRole('admin')) {
             $query->where('user_id', auth()->id());
@@ -39,9 +55,22 @@ class ArtikelController extends Controller
             $query->where('status', $request->status);
         }
 
-        $artikels = $query->paginate(12)->withQueryString();
+        if ($request->filled('kategori')) {
+            $query->where('kategori_id', $request->kategori);
+        }
 
-        return view('admin.artikel.index', compact('artikels'));
+        if ($request->sort === 'populer') {
+            $query->orderByDesc('views');
+        } elseif ($request->sort === 'terlama') {
+            $query->oldest();
+        } else {
+            $query->latest();
+        }
+
+        $artikels = $query->paginate(12)->withQueryString();
+        $kategoris = Kategori::orderBy('nama')->get();
+
+        return view('admin.artikel.index', compact('artikels', 'statusCounts', 'kategoris', 'totalViews'));
     }
 
     public function create(): View

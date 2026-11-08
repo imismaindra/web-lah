@@ -13,6 +13,7 @@
             'description' => $kategori->deskripsi ?? "Kumpulan artikel sejarah kategori {$kategori->nama}. Jelajahi topik-topik menarik seputar {$kategori->nama} di Look at History.",
             'image' => $kategori->gambar ? asset('storage/' . $kategori->gambar) : asset('logo_LAH.jpg'),
             'url' => route('kategori.show', $kategori),
+            'noindex' => $artikels->isEmpty(),
             'section' => 'Kategori',
         ])
         @php

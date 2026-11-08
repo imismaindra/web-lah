@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Artikel;
 use App\Models\Kategori;
 use App\Models\Pageview;
+use App\Models\Topik;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
@@ -329,5 +330,31 @@ class P2FiturTest extends TestCase
         $this->assertSame('scheduled', $artikel->status);
         $this->assertNotNull($artikel->published_at);
         $this->assertSame(1, $artikel->reading_time);
+    }
+
+    public function test_kategori_dan_topik_kosong_merender_noindex(): void
+    {
+        $kategoriKosong = Kategori::create([
+            'nama' => 'Arkeologi Kosong',
+            'deskripsi' => 'Deskripsi',
+        ]);
+        $topikKosong = Topik::create([
+            'nama' => 'Topik Kosong',
+            'deskripsi' => 'Deskripsi',
+        ]);
+
+        $this->get(route('kategori.show', $kategoriKosong))
+            ->assertOk()
+            ->assertSee('<meta name="robots" content="noindex, follow">', false);
+
+        $this->get(route('topik.show', $topikKosong))
+            ->assertOk()
+            ->assertSee('<meta name="robots" content="noindex, follow">', false);
+
+        $artikel = $this->createArtikel();
+
+        $this->get(route('kategori.show', $artikel->kategori))
+            ->assertOk()
+            ->assertSee('name="robots" content="index, follow', false);
     }
 }

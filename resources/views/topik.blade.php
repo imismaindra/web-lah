@@ -13,6 +13,7 @@
             'description' => "Artikel sejarah tentang {$topik->nama}. Temukan peristiwa, tokoh, dan fakta menarik seputar topik ini.",
             'image' => $topik->gambar ? asset('storage/' . $topik->gambar) : asset('logo_LAH.jpg'),
             'url' => route('topik.show', $topik),
+            'noindex' => $artikels->isEmpty(),
             'section' => 'Topik',
         ])
 

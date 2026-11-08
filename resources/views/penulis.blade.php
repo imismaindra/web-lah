@@ -33,6 +33,7 @@
             'description' => $penulis->bio ?? 'Halaman profil penulis ' . $penulis->nama . ' di ' . config('app.name', 'Look at History'),
             'image' => $penulis->avatar ? asset('storage/' . $penulis->avatar) : asset('logo_LAH.jpg'),
             'url' => $authorProfileUrl,
+            'noindex' => $artikels->isEmpty(),
             'section' => 'Penulis',
             'schema' => $authorSchema,
         ])

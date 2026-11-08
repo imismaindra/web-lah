@@ -45,10 +45,11 @@ telah dianalisis.
   Sprint 3                GEO/AEO dan fondasi     Selesai menurut riwayat
                           integrasi GA4           proyek
 
-  Sprint 4                Analytics & Monitoring  **Selesai tervalidasi**
+  Sprint 4                Analytics & Monitoring  Selesai tervalidasi
 
-  Sprint 5                SEO Performance &       **Siap dimulai**
-                          Content Optimization    
+  Sprint 5                SEO Performance &       **Sedang berjalan ---**
+                          Content Optimization    **optimasi on-page &**
+                                                  **linking ter-deploy**
   -----------------------------------------------------------------------
 
 > Catatan: status Sprint 1--3 mengikuti catatan pekerjaan sebelumnya.
@@ -537,55 +538,33 @@ terdokumentasi.
 
 ------------------------------------------------------------------------
 
-## 8. Rencana awal Sprint 5
+## 8. Progress Sprint 5 --- Optimasi Performa & Konten
 
-Sprint 5 baru dimulai setelah Sprint 4 cukup stabil.
+Sprint 5 telah dimulai dengan eksekusi 3 pilar optimasi utama:
 
-### Tujuan
+### 8.1 Baseline Data Search Console (8 November 2026)
 
-Meningkatkan performa konten berdasarkan peluang pencarian dan perilaku
-pengguna.
+Tangkapan layar aktual Search Console (rentang 3 bulan) mencatat:
+- `kenapa swiss tidak dijajah nazi`: Posisi **1,0** (Tayangan: 3)
+- `kenapa hitler tidak menyerang swiss`: Posisi **8,7** (Tayangan: 3)
+- `apa jadinya jika indonesia menjadi negara komunis`: Posisi **22,0** (Tayangan: 2)
+- `peradaban eropa kuno`: Posisi **81,6** (Tayangan: **144** --- impresi tertinggi)
+- `kekaisaran mongol`: Posisi **50,5** (Tayangan: 2) --- **Content Gap utama**
+- `fasis itu apa` / `fasisme adalah`: Posisi **65,3 -- 84,3** (Tayangan: 6)
 
-### Paket pekerjaan
+### 8.2 Pekerjaan yang Telah Diterapkan
 
-1.  **Keyword opportunity**
-    -   Temukan query dengan impressions tinggi tetapi CTR rendah.
-    -   Temukan query dengan posisi mendekati halaman pertama.
-    -   Identifikasi query yang belum memiliki artikel yang tepat.
-2.  **Content gap**
-    -   Bandingkan topik yang sudah dimiliki dengan query yang
-        benar-benar muncul.
-    -   Temukan pertanyaan pembaca yang belum dijawab.
-    -   Hindari membuat artikel duplikatif hanya untuk mengejar variasi
-        keyword.
-3.  **Content refresh**
-    -   Prioritaskan artikel dengan impressions tetapi CTR atau posisi
-        yang lemah.
-    -   Periksa akurasi fakta, tanggal, sumber, struktur, dan relevansi.
-    -   Perbarui judul dan deskripsi berdasarkan search intent, bukan
-        clickbait yang menyesatkan.
-4.  **Internal linking**
-    -   Hubungkan artikel yang memiliki hubungan topik.
-    -   Gunakan anchor text yang deskriptif.
-    -   Pastikan artikel penting dapat dijangkau dari halaman lain.
-5.  **CTR optimization**
-    -   Evaluasi judul dan meta description.
-    -   Bandingkan impressions, clicks, CTR, dan posisi.
-    -   Ubah secara terukur agar dampaknya dapat dibandingkan.
-6.  **Monitoring**
-    -   Simpan baseline sebelum perubahan.
-    -   Catat tanggal perubahan.
-    -   Bandingkan performa setelah periode yang cukup.
-    -   Jangan menganggap korelasi sebagai bukti sebab-akibat.
-
-### Output Sprint 5
-
--   Daftar keyword prioritas.
--   Daftar content gap.
--   Daftar artikel yang harus diperbarui.
--   Rencana internal linking.
--   Daftar perubahan title/meta.
--   Baseline dan hasil monitoring.
+1.  **Automated Contextual Internal Linker (PR #14)**
+    - Membuat service `App\Services\InternalLinker` dan unit test `InternalLinkerTest`.
+    - Otomatis menautkan kata kunci sejarah di badan teks artikel (tanpa merusak headings atau tautan yang sudah ada).
+    - Membatasi tautan maksimal 4 per artikel dan mencegah self-linking.
+    - Ter-deploy dan terverifikasi aktif live di produksi (6+ tautan internal aktif di badan artikel).
+2.  **Optimasi Title Tag & Meta Description (CTR Tuning)**
+    - Memperbarui 5 artikel utama agar panjang meta description berada pada batas aman 134--141 karakter (sebelumnya terpotong di Google).
+3.  **Targeting Kueri Relevansi Tinggi (Aksi "Peradaban Eropa Kuno")**
+    - Artikel Romawi diperbarui: menyisipkan frasa persis *"peradaban Eropa kuno"* di kalimat pertama paragraf pembuka (P1), meta title baru (54 karakter), dan meta description baru (143 karakter) untuk menargetkan 144 tayangan pencarian di Google.
+4.  **Content Gap Disepakati**
+    - Ide artikel prioritas berikutnya: *"Mengapa Invasi Kekaisaran Mongol Gagal Menaklukkan Jawa (Majapahit)?"* berdasarkan impresi pencarian Google yang sudah mulai masuk.
 
 ------------------------------------------------------------------------
 
@@ -634,6 +613,9 @@ Aturan berikut penting untuk kelanjutan proyek:
                                                                            untuk kategori, topik, era,
                                                                            dan penulis kosong
 
+  PR #14                  https://github.com/imismaindra/web-lah/pull/14   Layanan InternalLinker
+                                                                           otomatis di badan artikel
+
   Dokumentasi analytics   `docs/seo-analytics-monitoring.md`               Dokumentasi event dan
                                                                            monitoring
 
@@ -666,18 +648,15 @@ Salin prompt berikut ketika melanjutkan pekerjaan pada percakapan baru:
 > GA4 Property ID: 562886771.\
 > GA4 Measurement ID: G-1TZSDZL104.
 >
-> Roadmap: Sprint 1--4 selesai tervalidasi. Fokus saat ini adalah memulai
-> **Sprint 5: SEO Performance & Content Optimization**.
+> Roadmap: Sprint 1--4 selesai tervalidasi. Sprint 5 sedang berjalan
+> dengan pencapaian awal:
+> 1. Auto-Linker internal linking otomatis ter-deploy live (PR #14).
+> 2. Optimasi CTR title & meta description (5 artikel dipersingkat ke batas ideal 134-141 karakter).
+> 3. Kueri GSC aktual diidentifikasi: Swiss menduduki Posisi 1.0 & 8.7, Komunis di Posisi 22, dan Peradaban Eropa Kuno mendapat 144 impresi.
+> 4. Artikel Romawi telah dioptimasi dengan frasa kunci "peradaban Eropa kuno" pada paragraf pembuka, meta title, dan meta description.
+> 5. Content gap utama ditemukan: topik Kekaisaran Mongol (posisi 50.5 di GSC meski belum ada artikel).
 >
-> Data fondasi sudah tervalidasi: GA4 dasar, event kustom (`search`,
-> `share`, `social_profile_click`, `sign_up`) aktif, audit Search Console
-> 16 URL tuntas (PR #13 berhasil di-deploy live untuk noindex taksonomi
-> kosong), dan artikel Romawi diajukan indexing. Trafik referral AI belum
-> terdeteksi dan terus dimonitor.
->
-> Lanjutkan ke backlog Sprint 5: identifikasi keyword opportunity dari
-> Search Console, analisis content gap, perbaikan CTR / meta description,
-> dan penguatan internal linking antarartikel sejarah.
+> Lanjutkan Sprint 5: pantau kenaikan ranking artikel Romawi dan Swiss di GSC, serta tulis/buat artikel baru tentang Kekaisaran Mongol.
 
 ------------------------------------------------------------------------
 
@@ -689,32 +668,29 @@ Salin prompt berikut ketika melanjutkan pekerjaan pada percakapan baru:
   2026-11-08                          Membuat dokumentasi handoff
                                       berdasarkan progres sprint.
 
-  2026-11-08                          Menyelesaikan Sprint 4: Validasi
-                                      seluruh event GA4 di Realtime, audit
-                                      Search Console 16 URL tuntas, merge
-                                      PR #13 (noindex dinamis taksonomi
-                                      kosong) dan ter-deploy live ke
-                                      cPanel, evaluasi referral AI, serta
-                                      merumuskan transisi ke Sprint 5.
+  2026-11-08                          Menyelesaikan Sprint 4 (GA4, GSC 16
+                                      URL, noindex dinamis PR #13).
+
+  2026-11-08                          Progres Sprint 5: Deploy fitur
+                                      Auto-Linker internal link (PR #14),
+                                      optimasi CTR meta tags, analisis data
+                                      aktual Search Console (Swiss rank 1 &
+                                      8.7), dan optimasi artikel Romawi
+                                      untuk menangkap 144 tayangan
+                                      "peradaban eropa kuno".
   -----------------------------------------------------------------------
 
 ## 13. Ringkasan satu halaman
 
-**Posisi saat ini:** Sprint 4 selesai --- Siap memulai **Sprint 5 (SEO Performance & Content Optimization)**.
+**Posisi saat ini:** Sprint 5 (SEO Performance & Content Optimization) sedang berjalan aktif.
 
-**Yang sudah terbukti & selesai:**
-- GA4 terpasang, data dasar & seluruh event interaksi (`search`, `share`, `social_profile_click`, `sign_up`) tervalidasi masuk di GA4 Realtime.
-- PR #9, #10, dan #13 sudah merged ke `main` dan pipeline deployment cPanel sukses.
-- Audit Search Console 16 URL tuntas:
-  - 8 taksonomi kosong otomatis `noindex, follow` (terverifikasi live di produksi).
-  - 1 artikel utama berkualitas tinggi diajukan *Request Indexing* di GSC.
-  - 6 taksonomi/penulis berisi artikel tetap `index, follow`.
-- Evaluasi referral AI selesai: belum terdeteksi kunjungan AI pada periode pemeriksaan saat ini.
-
-**Aksi berikutnya (Sprint 5):**
-1. Analisis performa Search Console (Query impressions vs Clicks).
-2. Temukan peluang keyword berposisi potensial (ranking 5-20) untuk optimasi judul/meta.
-3. Rencana penguatan *internal linking* kontekstual antarartikel sejarah terkait.
+**Pencapaian hari ini:**
+- **Sprint 4 selesai penuh:** GA4 terpasang & tervalidasi, PR #13 (`noindex` otomatis pada 8 taksonomi kosong) sukses live di cPanel.
+- **Auto-Linker Aktif (PR #14):** Layanan `InternalLinker` otomatis menautkan frasa kunci antarartikel di badan teks secara natural (6+ tautan internal aktif live tanpa repot edit manual).
+- **CTR Optimization:** 5 artikel telah diperbaiki panjang meta deskripsinya menjadi 134--141 karakter ideal di Google SERP.
+- **Targeting Kueri Search Console:** Artikel Kekaisaran Romawi telah diperbarui langsung di produksi dengan frasa persis *"peradaban Eropa kuno"* (P1, Title, Description) untuk menangkap 144 tayangan pencarian.
+- **Top Ranking Validated:** Artikel Swiss terbukti menempati **Peringkat #1,0** untuk *"kenapa swiss tidak dijajah nazi"* dan **Peringkat #8,7** untuk *"kenapa hitler tidak menyerang swiss"*.
+- **Content Gap Terpetakan:** Kueri *"kekaisaran mongol"* telah mulai muncul di GSC (posisi 50.5) dan menjadi prioritas artikel baru berikutnya.
 
 ------------------------------------------------------------------------
 

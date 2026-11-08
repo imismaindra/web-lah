@@ -107,7 +107,14 @@
         if (!(event.target instanceof HTMLFormElement)) return;
         if (!event.target.matches('[data-ga4-search]')) return;
 
-        window.trackGa4Event('search');
+        const formData = new FormData(event.target);
+        const searchTerm = String(formData.get('q') ?? '').trim();
+
+        if (!searchTerm) return;
+
+        window.trackGa4Event('search', {
+            search_term: searchTerm
+        });
     });
 </script>
 @endif

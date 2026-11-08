@@ -19,7 +19,7 @@
             <a href="{{ route('tentang') }}" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'tentang', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'tentang'])>Tentang</a>
         </div>
         <div class="hidden sm:flex items-center gap-2">
-            <form action="{{ route('search') }}" method="GET" class="relative">
+            <form action="{{ route('search') }}" method="GET" class="relative" data-ga4-search>
                 <input
                     type="text"
                     name="q"

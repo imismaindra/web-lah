@@ -102,33 +102,69 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.2.5
-        with:
-          host: ${{ secrets.CPANEL_SSH_HOST }}
-          username: ${{ secrets.CPANEL_SSH_USER }}
-          key: ${{ secrets.CPANEL_SSH_KEY }}
-          port: ${{ secrets.CPANEL_SSH_PORT || '22' }}
-          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
-          script: |
-            set -e
+      - name: Deploy via OpenSSH
+        env:
+          SSH_HOST: ${{ secrets.CPANEL_SSH_HOST }}
+          SSH_USER: ${{ secrets.CPANEL_SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.CPANEL_SSH_KEY }}
+          SSH_PASSPHRASE: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          SSH_PORT: ${{ secrets.CPANEL_SSH_PORT || '22' }}
+          APP_PATH: ${{ secrets.CPANEL_APP_PATH }}
+          PHP_BIN: ${{ secrets.CPANEL_PHP_BIN || 'php' }}
+          COMPOSER_BIN: ${{ secrets.CPANEL_COMPOSER_BIN || 'composer' }}
+        run: |
+          set -euo pipefail
 
-            PHP_BIN="${{ secrets.CPANEL_PHP_BIN || 'php' }}"
-            COMPOSER_BIN="${{ secrets.CPANEL_COMPOSER_BIN || 'composer' }}"
+          KEY_FILE="$RUNNER_TEMP/cpanel_deploy_key"
+          ASKPASS_FILE="$RUNNER_TEMP/cpanel_ssh_askpass"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$KEY_FILE"
+          chmod 600 "$KEY_FILE"
 
-            cd "${{ secrets.CPANEL_APP_PATH }}"
+          eval "$(ssh-agent -s)"
+          trap 'ssh-agent -k >/dev/null; rm -f "$KEY_FILE" "$ASKPASS_FILE"' EXIT
 
-            $PHP_BIN artisan down --retry=15 || true
+          if [ -n "${SSH_PASSPHRASE:-}" ]; then
+            cat > "$ASKPASS_FILE" <<'ASKPASS_SCRIPT'
+          #!/bin/sh
+          printf '%s\n' "$SSH_PASSPHRASE"
+          ASKPASS_SCRIPT
+            chmod 700 "$ASKPASS_FILE"
+            DISPLAY=:0 SSH_ASKPASS="$ASKPASS_FILE" SSH_ASKPASS_REQUIRE=force ssh-add "$KEY_FILE" </dev/null
+          else
+            ssh-add "$KEY_FILE"
+          fi
 
-            git fetch origin main
-            git reset --hard origin/main
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
 
-            $COMPOSER_BIN install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-            $PHP_BIN artisan storage:link || true
-            $PHP_BIN artisan migrate --force
-            $PHP_BIN artisan optimize:clear
-            $PHP_BIN artisan config:cache
-            $PHP_BIN artisan route:cache
-            $PHP_BIN artisan view:cache
+          REMOTE_ARGS=$(printf ' %q' "$APP_PATH" "$PHP_BIN" "$COMPOSER_BIN")
 
-            $PHP_BIN artisan up
+          ssh -p "$SSH_PORT" \\
+            -o BatchMode=yes \\
+            -o StrictHostKeyChecking=accept-new \\
+            -o ConnectTimeout=20 \\
+            "$SSH_USER@$SSH_HOST" \\
+            "bash -s --$REMOTE_ARGS" <<'REMOTE_SCRIPT'
+          set -euo pipefail
+
+          APP_PATH="$1"
+          PHP_BIN="$2"
+          COMPOSER_BIN="$3"
+
+          cd "$APP_PATH"
+
+          $PHP_BIN artisan down --retry=15 || true
+
+          git fetch origin main
+          git reset --hard origin/main
+
+          $COMPOSER_BIN install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+          $PHP_BIN artisan storage:link || true
+          $PHP_BIN artisan migrate --force
+          $PHP_BIN artisan optimize:clear
+          $PHP_BIN artisan config:cache
+          $PHP_BIN artisan route:cache
+          $PHP_BIN artisan view:cache
+
+          $PHP_BIN artisan up
+          REMOTE_SCRIPT

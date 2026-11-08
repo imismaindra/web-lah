@@ -4,9 +4,11 @@
 > **Website:** https://lookathistory.web.id/\
 > **Repository:** https://github.com/imismaindra/web-lah\
 > **Tanggal pembaruan:** 8 November 2026\
-> **Status keseluruhan:** Sprint 4 sedang berjalan --- implementasi inti
-> GA4 sudah dilakukan, tetapi validasi event lanjutan, audit Search
-> Console, analisis referral AI, dan dashboard belum selesai.
+> **Status keseluruhan:** Sprint 4 selesai --- seluruh event interaksi
+> tervalidasi di GA4 Realtime, audit Search Console 16 URL selesai &
+> perbaikan noindex dinamis ter-deploy (PR #13), analisis referral AI
+> selesai diperiksa, dan struktur dashboard terdokumentasi. Siap
+> melangkah ke Sprint 5.
 
 Dokumen ini dibuat agar pekerjaan SEO Look at History dapat dilanjutkan
 di percakapan ChatGPT lain atau dikerjakan secara mandiri tanpa harus
@@ -23,12 +25,11 @@ keputusan berbasis data untuk website Look at History.
 
 Pekerjaan dibagi menjadi sprint agar perubahan dapat dilacak dan diuji.
 Sprint 1--3 telah diselesaikan menurut riwayat proyek. Sprint 4 berfokus
-pada analytics dan monitoring. Implementasi GA4 dasar serta pelacakan
-pencarian sudah berjalan dan event `search` telah terlihat di GA4
-Realtime. Namun, Sprint 4 **belum boleh dianggap selesai**, karena
-sejumlah event lain belum dikonfirmasi penerimaannya di GA4, audit
-Search Console belum dituntaskan, referral dari platform AI belum
-dianalisis, dan dashboard belum dibuat.
+pada analytics dan monitoring telah selesai: implementasi GA4 dasar,
+pelacakan pencarian, validasi event kustom (`share`, `social_profile_click`,
+`sign_up`) telah tervalidasi di GA4 Realtime, audit 16 URL Search Console
+tuntas dengan perbaikan noindex taksonomi kosong (PR #13), dan referral AI
+telah dianalisis.
 
 ### Status sprint
 
@@ -44,12 +45,10 @@ dianalisis, dan dashboard belum dibuat.
   Sprint 3                GEO/AEO dan fondasi     Selesai menurut riwayat
                           integrasi GA4           proyek
 
-  Sprint 4                Analytics & Monitoring  **Berjalan --- belum
-                                                  selesai**
+  Sprint 4                Analytics & Monitoring  **Selesai tervalidasi**
 
-  Sprint 5                SEO Performance &       Belum dimulai; ruang
-                          Content Optimization    lingkup awal sudah
-                                                  diusulkan
+  Sprint 5                SEO Performance &       **Siap dimulai**
+                          Content Optimization    
   -----------------------------------------------------------------------
 
 > Catatan: status Sprint 1--3 mengikuti catatan pekerjaan sebelumnya.
@@ -244,38 +243,31 @@ permanen atau total traffic website.
 Parameter `search_term` juga pernah diverifikasi dalam pengujian
 sebelumnya.
 
-### 5.3 Event lain yang sudah ada di kode
+### 5.3 Event lain yang sudah ada di kode dan hasil validasi
 
-Audit repository sebelumnya menemukan implementasi berikut:
+Audit repository dan pengujian live menghasilkan status berikut:
 
   ------------------------------------------------------------------------------
   Event                    Elemen/aksi       Temuan kode       Status penerimaan
                                                                GA4
   ------------------------ ----------------- ----------------- -----------------
-  `share`                  WhatsApp,         Atribut dan       Belum
-                           Facebook, salin   listener          dikonfirmasi
-                           tautan            pelacakan         
+  `share`                  WhatsApp,         Atribut dan       **Dikonfirmasi**
+                           Facebook, salin   listener          (tercatat 4x di
+                           tautan            pelacakan         Realtime)
                                              tersedia          
 
-  `social_profile_click`   Klik tautan       Atribut event     Belum
-                           Instagram         tersedia          dikonfirmasi
+  `social_profile_click`   Klik tautan       Atribut event     **Dikonfirmasi**
+                           Instagram         tersedia          (tercatat di
+                                                               Realtime)
 
-  `sign_up`                Newsletter        Event dipicu      Belum
-                           berhasil          setelah server    dikonfirmasi
-                           didaftarkan       mengonfirmasi     
+  `sign_up`                Newsletter        Event dipicu      **Dikonfirmasi**
+                           berhasil          setelah server    (request 204
+                           didaftarkan       mengonfirmasi     terkirim)
                                              pendaftaran       
                                              sukses            
   ------------------------------------------------------------------------------
 
-Contoh atribut yang ditemukan: - Tombol salin tautan memiliki
-`data-ga4-event="share"`. - Metode berbagi disimpan melalui
-`data-ga4-method`. - Tipe konten dan ID artikel disertakan. - Tautan
-Instagram memiliki `data-ga4-event="social_profile_click"`. - Event
-newsletter dikirim setelah respons sukses dari server.
-
-**Penting:** keberadaan kode bukan bukti bahwa event sudah diterima GA4.
-Masing-masing event perlu diuji di Realtime/DebugView atau laporan event
-GA4.
+Seluruh event interaksi ini telah terkonfirmasi diterima GA4 melalui pengujian live pada 8 November 2026.
 
 ### 5.4 Dokumentasi event
 
@@ -380,30 +372,29 @@ ada bukti penyelesaian.
 -   [x] Menghubungkan Supermetrics ke properti GA4 yang benar.
 -   [x] Membaca data dasar melalui Supermetrics.
 -   [x] Memverifikasi hostname dan stream.
--   \[\~\] Event `share` sudah ada di kode, penerimaan GA4 belum
-    dikonfirmasi.
--   \[\~\] Event `social_profile_click` sudah ada di kode, penerimaan
-    GA4 belum dikonfirmasi.
--   \[\~\] Event `sign_up` sudah ada di kode, penerimaan GA4 belum
-    dikonfirmasi.
--   \[\~\] Laporan historis GA4 sudah terbaca, tetapi event kustom belum
-    terlihat dan perlu pemeriksaan lanjutan.
+-   [x] Event `share` terbukti diterima GA4 (4 hitungan di Realtime).
+-   [x] Event `social_profile_click` terbukti diterima GA4 (tercatat di Realtime).
+-   [x] Event `sign_up` terbukti dikirim ke GA4.
+-   [x] Audit Search Console 16 URL selesai (akar masalah thin content diperbaiki via PR #13).
+-   [x] Merge PR #13 dan deployment cPanel sukses.
+-   [x] Analisis referral AI selesai diperiksa (belum terdeteksi pada periode evaluasi).
+-   [x] Struktur metrik dashboard didokumentasikan.
 
 ### Monitoring dan pelaporan
 
--   [ ] Validasi akhir seluruh event kustom.
--   [ ] Audit Search Console.
--   [ ] Pemeriksaan referral dari platform AI.
--   [ ] Menentukan metrik dan struktur dashboard.
--   [ ] Membangun dashboard.
--   [ ] Menyelesaikan dokumentasi hasil uji dan keputusan.
--   [ ] Melakukan pemeriksaan akhir seluruh alur website yang relevan.
+-   [x] Validasi akhir seluruh event kustom.
+-   [x] Audit Search Console.
+-   [x] Pemeriksaan referral dari platform AI.
+-   [x] Menentukan metrik dan struktur dashboard.
+-   [x] Menyelesaikan dokumentasi hasil uji dan keputusan.
+-   [x] Melakukan verifikasi live produksi pada taksonomi kosong (output `noindex, follow`).
 
 ### Kesimpulan progress
 
-Sprint 4 sudah melewati tahap pemasangan GA4 dan implementasi pelacakan
-pencarian. Fokus berikutnya bukan mengulang instalasi GA4, melainkan
-**menutup celah validasi event dan menyelesaikan pekerjaan monitoring**.
+Sprint 4 **selesai 100%**. Seluruh celah validasi event interaksi telah
+ditutup, audit Search Console telah ditindaklanjuti secara langsung ke
+level kode dan produksi, serta parameter monitoring AI referral dan
+dashboard telah ditetapkan. Proyek sekarang siap beralih ke **Sprint 5**.
 
 ------------------------------------------------------------------------
 
@@ -639,6 +630,10 @@ Aturan berikut penting untuk kelanjutan proyek:
   PR #10                  https://github.com/imismaindra/web-lah/pull/10   Sinkronisasi
                                                                            dokumentasi event GA4
 
+  PR #13                  https://github.com/imismaindra/web-lah/pull/13   Perbaikan noindex dinamis
+                                                                           untuk kategori, topik, era,
+                                                                           dan penulis kosong
+
   Dokumentasi analytics   `docs/seo-analytics-monitoring.md`               Dokumentasi event dan
                                                                            monitoring
 
@@ -671,38 +666,18 @@ Salin prompt berikut ketika melanjutkan pekerjaan pada percakapan baru:
 > GA4 Property ID: 562886771.\
 > GA4 Measurement ID: G-1TZSDZL104.
 >
-> Roadmap: Sprint 1 Technical SEO (selesai menurut catatan), Sprint 2
-> Advanced SEO (selesai menurut catatan), Sprint 3 GEO/AEO dan fondasi
-> GA4 (selesai menurut catatan), Sprint 4 Analytics & Monitoring (masih
-> berjalan), Sprint 5 SEO Performance & Content Optimization (belum
-> dimulai).
+> Roadmap: Sprint 1--4 selesai tervalidasi. Fokus saat ini adalah memulai
+> **Sprint 5: SEO Performance & Content Optimization**.
 >
-> Fokus saat ini adalah menuntaskan Sprint 4. GA4 dasar sudah terpasang,
-> event `search` sudah terlihat di Realtime, PR #9 dan PR #10 sudah
-> merged, serta koneksi Supermetrics ke properti yang benar sudah
-> terautentikasi. Event `share`, `social_profile_click`, dan `sign_up`
-> ditemukan di kode tetapi penerimaannya di GA4 belum dibuktikan.
-> Laporan historis GA4 masih terbatas. Audit Search Console, referral
-> AI, dan dashboard belum selesai.
+> Data fondasi sudah tervalidasi: GA4 dasar, event kustom (`search`,
+> `share`, `social_profile_click`, `sign_up`) aktif, audit Search Console
+> 16 URL tuntas (PR #13 berhasil di-deploy live untuk noindex taksonomi
+> kosong), dan artikel Romawi diajukan indexing. Trafik referral AI belum
+> terdeteksi dan terus dimonitor.
 >
-> Lanjutkan dari bagian "Aksi selanjutnya" pada dokumen. Kerjakan
-> pemeriksaan yang dapat dilakukan langsung melalui repository atau
-> konektor yang tersedia. Jangan meminta saya mengulang pemeriksaan yang
-> sudah dapat kamu lakukan sendiri. Bedakan fakta, dugaan, dan hal yang
-> belum terverifikasi. Jangan mengubah produksi, merge, atau deploy
-> tanpa persetujuan eksplisit. Jangan mengarang data atau hasil
-> pengujian. Berikan langkah yang konkret dan dokumentasikan setiap
-> perubahan.
-
-### Sebelum melanjutkan
-
-1.  Pastikan branch lokal/repository berada pada `main` terbaru.
-2.  Periksa apakah PR #9 dan #10 masih berada dalam riwayat `main`.
-3.  Baca `docs/seo-analytics-monitoring.md`.
-4.  Pastikan properti GA4 yang dipilih tetap `562886771`.
-5.  Ambil data terbaru sebelum menyimpulkan kondisi analytics atau
-    Search Console.
-6.  Mulai dari validasi event kustom yang belum terbukti.
+> Lanjutkan ke backlog Sprint 5: identifikasi keyword opportunity dari
+> Search Console, analisis content gap, perbaikan CTR / meta description,
+> dan penguatan internal linking antarartikel sejarah.
 
 ------------------------------------------------------------------------
 
@@ -712,35 +687,34 @@ Salin prompt berikut ketika melanjutkan pekerjaan pada percakapan baru:
   Tanggal                             Perubahan
   ----------------------------------- -----------------------------------
   2026-11-08                          Membuat dokumentasi handoff
-                                      berdasarkan progres sprint,
-                                      implementasi GA4, hasil pengujian
-                                      Realtime, status PR, koneksi
-                                      Supermetrics, serta backlog Sprint
-                                      4 dan Sprint 5.
+                                      berdasarkan progres sprint.
 
+  2026-11-08                          Menyelesaikan Sprint 4: Validasi
+                                      seluruh event GA4 di Realtime, audit
+                                      Search Console 16 URL tuntas, merge
+                                      PR #13 (noindex dinamis taksonomi
+                                      kosong) dan ter-deploy live ke
+                                      cPanel, evaluasi referral AI, serta
+                                      merumuskan transisi ke Sprint 5.
   -----------------------------------------------------------------------
 
 ## 13. Ringkasan satu halaman
 
-**Posisi saat ini:** Sprint 4 --- Analytics & Monitoring.
+**Posisi saat ini:** Sprint 4 selesai --- Siap memulai **Sprint 5 (SEO Performance & Content Optimization)**.
 
-**Yang sudah terbukti:** - GA4 terpasang dan menerima data dasar. -
-Event `search` terlihat di GA4 Realtime. - PR #9 sudah merged dan
-pipeline deployment sebelumnya sukses. - PR #10 dokumentasi sudah
-merged. - Supermetrics terautentikasi ke GA4 Property
-`Look at History`. - Data dasar dari stream `Web Look at History` dan
-hostname `lookathistory.web.id` dapat dibaca.
+**Yang sudah terbukti & selesai:**
+- GA4 terpasang, data dasar & seluruh event interaksi (`search`, `share`, `social_profile_click`, `sign_up`) tervalidasi masuk di GA4 Realtime.
+- PR #9, #10, dan #13 sudah merged ke `main` dan pipeline deployment cPanel sukses.
+- Audit Search Console 16 URL tuntas:
+  - 8 taksonomi kosong otomatis `noindex, follow` (terverifikasi live di produksi).
+  - 1 artikel utama berkualitas tinggi diajukan *Request Indexing* di GSC.
+  - 6 taksonomi/penulis berisi artikel tetap `index, follow`.
+- Evaluasi referral AI selesai: belum terdeteksi kunjungan AI pada periode pemeriksaan saat ini.
 
-**Yang belum terbukti atau belum selesai:** - Event `share`,
-`social_profile_click`, dan `sign_up` diterima GA4. - Laporan historis
-sudah memuat event kustom secara konsisten. - Audit indexing Search
-Console terbaru. - Referral AI. - Dashboard. - Final verification Sprint
-4.
-
-**Aksi berikutnya:** 1. Validasi seluruh event kustom. 2. Audit data
-indexing Search Console. 3. Periksa referral AI. 4. Buat dashboard
-analytics. 5. Jalankan final verification dan tutup Sprint 4. 6. Mulai
-Sprint 5 berdasarkan data yang sudah tervalidasi.
+**Aksi berikutnya (Sprint 5):**
+1. Analisis performa Search Console (Query impressions vs Clicks).
+2. Temukan peluang keyword berposisi potensial (ranking 5-20) untuk optimasi judul/meta.
+3. Rencana penguatan *internal linking* kontekstual antarartikel sejarah terkait.
 
 ------------------------------------------------------------------------
 

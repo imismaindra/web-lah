@@ -33,6 +33,16 @@ class InternalLinkerTest extends TestCase
         $this->assertStringNotContainsString('<a href="/sudah-ada"><a', $result);
     }
 
+    public function test_autolinker_inserts_mongol_article_link(): void
+    {
+        $html = '<p>Pada abad ke-13, armada Kekaisaran Mongol dikirim oleh Kubilai Khan untuk menyerang tanah Jawa.</p>';
+        $currentArticle = new Artikel(['slug' => 'artikel-lain']);
+
+        $result = InternalLinker::link($html, $currentArticle);
+
+        $this->assertStringContainsString('/artikel/mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan', $result);
+    }
+
     public function test_autolinker_does_not_self_link(): void
     {
         $html = '<p>Artikel ini membahas tentang Kekaisaran Romawi.</p>';

@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->redirectGuestsTo(
-            fn (Request $request) => $request->is('admin/*') ? route('panel.login') : route('login')
+            fn () => route('login')
         );
     })
     ->withExceptions(function (Exceptions $exceptions): void {

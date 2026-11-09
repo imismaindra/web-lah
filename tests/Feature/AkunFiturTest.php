@@ -46,9 +46,9 @@ class AkunFiturTest extends TestCase
         ]);
     }
 
-    public function test_guest_dialihkan_ke_login_panel_saat_akses_panel(): void
+    public function test_guest_dialihkan_ke_login_saat_akses_panel_atau_profil(): void
     {
-        $this->get('/admin/dashboard')->assertRedirect(route('panel.login'));
+        $this->get('/admin/dashboard')->assertRedirect(route('login'));
         $this->get('/profil')->assertRedirect(route('login'));
     }
 
@@ -86,9 +86,10 @@ class AkunFiturTest extends TestCase
 
         $this->post('/login', ['email' => $user->email, 'password' => 'password'])
             ->assertRedirect(route('profil.edit'));
+        $this->assertAuthenticatedAs($user);
     }
 
-    public function test_admin_dan_penulis_diblokir_di_halaman_login_pembaca(): void
+    public function test_login_admin_dan_penulis_diarahkan_ke_dashboard(): void
     {
         $admin = $this->makeUser();
         $admin->assignRole('admin');
@@ -97,37 +98,19 @@ class AkunFiturTest extends TestCase
         $penulis->assignRole('penulis');
 
         $this->post('/login', ['email' => $admin->email, 'password' => 'password'])
-            ->assertRedirect(route('panel.login'));
+            ->assertRedirect(route('admin.dashboard'));
+        $this->assertAuthenticatedAs($admin);
+
+        auth()->logout();
 
         $this->post('/login', ['email' => $penulis->email, 'password' => 'password'])
-            ->assertRedirect(route('panel.login'));
-
-        $this->assertGuest();
+            ->assertRedirect(route('admin.dashboard'));
+        $this->assertAuthenticatedAs($penulis);
     }
 
-    public function test_pengguna_diblokir_di_halaman_login_panel(): void
+    public function test_halaman_panel_login_dialihkan_ke_login(): void
     {
-        $user = $this->makeUser();
-
-        $this->post('/panel/login', ['email' => $user->email, 'password' => 'password'])
-            ->assertRedirect(route('login'));
-
-        $this->assertGuest();
-    }
-
-    public function test_login_panel_admin_dan_penulis_diarahkan_ke_dashboard(): void
-    {
-        $admin = $this->makeUser();
-        $admin->assignRole('admin');
-
-        $penulis = $this->makeUser();
-        $penulis->assignRole('penulis');
-
-        $this->post('/panel/login', ['email' => $admin->email, 'password' => 'password'])
-            ->assertRedirect(route('admin.dashboard'));
-
-        $this->post('/panel/login', ['email' => $penulis->email, 'password' => 'password'])
-            ->assertRedirect(route('admin.dashboard'));
+        $this->get('/panel/login')->assertRedirect(route('login'));
     }
 
     public function test_user_yang_sudah_login_dibawa_ke_destinasinya_saat_membuka_halaman_login(): void
@@ -136,14 +119,12 @@ class AkunFiturTest extends TestCase
         $this->actingAs($pengguna);
 
         $this->get('/login')->assertRedirect(route('profil.edit'));
-        $this->get('/panel/login')->assertRedirect(route('profil.edit'));
 
         $penulis = $this->makeUser();
         $penulis->assignRole('penulis');
         $this->actingAs($penulis);
 
         $this->get('/login')->assertRedirect(route('admin.dashboard'));
-        $this->get('/panel/login')->assertRedirect(route('admin.dashboard'));
     }
 
     public function test_login_user_belum_verifikasi_diarahkan_ke_notice(): void

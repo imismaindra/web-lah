@@ -26,26 +26,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function showPanelLogin()
-    {
-        if (Auth::check()) {
-            return redirect()->to($this->panelOrProfil(Auth::user()));
-        }
-
-        return view('auth.panel-login');
-    }
-
-    public function login(Request $request)
-    {
-        return $this->authenticate($request, allowPanel: false);
-    }
-
-    public function panelLogin(Request $request)
-    {
-        return $this->authenticate($request, allowPanel: true);
-    }
-
-    private function authenticate(Request $request, bool $allowPanel)
+    public function login(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -62,24 +43,6 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $request->session()->regenerate();
-
-        $isPanel = $user->hasRole(['admin', 'penulis']);
-
-        if ($isPanel && ! $allowPanel) {
-            Auth::logout();
-            $request->session()->regenerate();
-
-            return redirect()->route('panel.login')
-                ->with('status', 'Akun ini adalah admin/penulis. Silakan masuk lewat halaman panel.');
-        }
-
-        if (! $isPanel && $allowPanel) {
-            Auth::logout();
-            $request->session()->regenerate();
-
-            return redirect()->route('login')
-                ->with('status', 'Akun ini bukan admin/penulis. Silakan masuk lewat halaman pembaca.');
-        }
 
         if (! $user->hasRole('admin') && ! $user->hasVerifiedEmail()) {
             return redirect()->route('verification.notice');
@@ -100,7 +63,7 @@ class AuthController extends Controller
     public function showRegister()
     {
         if (Auth::check()) {
-            return redirect()->route($this->panelOrProfil(Auth::user()));
+            return redirect()->to($this->panelOrProfil(Auth::user()));
         }
 
         return view('auth.register');

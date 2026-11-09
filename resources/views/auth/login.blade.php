@@ -2,7 +2,7 @@
 
 @section('title', 'Masuk')
 @section('heading', 'Masuk ke Akun')
-@section('subtitle', 'Halaman masuk untuk pembaca.')
+@section('subtitle', 'Silakan masuk ke akun Anda.')
 
 @section('form')
     <form method="POST" action="{{ route('login') }}" class="mt-8 space-y-5">

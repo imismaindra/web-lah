@@ -103,8 +103,7 @@ Route::get('/kebijakan-privasi', function () {
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
-Route::get('/panel/login', [AuthController::class, 'showPanelLogin'])->name('panel.login');
-Route::post('/panel/login', [AuthController::class, 'panelLogin'])->middleware('throttle:5,1');
+Route::redirect('/panel/login', '/login')->name('panel.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('guest')->group(function () {

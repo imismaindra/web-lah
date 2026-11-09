@@ -41,37 +41,37 @@
 
         {{-- Metric Overview Strip --}}
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-            <div class="rounded-2xl border border-stone-200/70 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
+            <div class="rounded-2xl border border-stone-200/80 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
                 <div class="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
                     <span>Semua Naskah</span>
-                    <svg class="h-4 w-4 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+                    <svg class="h-4 w-4 text-stone-400 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
                 </div>
                 <p class="mt-2 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100">{{ number_format($statusCounts['all'] ?? 0) }}</p>
                 <p class="mt-1 text-[11px] text-stone-400 dark:text-stone-500">Seluruh artikel tercatat</p>
             </div>
 
-            <div class="rounded-2xl border border-stone-200/70 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
+            <div class="rounded-2xl border border-stone-200/80 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
                 <div class="flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-400">
                     <span>Diterbitkan</span>
-                    <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
                 </div>
                 <p class="mt-2 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100">{{ number_format($statusCounts['published'] ?? 0) }}</p>
                 <p class="mt-1 text-[11px] text-stone-400 dark:text-stone-500">Tayang untuk publik</p>
             </div>
 
-            <div class="rounded-2xl border border-stone-200/70 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
+            <div class="rounded-2xl border border-stone-200/80 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
                 <div class="flex items-center justify-between text-xs text-sky-600 dark:text-sky-400">
                     <span>Draf & Jadwal</span>
-                    <svg class="h-4 w-4 text-sky-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <svg class="h-4 w-4 text-sky-500 dark:text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </div>
                 <p class="mt-2 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100">{{ number_format(($statusCounts['draft'] ?? 0) + ($statusCounts['scheduled'] ?? 0)) }}</p>
                 <p class="mt-1 text-[11px] text-stone-400 dark:text-stone-500">{{ $statusCounts['scheduled'] ?? 0 }} terjadwal, {{ $statusCounts['draft'] ?? 0 }} draf</p>
             </div>
 
-            <div class="rounded-2xl border border-stone-200/70 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
+            <div class="rounded-2xl border border-stone-200/80 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
                 <div class="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
                     <span>Total Pembaca</span>
-                    <svg class="h-4 w-4 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="h-4 w-4 text-stone-400 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
                 <p class="mt-2 font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100">{{ number_format($totalViews ?? 0) }}</p>
                 <p class="mt-1 text-[11px] text-stone-400 dark:text-stone-500">Akumulasi tayangan artikel</p>
@@ -101,12 +101,12 @@
                     <a
                         href="{{ $tabUrl }}"
                         class="inline-flex items-center gap-2 whitespace-nowrap rounded-xl px-3.5 py-1.5 text-xs font-semibold transition active:scale-[0.98] {{ $isActive
-                            ? 'bg-stone-900 text-white shadow-xs dark:bg-[#5b9bd5] dark:text-[#0f0f0e]'
+                            ? 'bg-stone-900 text-white shadow-xs dark:bg-[#5b9bd5]/15 dark:text-[#5b9bd5] dark:ring-1 dark:ring-[#5b9bd5]/30'
                             : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.04] dark:hover:text-stone-200' }}"
                     >
                         <span>{{ $tab['label'] }}</span>
                         <span class="rounded-md px-1.5 py-0.2 text-[10px] font-bold {{ $isActive
-                            ? 'bg-white/20 text-white dark:bg-[#0f0f0e]/20 dark:text-[#0f0f0e]'
+                            ? 'bg-white/20 text-white dark:bg-[#5b9bd5]/25 dark:text-[#5b9bd5]'
                             : 'bg-stone-100 text-stone-500 dark:bg-white/[0.06] dark:text-stone-400' }}">
                             {{ $tab['count'] }}
                         </span>
@@ -131,13 +131,13 @@
                         name="search"
                         value="{{ request('search') }}"
                         placeholder="Cari judul, topik, atau kata kunci... (tekan / untuk fokus)"
-                        class="w-full rounded-xl border border-stone-200 bg-stone-50/50 py-2.5 pl-10 pr-9 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:bg-white focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                        class="w-full rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-10 pr-9 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:bg-white focus:ring-1 focus:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:bg-[#121211] dark:focus:ring-1 dark:focus:ring-[#5b9bd5]/20"
                     >
                     @if (request()->filled('search'))
                         <button
                             type="button"
                             onclick="document.getElementById('search-input').value=''; document.getElementById('filter-form').submit();"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-stone-400 transition hover:bg-stone-200/70 hover:text-stone-700 dark:hover:bg-white/10 dark:hover:text-stone-200"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-stone-400 transition hover:bg-stone-200/70 hover:text-stone-700 dark:text-stone-500 dark:hover:bg-white/10 dark:hover:text-stone-200"
                             title="Hapus pencarian"
                         >
                             <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -153,16 +153,16 @@
                             <select
                                 name="kategori"
                                 onchange="document.getElementById('filter-form').submit()"
-                                class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/50 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-[#5b9bd5]"
+                                class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:bg-[#121211]"
                             >
-                                <option value="">Semua Kategori</option>
+                                <option value="" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Semua Kategori</option>
                                 @foreach ($kategoris as $kat)
-                                    <option value="{{ $kat->id }}" {{ (string) request('kategori') === (string) $kat->id ? 'selected' : '' }}>
+                                    <option value="{{ $kat->id }}" {{ (string) request('kategori') === (string) $kat->id ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">
                                         {{ $kat->nama }}
                                     </option>
                                 @endforeach
                             </select>
-                            <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                            <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                         </div>
                     @endif
 
@@ -171,22 +171,23 @@
                         <select
                             name="sort"
                             onchange="document.getElementById('filter-form').submit()"
-                            class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/50 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-[#5b9bd5]"
+                            class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:bg-[#121211]"
                         >
-                            <option value="terbaru" {{ request('sort', 'terbaru') === 'terbaru' ? 'selected' : '' }}>Urut: Terbaru</option>
-                            <option value="populer" {{ request('sort') === 'populer' ? 'selected' : '' }}>Urut: Paling Populer</option>
-                            <option value="terlama" {{ request('sort') === 'terlama' ? 'selected' : '' }}>Urut: Terlama</option>
+                            <option value="terbaru" {{ request('sort', 'terbaru') === 'terbaru' ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Urut: Terbaru</option>
+                            <option value="populer" {{ request('sort') === 'populer' ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Urut: Paling Populer</option>
+                            <option value="terlama" {{ request('sort') === 'terlama' ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Urut: Terlama</option>
                         </select>
-                        <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </div>
 
                     {{-- View mode toggle (Grid vs List) --}}
-                    <div class="flex items-center rounded-xl border border-stone-200 bg-stone-50/50 p-1 dark:border-white/10 dark:bg-[#121211]">
+                    <div class="flex items-center rounded-xl border border-stone-200 bg-stone-50/70 p-1 dark:border-white/10 dark:bg-[#121211]">
                         <button
                             type="button"
                             id="view-grid-btn"
                             onclick="setArticleView('grid')"
-                            class="rounded-lg p-1.5 transition text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200"
+                            data-active="true"
+                            class="rounded-lg p-1.5 transition text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200 data-[active=true]:bg-white data-[active=true]:text-stone-900 data-[active=true]:shadow-xs dark:data-[active=true]:bg-white/10 dark:data-[active=true]:text-stone-100"
                             title="Tampilan Kartu (Grid)"
                         >
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
@@ -195,7 +196,8 @@
                             type="button"
                             id="view-list-btn"
                             onclick="setArticleView('list')"
-                            class="rounded-lg p-1.5 transition text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200"
+                            data-active="false"
+                            class="rounded-lg p-1.5 transition text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200 data-[active=true]:bg-white data-[active=true]:text-stone-900 data-[active=true]:shadow-xs dark:data-[active=true]:bg-white/10 dark:data-[active=true]:text-stone-100"
                             title="Tampilan Tabel (List)"
                         >
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
@@ -206,7 +208,7 @@
                     @if (request()->hasAny(['search', 'status', 'kategori', 'sort']))
                         <a
                             href="{{ route('admin.artikel.index') }}"
-                            class="inline-flex items-center gap-1.5 rounded-xl border border-stone-200 px-3 py-2 text-xs font-semibold text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:bg-white/[0.04] dark:hover:text-stone-200"
+                            class="inline-flex items-center gap-1.5 rounded-xl border border-stone-200 px-3 py-2 text-xs font-semibold text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:bg-white/[0.06] dark:hover:text-stone-200"
                             title="Reset semua filter"
                         >
                             <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
@@ -249,9 +251,9 @@
                 {{-- 1. GRID VIEW --}}
                 <div id="articles-grid-view" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($artikels as $artikel)
-                        <div class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-2xs transition duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-sm dark:border-white/[0.07] dark:bg-[#171716] dark:hover:border-white/15 dark:hover:shadow-black/40">
-                            {{-- Top Header: Media Cover & Status Badges --}}
+                        <div class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-stone-200/80 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-sm dark:border-white/[0.06] dark:bg-[#171716] dark:hover:border-white/15 dark:hover:shadow-black/40">
                             <div>
+                                {{-- Thumbnail --}}
                                 <div class="aspect-[16/10] relative w-full overflow-hidden bg-stone-100 dark:bg-white/[0.02]">
                                     @if ($artikel->gambar)
                                         <img
@@ -261,71 +263,47 @@
                                             loading="lazy"
                                         >
                                     @else
-                                        <div class="flex h-full w-full flex-col items-center justify-center bg-radial from-stone-100 to-stone-200/50 p-6 text-stone-300 dark:from-[#1b1b1a] dark:to-[#141413] dark:text-stone-600">
+                                        <div class="flex h-full w-full flex-col items-center justify-center bg-stone-100 p-6 text-stone-300 dark:bg-white/[0.02] dark:text-stone-600">
                                             <svg class="h-10 w-10 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                                             <span class="mt-1 text-[11px] font-medium tracking-wide">Ilustrasi Naskah</span>
-                                        </div>
-                                    @endif
-
-                                    {{-- Soft gradient scrim --}}
-                                    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
-
-                                    {{-- Top Badges: Status (Left) & Category (Right) --}}
-                                    <div class="absolute inset-x-3 top-3 flex items-center justify-between gap-2">
-                                        <div class="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-bold backdrop-blur-md shadow-xs
-                                            {{ match($artikel->status) {
-                                                'published' => 'bg-emerald-950/80 text-emerald-300 ring-1 ring-emerald-500/30',
-                                                'scheduled' => 'bg-sky-950/80 text-sky-300 ring-1 ring-sky-500/30',
-                                                'archived' => 'bg-amber-950/80 text-amber-300 ring-1 ring-amber-500/30',
-                                                default => 'bg-stone-900/80 text-stone-300 ring-1 ring-stone-700/50',
-                                            } }}">
-                                            <span class="h-1.5 w-1.5 rounded-full {{ match($artikel->status) {
-                                                'published' => 'bg-emerald-400',
-                                                'scheduled' => 'bg-sky-400',
-                                                'archived' => 'bg-amber-400',
-                                                default => 'bg-stone-400',
-                                            } }}"></span>
-                                            <span>
-                                                {{ match($artikel->status) {
-                                                    'published' => 'Terbit',
-                                                    'scheduled' => 'Terjadwal',
-                                                    'archived' => 'Arsip',
-                                                    default => 'Draf',
-                                                } }}
-                                            </span>
-                                        </div>
-
-                                        @if ($artikel->kategori)
-                                            <span class="truncate rounded-lg bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white/90 backdrop-blur-md ring-1 ring-white/10">
-                                                {{ $artikel->kategori->nama }}
-                                            </span>
-                                        @endif
-                                    </div>
-
-                                    {{-- Bottom overlay label if scheduled --}}
-                                    @if ($artikel->status === 'scheduled' && $artikel->published_at)
-                                        <div class="absolute bottom-2 left-3 right-3 flex items-center gap-1.5 rounded-md bg-sky-950/90 px-2.5 py-1 text-[11px] font-medium text-sky-200 backdrop-blur-md">
-                                            <svg class="h-3.5 w-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                            <span class="truncate">Tayang: {{ $artikel->published_at->format('d M Y, H:i') }}</span>
                                         </div>
                                     @endif
                                 </div>
 
                                 {{-- Card Content --}}
-                                <div class="p-5">
-                                    {{-- Metadata line --}}
-                                    <div class="flex items-center gap-2 text-xs text-stone-400 dark:text-stone-500">
-                                        <span>{{ ($artikel->published_at ?? $artikel->created_at)->format('d M Y') }}</span>
-                                        <span>&bull;</span>
-                                        <span>{{ $artikel->reading_time ?? 1 }} mnt baca</span>
-                                        @if ($artikel->author)
-                                            <span>&bull;</span>
-                                            <span class="truncate max-w-[120px]">{{ $artikel->author->penulis->nama_pena ?? $artikel->author->name }}</span>
+                                <div class="p-4.5 sm:p-5">
+                                    {{-- Status Pill & Date line --}}
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider
+                                            {{ match($artikel->status) {
+                                                'published' => 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+                                                'scheduled' => 'bg-sky-50 text-sky-700 dark:bg-sky-500/10 dark:text-sky-400',
+                                                'archived' => 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
+                                                default => 'bg-stone-100 text-stone-600 dark:bg-white/[0.06] dark:text-stone-400',
+                                            } }}">
+                                            <span class="h-1.5 w-1.5 rounded-full {{ match($artikel->status) {
+                                                'published' => 'bg-emerald-500 dark:bg-emerald-400',
+                                                'scheduled' => 'bg-sky-500 dark:bg-sky-400',
+                                                'archived' => 'bg-amber-500 dark:bg-amber-400',
+                                                default => 'bg-stone-400 dark:bg-stone-500',
+                                            } }}"></span>
+                                            {{ match($artikel->status) {
+                                                'published' => 'PUBLISHED',
+                                                'scheduled' => 'SCHEDULED',
+                                                'archived' => 'ARCHIVED',
+                                                default => 'DRAFT',
+                                            } }}
+                                        </span>
+
+                                        @if ($artikel->status === 'scheduled' && $artikel->published_at)
+                                            <span class="text-[11px] font-medium text-sky-600 dark:text-sky-400">Jadwal: {{ $artikel->published_at->format('d M H:i') }}</span>
+                                        @else
+                                            <span class="text-[11px] text-stone-400 dark:text-stone-500">{{ ($artikel->published_at ?? $artikel->created_at)->format('d M Y') }}</span>
                                         @endif
                                     </div>
 
                                     {{-- Title --}}
-                                    <h3 class="mt-2 line-clamp-2 font-serif text-lg font-bold leading-snug text-stone-900 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-[#5b9bd5]">
+                                    <h3 class="mt-2.5 line-clamp-2 font-serif text-base font-bold leading-snug text-stone-900 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-[#5b9bd5]">
                                         <a href="{{ route('admin.artikel.edit', $artikel) }}">
                                             {{ $artikel->judul }}
                                         </a>
@@ -333,53 +311,52 @@
 
                                     {{-- Excerpt --}}
                                     @if ($artikel->ringkasan)
-                                        <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
+                                        <p class="mt-1.5 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
                                             {{ $artikel->ringkasan }}
                                         </p>
                                     @endif
-                                </div>
-                            </div>
 
-                            {{-- Card Footer Actions --}}
-                            <div class="border-t border-stone-100 bg-stone-50/60 px-5 py-3 dark:border-white/[0.04] dark:bg-white/[0.01]">
-                                <div class="flex items-center justify-between">
-                                    {{-- Views indicator --}}
-                                    <div class="inline-flex items-center gap-1.5 text-xs font-medium text-stone-500 dark:text-stone-400">
-                                        <svg class="h-3.5 w-3.5 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                                        <span>{{ number_format($artikel->views) }} pembaca</span>
-                                    </div>
+                                    {{-- Card Meta & Actions row --}}
+                                    <div class="mt-4 flex items-center justify-between border-t border-stone-100 pt-3 dark:border-white/[0.04]">
+                                        <div class="flex items-center gap-2 text-[11px] text-stone-400 dark:text-stone-500">
+                                            <span>{{ $artikel->kategori->nama ?? 'Tanpa Kategori' }}</span>
+                                            <span>&bull;</span>
+                                            <span>{{ $artikel->reading_time ?? 1 }} mnt</span>
+                                            <span>&bull;</span>
+                                            <span>{{ number_format($artikel->views) }} dibaca</span>
+                                        </div>
 
-                                    {{-- Action buttons --}}
-                                    <div class="flex items-center gap-1">
-                                        <a
-                                            href="{{ route('admin.artikel.preview', $artikel) }}"
-                                            target="_blank"
-                                            rel="noopener"
-                                            class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-stone-200/80 bg-white text-stone-600 transition hover:border-stone-300 hover:bg-stone-100 hover:text-[#1e3a5f] active:scale-95 dark:border-white/10 dark:bg-[#1a1a19] dark:text-stone-300 dark:hover:bg-white/10 dark:hover:text-[#5b9bd5]"
-                                            title="Pratinjau Artikel"
-                                        >
-                                            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                                        </a>
-
-                                        <a
-                                            href="{{ route('admin.artikel.edit', $artikel) }}"
-                                            class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-stone-200/80 bg-white text-stone-600 transition hover:border-stone-300 hover:bg-stone-100 hover:text-[#1e3a5f] active:scale-95 dark:border-white/10 dark:bg-[#1a1a19] dark:text-stone-300 dark:hover:bg-white/10 dark:hover:text-[#5b9bd5]"
-                                            title="Edit Artikel"
-                                        >
-                                            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                                        </a>
-
-                                        <form method="POST" action="{{ route('admin.artikel.destroy', $artikel) }}" onsubmit="return confirm('Hapus artikel sejarah ini secara permanen?')" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
-                                                type="submit"
-                                                class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-stone-200/80 bg-white text-stone-600 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 active:scale-95 dark:border-white/10 dark:bg-[#1a1a19] dark:text-stone-300 dark:hover:border-red-500/30 dark:hover:bg-red-500/10 dark:hover:text-red-400"
-                                                title="Hapus Artikel"
+                                        <div class="flex items-center gap-0.5">
+                                            <a
+                                                href="{{ route('admin.artikel.preview', $artikel) }}"
+                                                target="_blank"
+                                                rel="noopener"
+                                                class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:text-stone-400 dark:hover:bg-white/[0.06] dark:hover:text-[#5b9bd5]"
+                                                title="Pratinjau Artikel"
                                             >
-                                                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                                            </button>
-                                        </form>
+                                                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            </a>
+
+                                            <a
+                                                href="{{ route('admin.artikel.edit', $artikel) }}"
+                                                class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:text-stone-400 dark:hover:bg-white/[0.06] dark:hover:text-[#5b9bd5]"
+                                                title="Edit Artikel"
+                                            >
+                                                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                                            </a>
+
+                                            <form method="POST" action="{{ route('admin.artikel.destroy', $artikel) }}" onsubmit="return confirm('Hapus artikel ini?')" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-red-50 hover:text-red-600 dark:text-stone-400 dark:hover:bg-red-500/10 dark:hover:text-red-400"
+                                                    title="Hapus Artikel"
+                                                >
+                                                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -388,10 +365,10 @@
                 </div>
 
                 {{-- 2. LIST / TABLE VIEW --}}
-                <div id="articles-list-view" class="hidden overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-2xs dark:border-white/[0.07] dark:bg-[#171716]">
+                <div id="articles-list-view" class="hidden overflow-hidden rounded-2xl border border-stone-200/80 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
-                            <thead class="border-b border-stone-200/80 bg-stone-50/80 text-xs font-semibold text-stone-500 dark:border-white/[0.06] dark:bg-white/[0.02] dark:text-stone-400">
+                            <thead class="border-b border-stone-200/80 bg-stone-50/70 text-xs font-semibold text-stone-500 dark:border-white/[0.06] dark:bg-white/[0.02] dark:text-stone-400">
                                 <tr>
                                     <th class="py-3.5 pl-5 pr-3">Artikel</th>
                                     <th class="px-3 py-3.5">Kategori</th>
@@ -431,7 +408,7 @@
                                         {{-- Category --}}
                                         <td class="whitespace-nowrap px-3 py-3 text-xs text-stone-600 dark:text-stone-300">
                                             <span class="rounded-md bg-stone-100 px-2 py-1 font-medium dark:bg-white/[0.05]">
-                                                {{ $artikel->kategori->nama ?? '-' }}
+                                                {{ $artikel->kategori->nama ?? 'Tanpa Kategori' }}
                                             </span>
                                         </td>
 
@@ -450,10 +427,10 @@
                                                     default => 'bg-stone-100 text-stone-600 dark:bg-white/[0.05] dark:text-stone-400',
                                                 } }}">
                                                 <span class="h-1.5 w-1.5 rounded-full {{ match($artikel->status) {
-                                                    'published' => 'bg-emerald-500',
-                                                    'scheduled' => 'bg-sky-500',
-                                                    'archived' => 'bg-amber-500',
-                                                    default => 'bg-stone-400',
+                                                    'published' => 'bg-emerald-500 dark:bg-emerald-400',
+                                                    'scheduled' => 'bg-sky-500 dark:bg-sky-400',
+                                                    'archived' => 'bg-amber-500 dark:bg-amber-400',
+                                                    default => 'bg-stone-400 dark:bg-stone-500',
                                                 } }}"></span>
                                                 <span>
                                                     {{ match($artikel->status) {
@@ -470,7 +447,7 @@
                                         <td class="whitespace-nowrap px-3 py-3 text-xs text-stone-500 dark:text-stone-400">
                                             <div class="flex items-center gap-3">
                                                 <span class="inline-flex items-center gap-1 font-medium">
-                                                    <svg class="h-3.5 w-3.5 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                                    <svg class="h-3.5 w-3.5 text-stone-400 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                                     {{ number_format($artikel->views) }}
                                                 </span>
                                                 <span>{{ $artikel->reading_time ?? 1 }} mnt</span>
@@ -493,7 +470,7 @@
                                                     href="{{ route('admin.artikel.preview', $artikel) }}"
                                                     target="_blank"
                                                     rel="noopener"
-                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.05] dark:hover:text-[#5b9bd5]"
+                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.06] dark:hover:text-[#5b9bd5]"
                                                     title="Pratinjau"
                                                 >
                                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -501,13 +478,13 @@
 
                                                 <a
                                                     href="{{ route('admin.artikel.edit', $artikel) }}"
-                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.05] dark:hover:text-[#5b9bd5]"
+                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.06] dark:hover:text-[#5b9bd5]"
                                                     title="Edit"
                                                 >
                                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                                                 </a>
 
-                                                <form method="POST" action="{{ route('admin.artikel.destroy', $artikel) }}" onsubmit="return confirm('Hapus artikel sejarah ini secara permanen?')" class="inline">
+                                                <form method="POST" action="{{ route('admin.artikel.destroy', $artikel) }}" onsubmit="return confirm('Hapus artikel ini?')" class="inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button
@@ -528,12 +505,12 @@
                 </div>
 
                 {{-- Pagination --}}
-                <div class="mt-8 flex items-center justify-between">
+                <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <p class="text-xs text-stone-500 dark:text-stone-400">
                         Menampilkan {{ $artikels->firstItem() ?? 0 }} sampai {{ $artikels->lastItem() ?? 0 }} dari {{ $artikels->total() }} naskah
                     </p>
                     <div>
-                        {{ $artikels->links() }}
+                        {{ $artikels->links('pagination.admin') }}
                     </div>
                 </div>
             @endif
@@ -550,29 +527,14 @@
 
                 if (!gridView || !listView) return;
 
-                if (mode === 'list') {
-                    gridView.classList.add('hidden');
-                    listView.classList.remove('hidden');
+                const isList = mode === 'list';
+                gridView.classList.toggle('hidden', isList);
+                listView.classList.toggle('hidden', !isList);
 
-                    listBtn?.classList.add('bg-white', 'text-stone-900', 'shadow-xs', 'dark:bg-stone-700', 'dark:text-white');
-                    listBtn?.classList.remove('text-stone-600', 'dark:text-stone-400');
+                if (gridBtn) gridBtn.dataset.active = (!isList).toString();
+                if (listBtn) listBtn.dataset.active = isList.toString();
 
-                    gridBtn?.classList.remove('bg-white', 'text-stone-900', 'shadow-xs', 'dark:bg-stone-700', 'dark:text-white');
-                    gridBtn?.classList.add('text-stone-600', 'dark:text-stone-400');
-
-                    localStorage.setItem('lah_article_view_mode', 'list');
-                } else {
-                    listView.classList.add('hidden');
-                    gridView.classList.remove('hidden');
-
-                    gridBtn?.classList.add('bg-white', 'text-stone-900', 'shadow-xs', 'dark:bg-stone-700', 'dark:text-white');
-                    gridBtn?.classList.remove('text-stone-600', 'dark:text-stone-400');
-
-                    listBtn?.classList.remove('bg-white', 'text-stone-900', 'shadow-xs', 'dark:bg-stone-700', 'dark:text-white');
-                    listBtn?.classList.add('text-stone-600', 'dark:text-stone-400');
-
-                    localStorage.setItem('lah_article_view_mode', 'grid');
-                }
+                localStorage.setItem('lah_article_view_mode', mode);
             }
 
             document.addEventListener('DOMContentLoaded', () => {

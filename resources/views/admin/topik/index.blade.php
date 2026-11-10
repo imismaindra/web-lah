@@ -51,7 +51,7 @@
                                 </div>
                             </td>
                             <td class="hidden max-w-xs px-5 py-4 sm:table-cell">
-                                <p class="truncate text-xs text-stone-500 dark:text-stone-400">{{ $topik->deskripsi ?: '—' }}</p>
+                                <p class="truncate text-xs text-stone-500 dark:text-stone-400">{{ $topik->deskripsi ?: '-' }}</p>
                             </td>
                             <td class="hidden px-5 py-4 md:table-cell">
                                 <span class="text-xs text-stone-400 dark:text-stone-500">{{ $topik->urutan }}</span>
@@ -60,7 +60,7 @@
                                 @if ($topik->gambar)
                                     <img src="{{ asset('storage/' . $topik->gambar) }}" alt="{{ $topik->nama }}" class="h-10 w-16 rounded-lg object-cover">
                                 @else
-                                    <span class="text-xs text-stone-300 dark:text-stone-600">—</span>
+                                    <span class="text-xs text-stone-300 dark:text-stone-600">-</span>
                                 @endif
                             </td>
                             <td class="px-5 py-4">

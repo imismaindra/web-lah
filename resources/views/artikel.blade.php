@@ -8,7 +8,7 @@
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 
         @php $seoTitle = $artikel->meta_title ?: $artikel->judul; @endphp
-        <title>{{ $seoTitle }} — {{ config('app.name', 'Look at History') }}</title>
+        <title>{{ $seoTitle }} | {{ config('app.name', 'Look at History') }}</title>
 
         @php
             $articleDescription = $artikel->meta_description ?: ($artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 160));
@@ -493,7 +493,7 @@
             <section class="relative overflow-hidden">
                 <div class="absolute inset-0">
                     @if ($artikel->gambar)
-                        <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" width="1600" height="900" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
+                        <img src="{{ asset('storage/' . $artikel->gambar) }}" @if ($artikel->srcset) srcset="{{ $artikel->srcset }}" sizes="100vw" @endif alt="{{ $artikel->judul }}" width="1600" height="900" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
                     @else
                         <img src="{{ asset('placeholder.svg') }}" alt="{{ $artikel->judul }}" width="1600" height="900" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
                     @endif
@@ -502,7 +502,7 @@
                 </div>
 
                 <div class="relative mx-auto max-w-[1400px] px-5 pt-6 pb-16 sm:px-8 sm:pt-8 sm:pb-24">
-                    {{-- Breadcrumb — menyatu dengan hero overlay, bukan strip terpisah --}}
+                    {{-- Breadcrumb: menyatu dengan hero overlay, bukan strip terpisah --}}
                     <nav aria-label="Breadcrumb">
                         <ol class="flex flex-wrap items-center gap-1.5 text-[11px] font-medium tracking-wide text-white/60" itemscope itemtype="https://schema.org/BreadcrumbList">
                             <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
@@ -901,7 +901,7 @@
                                 <a href="{{ route('artikel.show', $related) }}" class="group overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
                                     <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50">
                                         @if ($related->gambar)
-                                            <img src="{{ asset('storage/' . $related->gambar) }}" alt="{{ $related->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
+                                            <img src="{{ asset('storage/' . $related->gambar) }}" @if ($related->srcset) srcset="{{ $related->srcset }}" sizes="(max-width: 768px) 100vw, 33vw" @endif alt="{{ $related->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                         @else
                                             <img src="{{ asset('placeholder.svg') }}" alt="{{ $related->judul }}" class="h-44 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                                         @endif

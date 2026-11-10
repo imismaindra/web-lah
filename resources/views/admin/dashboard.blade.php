@@ -127,6 +127,23 @@
         </div>
     </div>
 
+    @if ($pendingKomentars > 0 || $unreadPesan > 0)
+        <div class="mt-4 flex flex-wrap gap-3">
+            @if ($pendingKomentars > 0)
+                <a href="{{ route('admin.komentar.index', ['status' => 'pending']) }}" class="inline-flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-300">
+                    <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                    {{ $pendingKomentars }} komentar baru menunggu persetujuan &rarr;
+                </a>
+            @endif
+            @if ($unreadPesan > 0)
+                <a href="{{ route('admin.kontak.index', ['status' => 'unread']) }}" class="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2 text-xs font-semibold text-sky-800 transition hover:bg-sky-100 dark:border-sky-500/20 dark:bg-sky-500/10 dark:text-sky-300">
+                    <span class="h-2 w-2 rounded-full bg-sky-500"></span>
+                    {{ $unreadPesan }} pesan kontak baru belum dibaca &rarr;
+                </a>
+            @endif
+        </div>
+    @endif
+
     {{-- Recent Articles + Charts --}}
     <div class="mt-8 grid gap-6 lg:grid-cols-[1fr_340px]">
         {{-- Charts --}}

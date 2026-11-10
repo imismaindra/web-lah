@@ -10,7 +10,7 @@
 <button
     type="button"
     id="mobile-menu-btn"
-    class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-stone-600 transition hover:bg-stone-100 sm:hidden dark:text-stone-300 dark:hover:bg-white/10"
+    class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-stone-600 transition hover:bg-stone-100 lg:hidden dark:text-stone-300 dark:hover:bg-white/10"
     aria-label="Buka menu"
     aria-expanded="false"
     aria-controls="mobile-menu"
@@ -19,7 +19,7 @@
     <svg id="mobile-menu-icon-close" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
 </button>
 
-<div id="mobile-menu" class="absolute inset-x-0 top-full hidden border-b border-stone-200/80 bg-[#faf9f7] sm:hidden dark:border-white/[0.06] dark:bg-[#0f0f0e]">
+<div id="mobile-menu" class="absolute inset-x-0 top-full hidden border-b border-stone-200/80 bg-[#faf9f7] lg:hidden dark:border-white/[0.06] dark:bg-[#0f0f0e]">
     <div class="mx-auto max-w-[1400px] space-y-1 px-5 py-4 sm:px-8">
         @foreach ($menuLinks as $key => $link)
             <a

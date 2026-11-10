@@ -41,6 +41,7 @@ class PenulisController extends Controller
             'email' => 'required_without:user_id|email|max:255|unique:users,email',
             'password' => 'required_without:user_id|string|min:8|confirmed',
             'nama' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'bio' => 'nullable|string',
             'avatar' => 'nullable|image|max:2048',
             'website' => 'nullable|url|max:255',
@@ -62,6 +63,7 @@ class PenulisController extends Controller
         $penulisData = [
             'user_id' => $user->id,
             'nama' => $validated['nama'],
+            'slug' => $validated['slug'] ?? null,
             'bio' => $validated['bio'] ?? null,
             'website' => $validated['website'] ?? null,
         ];
@@ -89,6 +91,7 @@ class PenulisController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'nama' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'bio' => 'nullable|string',
             'avatar' => 'nullable|image|max:2048',
             'website' => 'nullable|url|max:255',
@@ -97,6 +100,7 @@ class PenulisController extends Controller
         $penulisData = [
             'user_id' => $validated['user_id'],
             'nama' => $validated['nama'],
+            'slug' => $validated['slug'] ?? null,
             'bio' => $validated['bio'] ?? null,
             'website' => $validated['website'] ?? null,
         ];

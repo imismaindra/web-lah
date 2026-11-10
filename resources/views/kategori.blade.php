@@ -6,10 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
 
-        <title>{{ $kategori->nama }} — Artikel Sejarah | {{ config('app.name', 'Look at History') }}</title>
+        <title>{{ $kategori->nama }} | Artikel Sejarah | {{ config('app.name', 'Look at History') }}</title>
 
         @include('partials.seo', [
-            'title' => $kategori->nama . ' — Artikel Sejarah | Look at History',
+            'title' => $kategori->nama . ' | Artikel Sejarah | Look at History',
             'description' => $kategori->deskripsi ?? "Kumpulan artikel sejarah kategori {$kategori->nama}. Jelajahi topik-topik menarik seputar {$kategori->nama} di Look at History.",
             'image' => $kategori->gambar ? asset('storage/' . $kategori->gambar) : asset('logo_LAH.jpg'),
             'url' => route('kategori.show', $kategori),

@@ -57,16 +57,16 @@
                     <article class="hero-rise group relative overflow-hidden rounded-2xl border border-stone-200/60 bg-stone-100 dark:border-white/[0.06] dark:bg-stone-800/50" style="animation-delay: 140ms">
                         @if ($spotlight)
                             <a href="{{ route('artikel.show', $spotlight) }}" class="block">
-                                <img src="{{ $heroImageUrl }}" alt="{{ $spotlight->judul }}" width="1200" height="900" class="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-[1.03] sm:aspect-[16/9] lg:aspect-[16/10]" loading="eager" fetchpriority="high" decoding="async">
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#0f0f0e]/85 via-[#0f0f0e]/20 to-transparent"></div>
-                                <div class="absolute inset-x-0 bottom-0 p-6 sm:p-8">
+                                <img src="{{ $heroImageUrl }}" alt="{{ $spotlight->judul }}" width="1200" height="900" class="min-h-[420px] sm:min-h-0 aspect-[4/5] sm:aspect-[16/9] lg:aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-[1.03]" loading="eager" fetchpriority="high" decoding="async">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0f0f0e]/95 via-[#0f0f0e]/40 to-transparent"></div>
+                                <div class="absolute inset-x-0 bottom-0 p-5 sm:p-8">
                                     <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                                         <span class="rounded-full bg-[#1e3a5f] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-[#5b9bd5] dark:text-[#0f0f0e]">{{ $spotlight->kategori->nama ?? 'Umum' }}</span>
                                         <span class="text-[11px] font-semibold text-white/70">{{ ($spotlight->published_at ?? $spotlight->created_at)->format('d M Y') }}</span>
                                     </div>
-                                    <h1 class="mt-4 line-clamp-2 font-serif text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">{{ $spotlight->judul }}</h1>
-                                    <p class="mt-3 line-clamp-2 max-w-xl text-sm leading-relaxed text-white/70">{{ $spotlight->ringkasan ?? Str::limit(strip_tags($spotlight->konten), 140) }}</p>
-                                    <p class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white">
+                                    <h1 class="mt-3 sm:mt-4 line-clamp-2 font-serif text-xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-white">{{ $spotlight->judul }}</h1>
+                                    <p class="mt-2 sm:mt-3 line-clamp-2 max-w-xl text-xs sm:text-sm leading-relaxed text-white/70">{{ $spotlight->ringkasan ?? Str::limit(strip_tags($spotlight->konten), 140) }}</p>
+                                    <p class="mt-4 sm:mt-5 inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white">
                                         Baca selengkapnya
                                         <span class="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
                                     </p>
@@ -118,7 +118,7 @@
                         <h2 class="mt-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Perjalanan Waktu</h2>
                     </div>
                     <div class="flex items-center gap-4">
-                        <p class="hidden max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400 sm:block">Telusuri era — dari kuno hingga modern.</p>
+                        <p class="hidden max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400 sm:block">Telusuri era dari masa kuno hingga modern.</p>
                         @if ($eras->count() > 1)
                             <div class="hidden items-center gap-1.5 sm:flex">
                                 <button type="button" id="era-scroll-prev" class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 transition hover:border-stone-300 hover:text-stone-900 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-white/20 dark:hover:text-white" aria-label="Geser linimasa ke kiri">
@@ -161,38 +161,36 @@
                             <h2 class="font-serif text-xl font-bold tracking-tight">Artikel Terbaru</h2>
                             <a href="{{ route('artikel.index') }}" class="text-xs font-semibold text-stone-500 transition hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200">Lihat semua {{ $totalArtikels ?? $latestArtikels->count() }} &rarr;</a>
                         </div>
-                        <p class="mt-1 text-xs text-stone-500 dark:text-stone-400">Menampilkan 6 terbaru — arsip {{ $totalArtikels ?? '—' }} artikel terkurasi</p>
+                        <p class="mt-1 text-xs text-stone-500 dark:text-stone-400">Menampilkan 6 artikel terbaru dari koleksi terkurasi</p>
 
                         <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
                             @forelse ($latestArtikels as $i => $artikel)
                                 @php $isHero = $i === 0; @endphp
-                                <a href="{{ route('artikel.show', $artikel) }}" class="group flex flex-col overflow-hidden rounded-[1.25rem] border border-stone-200/60 bg-white transition hover:border-stone-300/60 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:border-white/[0.06] dark:bg-[#171716] dark:hover:border-white/[0.10] {{ $isHero ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2' : '' }}">
-                                    <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50 {{ $isHero ? 'h-64 sm:h-72 lg:h-[22rem]' : 'h-44' }}">
+                                <a href="{{ route('artikel.show', $artikel) }}" class="group flex flex-col overflow-hidden rounded-[1.25rem] border border-stone-200/60 bg-white transition hover:border-stone-300/60 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:border-white/[0.06] dark:bg-[#171716] dark:hover:border-white/[0.10] {{ $isHero ? 'lg:col-span-2 lg:row-span-2' : '' }}">
+                                    <div class="relative overflow-hidden bg-stone-100 dark:bg-stone-800/50 {{ $isHero ? 'h-48 lg:h-[22rem]' : 'h-48' }}">
                                         @if ($artikel->gambar)
-                                            <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" width="600" height="400" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" decoding="async">
+                                            <img src="{{ asset('storage/' . $artikel->gambar) }}" @if ($artikel->srcset) srcset="{{ $artikel->srcset }}" sizes="{{ $isHero ? '(max-width: 1024px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw' }}" @endif alt="{{ $artikel->judul }}" width="600" height="400" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" decoding="async">
                                         @else
                                             <img src="{{ asset('placeholder.svg') }}" alt="{{ $artikel->judul }}" width="600" height="400" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" decoding="async">
                                         @endif
                                         @if ($isHero)
-                                            <span class="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-stone-900 backdrop-blur dark:bg-white dark:text-stone-900">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
+                                            <span class="absolute left-4 top-4 hidden rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-stone-900 backdrop-blur lg:inline-block dark:bg-white dark:text-stone-900">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
                                         @endif
                                     </div>
                                     <div class="flex flex-1 flex-col p-5">
                                         <div class="flex items-center gap-2 text-xs font-semibold">
-                                            @if (!$isHero)
-                                                <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
-                                                <span class="text-stone-300 dark:text-stone-600">&middot;</span>
-                                            @endif
+                                            <span class="text-[#1e3a5f] dark:text-[#5b9bd5] {{ $isHero ? 'lg:hidden' : '' }}">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
+                                            <span class="text-stone-300 dark:text-stone-600 {{ $isHero ? 'lg:hidden' : '' }}">&middot;</span>
                                             <span class="text-stone-500 dark:text-stone-400">{{ ($artikel->published_at ?? $artikel->created_at)->format('d M Y') }}</span>
                                         </div>
-                                        <h3 class="mt-2 line-clamp-2 font-serif font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] {{ $isHero ? 'text-xl lg:text-2xl' : 'text-[15px]' }}">
+                                        <h3 class="mt-2 line-clamp-2 font-serif font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] {{ $isHero ? 'text-[15px] lg:text-2xl' : 'text-[15px]' }}">
                                             {{ $artikel->judul }}
                                         </h3>
-                                        <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400 {{ $isHero ? 'sm:text-sm' : '' }}">
+                                        <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400 {{ $isHero ? 'lg:text-sm' : '' }}">
                                             {{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), $isHero ? 140 : 90) }}
                                         </p>
                                         @if ($isHero)
-                                            <span class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#1e3a5f] dark:text-[#5b9bd5]">Baca &rarr;</span>
+                                            <span class="mt-4 hidden items-center gap-1.5 text-xs font-semibold text-[#1e3a5f] lg:inline-flex dark:text-[#5b9bd5]">Baca &rarr;</span>
                                         @endif
                                     </div>
                                 </a>
@@ -233,12 +231,14 @@
                             Look at History menyajikan artikel sejarah dunia secara ringkas dan terpercaya,
                             dari peradaban kuno hingga konflik modern.
                         </p>
-                        <a href="{{ route('tentang') }}" class="mt-4 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Tentang kami selengkapnya &rarr;</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="mt-4 inline-block rounded-lg bg-stone-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
-                                Mulai Belajar
-                            </a>
-                        @endif
+                        <div class="mt-5 flex flex-wrap items-center gap-3">
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="rounded-lg bg-stone-900 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
+                                    Mulai Belajar
+                                </a>
+                            @endif
+                            <a href="{{ route('tentang') }}" class="text-xs font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Tentang kami &rarr;</a>
+                        </div>
                     </div>
                 </aside>
             </div>
@@ -280,7 +280,7 @@
                         <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Tagar Sejarah</p>
                         <h2 class="mt-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Jelajahi Topik</h2>
                     </div>
-                    <p class="max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400">Loncat ke minatmu — {{ $topiks->count() }} topik kurasi, semua terhubung ke arsip.</p>
+                    <p class="max-w-sm text-sm leading-relaxed text-stone-500 dark:text-stone-400">Loncat ke topik kurasi, semua terhubung ke arsip.</p>
                 </div>
                 @if ($topiks->isNotEmpty())
                     <div class="mt-6 flex flex-wrap gap-2.5">
@@ -302,7 +302,7 @@
                         <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-white/50">Newsletter</p>
                         <h2 class="mt-2 font-serif text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">Tidak Ketinggalan<br>Cerita</h2>
                         <p class="mt-3 max-w-md text-sm leading-relaxed text-white/60">
-                            Artikel sejarah terbaru, sekali seminggu. Tanpa spam — berhenti kapan saja.
+                            Artikel sejarah terbaru, sekali seminggu. Tanpa spam, berhenti kapan saja.
                         </p>
                     </div>
                     <div>

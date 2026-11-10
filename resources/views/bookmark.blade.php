@@ -5,7 +5,7 @@
         @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Artikel Tersimpan — {{ config('app.name', 'Look at History') }}</title>
+        <title>Artikel Tersimpan | {{ config('app.name', 'Look at History') }}</title>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 

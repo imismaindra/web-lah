@@ -5,10 +5,10 @@
         @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Kebijakan Privasi — {{ config('app.name', 'Look at History') }}</title>
+        <title>Kebijakan Privasi | {{ config('app.name', 'Look at History') }}</title>
 
         @include('partials.seo', [
-            'title' => 'Kebijakan Privasi — ' . config('app.name', 'Look at History'),
+            'title' => 'Kebijakan Privasi | ' . config('app.name', 'Look at History'),
             'description' => 'Kebijakan privasi Look at History: data apa yang kami kumpulkan, bagaimana kami menggunakannya, dan hak Anda atas data tersebut.',
             'url' => route('privasi'),
         ])

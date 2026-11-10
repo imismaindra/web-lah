@@ -5,7 +5,7 @@
         @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('title', 'Masuk') — {{ config('app.name', 'Look at History') }}</title>
+        <title>@yield('title', 'Masuk') | {{ config('app.name', 'Look at History') }}</title>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 
@@ -32,7 +32,7 @@
                         <blockquote class="font-serif text-2xl font-bold leading-snug text-white xl:text-3xl">
                             "Sejarah adalah saksi waktu, kebenaran hidup, pengingat kehidupan, dan pembawa kehidupan."
                         </blockquote>
-                        <p class="mt-4 text-sm text-white/60">— Cicero</p>
+                        <p class="mt-4 text-sm text-white/60">Cicero</p>
                     </div>
 
                     <p class="text-xs text-white/40">&copy; {{ date('Y') }} {{ config('app.name', 'Look at History') }}</p>

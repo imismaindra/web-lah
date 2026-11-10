@@ -21,7 +21,20 @@ class ProfilController extends Controller
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($request->user()->id)],
         ]);
 
-        $request->user()->update($validated);
+        $user = $request->user();
+        $emailChanged = $user->email !== $validated['email'];
+
+        $user->fill($validated);
+
+        if ($emailChanged) {
+            $user->email_verified_at = null;
+            $user->save();
+            $user->sendEmailVerificationNotification();
+
+            return back()->with('success', 'Profil diperbarui. Kami telah mengirimkan tautan verifikasi ke email baru Anda.');
+        }
+
+        $user->save();
 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }

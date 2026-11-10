@@ -28,6 +28,7 @@ use App\Models\Kategori;
 use App\Models\Penulis;
 use App\Models\Reaksi;
 use App\Models\Topik;
+use App\Models\UrlRedirect;
 use App\Services\AnalyticsTracker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -121,6 +122,7 @@ Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'uns
 Route::post('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'destroySubscription'])->name('newsletter.unsubscribe.destroy');
 
 Route::get('/cari', [SearchController::class, 'index'])->name('search');
+Route::get('/api/search/suggest', [SearchController::class, 'suggest'])->name('search.suggest');
 
 Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
     ->middleware('auth')
@@ -425,11 +427,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'penulis
 
         Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna.index');
         Route::post('/pengguna/{user}/approve', [PenggunaController::class, 'approve'])->name('pengguna.approve');
+        Route::put('/pengguna/{user}/role', [PenggunaController::class, 'updateRole'])->name('pengguna.role');
         Route::delete('/pengguna/{user}', [PenggunaController::class, 'destroy'])->name('pengguna.destroy');
 
         Route::get('/newsletter', [AdminNewsletterController::class, 'index'])->name('newsletter.index');
         Route::get('/newsletter/create', [AdminNewsletterController::class, 'create'])->name('newsletter.create');
         Route::post('/newsletter', [AdminNewsletterController::class, 'store'])->name('newsletter.store');
+        Route::post('/newsletter/test-send', [AdminNewsletterController::class, 'testSend'])->name('newsletter.test-send');
         Route::delete('/newsletter/{subscriber}', [AdminNewsletterController::class, 'destroy'])->name('newsletter.destroy');
 
         Route::get('/penulis', [PenulisController::class, 'index'])->name('penulis.index');
@@ -440,7 +444,29 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'penulis
         Route::delete('/penulis/{user}', [PenulisController::class, 'destroy'])->name('penulis.destroy');
 
         Route::get('/komentar', [AdminKomentarController::class, 'index'])->name('komentar.index');
+        Route::post('/komentar/bulk', [AdminKomentarController::class, 'bulkAction'])->name('komentar.bulk');
         Route::post('/komentar/{komentar}/approve', [AdminKomentarController::class, 'approve'])->name('komentar.approve');
         Route::delete('/komentar/{komentar}', [AdminKomentarController::class, 'destroy'])->name('komentar.destroy');
+
+        Route::get('/kontak', [App\Http\Controllers\Admin\KontakController::class, 'index'])->name('kontak.index');
+        Route::get('/kontak/{pesan}', [App\Http\Controllers\Admin\KontakController::class, 'show'])->name('kontak.show');
+        Route::post('/kontak/{pesan}/toggle-read', [App\Http\Controllers\Admin\KontakController::class, 'toggleRead'])->name('kontak.toggle-read');
+        Route::delete('/kontak/{pesan}', [App\Http\Controllers\Admin\KontakController::class, 'destroy'])->name('kontak.destroy');
     });
+});
+
+Route::fallback(function (Request $request) {
+    $path = trim($request->path(), '/');
+    $redirect = UrlRedirect::findRedirect($path);
+
+    if ($redirect) {
+        $redirect->increment('hits');
+        $targetUrl = str_starts_with($redirect->target_path, 'http')
+            ? $redirect->target_path
+            : url($redirect->target_path);
+
+        return redirect()->to($targetUrl, $redirect->status_code ?? 301);
+    }
+
+    abort(404);
 });

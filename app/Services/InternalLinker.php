@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Models\Artikel;
+use App\Models\InternalLink;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 class InternalLinker
 {
@@ -44,25 +47,54 @@ class InternalLinker
         'Raden Wijaya' => 'mengapa-invasi-kekaisaran-mongol-gagal-di-jawa-siasat-raden-wijaya-melawan-pasukan-kubilai-khan',
     ];
 
+    public static function getKeywordMap(): array
+    {
+        try {
+            $dbLinks = Cache::remember('internal_links_map', 3600, function () {
+                if (! Schema::hasTable('internal_links')) {
+                    return [];
+                }
+
+                return InternalLink::where('is_active', true)
+                    ->with('artikel:id,slug')
+                    ->orderByDesc('priority')
+                    ->get()
+                    ->filter(fn ($l) => $l->artikel && $l->artikel->slug)
+                    ->pluck('artikel.slug', 'keyword')
+                    ->toArray();
+            });
+
+            if (! empty($dbLinks)) {
+                return array_merge(self::$keywordMap, $dbLinks);
+            }
+        } catch (\Throwable $e) {
+            report($e);
+        }
+
+        return self::$keywordMap;
+    }
+
     public static function link(string $html, ?Artikel $currentArticle = null, int $maxLinks = 4): string
     {
         if (empty(trim($html))) {
             return $html;
         }
 
+        $map = self::getKeywordMap();
+
         $usedTargets = [];
         if ($currentArticle && $currentArticle->slug) {
             $usedTargets[$currentArticle->slug] = true;
         }
 
-        foreach (self::$keywordMap as $targetSlug) {
+        foreach ($map as $targetSlug) {
             if (str_contains($html, '/artikel/'.$targetSlug)) {
                 $usedTargets[$targetSlug] = true;
             }
         }
 
         $candidates = [];
-        foreach (self::$keywordMap as $keyword => $targetSlug) {
+        foreach ($map as $keyword => $targetSlug) {
             if (! isset($usedTargets[$targetSlug])) {
                 $candidates[] = [
                     'keyword' => $keyword,

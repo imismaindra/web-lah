@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
 
-        <title>{{ $topik->nama }} — {{ config('app.name', 'Look at History') }}</title>
+        <title>{{ $topik->nama }} | {{ config('app.name', 'Look at History') }}</title>
 
         @include('partials.seo', [
             'title' => $topik->nama,

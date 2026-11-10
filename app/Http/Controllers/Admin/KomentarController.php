@@ -36,4 +36,30 @@ class KomentarController extends Controller
 
         return back()->with('success', 'Komentar berhasil dihapus.');
     }
+
+    public function bulkAction(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'action' => 'required|in:approve,delete',
+            'ids' => 'required|array',
+            'ids.*' => 'exists:komentars,id',
+        ]);
+
+        $ids = $validated['ids'];
+        $count = count($ids);
+
+        if ($validated['action'] === 'approve') {
+            Komentar::whereIn('id', $ids)->update(['status' => 'published']);
+
+            return back()->with('success', "{$count} komentar berhasil disetujui.");
+        }
+
+        if ($validated['action'] === 'delete') {
+            Komentar::whereIn('id', $ids)->delete();
+
+            return back()->with('success', "{$count} komentar berhasil dihapus.");
+        }
+
+        return back();
+    }
 }

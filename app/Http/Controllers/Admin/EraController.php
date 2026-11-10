@@ -26,6 +26,7 @@ class EraController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'periode' => 'nullable|string|max:255',
             'urutan' => 'nullable|integer|min:0',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -49,6 +50,7 @@ class EraController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'periode' => 'nullable|string|max:255',
             'urutan' => 'nullable|integer|min:0',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',

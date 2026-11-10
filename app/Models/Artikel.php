@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Services\ImageOptimizer;
+use App\Services\SlugService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class Artikel extends Model
 {
@@ -57,7 +59,11 @@ class Artikel extends Model
     protected static function booted(): void
     {
         static::creating(function (Artikel $artikel) {
-            $artikel->slug = Str::slug($artikel->judul);
+            $artikel->slug = SlugService::generateUnique(
+                self::class,
+                $artikel->slug,
+                $artikel->judul ?? ''
+            );
             $artikel->user_id = $artikel->user_id ?? auth()->id();
 
             if ($artikel->status === 'published' && is_null($artikel->published_at)) {
@@ -70,8 +76,25 @@ class Artikel extends Model
         });
 
         static::updating(function (Artikel $artikel) {
-            if ($artikel->isDirty('judul')) {
-                $artikel->slug = Str::slug($artikel->judul).($artikel->trashed() ? '-'.$artikel->id : '');
+            if ($artikel->isDirty('slug')) {
+                $oldSlug = $artikel->getOriginal('slug');
+                $artikel->slug = SlugService::generateUnique(
+                    self::class,
+                    $artikel->slug,
+                    $artikel->judul ?? '',
+                    $artikel->id
+                );
+
+                if ($oldSlug && $oldSlug !== $artikel->slug) {
+                    UrlRedirect::record('artikel/'.$oldSlug, 'artikel/'.$artikel->slug, 301);
+                }
+            } elseif (empty($artikel->slug) && ! empty($artikel->judul)) {
+                $artikel->slug = SlugService::generateUnique(
+                    self::class,
+                    null,
+                    $artikel->judul,
+                    $artikel->id
+                );
             }
 
             if ($artikel->isDirty('konten') || is_null($artikel->reading_time)) {
@@ -162,5 +185,33 @@ class Artikel extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function getSrcsetAttribute(): ?string
+    {
+        return ImageOptimizer::getSrcset($this->gambar);
+    }
+
+    public function resolveRouteBinding($value, $field = null): ?Model
+    {
+        $artikel = $this->where($field ?? $this->getRouteKeyName(), $value)->first();
+
+        if ($artikel) {
+            return $artikel;
+        }
+
+        $redirect = UrlRedirect::findRedirect('artikel/'.$value);
+        if ($redirect) {
+            $redirect->increment('hits');
+            $targetUrl = str_starts_with($redirect->target_path, 'http')
+                ? $redirect->target_path
+                : url($redirect->target_path);
+
+            throw new HttpResponseException(
+                redirect()->to($targetUrl, $redirect->status_code ?? 301)
+            );
+        }
+
+        return null;
     }
 }

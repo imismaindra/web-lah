@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Artikel;
 use App\Models\Kategori;
+use App\Models\Komentar;
+use App\Models\KontakPesan;
 use App\Models\Pageview;
 use App\Models\Penulis;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -55,33 +58,52 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        // Chart data: views per day last 7 days
+        // Optimized single-query daily views aggregation (last 7 days)
+        $sevenDaysAgo = $now->copy()->subDays(6)->startOfDay();
+        $dailyViews = [];
+
+        if ($hasPageviews) {
+            $dailyViews = Pageview::where('created_at', '>=', $sevenDaysAgo)
+                ->when(! $isAdmin, fn ($q) => $q->whereHas('artikel', fn ($aq) => $aq->where('user_id', auth()->id())))
+                ->selectRaw('DATE(created_at) as v_date, count(*) as total')
+                ->groupBy('v_date')
+                ->pluck('total', 'v_date')
+                ->toArray();
+        }
+
         $viewsChart = [];
         for ($i = 6; $i >= 0; $i--) {
-            $date = $now->copy()->subDays($i)->startOfDay();
-            if ($hasPageviews) {
-                $views = Pageview::whereDate('created_at', $date->toDateString())
-                    ->when(! $isAdmin, fn ($q) => $q->whereHas('artikel', fn ($aq) => $aq->where('user_id', auth()->id())))
-                    ->count();
-            } else {
-                $views = Artikel::when(! $isAdmin, $ownOnly)->whereDate('created_at', $date)->sum('views');
-            }
+            $date = $now->copy()->subDays($i);
             $viewsChart[] = [
                 'date' => $date->format('d M'),
-                'views' => $views,
+                'views' => $dailyViews[$date->toDateString()] ?? 0,
             ];
         }
 
-        // Chart data: articles per month last 6 months
+        // Optimized single-query monthly articles aggregation (last 6 months)
+        $sixMonthsAgo = $now->copy()->subMonths(5)->startOfMonth();
+        $dateGroupSql = DB::getDriverName() === 'sqlite'
+            ? "strftime('%Y-%m', created_at)"
+            : 'DATE_FORMAT(created_at, "%Y-%m")';
+
+        $monthlyArticles = Artikel::when(! $isAdmin, $ownOnly)
+            ->where('created_at', '>=', $sixMonthsAgo)
+            ->selectRaw("{$dateGroupSql} as ym, count(*) as total")
+            ->groupBy('ym')
+            ->pluck('total', 'ym')
+            ->toArray();
+
         $articlesChart = [];
         for ($i = 5; $i >= 0; $i--) {
-            $month = $now->copy()->subMonths($i)->startOfMonth();
-            $count = Artikel::when(! $isAdmin, $ownOnly)->whereBetween('created_at', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()])->count();
+            $month = $now->copy()->subMonths($i);
             $articlesChart[] = [
                 'month' => $month->format('M Y'),
-                'count' => $count,
+                'count' => $monthlyArticles[$month->format('Y-m')] ?? 0,
             ];
         }
+
+        $pendingKomentars = Komentar::where('status', 'pending')->count();
+        $unreadPesan = KontakPesan::unread()->count();
 
         return view('admin.dashboard', compact(
             'totalArtikel',
@@ -96,6 +118,8 @@ class DashboardController extends Controller
             'popularArtikel',
             'viewsChart',
             'articlesChart',
+            'pendingKomentars',
+            'unreadPesan',
         ));
     }
 }

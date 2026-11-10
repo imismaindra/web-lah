@@ -12,19 +12,19 @@
             <img src="{{ asset('logo_LAH_thumb.webp') }}" onerror="this.onerror=null;this.src='{{ asset('logo_LAH.jpg') }}'" alt="{{ config('app.name', 'Look at History') }}" width="36" height="36" class="h-9 w-9 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10">
             <span class="font-serif text-lg font-bold tracking-tight">Look at History</span>
         </a>
-        <div class="hidden items-center gap-1 text-sm font-medium sm:flex">
+        <div class="hidden items-center gap-1 text-sm font-medium lg:flex">
             <a href="/" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'beranda', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'beranda'])>Beranda</a>
             <a href="{{ route('artikel.index') }}" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'artikel', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'artikel'])>Artikel</a>
             <a href="/#kategori" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'kategori', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'kategori'])>Kategori</a>
             <a href="{{ route('tentang') }}" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'tentang', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'tentang'])>Tentang</a>
         </div>
-        <div class="hidden sm:flex items-center gap-2">
+        <div class="hidden lg:flex items-center gap-2">
             <form action="{{ route('search') }}" method="GET" class="relative" data-ga4-search>
                 <input
                     type="text"
                     name="q"
                     placeholder="Cari..."
-                    class="w-48 sm:w-64 rounded-lg border border-stone-200 bg-white px-3.5 py-1.5 pl-9 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                    class="w-56 rounded-lg border border-stone-200 bg-white px-3.5 py-1.5 pl-9 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
                 >
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </form>
@@ -33,14 +33,14 @@
             @if (Route::has('login'))
                 @auth
                     @if (auth()->user()->hasRole(['admin', 'penulis']))
-                        <a href="{{ route('admin.dashboard') }}" class="hidden sm:inline-flex rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Panel</a>
+                        <a href="{{ route('admin.dashboard') }}" class="hidden lg:inline-flex rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Panel</a>
                     @endif
-                    <a href="{{ route('profil.edit') }}" class="hidden sm:inline-flex rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Profil</a>
+                    <a href="{{ route('profil.edit') }}" class="hidden lg:inline-flex rounded-lg bg-stone-900 px-4 py-2 text-white dark:bg-white dark:text-stone-900">Profil</a>
                 @else
-                    <a href="{{ route('login') }}" class="hidden sm:inline-flex rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
+                    <a href="{{ route('login') }}" class="hidden lg:inline-flex rounded-lg px-3 py-1.5 text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Masuk</a>
                 @endauth
             @endif
-            <a href="{{ route('search') }}" class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-stone-500 transition hover:bg-stone-100 hover:text-stone-900 sm:hidden dark:text-stone-400 dark:hover:bg-white/10 dark:hover:text-white" aria-label="Cari artikel">
+            <a href="{{ route('search') }}" class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-stone-500 transition hover:bg-stone-100 hover:text-stone-900 lg:hidden dark:text-stone-400 dark:hover:bg-white/10 dark:hover:text-white" aria-label="Cari artikel">
                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </a>
             <button type="button" id="theme-toggle" class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-stone-500 transition hover:bg-stone-100 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/10 dark:hover:text-white" aria-label="Ganti tema gelap/terang">

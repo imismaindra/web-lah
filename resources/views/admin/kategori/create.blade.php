@@ -37,6 +37,22 @@
                     @enderror
                 </div>
 
+                {{-- Slug --}}
+                <div>
+                    <label for="slug" class="mb-1.5 block text-sm font-semibold text-stone-700 dark:text-stone-300">Slug URL <span class="font-normal text-stone-400 dark:text-stone-500">(opsional, otomatis dari nama)</span></label>
+                    <input
+                        type="text"
+                        id="slug"
+                        name="slug"
+                        value="{{ old('slug') }}"
+                        placeholder="contoh: peradaban-kuno"
+                        class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 font-mono text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                    >
+                    @error('slug')
+                        <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 {{-- Deskripsi --}}
                 <div>
                     <label for="deskripsi" class="mb-1.5 block text-sm font-semibold text-stone-700 dark:text-stone-300">Deskripsi <span class="font-normal text-stone-400 dark:text-stone-500">(opsional)</span></label>

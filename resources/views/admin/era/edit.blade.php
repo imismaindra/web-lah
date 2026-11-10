@@ -50,7 +50,7 @@
                             id="periode"
                             name="periode"
                             value="{{ old('periode', $era->periode) }}"
-                            placeholder="Contoh: 3000 SM – 500 M"
+                            placeholder="Contoh: 3000 SM - 500 M"
                             class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
                         >
                         @error('periode')

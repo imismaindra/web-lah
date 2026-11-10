@@ -187,7 +187,7 @@
                 </a>
 
                 {{-- Title --}}
-                <div class="mb-4">
+                <div class="mb-2">
                     <input
                         type="text"
                         id="judul"
@@ -199,6 +199,27 @@
                     >
                     @error('judul')
                         <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Slug / Permalink --}}
+                <div class="mb-4 flex flex-wrap items-center gap-1.5 text-xs text-stone-400 dark:text-stone-500">
+                    <span class="font-medium text-stone-500 dark:text-stone-400">URL:</span>
+                    <span class="font-mono text-stone-400">{{ url('/artikel') }}/</span>
+                    <input
+                        type="text"
+                        id="slug"
+                        name="slug"
+                        value="{{ old('slug', $artikel->slug) }}"
+                        placeholder="otomatis-dari-judul"
+                        class="min-w-[200px] flex-1 rounded-md border border-stone-200 bg-white px-2 py-1 font-mono text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] focus:ring-1 focus:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5]"
+                    >
+                    <button type="button" id="btn-sync-slug" class="rounded px-2 py-1 text-[11px] font-medium text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-white/[0.05] dark:hover:text-stone-200" title="Sinkronkan dengan judul">
+                        Reset dari Judul
+                    </button>
+                    <span class="w-full text-[11px] text-stone-400 dark:text-stone-500">Jika diubah, URL lama otomatis dialihkan (301 redirect) ke URL baru.</span>
+                    @error('slug')
+                        <p class="w-full mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -360,7 +381,7 @@
                         <label class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">FAQ</label>
                         <button type="button" id="faq-add" class="text-xs font-semibold text-[#1e3a5f] hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">+ Tambah FAQ</button>
                     </div>
-                    <p class="mb-3 text-[11px] text-stone-400 dark:text-stone-500">Opsional. Maks 20. Kosongkan jika tidak perlu — tampil sebagai accordion + FAQ schema SEO.</p>
+                    <p class="mb-3 text-[11px] text-stone-400 dark:text-stone-500">Opsional. Maks 20. Kosongkan jika tidak perlu (tampil sebagai accordion + FAQ schema SEO).</p>
                     <div id="faq-list" class="space-y-3">
                         @php $oldFaq = old('faq', $artikel->faq ?? []); @endphp
                         @forelse ($oldFaq as $i => $f)
@@ -656,6 +677,24 @@
             function updMt(){ if(mt&&mtc) mtc.textContent = mt.value.length; }
             function updMd(){ if(md&&mdc) mdc.textContent = md.value.length; }
             mt?.addEventListener('input', updMt); md?.addEventListener('input', updMd); updMt(); updMd();
+
+            // Slug helper
+            const judulInput = document.getElementById('judul');
+            const slugInput = document.getElementById('slug');
+            const btnSyncSlug = document.getElementById('btn-sync-slug');
+
+            function slugify(text) {
+                return text.toString().toLowerCase().trim()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/[\s_-]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+            }
+
+            btnSyncSlug?.addEventListener('click', function() {
+                if (judulInput && slugInput) {
+                    slugInput.value = slugify(judulInput.value);
+                }
+            });
 
             // Status / Scheduling toggle
             const statusSelect = document.getElementById('status');

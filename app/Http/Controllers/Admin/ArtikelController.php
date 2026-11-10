@@ -8,9 +8,9 @@ use App\Models\Era;
 use App\Models\Kategori;
 use App\Models\Topik;
 use App\Services\ImageOptimizer;
+use App\Services\SlugService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ArtikelController extends Controller
@@ -90,6 +90,7 @@ class ArtikelController extends Controller
             'topik_ids' => 'nullable|array',
             'topik_ids.*' => 'exists:topiks,id',
             'judul' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:300',
             'ringkasan' => 'nullable|string|max:1000',
@@ -110,11 +111,16 @@ class ArtikelController extends Controller
             ->filter(fn ($f) => filled($f['question'] ?? null) && filled($f['answer'] ?? null))
             ->values()->all() ?: null;
 
-        $validated['slug'] = Str::slug($validated['judul']);
+        $validated['slug'] = SlugService::generateUnique(
+            Artikel::class,
+            $request->input('slug'),
+            $validated['judul']
+        );
         $validated['user_id'] = auth()->id();
 
         if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $this->imageOptimizer->optimizeAndStore($request->file('gambar'), 'artikel');
+            $variants = $this->imageOptimizer->optimizeResponsive($request->file('gambar'), 'artikel');
+            $validated['gambar'] = $variants['large'] ?? $variants['original'];
         }
 
         $topikIds = $request->input('topik_ids', []);
@@ -148,6 +154,7 @@ class ArtikelController extends Controller
             'topik_ids' => 'nullable|array',
             'topik_ids.*' => 'exists:topiks,id',
             'judul' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:300',
             'ringkasan' => 'nullable|string|max:1000',
@@ -168,6 +175,15 @@ class ArtikelController extends Controller
             ->filter(fn ($f) => filled($f['question'] ?? null) && filled($f['answer'] ?? null))
             ->values()->all() ?: null;
 
+        if ($request->has('slug')) {
+            $validated['slug'] = SlugService::generateUnique(
+                Artikel::class,
+                $request->input('slug'),
+                $validated['judul'],
+                $artikel->id
+            );
+        }
+
         if ($request->hasFile('gambar')) {
             if ($artikel->gambar) {
                 $this->imageOptimizer->delete($artikel->gambar);
@@ -187,10 +203,6 @@ class ArtikelController extends Controller
     public function destroy(Artikel $artikel): RedirectResponse
     {
         abort_unless(auth()->user()->hasRole('admin') || $artikel->user_id === auth()->id(), 403);
-
-        if ($artikel->gambar) {
-            $this->imageOptimizer->delete($artikel->gambar);
-        }
 
         $artikel->delete();
 

@@ -26,6 +26,7 @@ class KategoriController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255|unique:kategoris,nama',
+            'slug' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string|max:1000',
         ]);
 
@@ -43,6 +44,7 @@ class KategoriController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255|unique:kategoris,nama,'.$kategori->id,
+            'slug' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string|max:1000',
         ]);
 

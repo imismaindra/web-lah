@@ -51,7 +51,7 @@
                                 </div>
                             </td>
                             <td class="hidden px-5 py-4 sm:table-cell">
-                                <span class="text-xs text-stone-500 dark:text-stone-400">{{ $era->periode ?: '—' }}</span>
+                                <span class="text-xs text-stone-500 dark:text-stone-400">{{ $era->periode ?: '-' }}</span>
                             </td>
                             <td class="hidden px-5 py-4 md:table-cell">
                                 <span class="text-xs text-stone-400 dark:text-stone-500">{{ $era->urutan }}</span>
@@ -60,7 +60,7 @@
                                 @if ($era->gambar)
                                     <img src="{{ asset('storage/' . $era->gambar) }}" alt="{{ $era->nama }}" class="h-10 w-16 rounded-lg object-cover">
                                 @else
-                                    <span class="text-xs text-stone-300 dark:text-stone-600">—</span>
+                                    <span class="text-xs text-stone-300 dark:text-stone-600">-</span>
                                 @endif
                             </td>
                             <td class="px-5 py-4">

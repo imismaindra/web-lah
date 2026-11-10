@@ -5,7 +5,7 @@
         @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
-        <title>Hasil Pencarian: {{ $query ?? '' }} — {{ config('app.name', 'Look at History') }}</title>
+        <title>Hasil Pencarian: {{ $query ?? '' }} | {{ config('app.name', 'Look at History') }}</title>
         @include('partials.seo', [
             'title' => 'Hasil Pencarian: ' . ($query ?? ''),
             'description' => $total > 0 ? "Ditemukan {$total} artikel untuk \"{$query}\"" : "Tidak ada hasil untuk \"{$query}\"",
@@ -47,7 +47,7 @@
                             </h1>
                             <p class="mt-3 text-sm leading-relaxed text-stone-500 dark:text-stone-400 max-w-xl">
                                 @if($total > 0)
-                                    Ditemukan <span class="font-semibold text-stone-700 dark:text-stone-200">{{ $total }}</span> artikel. Diurutkan terbaru — klik untuk membaca lengkap.
+                                    Ditemukan <span class="font-semibold text-stone-700 dark:text-stone-200">{{ $total }}</span> artikel. Diurutkan terbaru, klik untuk membaca lengkap.
                                 @else
                                     Tidak ada artikel cocok. Coba kata kunci lain atau telusuri kategori.
                                 @endif
@@ -81,6 +81,45 @@
                         </div>
                     </form>
                 </div>
+
+                @if($query)
+                    {{-- Faceted Filters --}}
+                    <div class="mt-6 flex flex-wrap items-center gap-2 border-t border-stone-200/60 pt-4 dark:border-white/[0.06]">
+                        <span class="text-xs font-semibold text-stone-500 dark:text-stone-400">Filter:</span>
+
+                        <form method="GET" action="{{ route('search') }}" class="flex flex-wrap items-center gap-2">
+                            <input type="hidden" name="q" value="{{ $query }}">
+
+                            {{-- Kategori --}}
+                            <select name="kategori" onchange="this.form.submit()" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1 text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#171716] dark:text-stone-300">
+                                <option value="">Semua Kategori</option>
+                                @foreach ($kategoris as $k)
+                                    <option value="{{ $k->slug }}" {{ request('kategori') === $k->slug ? 'selected' : '' }}>{{ $k->nama }}</option>
+                                @endforeach
+                            </select>
+
+                            {{-- Era --}}
+                            <select name="era" onchange="this.form.submit()" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1 text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#171716] dark:text-stone-300">
+                                <option value="">Semua Era</option>
+                                @foreach ($eras as $e)
+                                    <option value="{{ $e->slug }}" {{ request('era') === $e->slug ? 'selected' : '' }}>{{ $e->nama }}</option>
+                                @endforeach
+                            </select>
+
+                            {{-- Urutan --}}
+                            <select name="urut" onchange="this.form.submit()" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1 text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#171716] dark:text-stone-300">
+                                <option value="">Terbaru</option>
+                                <option value="populer" {{ request('urut') === 'populer' ? 'selected' : '' }}>Paling Populer</option>
+                            </select>
+
+                            @if(request('kategori') || request('era') || request('urut'))
+                                <a href="{{ route('search', ['q' => $query]) }}" class="text-xs font-medium text-red-500 hover:text-red-700 dark:hover:text-red-400">
+                                    Reset Filter
+                                </a>
+                            @endif
+                        </form>
+                    </div>
+                @endif
             </section>
 
             @if($query)
@@ -176,9 +215,9 @@
                         <aside class="rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716]">
                             <h3 class="font-serif text-sm font-bold">Tips pencarian</h3>
                             <ul class="mt-3 space-y-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
-                                <li class="flex gap-2"><span class="text-stone-300 dark:text-stone-600">—</span> Minimal 2 karakter, tanpa tanda baca khusus.</li>
-                                <li class="flex gap-2"><span class="text-stone-300 dark:text-stone-600">—</span> Gunakan satu kata kunci inti terlebih dahulu.</li>
-                                <li class="flex gap-2"><span class="text-stone-300 dark:text-stone-600">—</span> Coba sinonim: “kolonial” / “penjajahan”.</li>
+                                <li class="flex gap-2"><span class="text-stone-300 dark:text-stone-600">&bull;</span> Minimal 2 karakter, tanpa tanda baca khusus.</li>
+                                <li class="flex gap-2"><span class="text-stone-300 dark:text-stone-600">&bull;</span> Gunakan satu kata kunci inti terlebih dahulu.</li>
+                                <li class="flex gap-2"><span class="text-stone-300 dark:text-stone-600">&bull;</span> Coba sinonim: “kolonial” / “penjajahan”.</li>
                             </ul>
                         </aside>
                     </div>

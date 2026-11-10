@@ -5,10 +5,10 @@
         @include('partials.theme-init')
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Tentang — {{ config('app.name', 'Look at History') }}</title>
+        <title>Tentang | {{ config('app.name', 'Look at History') }}</title>
 
         @include('partials.seo', [
-            'title' => 'Tentang — ' . config('app.name', 'Look at History'),
+            'title' => 'Tentang | ' . config('app.name', 'Look at History'),
             'description' => 'Kenali Look at History, blog sejarah dunia yang menyajikan peristiwa, tokoh, dan peradaban masa lalu secara ringkas, akurat, dan mudah dipahami.',
             'url' => route('tentang'),
         ])

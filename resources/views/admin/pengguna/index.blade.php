@@ -5,8 +5,10 @@
 
 @section('content')
     {{-- Header --}}
-    <div>
-        <p class="text-sm text-stone-500 dark:text-stone-400">Verifikasi akun yang menunggu persetujuan</p>
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm text-stone-500 dark:text-stone-400">Kelola akun, persetujuan hak akses, dan peran pengguna</p>
+        </div>
     </div>
 
     {{-- Flash Messages --}}
@@ -22,8 +24,33 @@
         </div>
     @endif
 
+    {{-- Filter & Search --}}
+    <form method="GET" class="mt-6 flex flex-wrap items-center gap-2">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Cari nama atau email..."
+            class="rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-sm text-stone-700 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#171716] dark:text-stone-300 dark:placeholder:text-stone-500"
+        >
+        <select name="role" class="rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#171716] dark:text-stone-400">
+            <option value="">Semua Peran</option>
+            <option value="admin" {{ request('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+            <option value="penulis" {{ request('role') === 'penulis' ? 'selected' : '' }}>Penulis</option>
+        </select>
+        <select name="status" class="rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#171716] dark:text-stone-400">
+            <option value="">Semua Status</option>
+            <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Disetujui</option>
+            <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
+        </select>
+        <button type="submit" class="rounded-xl border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-600 transition hover:border-stone-300 hover:text-stone-900 dark:border-white/10 dark:bg-[#171716] dark:text-stone-400 dark:hover:text-white">Filter</button>
+        @if (request()->hasAny(['search', 'role', 'status']))
+            <a href="{{ route('admin.pengguna.index') }}" class="text-xs text-red-500 hover:underline">Reset</a>
+        @endif
+    </form>
+
     {{-- Table --}}
-    <div class="mt-6 overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
+    <div class="mt-4 overflow-hidden rounded-2xl border border-stone-200/60 bg-white dark:border-white/[0.06] dark:bg-[#171716]">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-stone-200 dark:divide-white/[0.06]">
                 <thead>
@@ -50,14 +77,20 @@
                                 </div>
                             </td>
                             <td class="px-5 py-4">
-                                @if ($user->roles->isEmpty())
-                                    <span class="text-xs text-stone-400 dark:text-stone-500">—</span>
+                                @if ($user->id === auth()->id())
+                                    <span class="rounded-full bg-[#1e3a5f]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">
+                                        {{ $user->roles->first()?->name ?? 'Admin' }} (Anda)
+                                    </span>
                                 @else
-                                    <div class="flex flex-wrap gap-1">
-                                        @foreach ($user->roles as $role)
-                                            <span class="rounded-full bg-[#1e3a5f]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">{{ $role->name }}</span>
-                                        @endforeach
-                                    </div>
+                                    <form method="POST" action="{{ route('admin.pengguna.role', $user) }}" class="inline-flex items-center">
+                                        @csrf
+                                        @method('PUT')
+                                        <select name="role" onchange="this.form.submit()" class="rounded-lg border border-stone-200 bg-white px-2 py-1 text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#171716] dark:text-stone-300">
+                                            <option value="pembaca" {{ $user->roles->isEmpty() ? 'selected' : '' }}>Pembaca</option>
+                                            <option value="penulis" {{ $user->hasRole('penulis') ? 'selected' : '' }}>Penulis</option>
+                                            <option value="admin" {{ $user->hasRole('admin') ? 'selected' : '' }}>Admin</option>
+                                        </select>
+                                    </form>
                                 @endif
                             </td>
                             <td class="px-5 py-4">
@@ -73,7 +106,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-5 py-4 text-sm text-stone-500 dark:text-stone-400">{{ $user->created_at->format('d M Y') }}</td>
+                            <td class="px-5 py-4 text-xs text-stone-500 dark:text-stone-400">{{ $user->created_at->format('d M Y') }}</td>
                             <td class="px-5 py-4">
                                 <div class="flex items-center justify-end gap-1">
                                     @if (! $user->is_approved)
@@ -105,5 +138,11 @@
                 </tbody>
             </table>
         </div>
+
+        @if ($users->hasPages())
+            <div class="border-t border-stone-200/60 p-4 dark:border-white/[0.06]">
+                {{ $users->links() }}
+            </div>
+        @endif
     </div>
 @endsection

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-adsense-account" content="ca-pub-9007848909516103">
 
-        <title>Semua Artikel Sejarah — {{ config('app.name', 'Look at History') }}</title>
+        <title>Semua Artikel Sejarah | {{ config('app.name', 'Look at History') }}</title>
 
         @include('partials.seo', [
             'title' => 'Semua Artikel Sejarah | Look at History',
@@ -46,7 +46,7 @@
                 <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Artikel</p>
                 <h1 class="mt-3 font-serif text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">Semua Artikel</h1>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-stone-500 dark:text-stone-400">
-                    Peristiwa, tokoh, dan peradaban masa lalu — disusun ringkas, akurat, dan mudah dipahami.
+                    Peristiwa, tokoh, dan peradaban masa lalu disusun ringkas, akurat, dan mudah dipahami.
                 </p>
             </section>
 

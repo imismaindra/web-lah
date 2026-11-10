@@ -14,6 +14,7 @@ class BookmarkController extends Controller
     public function index(): View
     {
         $bookmarks = auth()->user()->bookmarks()
+            ->whereHas('artikel', fn ($q) => $q->published())
             ->with('artikel.kategori')
             ->latest()
             ->paginate(9);

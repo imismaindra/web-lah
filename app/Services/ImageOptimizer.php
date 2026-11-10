@@ -98,4 +98,20 @@ class ImageOptimizer
             Storage::disk('public')->delete($variantPath);
         }
     }
+
+    /**
+     * Get responsive srcset string for an optimized image.
+     */
+    public static function getSrcset(?string $path): ?string
+    {
+        if (! $path || ! str_contains($path, '-large.webp')) {
+            return null;
+        }
+
+        $base = str_replace('-large.webp', '', $path);
+
+        return asset('storage/'.$base.'-thumb.webp').' 400w, '.
+               asset('storage/'.$base.'-medium.webp').' 800w, '.
+               asset('storage/'.$base.'-large.webp').' 1200w';
+    }
 }

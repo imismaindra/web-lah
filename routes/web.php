@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EraController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\KomentarController as AdminKomentarController;
+use App\Http\Controllers\Admin\KontakController as AdminKontakController;
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\PenulisController;
@@ -448,10 +449,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'penulis
         Route::post('/komentar/{komentar}/approve', [AdminKomentarController::class, 'approve'])->name('komentar.approve');
         Route::delete('/komentar/{komentar}', [AdminKomentarController::class, 'destroy'])->name('komentar.destroy');
 
-        Route::get('/kontak', [App\Http\Controllers\Admin\KontakController::class, 'index'])->name('kontak.index');
-        Route::get('/kontak/{pesan}', [App\Http\Controllers\Admin\KontakController::class, 'show'])->name('kontak.show');
-        Route::post('/kontak/{pesan}/toggle-read', [App\Http\Controllers\Admin\KontakController::class, 'toggleRead'])->name('kontak.toggle-read');
-        Route::delete('/kontak/{pesan}', [App\Http\Controllers\Admin\KontakController::class, 'destroy'])->name('kontak.destroy');
+        Route::get('/kontak', [AdminKontakController::class, 'index'])->name('kontak.index');
+        Route::get('/kontak/{pesan}', [AdminKontakController::class, 'show'])->name('kontak.show');
+        Route::post('/kontak/{pesan}/toggle-read', [AdminKontakController::class, 'toggleRead'])->name('kontak.toggle-read');
+        Route::delete('/kontak/{pesan}', [AdminKontakController::class, 'destroy'])->name('kontak.destroy');
     });
 });
 

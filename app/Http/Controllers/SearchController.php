@@ -72,7 +72,7 @@ class SearchController extends Controller
         $builder = Artikel::published()->with(['kategori', 'era', 'topiks']);
 
         if ($isSqlite) {
-            $words = array_filter(explode(' ', $sanitized));
+            $words = array_filter(explode(' ', preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $query)));
             $builder->where(function ($q) use ($words) {
                 foreach ($words as $word) {
                     $q->orWhere('judul', 'LIKE', "%{$word}%")

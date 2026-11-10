@@ -71,12 +71,12 @@
             {{-- Contact Channels --}}
             <section class="reveal grid gap-5 md:grid-cols-2">
                 <a href="mailto:{{ config('mail.from.address') }}" class="group flex items-center gap-5 rounded-2xl border border-stone-200/60 bg-white p-6 transition hover:border-stone-300 dark:border-white/[0.06] dark:bg-[#171716] dark:hover:border-white/10">
-                    <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">
+                    <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-white/10 dark:text-stone-200">
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                     </div>
                     <div class="min-w-0">
                         <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Email</p>
-                        <p class="mt-1 truncate font-serif text-base font-bold tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ config('mail.from.address') }}</p>
+                        <p class="mt-1 truncate font-serif text-base font-bold tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-white">{{ config('mail.from.address') }}</p>
                     </div>
                 </a>
 
@@ -86,7 +86,7 @@
                     </div>
                     <div class="min-w-0">
                         <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Instagram</p>
-                        <p class="mt-1 font-serif text-base font-bold tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">@lookathistory</p>
+                        <p class="mt-1 font-serif text-base font-bold tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-white">@lookathistory</p>
                     </div>
                 </a>
             </section>
@@ -133,7 +133,7 @@
                                     value="{{ old('name') }}"
                                     required
                                     placeholder="Nama kamu"
-                                    class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                                    class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
                                 >
                             </div>
                             <div>
@@ -145,7 +145,7 @@
                                     value="{{ old('email') }}"
                                     required
                                     placeholder="email@kamu.com"
-                                    class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                                    class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
                                 >
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                                 rows="6"
                                 required
                                 placeholder="Tulis pesanmu di sini..."
-                                class="w-full resize-none rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                                class="w-full resize-none rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
                             >{{ old('message') }}</textarea>
                         </div>
 

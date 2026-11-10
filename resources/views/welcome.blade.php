@@ -60,7 +60,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-[#0f0f0e]/95 via-[#0f0f0e]/40 to-transparent"></div>
                                 <div class="absolute inset-x-0 bottom-0 p-5 sm:p-8">
                                     <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                                        <span class="rounded-full bg-[#1e3a5f] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-[#5b9bd5] dark:text-[#0f0f0e]">{{ $spotlight->kategori->nama ?? 'Umum' }}</span>
+                                        <span class="rounded-full bg-[#1e3a5f] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-white/20 dark:text-white dark:backdrop-blur-sm">{{ $spotlight->kategori->nama ?? 'Umum' }}</span>
                                         <span class="text-[11px] font-semibold text-white/70">{{ ($spotlight->published_at ?? $spotlight->created_at)->format('d M Y') }}</span>
                                     </div>
                                     <h1 class="mt-3 sm:mt-4 line-clamp-2 font-serif text-xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-white">{{ $spotlight->judul }}</h1>
@@ -91,9 +91,9 @@
                             @forelse ($popularArtikels->take(4) as $index => $artikel)
                                 <li class="hero-rise" style="animation-delay: {{ 300 + $index * 80 }}ms">
                                     <a href="{{ route('artikel.show', $artikel) }}" class="group flex items-center gap-4 py-3.5">
-                                        <span class="w-8 shrink-0 font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-[#5b9bd5]">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                        <span class="w-8 shrink-0 font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-stone-300">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                                         <div class="min-w-0 flex-1">
-                                            <p class="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-200 dark:group-hover:text-[#5b9bd5]">{{ $artikel->judul }}</p>
+                                            <p class="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-200 dark:group-hover:text-white">{{ $artikel->judul }}</p>
                                             <p class="mt-1 text-[11px] font-semibold text-stone-500 dark:text-stone-400">{{ number_format($artikel->views) }} dibaca</p>
                                         </div>
                                     </a>
@@ -102,7 +102,7 @@
                                 <li class="py-8 text-center text-sm text-stone-400 dark:text-stone-500">Belum ada data</li>
                             @endforelse
                         </ol>
-                        <a href="#artikel" class="hero-rise group mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#1e3a5f] dark:text-[#5b9bd5]" style="animation-delay: 640ms">
+                        <a href="#artikel" class="hero-rise group mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white" style="animation-delay: 640ms">
                             Semua artikel
                             <span class="transition-transform duration-300 group-hover:translate-x-0.5">&rarr;</span>
                         </a>
@@ -141,7 +141,7 @@
                                         <span class="font-serif text-3xl font-bold leading-none text-stone-200 dark:text-white/15">0{{ $i + 1 }}</span>
                                         <span class="rounded-full bg-stone-900 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-white dark:text-stone-900">{{ $era->periode }}</span>
                                     </div>
-                                    <h3 class="mt-4 font-serif text-lg font-bold leading-tight tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $era->nama }}</h3>
+                                    <h3 class="mt-4 font-serif text-lg font-bold leading-tight tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-white">{{ $era->nama }}</h3>
                                     <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">{{ Str::limit($era->deskripsi ?? 'Jelajahi arsip periode ini.', 80) }}</p>
                                     <p class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-stone-900 dark:text-white">{{ $era->artikel_count }} artikel <span class="transition group-hover:translate-x-0.5">&rarr;</span></p>
                                 </div>
@@ -178,18 +178,18 @@
                                     </div>
                                     <div class="flex flex-1 flex-col p-5">
                                         <div class="flex items-center gap-2 text-xs font-semibold">
-                                            <span class="text-[#1e3a5f] dark:text-[#5b9bd5] {{ $isHero ? 'lg:hidden' : '' }}">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
+                                            <span class="text-[#1e3a5f] dark:text-stone-300 {{ $isHero ? 'lg:hidden' : '' }}">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
                                             <span class="text-stone-300 dark:text-stone-600 {{ $isHero ? 'lg:hidden' : '' }}">&middot;</span>
                                             <span class="text-stone-500 dark:text-stone-400">{{ ($artikel->published_at ?? $artikel->created_at)->format('d M Y') }}</span>
                                         </div>
-                                        <h3 class="mt-2 line-clamp-2 font-serif font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] {{ $isHero ? 'text-[15px] lg:text-2xl' : 'text-[15px]' }}">
+                                        <h3 class="mt-2 line-clamp-2 font-serif font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-white {{ $isHero ? 'text-[15px] lg:text-2xl' : 'text-[15px]' }}">
                                             {{ $artikel->judul }}
                                         </h3>
                                         <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400 {{ $isHero ? 'lg:text-sm' : '' }}">
                                             {{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), $isHero ? 140 : 90) }}
                                         </p>
                                         @if ($isHero)
-                                            <span class="mt-4 hidden items-center gap-1.5 text-xs font-semibold text-[#1e3a5f] lg:inline-flex dark:text-[#5b9bd5]">Baca &rarr;</span>
+                                            <span class="mt-4 hidden items-center gap-1.5 text-xs font-semibold text-[#1e3a5f] lg:inline-flex dark:text-stone-300 dark:group-hover:text-white">Baca &rarr;</span>
                                         @endif
                                     </div>
                                 </a>
@@ -236,7 +236,7 @@
                                     Mulai Belajar
                                 </a>
                             @endif
-                            <a href="{{ route('tentang') }}" class="text-xs font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Tentang kami &rarr;</a>
+                            <a href="{{ route('tentang') }}" class="text-xs font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">Tentang kami &rarr;</a>
                         </div>
                     </div>
                 </aside>
@@ -252,7 +252,7 @@
                     @foreach ($kategoriSorotan as $kat)
                         <div class="border-t-2 border-stone-900 pt-5 dark:border-white">
                             <div class="flex items-baseline justify-between gap-3">
-                                <a href="{{ route('kategori.show', $kat) }}" class="font-serif text-lg font-bold tracking-tight hover:text-[#1e3a5f] dark:hover:text-[#5b9bd5]">{{ $kat->nama }}</a>
+                                <a href="{{ route('kategori.show', $kat) }}" class="font-serif text-lg font-bold tracking-tight hover:text-[#1e3a5f] dark:hover:text-white">{{ $kat->nama }}</a>
                                 <span class="font-mono text-xs font-semibold text-stone-500 dark:text-stone-400">{{ $kat->artikel_count }} arsip</span>
                             </div>
                             <ol class="mt-5 space-y-4">
@@ -260,7 +260,7 @@
                                     <li class="group flex gap-4">
                                         <span class="shrink-0 font-serif text-sm font-bold text-stone-300 dark:text-stone-600">0{{ $idx + 1 }}</span>
                                         <div class="min-w-0 flex-1">
-                                            <a href="{{ route('artikel.show', $art) }}" class="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-[#5b9bd5]">{{ $art->judul }}</a>
+                                            <a href="{{ route('artikel.show', $art) }}" class="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-stone-800 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-white">{{ $art->judul }}</a>
                                             <p class="mt-1 text-[11px] font-medium text-stone-500 dark:text-stone-400">{{ ($art->published_at ?? $art->created_at)->format('d M Y') }}</p>
                                         </div>
                                     </li>
@@ -284,7 +284,7 @@
                 @if ($topiks->isNotEmpty())
                     <div class="mt-6 flex flex-wrap gap-2.5">
                         @foreach ($topiks as $topik)
-                            <a href="{{ route('topik.show', $topik) }}" class="group inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/5 hover:text-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-[#5b9bd5]/20 dark:hover:bg-[#5b9bd5]/10 dark:hover:text-[#5b9bd5]">
+                            <a href="{{ route('topik.show', $topik) }}" class="group inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/5 hover:text-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/[0.08] dark:hover:text-white">
                                 <span>{{ $topik->nama }}</span>
                                 <span class="rounded-full bg-stone-100 px-1.5 py-0.5 text-xs font-semibold text-stone-500 group-hover:bg-[#1e3a5f]/10 dark:bg-white/10 dark:text-stone-400">{{ $topik->artikel_count }}</span>
                             </a>

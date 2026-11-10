@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Tambah Penulis')
 @section('page-title', 'Tambah Penulis')
@@ -8,7 +8,7 @@
         $label = 'mb-1.5 block text-sm font-semibold text-stone-700 dark:text-stone-300';
         $hint = 'mt-1 text-xs text-stone-400 dark:text-stone-500';
         $error = 'mt-1.5 text-xs text-red-500';
-        $input = 'w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10';
+        $input = 'w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20';
         $card = 'rounded-2xl border border-stone-200/60 bg-white p-6 dark:border-white/[0.06] dark:bg-[#171716] sm:p-7';
         $aside = 'rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]';
         $sectionTitle = 'font-serif text-base font-bold text-stone-800 dark:text-stone-200';
@@ -30,7 +30,7 @@
                     {{-- Profil Publik --}}
                     <section class="{{ $card }}">
                         <div class="flex items-center gap-3">
-                            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">
+                            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-white/10 dark:text-stone-200">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             </div>
                             <div>
@@ -91,7 +91,7 @@
                     {{-- Akun Login --}}
                     <section class="{{ $card }}">
                         <div class="flex items-center gap-3">
-                            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">
+                            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-white/10 dark:text-stone-200">
                                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
                             </div>
                             <div>
@@ -105,11 +105,11 @@
                             <div class="grid grid-cols-2 gap-1 rounded-xl bg-stone-100 p-1 dark:bg-white/[0.03]">
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="mode" value="existing" checked class="peer sr-only">
-                                    <span class="flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-stone-500 transition peer-checked:bg-white peer-checked:text-[#1e3a5f] peer-checked:shadow-sm dark:text-stone-400 dark:peer-checked:bg-white/[0.08] dark:peer-checked:text-[#5b9bd5]">Pilih User</span>
+                                    <span class="flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-stone-500 transition peer-checked:bg-white peer-checked:text-[#1e3a5f] peer-checked:shadow-sm dark:text-stone-400 dark:peer-checked:bg-white/10 dark:peer-checked:text-white">Pilih User</span>
                                 </label>
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="mode" value="new" class="peer sr-only">
-                                    <span class="flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-stone-500 transition peer-checked:bg-white peer-checked:text-[#1e3a5f] peer-checked:shadow-sm dark:text-stone-400 dark:peer-checked:bg-white/[0.08] dark:peer-checked:text-[#5b9bd5]">Buat Akun Baru</span>
+                                    <span class="flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-stone-500 transition peer-checked:bg-white peer-checked:text-[#1e3a5f] peer-checked:shadow-sm dark:text-stone-400 dark:peer-checked:bg-white/10 dark:peer-checked:text-white">Buat Akun Baru</span>
                                 </label>
                             </div>
 
@@ -171,11 +171,11 @@
                         <h3 class="{{ $sectionTitle }}">Foto Profil</h3>
                         <p class="mt-0.5 text-xs text-stone-400 dark:text-stone-500">Opsional &middot; tampil sebagai avatar penulis</p>
 
-                        <label for="avatar" class="group mt-5 flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-dashed border-stone-200 bg-stone-50 px-4 py-6 text-center transition hover:border-[#1e3a5f]/40 hover:bg-[#1e3a5f]/5 dark:border-white/10 dark:bg-white/[0.02] dark:hover:border-[#5b9bd5]/40 dark:hover:bg-[#5b9bd5]/5">
+                        <label for="avatar" class="group mt-5 flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-dashed border-stone-200 bg-stone-50 px-4 py-6 text-center transition hover:border-[#1e3a5f]/40 hover:bg-[#1e3a5f]/5 dark:border-white/10 dark:bg-white/[0.02] dark:hover:border-white/20 dark:hover:bg-white/[0.04]">
                             <div id="avatar-preview" class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white ring-1 ring-stone-200 dark:bg-white/[0.05] dark:ring-white/10">
                                 <svg class="h-8 w-8 text-stone-300 dark:text-stone-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             </div>
-                            <span class="flex items-center gap-1.5 text-xs font-semibold text-stone-600 transition group-hover:text-[#1e3a5f] dark:text-stone-300 dark:group-hover:text-[#5b9bd5]">
+                            <span class="flex items-center gap-1.5 text-xs font-semibold text-stone-600 transition group-hover:text-[#1e3a5f] dark:text-stone-300 dark:group-hover:text-white">
                                 <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
                                 Pilih foto
                             </span>
@@ -189,7 +189,7 @@
 
                     {{-- Actions --}}
                     <div class="{{ $aside }} space-y-3">
-                        <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16304a] active:scale-[0.98] dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">
+                        <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16304a] active:scale-[0.98] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                             Simpan Penulis
                         </button>

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Edit Artikel')
 @section('page-title', 'Edit Artikel')
@@ -89,9 +89,9 @@
             color: #a8a29e;
         }
         .ql-editor figure { position: relative; }
-        .ql-editor figure.ql-figure-selected { outline: 2px solid #5b9bd5; outline-offset: 2px; border-radius: 0.5rem; }
+        .ql-editor figure.ql-figure-selected { outline: 2px solid #a8a29e; outline-offset: 2px; border-radius: 0.5rem; }
         .ql-editor .ql-resize-handle {
-            position: absolute; width: 12px; height: 12px; background: #5b9bd5; border: 2px solid #fff; border-radius: 2px;
+            position: absolute; width: 12px; height: 12px; background: #a8a29e; border: 2px solid #fff; border-radius: 2px;
             right: -6px; bottom: 18px; cursor: nwse-resize; display: none; box-shadow: 0 1px 4px rgba(0,0,0,.2);
         }
         .ql-editor figure.ql-figure-selected .ql-resize-handle { display: block; }
@@ -121,19 +121,19 @@
             .ql-toolbar.ql-snow button.ql-active .ql-stroke,
             .ql-toolbar.ql-snow .ql-picker-label:hover .ql-stroke,
 
-            .dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-stroke { stroke: #5b9bd5; }
+            .dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-stroke { stroke: #e5e5e3; }
             .ql-toolbar.ql-snow button:hover .ql-fill,
             .ql-toolbar.ql-snow button.ql-active .ql-fill,
             .ql-toolbar.ql-snow .ql-picker-label:hover .ql-fill,
 
-            .dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-fill { fill: #5b9bd5; }
+            .dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-fill { fill: #e5e5e3; }
             .ql-toolbar.ql-snow button:hover,
             .ql-toolbar.ql-snow button.ql-active,
             .ql-toolbar.ql-snow .ql-picker-label:hover,
 
-            .dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label { color: #5b9bd5; }
+            .dark .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label { color: #e5e5e3; }
 
-            .dark .ql-toolbar.ql-snow .ql-picker-item:hover { color: #5b9bd5; }
+            .dark .ql-toolbar.ql-snow .ql-picker-item:hover { color: #ffffff; }
 
             .dark .ql-container.ql-snow {
                 background: #1a202c;
@@ -144,7 +144,7 @@
 
             .dark .ql-editor blockquote { color: #a8a29e; }
 
-            .dark .ql-editor a { color: #5b9bd5; }
+            .dark .ql-editor a { color: #f5f5f4; }
 
             .dark .ql-tooltip.ql-snow {
                 background: #171716;
@@ -158,7 +158,7 @@
                 color: #e2e8f0;
             }
 
-            .dark .ql-tooltip.ql-snow .ql-action { color: #5b9bd5; }
+            .dark .ql-tooltip.ql-snow .ql-action { color: #e5e5e3; }
 
         /* Custom select styling */
         .custom-select {
@@ -212,7 +212,7 @@
                         name="slug"
                         value="{{ old('slug', $artikel->slug) }}"
                         placeholder="otomatis-dari-judul"
-                        class="min-w-[200px] flex-1 rounded-md border border-stone-200 bg-white px-2 py-1 font-mono text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] focus:ring-1 focus:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5]"
+                        class="min-w-[200px] flex-1 rounded-md border border-stone-200 bg-white px-2 py-1 font-mono text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] focus:ring-1 focus:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-stone-400"
                     >
                     <button type="button" id="btn-sync-slug" class="rounded px-2 py-1 text-[11px] font-medium text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-white/[0.05] dark:hover:text-stone-200" title="Sinkronkan dengan judul">
                         Reset dari Judul
@@ -244,7 +244,7 @@
             <div class="w-full space-y-6 lg:w-72 xl:w-80 lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto lg:self-start lg:pr-1">
                 {{-- Publish Actions --}}
                 <div class="space-y-3">
-                    <button type="submit" class="w-full rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#16304a] hover:shadow dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">
+                    <button type="submit" class="w-full rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#16304a] hover:shadow dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
                         Perbarui Artikel
                     </button>
                     <a href="{{ route('admin.artikel.preview', $artikel) }}" target="_blank" rel="noopener" class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:bg-stone-50 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:bg-white/[0.08]">
@@ -253,7 +253,7 @@
                     </a>
                     <div>
                         <label for="status" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Status</label>
-                        <select id="status" name="status" class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">
+                        <select id="status" name="status" class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-stone-400 dark:focus:ring-stone-400/20">
                             <option value="draft" {{ old('status', $artikel->status) === 'draft' ? 'selected' : '' }}>Draft</option>
                             <option value="published" {{ old('status', $artikel->status) === 'published' ? 'selected' : '' }}>Published</option>
                             <option value="scheduled" {{ old('status', $artikel->status) === 'scheduled' ? 'selected' : '' }}>Scheduled (Terjadwal)</option>
@@ -268,7 +268,7 @@
                             id="published_at"
                             name="published_at"
                             value="{{ old('published_at', $artikel->published_at ? $artikel->published_at->format('Y-m-d\TH:i') : '') }}"
-                            class="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                            class="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
                         >
                         @error('published_at')
                             <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
@@ -294,7 +294,7 @@
                     {{-- Kategori --}}
                     <div>
                         <label for="kategori_id" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Kategori</label>
-                        <select id="kategori_id" name="kategori_id" required class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">
+                        <select id="kategori_id" name="kategori_id" required class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-stone-400 dark:focus:ring-stone-400/20">
                             <option value="">Pilih kategori</option>
                             @foreach ($kategoris as $kategori)
                                 <option value="{{ $kategori->id }}" {{ old('kategori_id', $artikel->kategori_id) == $kategori->id ? 'selected' : '' }}>{{ $kategori->nama }}</option>
@@ -308,7 +308,7 @@
                     {{-- Era --}}
                     <div>
                         <label for="era_id" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Era (Zaman)</label>
-                        <select id="era_id" name="era_id" class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">
+                        <select id="era_id" name="era_id" class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:focus:border-stone-400 dark:focus:ring-stone-400/20">
                             <option value="">Pilih era</option>
                             @foreach ($eras as $era)
                                 <option value="{{ $era->id }}" {{ old('era_id', $artikel->era_id) == $era->id ? 'selected' : '' }}>{{ $era->nama }} ({{ $era->periode }})</option>
@@ -325,7 +325,7 @@
                         <div class="flex flex-wrap gap-1.5">
                             @foreach ($topiks as $topik)
                                 <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-stone-200 bg-white px-2 py-1 text-xs text-stone-600 transition hover:border-stone-300 hover:bg-stone-50 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:hover:border-white/20">
-                                    <input type="checkbox" name="topik_ids[]" value="{{ $topik->id }}" class="h-3 w-3 rounded accent-[#1e3a5f] dark:accent-[#5b9bd5]" {{ in_array($topik->id, old('topik_ids', $artikel->topiks->pluck('id')->all())) ? 'checked' : '' }}>
+                                    <input type="checkbox" name="topik_ids[]" value="{{ $topik->id }}" class="h-3 w-3 rounded accent-[#1e3a5f] dark:accent-stone-300" {{ in_array($topik->id, old('topik_ids', $artikel->topiks->pluck('id')->all())) ? 'checked' : '' }}>
                                     {{ $topik->nama }}
                                 </label>
                             @endforeach
@@ -348,7 +348,7 @@
                         rows="3"
                         maxlength="1000"
                         placeholder="Ringkasan singkat untuk SEO & preview"
-                        class="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                        class="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
                     >{{ old('ringkasan', $artikel->ringkasan) }}</textarea>
                     <p class="mt-1 text-right text-[10px] text-stone-300 dark:text-stone-600"><span id="ringkasan-count">{{ strlen(old('ringkasan', $artikel->ringkasan ?? '')) }}</span>/1000</p>
                     @error('ringkasan')
@@ -361,13 +361,13 @@
                     <h3 class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">SEO</h3>
                     <div>
                         <label for="meta_title" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Meta Title <span class="font-normal text-stone-400">(opsional)</span></label>
-                        <input type="text" id="meta_title" name="meta_title" value="{{ old('meta_title', $artikel->meta_title) }}" maxlength="255" placeholder="Kosongkan = pakai judul" class="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">
+                        <input type="text" id="meta_title" name="meta_title" value="{{ old('meta_title', $artikel->meta_title) }}" maxlength="255" placeholder="Kosongkan = pakai judul" class="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20">
                         <p class="mt-1 text-right text-[10px] text-stone-300 dark:text-stone-600"><span id="meta-title-count">{{ strlen(old('meta_title', $artikel->meta_title ?? '')) }}</span>/60 ideal, 255 max</p>
                         @error('meta_title')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
                     </div>
                     <div>
                         <label for="meta_description" class="mb-1.5 block text-xs font-medium text-stone-500 dark:text-stone-400">Meta Description <span class="font-normal text-stone-400">(opsional)</span></label>
-                        <textarea id="meta_description" name="meta_description" rows="3" maxlength="300" placeholder="Kosongkan = pakai ringkasan" class="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10">{{ old('meta_description', $artikel->meta_description) }}</textarea>
+                        <textarea id="meta_description" name="meta_description" rows="3" maxlength="300" placeholder="Kosongkan = pakai ringkasan" class="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20">{{ old('meta_description', $artikel->meta_description) }}</textarea>
                         <p class="mt-1 text-right text-[10px] text-stone-300 dark:text-stone-600"><span id="meta-desc-count">{{ strlen(old('meta_description', $artikel->meta_description ?? '')) }}</span>/160 ideal, 300 max</p>
                         @error('meta_description')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
                     </div>
@@ -379,7 +379,7 @@
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <label class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">FAQ</label>
-                        <button type="button" id="faq-add" class="text-xs font-semibold text-[#1e3a5f] hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">+ Tambah FAQ</button>
+                        <button type="button" id="faq-add" class="text-xs font-semibold text-[#1e3a5f] hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">+ Tambah FAQ</button>
                     </div>
                     <p class="mb-3 text-[11px] text-stone-400 dark:text-stone-500">Opsional. Maks 20. Kosongkan jika tidak perlu (tampil sebagai accordion + FAQ schema SEO).</p>
                     <div id="faq-list" class="space-y-3">
@@ -407,7 +407,7 @@
                             <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="{{ $artikel->judul }}" class="w-full rounded-lg object-cover">
                         </div>
                     @endif
-                    <div id="dropzone" class="relative cursor-pointer rounded-lg border-2 border-dashed border-stone-200 bg-stone-50/50 p-4 text-center transition hover:border-[#1e3a5f]/40 hover:bg-[#1e3a5f]/5 dark:border-white/10 dark:bg-white/[0.02] dark:hover:border-[#5b9bd5]/40 dark:hover:bg-[#5b9bd5]/5">
+                    <div id="dropzone" class="relative cursor-pointer rounded-lg border-2 border-dashed border-stone-200 bg-stone-50/50 p-4 text-center transition hover:border-[#1e3a5f]/40 hover:bg-[#1e3a5f]/5 dark:border-white/10 dark:bg-white/[0.02] dark:hover:border-white/20 dark:hover:bg-white/[0.04]">
                         <input type="file" id="gambar" name="gambar" accept="image/*" class="absolute inset-0 cursor-pointer opacity-0">
                         <svg class="mx-auto h-6 w-6 text-stone-300 dark:text-stone-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                         <p class="mt-2 text-xs text-stone-400 dark:text-stone-500">Klik atau seret gambar baru</p>

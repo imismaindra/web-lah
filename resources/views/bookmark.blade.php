@@ -31,7 +31,7 @@
                 <div class="rounded-2xl border border-dashed border-stone-200 bg-white p-12 text-center dark:border-white/[0.06] dark:bg-[#171716]">
                     <svg class="mx-auto h-12 w-12 text-stone-300 dark:text-stone-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
                     <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">Belum ada artikel yang disimpan.</p>
-                    <a href="{{ route('artikel.index') }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] dark:text-[#5b9bd5]">Jelajahi artikel &rarr;</a>
+                    <a href="{{ route('artikel.index') }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">Jelajahi artikel &rarr;</a>
                 </div>
             @else
                 <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -50,10 +50,10 @@
                                     <span class="text-stone-500 dark:text-stone-400">{{ $artikel->created_at->translatedFormat('d M Y') }}</span>
                                     @if ($artikel->kategori)
                                         <span class="text-stone-300 dark:text-stone-600">&middot;</span>
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama }}</span>
+                                        <span class="text-[#1e3a5f] dark:text-stone-400">{{ $artikel->kategori->nama }}</span>
                                     @endif
                                 </div>
-                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
+                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-white">
                                     {{ $artikel->judul }}
                                 </h3>
                                 <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">

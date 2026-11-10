@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Pesan Kontak')
 @section('page-title', 'Pesan Kontak')
@@ -18,7 +18,7 @@
 
     {{-- Filter --}}
     <form method="GET" class="mt-6 flex flex-wrap items-center gap-2">
-        <select name="status" class="rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-[#171716] dark:text-stone-400 dark:focus:border-[#5b9bd5]">
+        <select name="status" class="rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-[#171716] dark:text-stone-400 dark:focus:border-stone-400">
             <option value="">Semua Pesan</option>
             <option value="unread" {{ request('status') === 'unread' ? 'selected' : '' }}>Belum Dibaca ({{ $unreadCount }})</option>
             <option value="read" {{ request('status') === 'read' ? 'selected' : '' }}>Sudah Dibaca</option>
@@ -44,11 +44,11 @@
                         <tr class="transition hover:bg-stone-50/60 dark:hover:bg-white/[0.02] {{ !$pesan->is_read ? 'bg-amber-50/30 dark:bg-amber-500/[0.03]' : '' }}">
                             <td class="px-5 py-4">
                                 <p class="text-sm font-semibold text-stone-800 dark:text-stone-200">{{ $pesan->name }}</p>
-                                <a href="mailto:{{ $pesan->email }}" class="text-xs text-stone-400 hover:text-[#1e3a5f] dark:hover:text-[#5b9bd5]">{{ $pesan->email }}</a>
+                                <a href="mailto:{{ $pesan->email }}" class="text-xs text-stone-400 hover:text-[#1e3a5f] dark:hover:text-white">{{ $pesan->email }}</a>
                             </td>
                             <td class="max-w-md px-5 py-4">
                                 <a href="{{ route('admin.kontak.show', $pesan) }}" class="block">
-                                    <p class="text-sm font-medium text-stone-800 hover:text-[#1e3a5f] dark:text-stone-200 dark:hover:text-[#5b9bd5]">
+                                    <p class="text-sm font-medium text-stone-800 hover:text-[#1e3a5f] dark:text-stone-200 dark:hover:text-white">
                                         {{ $pesan->subject ?: 'Tanpa Subjek' }}
                                     </p>
                                     <p class="line-clamp-1 text-xs text-stone-500 dark:text-stone-400">{{ $pesan->message }}</p>

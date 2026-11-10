@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Buletin')
 @section('page-title', 'Buletin')
@@ -9,7 +9,7 @@
         <div>
             <p class="text-sm text-stone-500 dark:text-stone-400">Kelola subscriber dan kirim buletin via antrean asinkron</p>
         </div>
-        <a href="{{ route('admin.newsletter.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16304a] dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">
+        <a href="{{ route('admin.newsletter.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16304a] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
             Tulis Buletin Baru
         </a>

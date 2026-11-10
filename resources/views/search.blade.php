@@ -67,7 +67,7 @@
                                 value="{{ $query ?? '' }}"
                                 placeholder="Mis. Perang Dunia, Majapahit, Revolusi..."
                                 autofocus
-                                class="w-full rounded-xl border border-stone-200 bg-white px-4 py-3.5 pl-11 pr-24 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]/10"
+                                class="w-full rounded-xl border border-stone-200 bg-white px-4 py-3.5 pl-11 pr-24 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
                             >
                             <svg class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                             <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-stone-800 active:scale-[0.98] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">Cari</button>
@@ -134,19 +134,19 @@
                                     @else
                                         <img src="{{ asset('placeholder.svg') }}" alt="{{ $featured->judul }}" class="aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-[1.03] sm:aspect-[4/3] sm:h-full" loading="eager">
                                     @endif
-                                    <span class="absolute left-3 top-3 rounded-full bg-[#1e3a5f] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-[#5b9bd5] dark:text-[#0f0f0e]">Paling relevan</span>
+                                    <span class="absolute left-3 top-3 rounded-full bg-[#1e3a5f] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white dark:bg-white/20 dark:text-white dark:backdrop-blur-sm">Paling relevan</span>
                                 </div>
                                 <div class="flex flex-1 flex-col p-6 sm:p-7">
                                     <div class="flex items-center gap-2 text-xs font-semibold">
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $featured->kategori->nama ?? 'Umum' }}</span>
+                                        <span class="text-[#1e3a5f] dark:text-stone-300">{{ $featured->kategori->nama ?? 'Umum' }}</span>
                                         <span class="text-stone-300 dark:text-stone-600">&middot;</span>
                                         <span class="font-normal text-stone-400 dark:text-stone-500">{{ ($featured->published_at ?? $featured->created_at)->translatedFormat('d M Y') }}</span>
                                         <span class="text-stone-300 dark:text-stone-600">&middot;</span>
                                         <span class="font-normal text-stone-400 dark:text-stone-500">{{ $featured->reading_time ?? 1 }} menit</span>
                                     </div>
-                                    <h2 class="mt-3 font-serif text-xl font-bold leading-tight tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5] sm:text-2xl">{{ $featured->judul }}</h2>
+                                    <h2 class="mt-3 font-serif text-xl font-bold leading-tight tracking-tight group-hover:text-[#1e3a5f] dark:group-hover:text-white sm:text-2xl">{{ $featured->judul }}</h2>
                                     <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-stone-500 dark:text-stone-400">{{ $featured->ringkasan ?? Str::limit(strip_tags($featured->konten), 160) }}</p>
-                                    <p class="mt-auto pt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1e3a5f] dark:text-[#5b9bd5]">Baca artikel <span class="transition-transform duration-300 group-hover:translate-x-0.5">&rarr;</span></p>
+                                    <p class="mt-auto pt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1e3a5f] dark:text-stone-300 dark:group-hover:text-white">Baca artikel <span class="transition-transform duration-300 group-hover:translate-x-0.5">&rarr;</span></p>
                                 </div>
                             </a>
 
@@ -166,7 +166,7 @@
                                                 <span class="rounded-full bg-stone-900 px-2 py-0.5 text-white dark:bg-white dark:text-stone-900">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
                                                 <span class="font-normal text-stone-500 dark:text-stone-400">{{ $artikel->created_at->translatedFormat('d M Y') }}</span>
                                             </div>
-                                            <h3 class="mt-2 line-clamp-2 font-serif text-[15px] font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">{{ $artikel->judul }}</h3>
+                                            <h3 class="mt-2 line-clamp-2 font-serif text-[15px] font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-white">{{ $artikel->judul }}</h3>
                                             <p class="mt-1.5 line-clamp-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">{{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 120) }}</p>
                                         </div>
                                         <span class="hidden self-center text-stone-300 transition group-hover:translate-x-0.5 group-hover:text-stone-500 dark:text-stone-600 sm:block">&rarr;</span>

@@ -63,7 +63,7 @@
                                 <div class="flex items-center gap-2 text-xs font-semibold">
                                     <span class="text-stone-500 dark:text-stone-400">{{ $artikel->created_at->format('d M Y') }}</span>
                                 </div>
-                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
+                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-white">
                                     {{ $artikel->judul }}
                                 </h3>
                                 <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">

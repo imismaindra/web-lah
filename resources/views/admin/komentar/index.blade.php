@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Komentar')
 @section('page-title', 'Komentar')
@@ -21,7 +21,7 @@
     {{-- Filter & Bulk Bar --}}
     <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
         <form method="GET" class="flex gap-2">
-            <select name="status" class="rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-[#171716] dark:text-stone-400 dark:focus:border-[#5b9bd5]">
+            <select name="status" class="rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600 outline-none transition focus:border-[#1e3a5f] focus:ring-2 focus:ring-[#1e3a5f]/10 dark:border-white/10 dark:bg-[#171716] dark:text-stone-400 dark:focus:border-stone-400">
                 <option value="">Semua Status</option>
                 <option value="published" {{ request('status') === 'published' ? 'selected' : '' }}>Published</option>
                 <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
@@ -76,7 +76,7 @@
                                 </td>
                                 <td class="max-w-[180px] px-5 py-4">
                                     @if ($komentar->artikel)
-                                        <a href="{{ route('artikel.show', $komentar->artikel) }}" target="_blank" class="line-clamp-1 text-sm text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">{{ $komentar->artikel->judul }}</a>
+                                        <a href="{{ route('artikel.show', $komentar->artikel) }}" target="_blank" class="line-clamp-1 text-sm text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">{{ $komentar->artikel->judul }}</a>
                                     @else
                                         <span class="text-sm text-stone-400">Artikel dihapus</span>
                                     @endif

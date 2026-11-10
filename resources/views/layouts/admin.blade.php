@@ -24,8 +24,8 @@
             }
 
                 .dark .sidebar-link.active {
-                    background: rgba(91, 155, 213, 0.1);
-                    color: #5b9bd5;
+                    background: rgba(255, 255, 255, 0.08);
+                    color: #ffffff;
                 }
 
             /* Collapsed sidebar */

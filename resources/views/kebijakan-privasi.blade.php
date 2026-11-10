@@ -126,7 +126,7 @@
                     </ul>
                     <p>
                         Untuk menggunakan hak di atas, hubungi kami melalui
-                        <a href="{{ route('kontak') }}" class="font-semibold text-[#1e3a5f] underline underline-offset-2 dark:text-[#5b9bd5]">halaman kontak</a>.
+                        <a href="{{ route('kontak') }}" class="font-semibold text-[#1e3a5f] underline underline-offset-2 dark:text-stone-300 dark:hover:text-white">halaman kontak</a>.
                     </p>
                 </div>
 

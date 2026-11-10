@@ -149,7 +149,7 @@ class InternalLinker
 
                         if (preg_match($pattern, $part)) {
                             $url = url('/artikel/'.$slug);
-                            $class = 'font-medium text-[#1e3a5f] underline decoration-[#1e3a5f]/40 underline-offset-4 transition hover:decoration-[#1e3a5f] dark:text-[#5b9bd5] dark:decoration-[#5b9bd5]/40 dark:hover:decoration-[#5b9bd5]';
+                            $class = 'font-medium text-[#1e3a5f] underline decoration-[#1e3a5f]/40 underline-offset-4 transition hover:decoration-[#1e3a5f] dark:text-stone-200 dark:decoration-stone-400/40 dark:hover:text-white dark:hover:decoration-white';
                             $replacement = '<a href="'.$url.'" class="'.$class.'">$1</a>';
 
                             $part = preg_replace($pattern, $replacement, $part, 1);

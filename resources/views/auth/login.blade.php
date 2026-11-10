@@ -19,7 +19,7 @@
                 autofocus
                 autocomplete="email"
                 placeholder="nama@contoh.com"
-                class="mt-2 block w-full rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                class="mt-2 block w-full rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
             >
         </div>
 
@@ -32,7 +32,7 @@
                 required
                 autocomplete="current-password"
                 placeholder="••••••••"
-                class="mt-2 block w-full rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                class="mt-2 block w-full rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
             >
         </div>
 
@@ -42,12 +42,12 @@
                     type="checkbox"
                     id="remember_me"
                     name="remember"
-                    class="h-4 w-4 rounded border-stone-300 text-[#1e3a5f] focus:ring-[#1e3a5f] dark:border-white/20 dark:text-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                    class="h-4 w-4 rounded border-stone-300 text-[#1e3a5f] focus:ring-[#1e3a5f] dark:border-white/20 dark:text-stone-300 dark:focus:ring-stone-400/20 dark:focus:ring-offset-stone-900"
                 >
                 <span class="text-sm text-stone-500 dark:text-stone-400">Ingat saya</span>
             </label>
 
-            <a href="{{ route('password.request') }}" class="text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">
+            <a href="{{ route('password.request') }}" class="text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">
                 Lupa sandi?
             </a>
         </div>
@@ -62,6 +62,6 @@
 
     <p class="mt-8 text-center text-sm text-stone-400 dark:text-stone-500">
         Belum punya akun?
-        <a href="{{ route('register') }}" class="font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Daftar sekarang</a>
+        <a href="{{ route('register') }}" class="font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">Daftar sekarang</a>
     </p>
 @endsection

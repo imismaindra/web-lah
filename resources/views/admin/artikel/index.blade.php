@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Manajemen Artikel')
 @section('page-title', 'Artikel')
@@ -32,7 +32,7 @@
                 <p class="mt-1 text-sm text-stone-500 dark:text-stone-400">Kelola kurasi naskah, jadwal publikasi, dan pantau respons pembaca.</p>
             </div>
             <div class="flex items-center gap-3">
-                <a href="{{ route('admin.artikel.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-[#16304a] active:scale-[0.98] dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">
+                <a href="{{ route('admin.artikel.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-[#16304a] active:scale-[0.98] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                     <span>Tulis Artikel Baru</span>
                 </a>
@@ -101,12 +101,12 @@
                     <a
                         href="{{ $tabUrl }}"
                         class="inline-flex items-center gap-2 whitespace-nowrap rounded-xl px-3.5 py-1.5 text-xs font-semibold transition active:scale-[0.98] {{ $isActive
-                            ? 'bg-stone-900 text-white shadow-xs dark:bg-[#5b9bd5]/15 dark:text-[#5b9bd5] dark:ring-1 dark:ring-[#5b9bd5]/30'
+                            ? 'bg-stone-900 text-white shadow-xs dark:bg-white/10 dark:text-white dark:ring-1 dark:ring-white/20'
                             : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.04] dark:hover:text-stone-200' }}"
                     >
                         <span>{{ $tab['label'] }}</span>
                         <span class="rounded-md px-1.5 py-0.2 text-[10px] font-bold {{ $isActive
-                            ? 'bg-white/20 text-white dark:bg-[#5b9bd5]/25 dark:text-[#5b9bd5]'
+                            ? 'bg-white/20 text-white dark:bg-white/20 dark:text-white'
                             : 'bg-stone-100 text-stone-500 dark:bg-white/[0.06] dark:text-stone-400' }}">
                             {{ $tab['count'] }}
                         </span>
@@ -131,7 +131,7 @@
                         name="search"
                         value="{{ request('search') }}"
                         placeholder="Cari judul, topik, atau kata kunci... (tekan / untuk fokus)"
-                        class="w-full rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-10 pr-9 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:bg-white focus:ring-1 focus:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:bg-[#121211] dark:focus:ring-1 dark:focus:ring-[#5b9bd5]/20"
+                        class="w-full rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-10 pr-9 text-sm text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:bg-white focus:ring-1 focus:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:bg-[#121211] dark:focus:ring-1 dark:focus:ring-stone-400/20"
                     >
                     @if (request()->filled('search'))
                         <button
@@ -153,7 +153,7 @@
                             <select
                                 name="kategori"
                                 onchange="document.getElementById('filter-form').submit()"
-                                class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:bg-[#121211]"
+                                class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-stone-400 dark:focus:bg-[#121211]"
                             >
                                 <option value="" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Semua Kategori</option>
                                 @foreach ($kategoris as $kat)
@@ -171,7 +171,7 @@
                         <select
                             name="sort"
                             onchange="document.getElementById('filter-form').submit()"
-                            class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-[#5b9bd5] dark:focus:bg-[#121211]"
+                            class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-stone-400 dark:focus:bg-[#121211]"
                         >
                             <option value="terbaru" {{ request('sort', 'terbaru') === 'terbaru' ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Urut: Terbaru</option>
                             <option value="populer" {{ request('sort') === 'populer' ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Urut: Paling Populer</option>
@@ -240,7 +240,7 @@
                         <h3 class="mt-4 font-serif text-lg font-bold text-stone-800 dark:text-stone-200">Belum ada artikel sejarah</h3>
                         <p class="mx-auto mt-1 max-w-sm text-sm text-stone-500 dark:text-stone-400">Mulai tulis karya dan kajian sejarah pertama Anda untuk disajikan kepada pembaca.</p>
                         <div class="mt-5">
-                            <a href="{{ route('admin.artikel.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#16304a] dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">
+                            <a href="{{ route('admin.artikel.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#16304a] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
                                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                                 <span>Tulis Artikel Baru</span>
                             </a>
@@ -303,7 +303,7 @@
                                     </div>
 
                                     {{-- Title --}}
-                                    <h3 class="mt-2.5 line-clamp-2 font-serif text-base font-bold leading-snug text-stone-900 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-[#5b9bd5]">
+                                    <h3 class="mt-2.5 line-clamp-2 font-serif text-base font-bold leading-snug text-stone-900 transition group-hover:text-[#1e3a5f] dark:text-stone-100 dark:group-hover:text-white">
                                         <a href="{{ route('admin.artikel.edit', $artikel) }}">
                                             {{ $artikel->judul }}
                                         </a>
@@ -331,7 +331,7 @@
                                                 href="{{ route('admin.artikel.preview', $artikel) }}"
                                                 target="_blank"
                                                 rel="noopener"
-                                                class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:text-stone-400 dark:hover:bg-white/[0.06] dark:hover:text-[#5b9bd5]"
+                                                class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:text-stone-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
                                                 title="Pratinjau Artikel"
                                             >
                                                 <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -339,7 +339,7 @@
 
                                             <a
                                                 href="{{ route('admin.artikel.edit', $artikel) }}"
-                                                class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:text-stone-400 dark:hover:bg-white/[0.06] dark:hover:text-[#5b9bd5]"
+                                                class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:text-stone-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
                                                 title="Edit Artikel"
                                             >
                                                 <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
@@ -395,7 +395,7 @@
                                                     @endif
                                                 </div>
                                                 <div class="min-w-0 max-w-md">
-                                                    <a href="{{ route('admin.artikel.edit', $artikel) }}" class="line-clamp-1 font-serif text-sm font-bold text-stone-900 transition hover:text-[#1e3a5f] dark:text-stone-100 dark:hover:text-[#5b9bd5]">
+                                                    <a href="{{ route('admin.artikel.edit', $artikel) }}" class="line-clamp-1 font-serif text-sm font-bold text-stone-900 transition hover:text-[#1e3a5f] dark:text-stone-100 dark:hover:text-white">
                                                         {{ $artikel->judul }}
                                                     </a>
                                                     @if ($artikel->ringkasan)
@@ -470,7 +470,7 @@
                                                     href="{{ route('admin.artikel.preview', $artikel) }}"
                                                     target="_blank"
                                                     rel="noopener"
-                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.06] dark:hover:text-[#5b9bd5]"
+                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.06] dark:hover:text-white"
                                                     title="Pratinjau"
                                                 >
                                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -478,7 +478,7 @@
 
                                                 <a
                                                     href="{{ route('admin.artikel.edit', $artikel) }}"
-                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.06] dark:hover:text-[#5b9bd5]"
+                                                    class="rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.06] dark:hover:text-white"
                                                     title="Edit"
                                                 >
                                                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>

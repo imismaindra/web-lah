@@ -100,7 +100,7 @@
                         <h2 class="font-serif text-2xl font-bold tracking-tight sm:text-3xl">Berawal dari Instagram</h2>
                         <p class="mt-5 max-w-xl text-sm leading-relaxed text-stone-500 dark:text-stone-400 sm:text-base">
                             Look at History lahir dari akun Instagram
-                            <a href="https://www.instagram.com/lookathistory/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#1e3a5f] underline underline-offset-2 dark:text-[#5b9bd5]">@lookathistory</a>.
+                            <a href="https://www.instagram.com/lookathistory/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#1e3a5f] underline underline-offset-2 dark:text-stone-300 dark:hover:text-white">@lookathistory</a>.
                             Cerita sejarah kami mulai dari unggahan pendek yang mudah dibaca di sela waktu luang.
                             Dari satu layar kecil itulah tulisan tumbuh menjadi artikel panjang di blog ini.
                         </p>
@@ -120,7 +120,7 @@
                             </div>
                         </div>
                         <p class="mt-6 text-sm leading-relaxed text-stone-500 dark:text-stone-400">Ikuti kami di Instagram untuk kisah singkat, gambar peninggalan, dan cuplikan artikel terbaru.</p>
-                        <a href="https://www.instagram.com/lookathistory/" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center gap-2.5 rounded-lg bg-[#1e3a5f] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16304a] dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">
+                        <a href="https://www.instagram.com/lookathistory/" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center gap-2.5 rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                             <span>Ikuti @lookathistory</span>
                         </a>
@@ -137,22 +137,22 @@
 
                 <div class="mt-10 divide-y divide-stone-200/70 dark:divide-white/[0.06]">
                     <div class="group grid gap-2 py-6 sm:grid-cols-[72px_1fr_2fr] sm:items-baseline sm:gap-8">
-                        <span class="font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-[#5b9bd5]">01</span>
+                        <span class="font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-stone-300">01</span>
                         <h3 class="font-serif text-lg font-bold tracking-tight">Riset</h3>
                         <p class="text-sm leading-relaxed text-stone-500 dark:text-stone-400">Setiap kisah dimulai dari sumber. Kami menelusuri pustaka, arsip, dan catatan sejarah sebelum menulis satu kalimat pun.</p>
                     </div>
                     <div class="group grid gap-2 py-6 sm:grid-cols-[72px_1fr_2fr] sm:items-baseline sm:gap-8">
-                        <span class="font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-[#5b9bd5]">02</span>
+                        <span class="font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-stone-300">02</span>
                         <h3 class="font-serif text-lg font-bold tracking-tight">Penulisan</h3>
                         <p class="text-sm leading-relaxed text-stone-500 dark:text-stone-400">Cerita disusun ringkas dan kronologis. Panjang pas, tanpa menggelembung, tanpa jargon yang menghalangi pembaca.</p>
                     </div>
                     <div class="group grid gap-2 py-6 sm:grid-cols-[72px_1fr_2fr] sm:items-baseline sm:gap-8">
-                        <span class="font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-[#5b9bd5]">03</span>
+                        <span class="font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-stone-300">03</span>
                         <h3 class="font-serif text-lg font-bold tracking-tight">Pemeriksaan Fakta</h3>
                         <p class="text-sm leading-relaxed text-stone-500 dark:text-stone-400">Nama, tanggal, dan urutan peristiwa diperiksa ulang. Klaim yang tidak bisa dipertanggungjawabkan tidak pernah tayang.</p>
                     </div>
                     <div class="group grid gap-2 py-6 sm:grid-cols-[72px_1fr_2fr] sm:items-baseline sm:gap-8">
-                        <span class="font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-[#5b9bd5]">04</span>
+                        <span class="font-serif text-2xl font-bold text-stone-200 transition group-hover:text-[#1e3a5f] dark:text-white/10 dark:group-hover:text-stone-300">04</span>
                         <h3 class="font-serif text-lg font-bold tracking-tight">Publikasi</h3>
                         <p class="text-sm leading-relaxed text-stone-500 dark:text-stone-400">Artikel terbit dalam bahasa yang terbaca siapa pun, dari pelajar hingga penikmat sejarah.</p>
                     </div>
@@ -167,11 +167,11 @@
                 </div>
 
                 <div class="mt-8 grid gap-5 md:grid-cols-6">
-                    <div class="relative overflow-hidden rounded-2xl bg-[#1e3a5f] p-8 sm:p-10 md:col-span-4 dark:bg-[#5b9bd5]">
-                        <p class="font-serif text-2xl font-bold leading-snug tracking-tight text-white sm:text-3xl dark:text-[#0f0f0e]">
+                    <div class="relative overflow-hidden rounded-2xl bg-[#1e3a5f] p-8 sm:p-10 md:col-span-4 dark:border dark:border-white/10 dark:bg-stone-900">
+                        <p class="font-serif text-2xl font-bold leading-snug tracking-tight text-white sm:text-3xl dark:text-stone-100">
                             Sejarah yang jujur tidak butuh sensasi. Ia cukup kuat berdiri sendiri.
                         </p>
-                        <p class="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-white/60 dark:text-[#0f0f0e]/60">Kejujuran</p>
+                        <p class="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-white/60 dark:text-stone-400">Kejujuran</p>
                     </div>
 
                     <div class="relative min-h-[260px] overflow-hidden rounded-2xl md:col-span-2">
@@ -237,8 +237,8 @@
                     @endif
                     <form id="newsletter-form-about" method="POST" action="{{ route('newsletter.subscribe') }}" class="mt-6 flex flex-col gap-3 sm:flex-row">
                         @csrf
-                        <input type="email" name="email" value="{{ old('email') }}" placeholder="email@kamu.com" class="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:border-[#5b9bd5] focus:outline-none focus:ring-1 focus:ring-[#5b9bd5] dark:border-stone-700 dark:bg-stone-800 dark:text-[#e5e5e3] dark:placeholder:text-stone-500">
-                        <button type="submit" class="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-stone-900 transition hover:bg-stone-200 dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">Berlangganan</button>
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="email@kamu.com" class="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400/20 dark:border-stone-700 dark:bg-stone-800 dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20">
+                        <button type="submit" class="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-stone-900 transition hover:bg-stone-200 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">Berlangganan</button>
                     </form>
                     <p class="mt-3 text-[11px] text-stone-500 dark:text-stone-600">Kami hormati privasi kamu. Berhenti kapan saja.</p>
                 </div>

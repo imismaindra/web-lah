@@ -25,7 +25,7 @@
                         <svg class="mx-auto h-10 w-10 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                         <h1 class="mt-4 font-serif text-xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400">Berhasil berhenti berlangganan</h1>
                         <p class="mt-2 text-sm text-emerald-600 dark:text-emerald-500">{{ session('status') }}</p>
-                        <a href="/" class="mt-6 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5]">Kembali ke beranda &rarr;</a>
+                        <a href="/" class="mt-6 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">Kembali ke beranda &rarr;</a>
                     </div>
                 @elseif ($subscriber)
                     <div class="rounded-2xl border border-stone-200/60 bg-white p-8 text-center dark:border-white/[0.06] dark:bg-[#171716]">
@@ -40,13 +40,13 @@
                                 Ya, berhenti berlangganan
                             </button>
                         </form>
-                        <a href="/" class="mt-4 block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5]">Tidak, batalkan</a>
+                        <a href="/" class="mt-4 block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">Tidak, batalkan</a>
                     </div>
                 @else
                     <div class="rounded-2xl border border-stone-200/60 bg-white p-8 text-center dark:border-white/[0.06] dark:bg-[#171716]">
-                        <h1 class="font-serif text-xl font-bold tracking-tight">Link tidak validd</h1>
+                        <h1 class="font-serif text-xl font-bold tracking-tight">Link tidak valid</h1>
                         <p class="mt-2 text-sm text-stone-500 dark:text-stone-400">Tautan berhenti berlangganan ini tidak valid atau sudah dipakai.</p>
-                        <a href="/" class="mt-6 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5]">Kembali ke beranda &rarr;</a>
+                        <a href="/" class="mt-6 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">Kembali ke beranda &rarr;</a>
                     </div>
                 @endif
             </div>

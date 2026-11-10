@@ -146,10 +146,14 @@
                 top: 0;
                 left: 0;
                 height: 3px;
-                background: linear-gradient(90deg, #1e3a5f, #5b9bd5);
+                background: #1e3a5f;
                 z-index: 50;
                 animation: progress-fill linear;
                 animation-timeline: scroll(root);
+            }
+
+            .dark .reading-progress {
+                background: #d4a373;
             }
 
             @keyframes progress-fill {
@@ -324,11 +328,11 @@
             }
 
 
-                .dark .article-body blockquote {
-                    border-left-color: #5b9bd5;
-                    background: rgb(91 155 213 / 0.05);
-                    color: #a8a29e;
-                }
+            .dark .article-body blockquote {
+                border-left-color: rgba(255, 255, 255, 0.3);
+                background: rgba(255, 255, 255, 0.03);
+                color: #d6d3d1;
+            }
 
             .article-body figure {
                 margin: 2rem 0;
@@ -413,13 +417,18 @@
             }
 
 
-                .dark .article-body a {
-                    color: #5b9bd5;
-                }
+            .dark .article-body a {
+                color: #f5f5f4;
+                text-decoration: underline;
+                text-decoration-color: rgba(255, 255, 255, 0.35);
+                text-underline-offset: 3px;
+                font-weight: 500;
+            }
 
-                .dark .article-body a:hover {
-                    color: #7ab3e0;
-                }
+            .dark .article-body a:hover {
+                color: #ffffff;
+                text-decoration-color: #ffffff;
+            }
 
             .faq-item summary {
                 cursor: pointer;
@@ -448,12 +457,11 @@
                 margin: 1.5rem 0;
             }
 
-
-                .dark .key-point {
-                    background: linear-gradient(135deg, #5b9bd508 0%, #5b9bd503 100%);
-                    border-color: #5b9bd515;
-                    border-left-color: #5b9bd5;
-                }
+            .dark .key-point {
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-left: 4px solid rgba(255, 255, 255, 0.35);
+            }
         </style>
     </head>
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
@@ -583,7 +591,7 @@
                         <div id="toc-mobile-wrapper" class="mb-8 hidden rounded-2xl border border-stone-200/70 bg-stone-100/70 p-4 dark:border-white/[0.06] dark:bg-white/[0.03] lg:hidden">
                             <button type="button" id="toc-mobile-toggle" class="flex w-full items-center justify-between text-left" aria-expanded="false" aria-controls="toc-mobile">
                                 <span class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-200">
-                                    <svg class="h-4 w-4 text-[#1e3a5f] dark:text-[#5b9bd5]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h14"/></svg>
+                                    <svg class="h-4 w-4 text-[#1e3a5f] dark:text-stone-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h14"/></svg>
                                     Daftar Isi
                                 </span>
                                 <svg id="toc-mobile-chevron" class="h-4 w-4 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -631,13 +639,13 @@
                                 <p class="mb-3 text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500">Jelajahi topik terkait</p>
                                 <div class="flex flex-wrap gap-2">
                                     @if ($artikel->kategori)
-                                        <a href="{{ route('kategori.show', $artikel->kategori) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $artikel->kategori->nama }}</a>
+                                        <a href="{{ route('kategori.show', $artikel->kategori) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/[0.06] dark:hover:text-white">{{ $artikel->kategori->nama }}</a>
                                     @endif
                                     @if ($artikel->era)
-                                        <a href="{{ route('era.show', $artikel->era) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $artikel->era->nama }}</a>
+                                        <a href="{{ route('era.show', $artikel->era) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/[0.06] dark:hover:text-white">{{ $artikel->era->nama }}</a>
                                     @endif
                                     @foreach ($artikel->topiks as $topik)
-                                        <a href="{{ route('topik.show', $topik) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-[#5b9bd5] dark:hover:text-[#5b9bd5]">{{ $topik->nama }}</a>
+                                        <a href="{{ route('topik.show', $topik) }}" class="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:border-[#1e3a5f] hover:text-[#1e3a5f] dark:border-white/10 dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/[0.06] dark:hover:text-white">{{ $topik->nama }}</a>
                                     @endforeach
                                 </div>
                             </nav>
@@ -669,7 +677,7 @@
                                     <p class="font-semibold">{{ $artikel->author->penulis?->nama ?? $artikel->author->name ?? 'Redaksi' }}</p>
                                     <p class="mt-1 text-sm leading-relaxed text-stone-500 dark:text-stone-400">{{ $artikel->author->penulis?->bio ?? 'Menulis tentang sejarah dunia untuk pembaca yang ingin memahami masa lalu.' }}</p>
                                     @if ($artikel->author->penulis)
-                                        <a href="{{ route('artikel.index') }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Lihat semua artikel &rarr;</a>
+                                        <a href="{{ route('artikel.index') }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">Lihat semua artikel &rarr;</a>
                                     @endif
                                 </div>
                             </div>
@@ -754,7 +762,7 @@
                                         value="{{ old('nama') }}"
                                         required
                                         placeholder="Nama Anda"
-                                        class="mb-3 block w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                                        class="mb-3 block w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
                                     >
                                 @endif
                                 <textarea
@@ -762,7 +770,7 @@
                                     rows="4"
                                     required
                                     placeholder="Tulis komentar Anda..."
-                                    class="block w-full rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"
+                                    class="block w-full rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"
                                 >{{ old('isi') }}</textarea>
                                 <div class="mt-4 flex items-center justify-between gap-3">
                                     <p class="text-[11px] text-stone-500 dark:text-stone-400">Komentar sopan dan relevan sangat dihargai.</p>
@@ -786,7 +794,7 @@
                                                     <span class="text-[11px] text-stone-500 dark:text-stone-400">{{ $komentar->created_at->diffForHumans() }}</span>
                                                 </div>
                                                 <p class="mt-1.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{{ $komentar->isi }}</p>
-                                                <button type="button" class="mt-2 text-xs font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]" data-reply-toggle>Balas</button>
+                                                <button type="button" class="mt-2 text-xs font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white" data-reply-toggle>Balas</button>
                                             </div>
                                         </div>
 
@@ -818,10 +826,10 @@
                                             </div>
                                             <input type="hidden" name="parent_id" value="{{ $komentar->id }}">
                                             @if (! auth()->check())
-                                                <input type="text" name="nama" required placeholder="Nama Anda" class="mb-2 block w-full rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]">
+                                                <input type="text" name="nama" required placeholder="Nama Anda" class="mb-2 block w-full rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20">
                                             @endif
                                             <div class="flex items-center gap-2">
-                                                <textarea name="isi" rows="2" required placeholder="Tulis balasan..." class="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]"></textarea>
+                                                <textarea name="isi" rows="2" required placeholder="Tulis balasan..." class="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:text-[#e5e5e3] dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20"></textarea>
                                                 <button type="submit" class="rounded-lg bg-stone-900 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">Balas</button>
                                             </div>
                                         </form>
@@ -864,7 +872,7 @@
                                 </p>
                                 <form id="newsletter-form-sidebar" action="{{ route('newsletter.subscribe') }}" method="POST" class="mt-4 space-y-2.5">
                                     @csrf
-                                    <input type="email" name="email" placeholder="email@kamu.com" class="w-full rounded-lg border border-stone-200 bg-stone-50 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:placeholder:text-stone-500 dark:focus:border-[#5b9bd5] dark:focus:ring-[#5b9bd5]">
+                                    <input type="email" name="email" placeholder="email@kamu.com" class="w-full rounded-lg border border-stone-200 bg-stone-50 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-[#1e3a5f] focus:outline-none focus:ring-1 focus:ring-[#1e3a5f] dark:border-white/10 dark:bg-white/[0.03] dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:ring-stone-400/20">
                                     <button type="submit" class="w-full rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-stone-800 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">Berlangganan</button>
                                 </form>
                                 <p class="mt-2 text-[11px] text-stone-400 dark:text-stone-500">Kami hormati privasi kamu.</p>
@@ -896,11 +904,11 @@
                                     </div>
                                     <div class="p-5">
                                         <div class="flex items-center gap-2 text-xs font-semibold">
-                                            <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $related->kategori->nama ?? 'Umum' }}</span>
+                                            <span class="text-[#1e3a5f] dark:text-stone-400">{{ $related->kategori->nama ?? 'Umum' }}</span>
                                             <span class="text-stone-300 dark:text-stone-600">&middot;</span>
                                             <span class="text-stone-500 dark:text-stone-400">{{ $related->created_at->format('d M Y') }}</span>
                                         </div>
-                                        <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
+                                        <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-white">
                                             {{ $related->judul }}
                                         </h3>
                                         <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">

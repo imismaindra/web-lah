@@ -120,7 +120,7 @@
                         </a>
                     @endif
 
-                    <a href="{{ route('artikel.index') }}" class="ml-1 text-xs font-semibold text-[#1e3a5f] underline underline-offset-4 transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">
+                    <a href="{{ route('artikel.index') }}" class="ml-1 text-xs font-semibold text-[#1e3a5f] underline underline-offset-4 transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">
                         Reset filter
                     </a>
                 </div>
@@ -157,10 +157,10 @@
                                     <span class="text-stone-500 dark:text-stone-400">{{ $artikel->reading_time ?? 1 }} mnt</span>
                                     @if ($artikel->kategori)
                                         <span class="text-stone-300 dark:text-stone-600">&middot;</span>
-                                        <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama }}</span>
+                                        <span class="text-[#1e3a5f] dark:text-stone-400">{{ $artikel->kategori->nama }}</span>
                                     @endif
                                 </div>
-                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
+                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-white">
                                     {{ $artikel->judul }}
                                 </h3>
                                 <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">

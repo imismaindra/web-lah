@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Topik')
 @section('page-title', 'Topik')
@@ -9,7 +9,7 @@
         <div>
             <p class="text-sm text-stone-500 dark:text-stone-400">Kelola topik di halaman beranda</p>
         </div>
-        <a href="{{ route('admin.topik.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16304a] dark:bg-[#5b9bd5] dark:text-[#0f0f0e] dark:hover:bg-[#7ab3e0]">
+        <a href="{{ route('admin.topik.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16304a] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
             Tambah Topik
         </a>
@@ -28,7 +28,7 @@
             <div class="p-12 text-center">
                 <svg class="mx-auto h-12 w-12 text-stone-300 dark:text-stone-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z"/></svg>
                 <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">Belum ada topik</p>
-                <a href="{{ route('admin.topik.create') }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] dark:text-[#5b9bd5]">Tambah topik baru &rarr;</a>
+                <a href="{{ route('admin.topik.create') }}" class="mt-3 inline-block text-sm font-semibold text-[#1e3a5f] dark:text-stone-300 dark:hover:text-white">Tambah topik baru &rarr;</a>
             </div>
         @else
             <table class="w-full text-left text-sm">
@@ -65,7 +65,7 @@
                             </td>
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-1">
-                                    <a href="{{ route('admin.topik.edit', $topik) }}" class="rounded-lg p-2 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.05] dark:hover:text-[#5b9bd5]" title="Edit">
+                                    <a href="{{ route('admin.topik.edit', $topik) }}" class="rounded-lg p-2 text-stone-400 transition hover:bg-stone-100 hover:text-[#1e3a5f] dark:hover:bg-white/[0.05] dark:hover:text-white" title="Edit">
                                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                                     </a>
                                     <form method="POST" action="{{ route('admin.topik.destroy', $topik) }}" onsubmit="return confirm('Yakin ingin menghapus topik ini?')" class="inline">

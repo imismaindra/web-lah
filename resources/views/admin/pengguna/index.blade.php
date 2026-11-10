@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Pengguna')
 @section('page-title', 'Pengguna')
@@ -78,7 +78,7 @@
                             </td>
                             <td class="px-5 py-4">
                                 @if ($user->id === auth()->id())
-                                    <span class="rounded-full bg-[#1e3a5f]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#1e3a5f] dark:bg-[#5b9bd5]/10 dark:text-[#5b9bd5]">
+                                    <span class="rounded-full bg-[#1e3a5f]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#1e3a5f] dark:bg-white/10 dark:text-stone-200">
                                         {{ $user->roles->first()?->name ?? 'Admin' }} (Anda)
                                     </span>
                                 @else

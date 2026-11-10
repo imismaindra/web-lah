@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Detail Pesan Kontak')
 @section('page-title', 'Detail Pesan Kontak')
@@ -37,7 +37,7 @@
                             {{ $pesan->is_read ? 'Tandai Belum Dibaca' : 'Tandai Sudah Dibaca' }}
                         </button>
                     </form>
-                    <a href="mailto:{{ $pesan->email }}?subject=Re: {{ urlencode($pesan->subject ?: 'Pesan Kontak Look at History') }}" class="rounded-xl bg-[#1e3a5f] px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-[#16304a] dark:bg-[#5b9bd5] dark:text-[#0f0f0e]">
+                    <a href="mailto:{{ $pesan->email }}?subject=Re: {{ urlencode($pesan->subject ?: 'Pesan Kontak Look at History') }}" class="rounded-xl bg-[#1e3a5f] px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-[#16304a] dark:bg-white dark:text-stone-900">
                         Balas Email
                     </a>
                 </div>

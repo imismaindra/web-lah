@@ -70,7 +70,7 @@
                         <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-stone-400 dark:text-stone-500">
                             <span>{{ $penulis->artikel_count }} artikel</span>
                             @if ($penulis->website)
-                                <a href="{{ $penulis->website }}" target="_blank" rel="noopener" class="font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-[#5b9bd5] dark:hover:text-[#7ab3e0]">Website &nearr;</a>
+                                <a href="{{ $penulis->website }}" target="_blank" rel="noopener" class="font-semibold text-[#1e3a5f] transition hover:text-[#16304a] dark:text-stone-300 dark:hover:text-white">Website &nearr;</a>
                             @endif
                         </div>
                         @if ($penulis->bio)
@@ -99,11 +99,11 @@
                             </div>
                             <div class="p-5">
                                 <div class="flex items-center gap-2 text-xs font-semibold">
-                                    <span class="text-[#1e3a5f] dark:text-[#5b9bd5]">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
+                                    <span class="text-[#1e3a5f] dark:text-stone-400">{{ $artikel->kategori->nama ?? 'Umum' }}</span>
                                     <span class="text-stone-300 dark:text-stone-600">&middot;</span>
                                     <span class="text-stone-400 dark:text-stone-500">{{ $artikel->created_at->format('d M Y') }}</span>
                                 </div>
-                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-[#5b9bd5]">
+                                <h3 class="mt-3 font-serif text-base font-bold leading-snug group-hover:text-[#1e3a5f] dark:group-hover:text-white">
                                     {{ $artikel->judul }}
                                 </h3>
                                 <p class="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-400">

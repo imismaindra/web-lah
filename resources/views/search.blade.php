@@ -25,8 +25,7 @@
             {{-- Masthead + Search --}}
             <section class="border-b border-stone-200/80 dark:border-white/[0.06] pb-8 pt-10 sm:pt-12">
                 <div class="flex flex-wrap items-center justify-between gap-3">
-                    <p class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">
-                        <span class="h-px w-10 bg-stone-300 dark:bg-white/15"></span>
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">
                         Pencarian Arsip
                     </p>
                     @if($query)

@@ -46,8 +46,7 @@
                 @endphp
 
                 <div class="hero-rise flex flex-wrap items-center justify-between gap-3 border-b border-stone-200/80 pb-4 dark:border-white/[0.06]">
-                    <p class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">
-                        <span class="h-px w-10 bg-stone-300 dark:bg-white/15"></span>
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">
                         Blog Sejarah Dunia
                     </p>
                     <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">{{ $edisi }}</p>

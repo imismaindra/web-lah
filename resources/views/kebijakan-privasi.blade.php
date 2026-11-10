@@ -22,17 +22,6 @@
         @endif
 
         <style>
-            .grain-overlay {
-                position: fixed;
-                inset: 0;
-                pointer-events: none;
-                z-index: 40;
-                opacity: 0.025;
-                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-                background-repeat: repeat;
-                background-size: 200px 200px;
-            }
-
             @keyframes reveal-up {
                 from {
                     opacity: 0;
@@ -61,15 +50,12 @@
         </style>
     </head>
     <body class="bg-[#faf9f7] dark:bg-[#0f0f0e] text-[#171717] dark:text-[#e5e5e3] font-sans antialiased">
-        <div class="grain-overlay"></div>
-
         @include('partials.site-header')
 
         <main id="main" class="mx-auto max-w-3xl px-5 sm:px-8">
             {{-- Hero --}}
             <section class="pt-12 pb-14 sm:pt-16">
-                <p class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">
-                    <span class="h-px w-10 bg-stone-300 dark:bg-white/15"></span>
+                <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">
                     Kebijakan Privasi
                 </p>
                 <h1 class="mt-6 font-serif text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl">

@@ -377,8 +377,10 @@ class P2FiturTest extends TestCase
 
         $this->get(route('search', ['q' => 'Revolusi Industri']))
             ->assertOk()
-            ->assertSee('Topik Berisi')
-            ->assertDontSee('Topik Tanpa Artikel');
+            ->assertViewHas('topiks', function ($topiks) use ($topikTerisi) {
+                return $topiks->contains('id', $topikTerisi->id)
+                    && ! $topiks->contains('nama', 'Topik Tanpa Artikel');
+            });
     }
 
     public function test_taxonomy_pagination_uses_self_referencing_canonical(): void

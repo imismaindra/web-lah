@@ -332,6 +332,83 @@ class P2FiturTest extends TestCase
         $this->assertSame(1, $artikel->reading_time);
     }
 
+    public function test_sitemap_hanya_memuat_topik_dengan_artikel_publikasi(): void
+    {
+        $artikel = $this->createArtikel();
+        $topikTerisi = Topik::create([
+            'nama' => 'Topik Terisi',
+            'deskripsi' => 'Topik dengan artikel publik.',
+        ]);
+        $artikel->topiks()->attach($topikTerisi);
+        $topikKosong = Topik::create([
+            'nama' => 'Topik Kosong',
+            'deskripsi' => 'Topik tanpa artikel publik.',
+        ]);
+
+        $response = $this->get(route('sitemap'));
+
+        $response->assertOk()
+            ->assertSee(route('topik.show', $topikTerisi), false)
+            ->assertDontSee(route('topik.show', $topikKosong), false);
+    }
+
+    public function test_topik_kosong_tidak_muncul_di_daftar_topik_publik(): void
+    {
+        $artikel = $this->createArtikel();
+        $topikTerisi = Topik::create([
+            'nama' => 'Topik Berisi',
+            'deskripsi' => 'Topik dengan artikel.',
+        ]);
+        $artikel->topiks()->attach($topikTerisi);
+        Topik::create([
+            'nama' => 'Topik Tanpa Artikel',
+            'deskripsi' => 'Topik kosong.',
+        ]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Topik Berisi')
+            ->assertDontSee('Topik Tanpa Artikel');
+
+        $this->get(route('artikel.index'))
+            ->assertOk()
+            ->assertSee('Topik Berisi')
+            ->assertDontSee('Topik Tanpa Artikel');
+
+        $this->get(route('search', ['q' => 'sejarah']))
+            ->assertOk()
+            ->assertSee('Topik Berisi')
+            ->assertDontSee('Topik Tanpa Artikel');
+    }
+
+    public function test_taxonomy_pagination_uses_self_referencing_canonical(): void
+    {
+        $kategori = Kategori::create([
+            'nama' => 'Kategori Pagination',
+            'deskripsi' => 'Kategori untuk pengujian pagination.',
+        ]);
+        $topik = Topik::create([
+            'nama' => 'Topik Pagination',
+            'deskripsi' => 'Topik untuk pengujian pagination.',
+        ]);
+
+        for ($index = 1; $index <= 10; $index++) {
+            $artikel = $this->createArtikel([
+                'judul' => 'Artikel Pagination '.$index,
+                'kategori_id' => $kategori->id,
+            ]);
+            $artikel->topiks()->attach($topik);
+        }
+
+        $this->get(route('kategori.show', $kategori).'?page=2')
+            ->assertOk()
+            ->assertSee('<link rel="canonical" href="'.route('kategori.show', $kategori).'?page=2">', false);
+
+        $this->get(route('topik.show', $topik).'?page=2')
+            ->assertOk()
+            ->assertSee('<link rel="canonical" href="'.route('topik.show', $topik).'?page=2">', false);
+    }
+
     public function test_kategori_dan_topik_kosong_merender_noindex(): void
     {
         $kategoriKosong = Kategori::create([

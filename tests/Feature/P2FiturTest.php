@@ -375,7 +375,7 @@ class P2FiturTest extends TestCase
             ->assertSee('Topik Berisi')
             ->assertDontSee('Topik Tanpa Artikel');
 
-        $this->get(route('search', ['q' => 'sejarah']))
+        $this->get(route('search', ['q' => 'Revolusi Industri']))
             ->assertOk()
             ->assertSee('Topik Berisi')
             ->assertDontSee('Topik Tanpa Artikel');

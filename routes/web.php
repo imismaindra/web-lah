@@ -61,9 +61,11 @@ Route::get('/', function () {
         $q->published();
     }])->orderBy('urutan')->get();
 
-    $topiks = Topik::withCount(['artikel' => function ($q) {
-        $q->published();
-    }])->orderBy('urutan')->get();
+    $topiks = Topik::query()
+        ->whereHas('artikel', fn ($q) => $q->published())
+        ->withCount(['artikel' => fn ($q) => $q->published()])
+        ->orderBy('urutan')
+        ->get();
 
     $kategoriSorotan = Kategori::withCount(['artikel' => fn ($q) => $q->published()])
         ->whereHas('artikel', fn ($q) => $q->published())
@@ -328,7 +330,10 @@ Route::get('/artikel', function (Request $request) {
 
     $kategoris = Kategori::orderBy('nama')->get();
     $eras = Era::orderBy('urutan')->get();
-    $topiks = Topik::orderBy('urutan')->get();
+    $topiks = Topik::query()
+        ->whereHas('artikel', fn ($q) => $q->published())
+        ->orderBy('urutan')
+        ->get();
 
     return view('artikel-index', compact('artikels', 'kategoris', 'eras', 'topiks', 'kategoriId', 'eraId', 'topikId'));
 })->name('artikel.index');

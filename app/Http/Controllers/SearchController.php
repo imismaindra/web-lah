@@ -30,7 +30,10 @@ class SearchController extends Controller
 
         $kategoris = Kategori::orderBy('nama')->get();
         $eras = Era::orderBy('urutan')->get();
-        $topiks = Topik::orderBy('urutan')->get();
+        $topiks = Topik::query()
+            ->whereHas('artikel', fn ($q) => $q->published())
+            ->orderBy('urutan')
+            ->get();
 
         return view('search', compact('artikels', 'query', 'total', 'kategoris', 'eras', 'topiks', 'kategoriId', 'eraId', 'topikId'));
     }

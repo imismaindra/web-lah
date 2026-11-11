@@ -13,11 +13,21 @@
     }
 
     $pageNumber = request()->query('page');
-    if (! isset($url) && is_scalar($pageNumber) && ctype_digit((string) $pageNumber) && (int) $pageNumber > 1) {
+    $isValidPageNumber = is_scalar($pageNumber)
+        && ctype_digit((string) $pageNumber)
+        && (int) $pageNumber > 1;
+
+    if (! isset($url) && $isValidPageNumber) {
         $baseCanonicalUrl .= '?page=' . (int) $pageNumber;
     }
 
     $canonicalUrl = $url ?? $baseCanonicalUrl;
+
+    // Taxonomy listing pages pass an explicit base URL; retain pagination
+    // so each page has a self-referencing canonical URL.
+    if (isset($url) && $isValidPageNumber) {
+        $canonicalUrl .= (str_contains($canonicalUrl, '?') ? '&' : '?') . 'page=' . (int) $pageNumber;
+    }
     $url = $canonicalUrl;
 
     $type = $type ?? 'website';

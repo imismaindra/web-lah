@@ -82,6 +82,26 @@ class InternalLinker
 
         $map = self::getKeywordMap();
 
+        // Only link to articles that are currently public and published.
+        // This prevents stale hardcoded slugs, drafts, and deleted targets
+        // from producing internal links that lead to unavailable pages.
+        if (Schema::hasTable('artikels')) {
+            $publishedSlugs = Artikel::published()
+                ->whereIn('slug', array_values(array_unique($map)))
+                ->pluck('slug')
+                ->all();
+            $availableTargets = array_fill_keys($publishedSlugs, true);
+
+            $map = array_filter(
+                $map,
+                fn ($targetSlug) => isset($availableTargets[$targetSlug])
+            );
+        }
+
+        if (empty($map)) {
+            return $html;
+        }
+
         $usedTargets = [];
         if ($currentArticle && $currentArticle->slug) {
             $usedTargets[$currentArticle->slug] = true;

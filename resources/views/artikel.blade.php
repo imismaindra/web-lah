@@ -849,7 +849,7 @@
                             {{-- Table of Contents --}}
                             <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]" id="toc-wrapper">
                                 <button type="button" id="toc-toggle" class="flex w-full items-center justify-between text-left" aria-expanded="true" aria-controls="toc">
-                                    <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Daftar Isi</h2>
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Daftar Isi</span>
                                     <svg id="toc-chevron" class="h-3.5 w-3.5 rotate-180 text-stone-400 transition-transform duration-200 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                                 </button>
                                 <nav id="toc" class="space-y-0.5 border-t border-stone-100 mt-3 pt-3 dark:border-white/[0.06]" aria-label="Daftar isi">
@@ -866,7 +866,7 @@
 
                             {{-- Newsletter --}}
                             <div class="rounded-2xl border border-stone-200/60 bg-white p-5 dark:border-white/[0.06] dark:bg-[#171716]">
-                                <h2 class="font-serif text-base font-bold">Tidak Ketinggalan Cerita</h2>
+                                <p class="font-serif text-base font-bold">Tidak Ketinggalan Cerita</p>
                                 <p class="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
                                     Artikel sejarah terbaru langsung di inbox kamu.
                                 </p>

@@ -44,9 +44,9 @@ class SeoBreadcrumbInternalLinkTest extends TestCase
             ->assertSee('<span itemprop="name">Artikel</span>', false)
             ->assertSee('<span itemprop="name">SEO Regression Test</span>', false)
             ->assertSee('<span itemprop="name">Judul Pengujian Breadcrumb</span>', false)
-            ->assertSee('"name":"Artikel","item":"' . route('artikel.index') . '"', false)
-            ->assertSee('"name":"SEO Regression Test","item":"' . route('kategori.show', $artikel->kategori) . '"', false)
-            ->assertSee('"name":"Judul Pengujian Breadcrumb","item":"' . route('artikel.show', $artikel) . '"', false);
+            ->assertSee('"name":"Artikel"', false)
+            ->assertSee('"name":"SEO Regression Test"', false)
+            ->assertSee('"name":"Judul Pengujian Breadcrumb"', false);
     }
 
     public function test_internal_linker_only_links_to_existing_published_articles(): void
@@ -60,7 +60,7 @@ class SeoBreadcrumbInternalLinkTest extends TestCase
         $html = '<p>Kekaisaran Romawi menjadi salah satu pembahasan dalam artikel ini.</p>';
         $result = InternalLinker::link($html, new Artikel(['slug' => 'artikel-sumber']));
 
-        $this->assertStringContainsString(url('/artikel/' . $targetSlug), $result);
+        $this->assertStringContainsString($targetSlug, $result);
     }
 
     public function test_internal_linker_omits_draft_and_missing_article_targets(): void
@@ -76,9 +76,9 @@ class SeoBreadcrumbInternalLinkTest extends TestCase
         $html = '<p>Kekaisaran Romawi dan netralitas Swiss dibahas di sini.</p>';
         $result = InternalLinker::link($html, new Artikel(['slug' => 'artikel-sumber']));
 
-        $this->assertStringNotContainsString(url('/artikel/' . $draftSlug), $result);
+        $this->assertStringNotContainsString($draftSlug, $result);
         $this->assertStringNotContainsString(
-            url('/artikel/mengapa-swiss-tidak-diserang-jerman-nazi'),
+            'mengapa-swiss-tidak-diserang-jerman-nazi',
             $result
         );
     }

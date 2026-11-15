@@ -150,6 +150,23 @@ class P2FiturTest extends TestCase
         $this->assertSame(1, $artikel->fresh()->reading_time);
     }
 
+    public function test_heading_komponen_ui_tidak_mengganggu_hierarki_heading_artikel(): void
+    {
+        $artikel = $this->createArtikel([
+            'konten' => '<h2>Pertahanan Swiss</h2><p>Isi pembahasan pertama.</p><h2>Rencana Invasi</h2><p>Isi pembahasan kedua.</p>',
+        ]);
+
+        $response = $this->get(route('artikel.show', $artikel));
+
+        $response->assertOk()
+            ->assertSee('<h2>Pertahanan Swiss</h2>', false)
+            ->assertSee('<h2>Rencana Invasi</h2>', false)
+            ->assertSee('<span class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Daftar Isi</span>', false)
+            ->assertSee('<p class="font-serif text-base font-bold">Tidak Ketinggalan Cerita</p>', false)
+            ->assertDontSee('<h2 class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Daftar Isi</h2>', false)
+            ->assertDontSee('<h2 class="font-serif text-base font-bold">Tidak Ketinggalan Cerita</h2>', false);
+    }
+
     public function test_pengunjung_valid_menambah_views_dan_tercatat_di_tabel_pageviews(): void
     {
         $artikel = $this->createArtikel();

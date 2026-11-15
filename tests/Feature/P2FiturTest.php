@@ -396,7 +396,7 @@ class P2FiturTest extends TestCase
             ->assertOk()
             ->assertViewHas('topiks', function ($topiks) use ($topikTerisi) {
                 return $topiks->contains('id', $topikTerisi->id)
-                    && ! $topiks->contains('nama', 'Topik Tanpa Artikel');
+                    &&!$topiks->contains('nama', 'Topik Tanpa Artikel');
             });
     }
 
@@ -479,6 +479,5 @@ class P2FiturTest extends TestCase
             ->assertSee('<meta name="robots" content="index, follow', false)
             ->assertSee('<link rel="canonical" href="'.route('artikel.index').'?page=2">', false);
     }
-
 
 }

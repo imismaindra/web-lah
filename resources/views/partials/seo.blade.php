@@ -16,8 +16,9 @@
     $isValidPageNumber = is_scalar($pageNumber)
         && ctype_digit((string) $pageNumber)
         && (int) $pageNumber > 1;
+    $hasListingFilters = request()->hasAny(['kategori', 'era', 'topik', 'urut']);
 
-    if (! isset($url) && $isValidPageNumber) {
+    if (! isset($url) && $isValidPageNumber && ! $hasListingFilters) {
         $baseCanonicalUrl .= '?page=' . (int) $pageNumber;
     }
 
@@ -25,7 +26,7 @@
 
     // Taxonomy listing pages pass an explicit base URL; retain pagination
     // so each page has a self-referencing canonical URL.
-    if (isset($url) && $isValidPageNumber) {
+    if (isset($url) && $isValidPageNumber && ! $hasListingFilters) {
         $canonicalUrl .= (str_contains($canonicalUrl, '?') ? '&' : '?') . 'page=' . (int) $pageNumber;
     }
     $url = $canonicalUrl;

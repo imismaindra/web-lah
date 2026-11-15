@@ -453,4 +453,30 @@ class P2FiturTest extends TestCase
             ->assertOk()
             ->assertSee('name="robots" content="index, follow', false);
     }
+
+    public function test_filtered_article_index_uses_noindex_and_canonical_without_page_parameter(): void
+    {
+        $kategori = Kategori::create([
+            'nama' => 'Kategori Filter',
+            'deskripsi' => 'Kategori untuk pengujian filter artikel.',
+        ]);
+
+        for ($index = 1; $index <= 10; $index++) {
+            $this->createArtikel([
+                'judul' => 'Artikel Filter '.$index,
+                'kategori_id' => $kategori->id,
+            ]);
+        }
+
+        $this->get(route('artikel.index', ['kategori' => $kategori->slug, 'page' => 2]))
+            ->assertOk()
+            ->assertSee('<meta name="robots" content="noindex, follow">', false)
+            ->assertSee('<link rel="canonical" href="'.route('artikel.index').'">', false)
+            ->assertDontSee('<link rel="canonical" href="'.route('artikel.index').'?page=2">', false);
+
+        $this->get(route('artikel.index').'?page=2')
+            ->assertOk()
+            ->assertSee('<meta name="robots" content="index, follow', false)
+            ->assertSee('<link rel="canonical" href="'.route('artikel.index').'?page=2">', false);
+    }
 }

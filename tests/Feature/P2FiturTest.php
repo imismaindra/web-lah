@@ -515,7 +515,7 @@ class P2FiturTest extends TestCase
 
         $this->get(route('artikel.show', $source))
             ->assertOk()
-            ->assertSee('/artikel/'.$targetSlug, false);
+            ->assertSee('/artikel/' . $targetSlug, false);
     }
 
     public function test_internal_linker_omits_draft_and_missing_article_targets(): void
@@ -536,8 +536,7 @@ class P2FiturTest extends TestCase
 
         $this->get(route('artikel.show', $source))
             ->assertOk()
-            ->assertDontSee('/artikel/'.$draftSlug, false)
+            ->assertDontSee('/artikel/' . $draftSlug, false)
             ->assertDontSee('/artikel/mengapa-swiss-tidak-diserang-jerman-nazi', false);
     }
-
 }

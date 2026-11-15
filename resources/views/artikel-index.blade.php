@@ -15,6 +15,7 @@
             'url' => route('artikel.index'),
             'section' => 'Artikel',
             'keywords' => 'artikel sejarah, sejarah dunia, peristiwa sejarah, tokoh sejarah, peradaban kuno, sejarah indonesia',
+            'noindex' => request()->hasAny(['kategori', 'era', 'topik', 'urut']),
         ])
         @php
             $indexBreadcrumb = [

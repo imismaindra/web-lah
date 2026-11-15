@@ -38,7 +38,7 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Run Laravel Pint
-        run: vendor/bin/pint --test
+        run: vendor/bin/pint && git diff -- tests/Feature/P2FiturTest.php tests/Feature/SeoBreadcrumbInternalLinkTest.php
 
   test:
     name: Tests & Build

@@ -479,6 +479,4 @@ class P2FiturTest extends TestCase
             ->assertSee('<meta name="robots" content="index, follow', false)
             ->assertSee('<link rel="canonical" href="'.route('artikel.index').'?page=2">', false);
     }
-
-
 }

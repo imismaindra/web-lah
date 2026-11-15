@@ -92,15 +92,21 @@
                         'name' => 'Beranda',
                         'item' => rtrim(config('app.url'), '/'),
                     ],
-                    $artikel->kategori ? [
+                    [
                         '@type' => 'ListItem',
                         'position' => 2,
+                        'name' => 'Artikel',
+                        'item' => route('artikel.index'),
+                    ],
+                    $artikel->kategori ? [
+                        '@type' => 'ListItem',
+                        'position' => 3,
                         'name' => $artikel->kategori->nama,
                         'item' => route('kategori.show', $artikel->kategori),
                     ] : null,
                     [
                         '@type' => 'ListItem',
-                        'position' => $artikel->kategori ? 3 : 2,
+                        'position' => $artikel->kategori ? 4 : 3,
                         'name' => $artikel->judul,
                         'item' => $articleUrl,
                     ],
@@ -527,6 +533,15 @@
                                     <meta itemprop="position" content="3">
                                 </li>
                             @endif
+                            <li aria-hidden="true" class="flex items-center text-white/25">
+                                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </li>
+                            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                <a href="{{ $articleUrl }}" itemprop="item" class="text-white/90" aria-current="page">
+                                    <span itemprop="name">{{ $artikel->judul }}</span>
+                                </a>
+                                <meta itemprop="position" content="{{ $artikel->kategori ? 4 : 3 }}">
+                            </li>
                         </ol>
                     </nav>
 

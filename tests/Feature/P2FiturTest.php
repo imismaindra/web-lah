@@ -493,9 +493,9 @@ class P2FiturTest extends TestCase
             ->assertSee('<span itemprop="name">Artikel</span>', false)
             ->assertSee('<span itemprop="name">Sejarah Dunia</span>', false)
             ->assertSee('<span itemprop="name">Judul Pengujian Breadcrumb</span>', false)
-            ->assertSee('"name":"Artikel","item":"'.route('artikel.index').'"', false)
-            ->assertSee('"name":"Sejarah Dunia","item":"'.route('kategori.show', $artikel->kategori).'"', false)
-            ->assertSee('"name":"Judul Pengujian Breadcrumb","item":"'.route('artikel.show', $artikel).'"', false);
+            ->assertSee('"name":"Artikel","item":"' . route('artikel.index') . '"', false)
+            ->assertSee('"name":"Sejarah Dunia","item":"' . route('kategori.show', $artikel->kategori) . '"', false)
+            ->assertSee('"name":"Judul Pengujian Breadcrumb","item":"' . route('artikel.show', $artikel) . '"', false);
     }
 
     public function test_internal_linker_only_links_to_existing_published_articles(): void

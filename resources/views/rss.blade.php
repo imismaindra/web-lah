@@ -10,11 +10,11 @@
     <channel>
         <title>{{ config('app.name', 'Look at History') }}</title>
         <link>{{ url('/') }}</link>
-        <description>Blog sejarah dunia ringkas & terpercaya. Temukan artikel peradaban kuno, perang dunia, tokoh sejarah, dan peristiwa penting masa lalu.</description>
+        <description>Blog sejarah dunia ringkas &amp; terpercaya. Temukan artikel peradaban kuno, perang dunia, tokoh sejarah, dan peristiwa penting masa lalu.</description>
         <language>id-ID</language>
         <atom:link href="{{ route('feed') }}" rel="self" type="application/rss+xml" />
         <pubDate>{{ now()->format('D, d M Y H:i:s O') }}</pubDate>
-        <lastBuildDate>{{ $artikels->first()?->created_at->format('D, d M Y H:i:s O') ?? now()->format('D, d M Y H:i:s O') }}</lastBuildDate>
+        <lastBuildDate>{{ ($artikels->first()?->published_at ?? $artikels->first()?->created_at ?? now())->format('D, d M Y H:i:s O') }}</lastBuildDate>
         <sy:updatePeriod>daily</sy:updatePeriod>
         <sy:updateFrequency>1</sy:updateFrequency>
 
@@ -23,10 +23,10 @@
                 <title>{{ $artikel->judul }}</title>
                 <link>{{ route('artikel.show', $artikel) }}</link>
                 <guid isPermaLink="true">{{ route('artikel.show', $artikel) }}</guid>
-                <description>{{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 200) }}</description>
-                <content:encoded><![CDATA[{{ $artikel->konten }}]]></content:encoded>
+                <description><![CDATA[{{ $artikel->ringkasan ?? Str::limit(strip_tags($artikel->konten), 200) }}]]></description>
+                <content:encoded><![CDATA[{!! $artikel->konten !!}]]></content:encoded>
                 <pubDate>{{ ($artikel->published_at ?? $artikel->created_at)->format('D, d M Y H:i:s O') }}</pubDate>
-                <dc:creator>{{ $artikel->author->name ?? config('app.name', 'Look at History') }}</dc:creator>
+                <dc:creator>{{ $artikel->author?->penulis?->nama ?? $artikel->author?->name ?? config('app.name', 'Look at History') }}</dc:creator>
                 <category>{{ $artikel->kategori->nama ?? 'Umum' }}</category>
                 @if ($artikel->gambar)
                     <media:content url="{{ asset('storage/' . $artikel->gambar) }}" type="image/jpeg" />

@@ -162,4 +162,27 @@ class SeoBreadcrumbInternalLinkTest extends TestCase
             ->assertSee(route('feed'))
             ->assertSee(route('sitemap'));
     }
+
+    public function test_feed_and_sitemap_return_valid_xml(): void
+    {
+        $this->createArtikel([
+            'judul' => 'Artikel Uji RSS & XML',
+            'konten' => '<p>Konten artikel dengan karakter & simbol.</p>',
+        ]);
+
+        $feedResponse = $this->get(route('feed'));
+        $feedResponse->assertOk()
+            ->assertHeader('Content-Type', 'application/xml');
+
+        $xml = simplexml_load_string($feedResponse->getContent());
+        $this->assertNotFalse($xml, 'RSS feed is not valid XML.');
+        $this->assertSame(config('app.name', 'Look at History'), (string) $xml->channel->title);
+
+        $sitemapResponse = $this->get(route('sitemap'));
+        $sitemapResponse->assertOk()
+            ->assertHeader('Content-Type', 'application/xml');
+
+        $sitemapXml = simplexml_load_string($sitemapResponse->getContent());
+        $this->assertNotFalse($sitemapXml, 'Sitemap is not valid XML.');
+    }
 }

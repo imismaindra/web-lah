@@ -185,7 +185,7 @@
                         item.innerHTML = `
                             <div class="min-w-0 pr-2">
                                 <div class="flex items-center gap-1.5">
-                                    ${art.is_pillar ? '<span class="rounded bg-[#1e3a5f]/10 px-1.5 py-0.2 text-[9px] font-bold text-[#1e3a5f] uppercase dark:bg-sky-400/10 dark:text-sky-300">Pilar</span>' : ''}
+                                    ${art.is_pillar ? '<span class="rounded bg-[#1e3a5f]/10 px-1.5 py-0.2 text-[9px] font-bold text-[#1e3a5f] uppercase dark:bg-amber-500/15 dark:text-amber-400">Pilar</span>' : ''}
                                     <span class="font-serif text-xs font-bold text-stone-800 line-clamp-1 group-hover:text-[#1e3a5f] dark:text-stone-200 dark:group-hover:text-white">${art.title}</span>
                                 </div>
                                 <div class="mt-0.5 text-[10px] text-stone-400 flex items-center gap-2">

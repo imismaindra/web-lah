@@ -4,7 +4,7 @@
         {{-- Modal Header --}}
         <div class="flex items-center justify-between border-b border-stone-100 pb-3 dark:border-white/[0.06]">
             <div class="flex items-center gap-2.5">
-                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-sky-400/10 dark:text-sky-300">
+                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-amber-500/15 dark:text-amber-400">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                 </span>
                 <h3 class="font-serif text-base font-bold text-stone-900 dark:text-stone-100">Sisipkan Tautan Internal</h3>
@@ -36,15 +36,15 @@
 
         {{-- Quick Pillar Pin (If this article belongs to a pillar) --}}
         <div id="smart-link-pillar-quick-pin" class="mt-3 hidden">
-            <div class="flex items-center justify-between rounded-xl border border-sky-200/80 bg-sky-50/70 p-3 text-xs dark:border-sky-500/20 dark:bg-sky-950/30">
+            <div class="flex items-center justify-between rounded-xl border border-amber-200/80 bg-amber-50/70 p-3 text-xs dark:border-amber-500/20 dark:bg-amber-950/25">
                 <div class="min-w-0 pr-2">
-                    <span class="font-bold text-[10px] uppercase tracking-wider text-sky-800 dark:text-sky-300">Pilar Induk Anda:</span>
+                    <span class="font-bold text-[10px] uppercase tracking-wider text-amber-800 dark:text-amber-300">Pilar Induk Anda:</span>
                     <p id="smart-link-pillar-title" class="font-serif font-bold text-stone-900 dark:text-stone-100 line-clamp-1 mt-0.5">-</p>
                 </div>
                 <button
                     type="button"
                     id="btn-smart-link-pillar-insert"
-                    class="flex-shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-[#1e3a5f] px-3 py-1.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#16304a] dark:bg-sky-500 dark:text-stone-950"
+                    class="flex-shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-[#1e3a5f] px-3 py-1.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#16304a] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200"
                 >
                     <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     <span>Tautkan ke Pilar</span>

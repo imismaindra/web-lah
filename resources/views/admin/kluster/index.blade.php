@@ -81,7 +81,7 @@
             <div class="rounded-2xl border border-stone-200/80 bg-white p-4 transition dark:border-white/[0.06] dark:bg-[#171716]">
                 <div class="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
                     <span class="font-mono text-[11px] uppercase tracking-wider">Artikel Pilar</span>
-                    <span class="inline-flex h-2.5 w-2.5 rounded-full bg-[#1e3a5f] dark:bg-sky-400"></span>
+                    <span class="inline-flex h-2.5 w-2.5 rounded-full bg-[#1e3a5f] dark:bg-[#d4a373]"></span>
                 </div>
                 <p id="stat-pillars" class="mt-2 font-serif text-3xl font-bold tracking-tight text-stone-900 dark:text-stone-100">{{ $audit['total_pillars'] }}</p>
                 <p class="mt-1 text-[11px] text-stone-400 dark:text-stone-500">Halaman induk rujukan topik</p>
@@ -125,10 +125,10 @@
 
         {{-- Onboarding Banner when 0 Pillars are configured --}}
         @if ($audit['total_pillars'] === 0)
-            <div id="onboarding-cluster-banner" class="rounded-2xl border border-stone-200/90 bg-gradient-to-r from-stone-50 via-white to-stone-50 p-5 shadow-2xs dark:border-white/[0.08] dark:from-[#191918] dark:via-[#171716] dark:to-[#191918]">
+            <div id="onboarding-cluster-banner" class="rounded-2xl border border-stone-200/90 bg-stone-50/80 p-5 shadow-2xs dark:border-white/[0.08] dark:bg-[#171716]">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-start gap-3.5">
-                        <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-sky-400/10 dark:text-sky-300">
+                        <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-[#d4a373]/15 dark:text-[#d4a373]">
                             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
                         </span>
                         <div>
@@ -152,7 +152,7 @@
 
         {{-- Alert: Problematic Supporting Articles (Missing Pillar Backlink) --}}
         @if ($audit['missing_backlink_count'] > 0)
-            <div id="audit-alert-section" class="overflow-hidden rounded-2xl border border-amber-300 bg-amber-50/90 dark:border-amber-500/20 dark:bg-amber-950/25">
+            <div id="audit-alert-section" class="overflow-hidden rounded-2xl border border-amber-300/80 bg-amber-50/90 dark:border-amber-500/20 dark:bg-amber-950/25">
                 <div class="border-b border-amber-200/80 px-5 py-4 dark:border-amber-500/20">
                     <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                         <div class="flex items-center gap-2.5">
@@ -190,7 +190,7 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-3 text-stone-700 dark:text-stone-300">
                                         <span class="inline-flex items-center gap-1.5 rounded-md bg-white/80 px-2.5 py-1 text-xs font-semibold text-stone-800 shadow-2xs dark:bg-white/[0.06] dark:text-stone-200">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-[#1e3a5f] dark:bg-sky-400"></span>
+                                            <span class="h-1.5 w-1.5 rounded-full bg-[#1e3a5f] dark:bg-[#d4a373]"></span>
                                             {{ $item->pillar->judul ?? 'Pilar #' . $item->pillar_id }}
                                         </span>
                                     </td>
@@ -224,7 +224,7 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         {{-- Filter Pillar Dropdown --}}
                         <div class="relative">
-                            <select id="select-pillar-filter" class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300">
+                            <select id="select-pillar-filter" class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:[color-scheme:dark]">
                                 <option value="">Semua Kluster Topik</option>
                                 @foreach ($pillars as $pil)
                                     <option value="{{ $pil->id }}">Kluster: {{ $pil->judul }}</option>
@@ -266,11 +266,11 @@
                 </div>
 
                 {{-- Legend Strip --}}
-                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-stone-100 bg-stone-50/40 px-4 py-2.5 text-[11px] text-stone-500 dark:border-white/[0.04] dark:bg-[#141413] dark:text-stone-400">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-stone-100 bg-stone-50/50 px-4 py-2.5 text-[11px] text-stone-500 dark:border-white/[0.04] dark:bg-[#141413] dark:text-stone-400">
                     <div class="flex flex-wrap items-center gap-3.5">
                         <span class="font-semibold text-stone-700 dark:text-stone-300">Legenda:</span>
                         <span class="inline-flex items-center gap-1.5">
-                            <span class="h-3 w-3 rounded-full bg-[#1e3a5f] ring-2 ring-[#1e3a5f]/30 dark:bg-sky-400 dark:ring-sky-400/30"></span>
+                            <span class="h-3 w-3 rounded-full bg-[#1e3a5f] ring-2 ring-[#1e3a5f]/30 dark:bg-[#d4a373] dark:ring-[#d4a373]/30"></span>
                             <span>Artikel Pilar (Hub)</span>
                         </span>
                         <span class="inline-flex items-center gap-1.5">
@@ -282,7 +282,7 @@
                             <span>Turunan Belum Tautkan Pilar</span>
                         </span>
                         <span class="inline-flex items-center gap-1.5">
-                            <span class="h-3 w-3 rounded-full bg-stone-400"></span>
+                            <span class="h-3 w-3 rounded-full bg-stone-400 dark:bg-stone-500"></span>
                             <span>Artikel Standar</span>
                         </span>
                     </div>
@@ -290,24 +290,26 @@
                 </div>
 
                 {{-- Interactive Canvas Area & Floating Inspector --}}
-                <div class="relative min-h-[580px] w-full bg-[#fafaf9] dark:bg-[#111110]">
+                <div class="relative min-h-[580px] w-full bg-stone-100/40 dark:bg-[#111110]">
                     <svg id="cluster-svg" class="h-[620px] w-full cursor-grab active:cursor-grabbing select-none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
+                            <style>
+                                .canvas-dot { fill: #d6d3d1; }
+                                .dark .canvas-dot { fill: #242422; }
+                                .graph-edge { transition: stroke-opacity 0.15s ease, stroke-width 0.15s ease; }
+                            </style>
                             {{-- Dot Grid Background --}}
-                            <pattern id="canvas-grid" width="30" height="30" patternUnits="userSpaceOnUse">
-                                <circle cx="2" cy="2" r="1.2" fill="#d6d3d1" class="dark:fill-[#2a2a28]" />
+                            <pattern id="canvas-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+                                <circle cx="2" cy="2" r="1.1" class="canvas-dot" />
                             </pattern>
                             <marker id="arrow-green" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669" />
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
                             </marker>
                             <marker id="arrow-amber" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706" />
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
                             </marker>
-                            <marker id="arrow-blue" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#1e3a5f" />
-                            </marker>
-                            <marker id="arrow-stone" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#a8a29e" />
+                            <marker id="arrow-normal" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#78716c" />
                             </marker>
                         </defs>
 
@@ -324,7 +326,7 @@
                     {{-- Loading Overlay --}}
                     <div id="graph-loading" class="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-2xs dark:bg-black/60 hidden">
                         <div class="flex items-center gap-2.5 rounded-2xl bg-white px-4 py-2.5 text-xs font-semibold text-stone-800 shadow-md dark:bg-stone-800 dark:text-stone-200">
-                            <svg class="h-4 w-4 animate-spin text-[#1e3a5f] dark:text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 0 1 8-8" stroke-width="4" class="opacity-75"/></svg>
+                            <svg class="h-4 w-4 animate-spin text-[#1e3a5f] dark:text-[#d4a373]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 0 1 8-8" stroke-width="4" class="opacity-75"/></svg>
                             <span>Memuat struktur kluster...</span>
                         </div>
                     </div>
@@ -332,7 +334,7 @@
                     {{-- Floating Inspector Panel (Slide-over drawer on right) --}}
                     <div
                         id="inspector-drawer"
-                        class="absolute right-4 top-4 z-20 hidden w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-stone-200/90 bg-white/95 p-4 shadow-xl backdrop-blur-md transition-all dark:border-white/10 dark:bg-[#181816]/95 sm:w-96"
+                        class="absolute right-4 top-4 z-20 hidden w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-stone-200/90 bg-white/95 p-4 shadow-xl backdrop-blur-md transition-all dark:border-white/10 dark:bg-[#171716]/98 sm:w-96"
                     >
                         <div class="flex items-start justify-between border-b border-stone-100 pb-3 dark:border-white/[0.06]">
                             <div class="space-y-1">
@@ -361,7 +363,7 @@
                                     Atur Peran Kluster Artikel:
                                 </label>
                                 <div class="space-y-2">
-                                    <select id="insp-role-select" class="w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs font-medium text-stone-800 outline-none transition dark:border-white/10 dark:bg-[#1c1c1a] dark:text-stone-200">
+                                    <select id="insp-role-select" class="w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs font-medium text-stone-800 outline-none transition dark:border-white/10 dark:bg-[#181817] dark:text-stone-200 dark:[color-scheme:dark]">
                                         <option value="standar">Artikel Standar (Mandiri)</option>
                                         <option value="pilar">Jadikan Artikel Pilar (Hub)</option>
                                         <option value="pendukung">Jadikan Artikel Turunan</option>
@@ -369,7 +371,7 @@
 
                                     <div id="insp-parent-pillar-wrapper" class="hidden space-y-1">
                                         <label class="block text-[10px] font-medium text-stone-500">Pilih Pilar Induk:</label>
-                                        <select id="insp-parent-pillar-select" class="w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs text-stone-800 outline-none dark:border-white/10 dark:bg-[#1c1c1a] dark:text-stone-200">
+                                        <select id="insp-parent-pillar-select" class="w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs text-stone-800 outline-none dark:border-white/10 dark:bg-[#181817] dark:text-stone-200 dark:[color-scheme:dark]">
                                             @foreach ($pillars as $pil)
                                                 <option value="{{ $pil->id }}">{{ $pil->judul }}</option>
                                             @endforeach
@@ -447,7 +449,7 @@
                             <svg class="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                         </div>
 
-                        <select id="table-role-filter" class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-3 pr-8 text-xs font-medium text-stone-700 outline-none transition dark:border-white/10 dark:bg-[#121211] dark:text-stone-300">
+                        <select id="table-role-filter" class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-3 pr-8 text-xs font-medium text-stone-700 outline-none transition dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:[color-scheme:dark]">
                             <option value="">Semua Peran</option>
                             <option value="pilar">Hanya Pilar (Hub)</option>
                             <option value="pendukung">Hanya Turunan</option>
@@ -503,8 +505,8 @@
 
                                     <td class="whitespace-nowrap px-3 py-3.5">
                                         @if ($isPilar)
-                                            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#1e3a5f]/10 px-2.5 py-1 text-[11px] font-bold text-[#1e3a5f] dark:bg-sky-400/10 dark:text-sky-300">
-                                                <span class="h-1.5 w-1.5 rounded-full bg-[#1e3a5f] dark:bg-sky-400"></span>
+                                            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#1e3a5f]/10 px-2.5 py-1 text-[11px] font-bold text-[#1e3a5f] dark:bg-amber-500/15 dark:text-amber-400">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-[#1e3a5f] dark:bg-[#d4a373]"></span>
                                                 Pilar (Hub)
                                             </span>
                                         @elseif ($isSupporting)
@@ -593,7 +595,7 @@
 
         {{-- Modal Quick Assign Role --}}
         <div id="modal-quick-assign" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-2xs p-4 hidden">
-            <div class="w-full max-w-md rounded-2xl border border-stone-200 bg-white p-5 shadow-2xl dark:border-white/10 dark:bg-[#1c1c1a]">
+            <div class="w-full max-w-md rounded-2xl border border-stone-200/90 bg-white p-5 shadow-2xl dark:border-white/10 dark:bg-[#171716]">
                 <div class="flex items-start justify-between border-b border-stone-100 pb-3 dark:border-white/[0.06]">
                     <div>
                         <h3 class="font-serif text-base font-bold text-stone-900 dark:text-stone-100">Ubah Peran Kluster Artikel</h3>
@@ -611,7 +613,7 @@
                         <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                             Pilih Peran:
                         </label>
-                        <select id="modal-role-select" class="w-full rounded-xl border border-stone-200 bg-stone-50/70 p-2.5 text-xs text-stone-800 outline-none transition focus:bg-white dark:border-white/10 dark:bg-[#141413] dark:text-stone-200">
+                        <select id="modal-role-select" class="w-full rounded-xl border border-stone-200 bg-stone-50/70 p-2.5 text-xs text-stone-800 outline-none transition focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:[color-scheme:dark]">
                             <option value="standar">Artikel Standar (Mandiri)</option>
                             <option value="pilar">Artikel Pilar (Hub)</option>
                             <option value="pendukung">Artikel Turunan</option>
@@ -622,7 +624,7 @@
                         <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                             Pilar Induk Terkait:
                         </label>
-                        <select id="modal-pillar-id-select" class="w-full rounded-xl border border-stone-200 bg-stone-50/70 p-2.5 text-xs text-stone-800 outline-none transition focus:bg-white dark:border-white/10 dark:bg-[#141413] dark:text-stone-200">
+                        <select id="modal-pillar-id-select" class="w-full rounded-xl border border-stone-200 bg-stone-50/70 p-2.5 text-xs text-stone-800 outline-none transition focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:[color-scheme:dark]">
                             @foreach ($pillars as $pil)
                                 <option value="{{ $pil->id }}">{{ $pil->judul }}</option>
                             @endforeach
@@ -669,6 +671,40 @@
         let draggedNodeId = null;
         let dragOffset = { x: 0, y: 0 };
 
+        function getGraphTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return {
+                isDark,
+                pillarFill: isDark ? '#d4a373' : '#1e3a5f',
+                pillarText: isDark ? '#1c1917' : '#ffffff',
+                pillarRing: isDark ? 'rgba(212, 163, 115, 0.22)' : 'rgba(30, 58, 95, 0.12)',
+                pillarStroke: isDark ? '#fef3c7' : '#ffffff',
+
+                healthyFill: isDark ? '#059669' : '#059669',
+                healthyText: '#ffffff',
+                healthyRing: isDark ? 'rgba(16, 185, 129, 0.22)' : 'rgba(5, 150, 105, 0.12)',
+                healthyStroke: '#ffffff',
+
+                brokenFill: isDark ? '#d97706' : '#d97706',
+                brokenText: '#ffffff',
+                brokenRing: isDark ? 'rgba(245, 158, 11, 0.28)' : 'rgba(217, 119, 6, 0.16)',
+                brokenStroke: '#ffffff',
+
+                standardFill: isDark ? '#262624' : '#ffffff',
+                standardText: isDark ? '#d6d3d1' : '#57534e',
+                standardRing: isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)',
+                standardStroke: isDark ? '#44403c' : '#d6d3d1',
+
+                labelBg: isDark ? '#1c1c1a' : '#ffffff',
+                labelBorder: isDark ? 'rgba(255, 255, 255, 0.1)' : '#e7e5e4',
+                labelText: isDark ? '#e7e5e4' : '#1c1917',
+
+                edgeNormal: isDark ? '#78716c' : '#64748b',
+                edgeHealthy: isDark ? '#10b981' : '#059669',
+                edgeBroken: isDark ? '#f59e0b' : '#d97706',
+            };
+        }
+
         function updateTransform() {
             viewport.setAttribute('transform', `translate(${panX}, ${panY}) scale(${scale})`);
         }
@@ -685,7 +721,6 @@
                 panelTabTable.classList.add('hidden');
                 btnTabVisual.className = 'tab-switch-btn flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition bg-white text-stone-900 shadow-xs dark:bg-[#20201e] dark:text-white';
                 btnTabTable.className = 'tab-switch-btn flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-stone-600 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white';
-                // Trigger layout fit if needed
                 if (!Object.keys(nodePositions).length && graphData.nodes.length) {
                     renderGraph(graphData);
                 }
@@ -719,7 +754,6 @@
                 panY = e.clientY - panStartY;
                 updateTransform();
             } else if (draggedNodeId) {
-                // Dragging a specific node
                 const svgRect = svg.getBoundingClientRect();
                 const mouseSvgX = (e.clientX - svgRect.left - panX) / scale;
                 const mouseSvgY = (e.clientY - svgRect.top - panY) / scale;
@@ -755,15 +789,11 @@
             updateTransform();
         });
         document.getElementById('btn-zoom-reset')?.addEventListener('click', () => {
-            fitView();
-        });
-
-        function fitView() {
             scale = 1;
             panX = 40;
             panY = 40;
             updateTransform();
-        }
+        });
 
         // Load Graph Data
         function loadGraph() {
@@ -799,7 +829,6 @@
             const centerY = height / 2;
 
             if (pillarNodes.length === 0) {
-                // When 0 pillars exist: layout all standard articles in an evenly spaced, centered grid
                 const total = nodes.length;
                 const cols = Math.max(2, Math.min(4, Math.ceil(Math.sqrt(total))));
                 const rows = Math.ceil(total / cols);
@@ -843,7 +872,6 @@
                     };
                 });
             } else {
-                // Multi-pillar layout
                 const cols = Math.max(1, Math.min(3, Math.ceil(Math.sqrt(pillarNodes.length))));
                 const colWidth = width / cols;
                 const rowHeight = height / Math.ceil(pillarNodes.length / cols);
@@ -875,7 +903,7 @@
                 });
             }
 
-            // Simple spring relaxation to prevent any node collision
+            // Spring relaxation collision push
             const nodeIds = Object.keys(positions);
             for (let iter = 0; iter < 45; iter++) {
                 for (let i = 0; i < nodeIds.length; i++) {
@@ -906,10 +934,12 @@
             edgesLayer.innerHTML = '';
             nodesLayer.innerHTML = '';
 
+            const theme = getGraphTheme();
+
             if (!data.nodes.length) {
                 nodesLayer.innerHTML = `
                     <g transform="translate(400, 280)">
-                        <text text-anchor="middle" fill="#a8a29e" font-size="14" font-family="sans-serif">
+                        <text text-anchor="middle" fill="#a8a29e" font-size="14" font-family="Plus Jakarta Sans, sans-serif">
                             Tidak ada artikel yang sesuai dengan filter ini.
                         </text>
                     </g>
@@ -917,10 +947,13 @@
                 return;
             }
 
-            nodePositions = calculateSpaciousLayout(data.nodes, data.edges);
+            // Keep positions or calculate fresh
+            if (!Object.keys(nodePositions).length) {
+                nodePositions = calculateSpaciousLayout(data.nodes, data.edges);
+            }
 
             // Render Edges
-            data.edges.forEach((edge, idx) => {
+            data.edges.forEach((edge) => {
                 const src = nodePositions[edge.source];
                 const tgt = nodePositions[edge.target];
                 if (!src || !tgt) return;
@@ -928,17 +961,17 @@
                 const isPillarLink = edge.type === 'pillar_link';
                 const isLinked = edge.is_linked;
 
-                let strokeColor = '#059669'; // Emerald
+                let strokeColor = theme.edgeHealthy;
                 let marker = 'url(#arrow-green)';
                 let isDashed = false;
 
                 if (isPillarLink && !isLinked) {
-                    strokeColor = '#d97706'; // Amber broken/missing backlink
+                    strokeColor = theme.edgeBroken;
                     marker = 'url(#arrow-amber)';
                     isDashed = true;
                 } else if (!isPillarLink) {
-                    strokeColor = '#1e3a5f'; // Slate navy
-                    marker = 'url(#arrow-blue)';
+                    strokeColor = theme.edgeNormal;
+                    marker = 'url(#arrow-normal)';
                 }
 
                 const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -965,56 +998,61 @@
                 const isHealthy = isSupporting && node.has_pillar_backlink;
                 const isBroken = isSupporting && !node.has_pillar_backlink;
 
-                let ringColor = '#78716c';
-                let fillColor = '#1c1917';
+                let ringColor = theme.standardRing;
+                let fillColor = theme.standardFill;
+                let strokeColor = theme.standardStroke;
+                let textColor = theme.standardText;
                 let nodeRadius = isPillar ? 28 : (isSupporting ? 22 : 18);
                 let badgeText = isPillar ? 'PILAR' : (isSupporting ? 'TUR' : 'STD');
 
                 if (isPillar) {
-                    ringColor = '#1e3a5f';
-                    fillColor = '#1e3a5f';
+                    ringColor = theme.pillarRing;
+                    fillColor = theme.pillarFill;
+                    strokeColor = theme.pillarStroke;
+                    textColor = theme.pillarText;
                 } else if (isHealthy) {
-                    ringColor = '#059669';
-                    fillColor = '#059669';
+                    ringColor = theme.healthyRing;
+                    fillColor = theme.healthyFill;
+                    strokeColor = theme.healthyStroke;
+                    textColor = theme.healthyText;
                 } else if (isBroken) {
-                    ringColor = '#d97706';
-                    fillColor = '#d97706';
+                    ringColor = theme.brokenRing;
+                    fillColor = theme.brokenFill;
+                    strokeColor = theme.brokenStroke;
+                    textColor = theme.brokenText;
                 }
 
                 const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
                 group.setAttribute('id', `node-group-${node.id}`);
-                group.setAttribute('class', 'graph-node-group cursor-pointer transition-transform duration-100');
+                group.setAttribute('class', 'graph-node-group cursor-pointer');
                 group.setAttribute('transform', `translate(${pos.x}, ${pos.y})`);
 
                 // Outer Halo Circle
                 const outerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 outerCircle.setAttribute('r', (nodeRadius + 6).toString());
-                outerCircle.setAttribute('fill', isBroken ? '#fef3c7' : (isPillar ? '#e0f2fe' : '#f5f5f4'));
-                outerCircle.setAttribute('class', 'dark:fill-white/10');
-                outerCircle.setAttribute('opacity', '0.6');
+                outerCircle.setAttribute('fill', ringColor);
                 group.appendChild(outerCircle);
 
                 // Main Circle
                 const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('r', nodeRadius.toString());
                 circle.setAttribute('fill', fillColor);
-                circle.setAttribute('stroke', '#ffffff');
+                circle.setAttribute('stroke', strokeColor);
                 circle.setAttribute('stroke-width', '2.5');
-                circle.setAttribute('class', 'shadow-sm');
                 group.appendChild(circle);
 
                 // Short Badge Text inside node
                 const badgeSvg = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 badgeSvg.setAttribute('text-anchor', 'middle');
                 badgeSvg.setAttribute('dy', '4');
-                badgeSvg.setAttribute('fill', '#ffffff');
+                badgeSvg.setAttribute('fill', textColor);
                 badgeSvg.setAttribute('font-size', isPillar ? '10' : '9');
                 badgeSvg.setAttribute('font-weight', '700');
-                badgeSvg.setAttribute('font-family', 'ui-sans-serif, system-ui, sans-serif');
+                badgeSvg.setAttribute('font-family', 'Plus Jakarta Sans, sans-serif');
                 badgeSvg.textContent = badgeText;
                 group.appendChild(badgeSvg);
 
-                // Label Background Pill (so lines NEVER cut through text!)
+                // Label Background Pill
                 const titleStr = node.title.length > 24 ? node.title.substring(0, 22) + '...' : node.title;
                 const labelWidth = Math.min(220, Math.max(90, titleStr.length * 7 + 16));
 
@@ -1024,10 +1062,9 @@
                 labelRect.setAttribute('width', labelWidth.toString());
                 labelRect.setAttribute('height', '20');
                 labelRect.setAttribute('rx', '6');
-                labelRect.setAttribute('fill', '#ffffff');
-                labelRect.setAttribute('stroke', '#e7e5e4');
+                labelRect.setAttribute('fill', theme.labelBg);
+                labelRect.setAttribute('stroke', theme.labelBorder);
                 labelRect.setAttribute('stroke-width', '1');
-                labelRect.setAttribute('class', 'dark:fill-[#1e1e1c] dark:stroke-white/10');
                 group.appendChild(labelRect);
 
                 // Label Text
@@ -1035,20 +1072,19 @@
                 labelText.setAttribute('text-anchor', 'middle');
                 labelText.setAttribute('x', '0');
                 labelText.setAttribute('y', (nodeRadius + 22).toString());
-                labelText.setAttribute('fill', '#292524');
-                labelText.setAttribute('class', 'dark:fill-stone-200');
+                labelText.setAttribute('fill', theme.labelText);
                 labelText.setAttribute('font-size', '10.5');
                 labelText.setAttribute('font-weight', '600');
-                labelText.setAttribute('font-family', 'ui-serif, Georgia, serif');
+                labelText.setAttribute('font-family', 'Plus Jakarta Sans, serif');
                 labelText.textContent = titleStr;
                 group.appendChild(labelText);
 
-                // Tooltip / Title attribute
+                // Tooltip
                 const titleElem = document.createElementNS('http://www.w3.org/2000/svg', 'title');
                 titleElem.textContent = `${node.title}\nPeran: ${node.type.toUpperCase()}`;
                 group.appendChild(titleElem);
 
-                // Event Listeners for dragging & inspecting
+                // Dragging & Selecting Listeners
                 group.addEventListener('mousedown', (e) => {
                     e.stopPropagation();
                     draggedNodeId = node.id;
@@ -1064,7 +1100,6 @@
                     selectNode(node);
                 });
 
-                // Hover highlighting
                 group.addEventListener('mouseenter', () => {
                     highlightNodeConnections(node.id);
                 });
@@ -1080,7 +1115,6 @@
             const dx = tgt.x - src.x;
             const dy = tgt.y - src.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            // Slight arch curve
             const midX = (src.x + tgt.x) / 2;
             const midY = (src.y + tgt.y) / 2;
             const normalX = -dy / dist;
@@ -1101,7 +1135,6 @@
                 group.setAttribute('transform', `translate(${pos.x}, ${pos.y})`);
             }
 
-            // Update connected outgoing edges
             document.querySelectorAll(`.edge-src-${nodeId}`).forEach(path => {
                 const parts = path.id.split('-');
                 const tgtId = parts[2];
@@ -1109,7 +1142,6 @@
                 if (tgtPos) setEdgeCurve(path, pos, tgtPos);
             });
 
-            // Update connected incoming edges
             document.querySelectorAll(`.edge-tgt-${nodeId}`).forEach(path => {
                 const parts = path.id.split('-');
                 const srcId = parts[1];
@@ -1146,7 +1178,7 @@
 
         function clearHighlight() {
             document.querySelectorAll('.graph-edge').forEach(path => {
-                const isPillarLink = path.getAttribute('stroke-dasharray') !== null || path.getAttribute('stroke') === '#059669';
+                const isPillarLink = path.getAttribute('stroke-dasharray') !== null || path.getAttribute('stroke') === '#059669' || path.getAttribute('stroke') === '#10b981';
                 path.setAttribute('stroke-opacity', '0.75');
                 path.setAttribute('stroke-width', isPillarLink ? '2.4' : '1.5');
             });
@@ -1173,7 +1205,7 @@
             const pillarBox = document.getElementById('insp-pillar-box');
 
             if (node.is_pillar) {
-                badge.className = 'inline-flex rounded-md bg-[#1e3a5f]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#1e3a5f] dark:bg-sky-400/10 dark:text-sky-300';
+                badge.className = 'inline-flex rounded-md bg-[#1e3a5f]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#1e3a5f] dark:bg-amber-500/15 dark:text-amber-400';
                 badge.textContent = 'Pilar Utama (Hub)';
                 roleSelect.value = 'pilar';
                 parentPillarWrapper.classList.add('hidden');
@@ -1221,7 +1253,6 @@
             activeSelectedNode = null;
         };
 
-        // Handle role select change in Inspector
         document.getElementById('insp-role-select')?.addEventListener('change', function () {
             const parentWrap = document.getElementById('insp-parent-pillar-wrapper');
             if (this.value === 'pendukung') {
@@ -1238,7 +1269,6 @@
             performQuickAssign(activeSelectedNode.id, role, pillarId);
         };
 
-        // Quick Assign AJAX Function
         function performQuickAssign(artikelId, role, pillarId) {
             const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
@@ -1261,7 +1291,6 @@
                     showToast(res.message);
                     closeInspector();
                     closeQuickAssignModal();
-                    // Reload graph & refresh page counters
                     loadGraph();
                     setTimeout(() => { window.location.reload(); }, 600);
                 } else {
@@ -1273,7 +1302,6 @@
             });
         }
 
-        // Quick Assign Modal for Table View
         window.openQuickAssignModal = function (id, title, role, currentPillarId) {
             document.getElementById('modal-article-id').value = id;
             document.getElementById('modal-assign-title').textContent = title;
@@ -1350,7 +1378,6 @@
         selectPillar?.addEventListener('change', loadGraph);
         toggleIssues?.addEventListener('change', loadGraph);
 
-        // Search node highlight in SVG
         searchInput?.addEventListener('input', function () {
             const term = this.value.toLowerCase().trim();
             if (!term) {
@@ -1369,7 +1396,6 @@
             });
         });
 
-        // Toast feedback
         function showToast(msg) {
             const toast = document.getElementById('quick-toast');
             const msgEl = document.getElementById('toast-msg');
@@ -1379,6 +1405,14 @@
                 toast.classList.add('hidden');
             }, 3000);
         }
+
+        // Theme MutationObserver: sync graph styles when user switches theme
+        const themeObserver = new MutationObserver(() => {
+            if (graphData && graphData.nodes && graphData.nodes.length) {
+                renderGraph(graphData);
+            }
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
         // Initialize Graph on load
         loadGraph();

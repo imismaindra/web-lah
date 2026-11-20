@@ -7,12 +7,12 @@
 <div class="space-y-4 rounded-2xl border border-stone-200/80 bg-white p-4 shadow-2xs dark:border-white/[0.06] dark:bg-[#171716]">
     <div class="flex items-center justify-between border-b border-stone-100 pb-2.5 dark:border-white/[0.06]">
         <div class="flex items-center gap-2">
-            <span class="flex h-6 w-6 items-center justify-center rounded-lg bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-sky-400/10 dark:text-sky-300">
+            <span class="flex h-6 w-6 items-center justify-center rounded-lg bg-[#1e3a5f]/10 text-[#1e3a5f] dark:bg-amber-500/15 dark:text-amber-400">
                 <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
             </span>
             <h3 class="text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">Kluster Topik & Tautan</h3>
         </div>
-        <a href="{{ route('admin.kluster.index') }}" target="_blank" class="text-[11px] font-medium text-[#1e3a5f] hover:underline dark:text-sky-400" title="Buka Peta Kluster">
+        <a href="{{ route('admin.kluster.index') }}" target="_blank" class="text-[11px] font-medium text-[#1e3a5f] hover:underline dark:text-stone-300 dark:hover:text-white" title="Buka Peta Kluster">
             Lihat Peta &rarr;
         </a>
     </div>
@@ -25,7 +25,7 @@
                 <input type="radio" name="cluster_role" value="standar" class="sr-only" {{ $roleType === 'standar' ? 'checked' : '' }}>
                 <span>Standar</span>
             </label>
-            <label class="cluster-role-option flex cursor-pointer items-center justify-center rounded-lg py-1.5 text-xs font-semibold transition text-stone-600 dark:text-stone-400 has-checked:bg-[#1e3a5f] has-checked:text-white has-checked:shadow-xs dark:has-checked:bg-sky-500 dark:has-checked:text-stone-900">
+            <label class="cluster-role-option flex cursor-pointer items-center justify-center rounded-lg py-1.5 text-xs font-semibold transition text-stone-600 dark:text-stone-400 has-checked:bg-[#1e3a5f] has-checked:text-white has-checked:shadow-xs dark:has-checked:bg-white dark:has-checked:text-stone-900">
                 <input type="radio" name="cluster_role" value="pilar" class="sr-only" {{ $roleType === 'pilar' ? 'checked' : '' }}>
                 <span>Pilar Hub</span>
             </label>
@@ -80,7 +80,7 @@
             id="btn-open-smart-link-modal"
             class="flex w-full items-center justify-center gap-2 rounded-xl border border-stone-200 bg-stone-50/80 px-3 py-2 text-xs font-semibold text-stone-700 shadow-2xs transition hover:bg-stone-100 hover:text-stone-900 active:scale-[0.98] dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-200 dark:hover:bg-white/[0.08]"
         >
-            <svg class="h-3.5 w-3.5 text-[#1e3a5f] dark:text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <svg class="h-3.5 w-3.5 text-[#1e3a5f] dark:text-stone-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             <span>Tautkan Artikel (Ctrl+K)</span>
         </button>
 

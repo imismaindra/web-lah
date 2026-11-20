@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EraController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\KlusterController;
 use App\Http\Controllers\Admin\KomentarController as AdminKomentarController;
 use App\Http\Controllers\Admin\KontakController as AdminKontakController;
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
@@ -442,6 +443,12 @@ Route::get('/artikel/{artikel}', function (Artikel $artikel, Request $request) {
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'penulis'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    Route::get('/kluster', [KlusterController::class, 'index'])->name('kluster.index');
+    Route::get('/kluster/graph-data', [KlusterController::class, 'graphData'])->name('kluster.graph-data');
+    Route::post('/kluster/sync', [KlusterController::class, 'sync'])->name('kluster.sync');
+    Route::get('/artikel/search-links', [KlusterController::class, 'searchLinks'])->name('artikel.search-links');
+    Route::post('/artikel/link-opportunities', [KlusterController::class, 'opportunities'])->name('artikel.link-opportunities');
 
     Route::get('/artikel/{artikel}/preview', [ArtikelController::class, 'preview'])->name('artikel.preview');
     Route::resource('artikel', ArtikelController::class)->except(['show']);

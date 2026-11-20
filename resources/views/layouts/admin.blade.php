@@ -98,6 +98,12 @@
                             <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Artikel</span>
                         </a>
 
+                        <a href="{{ route('admin.kluster.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.kluster.*') ? 'active' : '' }}" title="Kluster & Internal Link">
+                            <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                            <span class="sidebar-label">Kluster & Linking</span>
+                            <span class="sidebar-tooltip pointer-events-none absolute left-full ml-2 hidden whitespace-nowrap rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg group-hover:block dark:bg-stone-700">Kluster & Linking</span>
+                        </a>
+
                         @if (auth()->user()->hasRole('admin'))
                             <a href="{{ route('admin.komentar.index') }}" class="sidebar-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-white/[0.03] dark:hover:text-white {{ request()->routeIs('admin.komentar.*') ? 'active' : '' }}" title="Komentar">
                             <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>

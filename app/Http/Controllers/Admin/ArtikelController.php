@@ -35,12 +35,34 @@ class ArtikelController extends Controller
             'archived' => (clone $baseQuery)->where('status', 'archived')->count(),
         ];
 
+        $clusterCounts = [
+            'pillar' => (clone $baseQuery)->where('is_pillar', true)->count(),
+            'supporting' => (clone $baseQuery)->whereNotNull('pillar_id')->count(),
+            'missing_backlink' => (clone $baseQuery)->whereNotNull('pillar_id')
+                ->whereDoesntHave('outgoingLinks', function ($sub) {
+                    $sub->whereColumn('artikel_links.target_artikel_id', 'artikels.pillar_id');
+                })->count(),
+        ];
+
         $totalViews = (clone $baseQuery)->sum('views');
 
-        $query = Artikel::with(['kategori', 'author']);
+        $query = Artikel::with(['kategori', 'author', 'pillar', 'outgoingLinks']);
 
         if (! auth()->user()->hasRole('admin')) {
             $query->where('user_id', auth()->id());
+        }
+
+        if ($request->filled('cluster')) {
+            if ($request->cluster === 'pillar') {
+                $query->where('is_pillar', true);
+            } elseif ($request->cluster === 'supporting') {
+                $query->whereNotNull('pillar_id');
+            } elseif ($request->cluster === 'missing_backlink') {
+                $query->whereNotNull('pillar_id')
+                    ->whereDoesntHave('outgoingLinks', function ($sub) {
+                        $sub->whereColumn('artikel_links.target_artikel_id', 'artikels.pillar_id');
+                    });
+            }
         }
 
         if ($request->filled('search')) {
@@ -70,7 +92,7 @@ class ArtikelController extends Controller
         $artikels = $query->paginate(12)->withQueryString();
         $kategoris = Kategori::orderBy('nama')->get();
 
-        return view('admin.artikel.index', compact('artikels', 'statusCounts', 'kategoris', 'totalViews'));
+        return view('admin.artikel.index', compact('artikels', 'statusCounts', 'clusterCounts', 'kategoris', 'totalViews'));
     }
 
     public function create(): View
@@ -78,8 +100,9 @@ class ArtikelController extends Controller
         $kategoris = Kategori::orderBy('nama')->get();
         $eras = Era::orderBy('urutan')->get();
         $topiks = Topik::orderBy('urutan')->get();
+        $pillars = Artikel::pillars()->orderBy('judul')->get(['id', 'judul', 'slug']);
 
-        return view('admin.artikel.create', compact('kategoris', 'eras', 'topiks'));
+        return view('admin.artikel.create', compact('kategoris', 'eras', 'topiks', 'pillars'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -89,6 +112,8 @@ class ArtikelController extends Controller
             'era_id' => 'nullable|exists:eras,id',
             'topik_ids' => 'nullable|array',
             'topik_ids.*' => 'exists:topiks,id',
+            'is_pillar' => 'nullable|boolean',
+            'pillar_id' => 'nullable|exists:artikels,id',
             'judul' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
             'meta_title' => 'nullable|string|max:255',
@@ -102,6 +127,10 @@ class ArtikelController extends Controller
             'status' => 'required|in:draft,published,scheduled,archived',
             'published_at' => 'nullable|required_if:status,scheduled|date',
         ]);
+
+        $isPillar = $request->boolean('is_pillar');
+        $validated['is_pillar'] = $isPillar;
+        $validated['pillar_id'] = $isPillar ? null : ($request->filled('pillar_id') ? (int) $request->input('pillar_id') : null);
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
@@ -139,9 +168,10 @@ class ArtikelController extends Controller
         $kategoris = Kategori::orderBy('nama')->get();
         $eras = Era::orderBy('urutan')->get();
         $topiks = Topik::orderBy('urutan')->get();
-        $artikel->load('topiks');
+        $pillars = Artikel::pillars()->where('id', '!=', $artikel->id)->orderBy('judul')->get(['id', 'judul', 'slug']);
+        $artikel->load(['topiks', 'pillar', 'outgoingLinks']);
 
-        return view('admin.artikel.edit', compact('artikel', 'kategoris', 'eras', 'topiks'));
+        return view('admin.artikel.edit', compact('artikel', 'kategoris', 'eras', 'topiks', 'pillars'));
     }
 
     public function update(Request $request, Artikel $artikel): RedirectResponse
@@ -153,6 +183,8 @@ class ArtikelController extends Controller
             'era_id' => 'nullable|exists:eras,id',
             'topik_ids' => 'nullable|array',
             'topik_ids.*' => 'exists:topiks,id',
+            'is_pillar' => 'nullable|boolean',
+            'pillar_id' => 'nullable|exists:artikels,id',
             'judul' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
             'meta_title' => 'nullable|string|max:255',
@@ -166,6 +198,12 @@ class ArtikelController extends Controller
             'status' => 'required|in:draft,published,scheduled,archived',
             'published_at' => 'nullable|required_if:status,scheduled|date',
         ]);
+
+        $isPillar = $request->boolean('is_pillar');
+        $validated['is_pillar'] = $isPillar;
+        $validated['pillar_id'] = ($isPillar || (int) $request->input('pillar_id') === (int) $artikel->id)
+            ? null
+            : ($request->filled('pillar_id') ? (int) $request->input('pillar_id') : null);
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();

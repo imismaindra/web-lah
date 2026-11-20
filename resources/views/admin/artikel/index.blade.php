@@ -32,6 +32,13 @@
                 <p class="mt-1 text-sm text-stone-500 dark:text-stone-400">Kelola kurasi naskah, jadwal publikasi, dan pantau respons pembaca.</p>
             </div>
             <div class="flex items-center gap-3">
+                <a href="{{ route('admin.kluster.index') }}" class="inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-stone-700 shadow-xs transition hover:bg-stone-50 active:scale-[0.98] dark:border-white/10 dark:bg-[#171716] dark:text-stone-300 dark:hover:bg-white/[0.04]">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    <span>Peta Kluster</span>
+                    @if (!empty($clusterCounts['missing_backlink']))
+                        <span class="rounded-full bg-amber-500 px-1.5 py-0.5 text-[10px] text-white font-bold leading-none">{{ $clusterCounts['missing_backlink'] }}</span>
+                    @endif
+                </a>
                 <a href="{{ route('admin.artikel.create') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a5f] px-4 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-[#16304a] active:scale-[0.98] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                     <span>Tulis Artikel Baru</span>
@@ -147,6 +154,21 @@
 
                 {{-- Right selectors & view switcher --}}
                 <div class="flex flex-wrap items-center gap-2">
+                    {{-- Cluster filter --}}
+                    <div class="relative">
+                        <select
+                            name="cluster"
+                            onchange="document.getElementById('filter-form').submit()"
+                            class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2.5 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:focus:border-stone-400 dark:focus:bg-[#121211]"
+                        >
+                            <option value="" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Semua Kluster ({{ $statusCounts['all'] ?? 0 }})</option>
+                            <option value="pillar" {{ request('cluster') === 'pillar' ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Hanya Pilar ({{ $clusterCounts['pillar'] ?? 0 }})</option>
+                            <option value="supporting" {{ request('cluster') === 'supporting' ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Hanya Turunan ({{ $clusterCounts['supporting'] ?? 0 }})</option>
+                            <option value="missing_backlink" {{ request('cluster') === 'missing_backlink' ? 'selected' : '' }} class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Perlu Tautan Pilar ({{ $clusterCounts['missing_backlink'] ?? 0 }})</option>
+                        </select>
+                        <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+
                     {{-- Category filter --}}
                     @if (isset($kategoris) && $kategoris->isNotEmpty())
                         <div class="relative">
@@ -205,7 +227,7 @@
                     </div>
 
                     {{-- Reset filter button if active --}}
-                    @if (request()->hasAny(['search', 'status', 'kategori', 'sort']))
+                    @if (request()->hasAny(['search', 'status', 'kategori', 'cluster', 'sort']))
                         <a
                             href="{{ route('admin.artikel.index') }}"
                             class="inline-flex items-center gap-1.5 rounded-xl border border-stone-200 px-3 py-2 text-xs font-semibold text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 dark:border-white/10 dark:text-stone-400 dark:hover:bg-white/[0.06] dark:hover:text-stone-200"
@@ -299,6 +321,23 @@
                                             <span class="text-[11px] font-medium text-sky-600 dark:text-sky-400">Jadwal: {{ $artikel->published_at->format('d M H:i') }}</span>
                                         @else
                                             <span class="text-[11px] text-stone-400 dark:text-stone-500">{{ ($artikel->published_at ?? $artikel->created_at)->format('d M Y') }}</span>
+                                        @endif
+
+                                        @if ($artikel->isPillar())
+                                            <span class="inline-flex items-center gap-1 rounded-md bg-[#1e3a5f]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#1e3a5f] dark:bg-sky-400/10 dark:text-sky-300">
+                                                Pilar
+                                            </span>
+                                        @elseif ($artikel->isSupporting())
+                                            @if ($artikel->hasPillarBacklink())
+                                                <span class="inline-flex items-center gap-1 rounded-md bg-stone-100 px-2 py-0.5 text-[10px] font-medium text-stone-600 dark:bg-white/[0.06] dark:text-stone-300" title="Pilar: {{ $artikel->pillar->judul ?? '' }}">
+                                                    Turunan
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800 dark:bg-amber-950/60 dark:text-amber-300" title="Belum menautkan balik ke pilar: {{ $artikel->pillar->judul ?? '' }}">
+                                                    <svg class="h-3 w-3 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                                    Belum Tautkan Pilar
+                                                </span>
+                                            @endif
                                         @endif
                                     </div>
 
@@ -398,9 +437,27 @@
                                                     <a href="{{ route('admin.artikel.edit', $artikel) }}" class="line-clamp-1 font-serif text-sm font-bold text-stone-900 transition hover:text-[#1e3a5f] dark:text-stone-100 dark:hover:text-white">
                                                         {{ $artikel->judul }}
                                                     </a>
-                                                    @if ($artikel->ringkasan)
-                                                        <p class="mt-0.5 line-clamp-1 text-xs text-stone-400 dark:text-stone-500">{{ $artikel->ringkasan }}</p>
-                                                    @endif
+                                                    <div class="mt-1 flex flex-wrap items-center gap-1.5">
+                                                        @if ($artikel->isPillar())
+                                                            <span class="inline-flex items-center rounded-md bg-[#1e3a5f]/10 px-1.5 py-0.2 text-[9px] font-bold uppercase tracking-wider text-[#1e3a5f] dark:bg-sky-400/10 dark:text-sky-300">
+                                                                Pilar
+                                                            </span>
+                                                        @elseif ($artikel->isSupporting())
+                                                            @if ($artikel->hasPillarBacklink())
+                                                                <span class="inline-flex items-center rounded-md bg-stone-100 px-1.5 py-0.2 text-[9px] font-medium text-stone-600 dark:bg-white/[0.06] dark:text-stone-300" title="Pilar: {{ $artikel->pillar->judul ?? '' }}">
+                                                                    Turunan &bull; {{ Str::limit($artikel->pillar->judul ?? 'Pilar', 16) }}
+                                                                </span>
+                                                            @else
+                                                                <span class="inline-flex items-center gap-1 rounded-md bg-amber-100 px-1.5 py-0.2 text-[9px] font-bold text-amber-800 dark:bg-amber-950/60 dark:text-amber-300" title="Belum menautkan balik ke pilar: {{ $artikel->pillar->judul ?? '' }}">
+                                                                    <svg class="h-2.5 w-2.5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                                                    Belum Tautkan Pilar
+                                                                </span>
+                                                            @endif
+                                                        @endif
+                                                        @if ($artikel->ringkasan)
+                                                            <span class="line-clamp-1 text-[11px] text-stone-400 dark:text-stone-500">{{ $artikel->ringkasan }}</span>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>

@@ -260,6 +260,12 @@
                 {{-- Divider --}}
                 <div class="h-px bg-stone-200/60 dark:bg-white/[0.06]"></div>
 
+                {{-- Kluster & Internal Link Assistant --}}
+                @include('admin.artikel.partials.cluster-assistant')
+
+                {{-- Divider --}}
+                <div class="h-px bg-stone-200/60 dark:bg-white/[0.06]"></div>
+
                 {{-- Metadata --}}
                 <div class="space-y-4">
                     <h3 class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">Metadata</h3>
@@ -393,6 +399,8 @@
             </div>
         </div>
     </form>
+
+    @include('admin.artikel.partials.smart-link-modal')
 @endsection
 
 @push('scripts')
@@ -446,6 +454,7 @@
                     ],
                 },
             });
+            window.quill = quill;
 
             const konten = document.getElementById('konten');
             quill.setContents(quill.clipboard.convert({ html: konten.value }));
@@ -681,4 +690,6 @@
             faqList.addEventListener('click', function(e){ if(e.target.classList.contains('faq-remove')) e.target.closest('.faq-row').remove(); });
         });
     </script>
+
+    @include('admin.artikel.partials.cluster-scripts')
 @endpush

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ContentClusterService;
 use App\Services\ImageOptimizer;
 use App\Services\SlugService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Schema;
 
 class Artikel extends Model
 {
@@ -20,6 +22,8 @@ class Artikel extends Model
         'kategori_id',
         'era_id',
         'user_id',
+        'pillar_id',
+        'is_pillar',
         'judul',
         'meta_title',
         'meta_description',
@@ -39,6 +43,7 @@ class Artikel extends Model
         return [
             'views' => 'integer',
             'reading_time' => 'integer',
+            'is_pillar' => 'boolean',
             'faq' => 'array',
             'published_at' => 'datetime',
         ];
@@ -105,6 +110,57 @@ class Artikel extends Model
                 $artikel->published_at = now();
             }
         });
+
+        static::saved(function (Artikel $artikel) {
+            if (Schema::hasTable('artikel_links')) {
+                app(ContentClusterService::class)->syncInternalLinks($artikel);
+            }
+        });
+    }
+
+    public function pillar(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'pillar_id');
+    }
+
+    public function supportingArticles(): HasMany
+    {
+        return $this->hasMany(self::class, 'pillar_id');
+    }
+
+    public function outgoingLinks(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'artikel_links', 'source_artikel_id', 'target_artikel_id')->withTimestamps();
+    }
+
+    public function incomingLinks(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'artikel_links', 'target_artikel_id', 'source_artikel_id')->withTimestamps();
+    }
+
+    public function isPillar(): bool
+    {
+        return (bool) $this->is_pillar;
+    }
+
+    public function isSupporting(): bool
+    {
+        return ! is_null($this->pillar_id);
+    }
+
+    public function hasPillarBacklink(): bool
+    {
+        return app(ContentClusterService::class)->hasPillarBacklink($this);
+    }
+
+    public function scopePillars($query)
+    {
+        return $query->where('is_pillar', true);
+    }
+
+    public function scopeSupporting($query)
+    {
+        return $query->whereNotNull('pillar_id');
     }
 
     public function kategori(): BelongsTo

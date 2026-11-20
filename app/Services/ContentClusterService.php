@@ -110,6 +110,7 @@ class ContentClusterService
             'kategori:id,nama',
             'pillar:id,judul,slug',
             'outgoingLinks:id,judul,slug',
+            'incomingLinks:id,judul,slug',
         ]);
 
         if ($filterPillarId) {
@@ -150,6 +151,7 @@ class ContentClusterService
                 'url' => route('artikel.show', $art),
                 'edit_url' => route('admin.artikel.edit', $art),
                 'outgoing_count' => $art->outgoingLinks->count(),
+                'incoming_count' => $art->incomingLinks->count(),
             ];
 
             if ($art->pillar_id && isset($articleMap[$art->pillar_id])) {

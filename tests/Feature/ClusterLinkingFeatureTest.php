@@ -248,4 +248,49 @@ class ClusterLinkingFeatureTest extends TestCase
         $this->assertFalse($respMissing->viewData('artikels')->contains('id', $linked->id));
         $this->assertFalse($respMissing->viewData('artikels')->contains('id', $pillar->id));
     }
+
+    public function test_quick_assign_endpoint_updates_article_role(): void
+    {
+        $article = $this->createArticle([
+            'judul' => 'Artikel Cepat',
+            'is_pillar' => false,
+            'pillar_id' => null,
+        ]);
+
+        $pillar = $this->createArticle([
+            'judul' => 'Pilar Induk Cepat',
+            'is_pillar' => true,
+        ]);
+
+        // Assign as pillar
+        $respPillar = $this->actingAs($this->admin)->postJson(route('admin.kluster.quick-assign'), [
+            'artikel_id' => $article->id,
+            'role' => 'pilar',
+        ]);
+        $respPillar->assertOk()->assertJson(['success' => true]);
+        $article->refresh();
+        $this->assertTrue($article->isPillar());
+        $this->assertNull($article->pillar_id);
+
+        // Assign as supporting
+        $respSupporting = $this->actingAs($this->admin)->postJson(route('admin.kluster.quick-assign'), [
+            'artikel_id' => $article->id,
+            'role' => 'pendukung',
+            'pillar_id' => $pillar->id,
+        ]);
+        $respSupporting->assertOk()->assertJson(['success' => true]);
+        $article->refresh();
+        $this->assertFalse($article->isPillar());
+        $this->assertEquals($pillar->id, $article->pillar_id);
+
+        // Assign back to standard
+        $respStandard = $this->actingAs($this->admin)->postJson(route('admin.kluster.quick-assign'), [
+            'artikel_id' => $article->id,
+            'role' => 'standar',
+        ]);
+        $respStandard->assertOk()->assertJson(['success' => true]);
+        $article->refresh();
+        $this->assertFalse($article->isPillar());
+        $this->assertNull($article->pillar_id);
+    }
 }

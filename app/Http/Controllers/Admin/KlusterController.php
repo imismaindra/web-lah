@@ -20,8 +20,49 @@ class KlusterController extends Controller
     {
         $audit = $this->clusterService->getClusterAudit();
         $pillars = Artikel::pillars()->orderBy('judul')->get();
+        $artikels = Artikel::with(['kategori', 'pillar', 'outgoingLinks', 'incomingLinks'])->orderByDesc('views')->get();
 
-        return view('admin.kluster.index', compact('audit', 'pillars'));
+        return view('admin.kluster.index', compact('audit', 'pillars', 'artikels'));
+    }
+
+    public function quickAssign(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'artikel_id' => 'required|exists:artikels,id',
+            'role' => 'required|in:pilar,pendukung,standar',
+            'pillar_id' => 'nullable|exists:artikels,id',
+        ]);
+
+        $artikel = Artikel::findOrFail($validated['artikel_id']);
+        abort_unless(auth()->user()->hasRole('admin') || $artikel->user_id === auth()->id(), 403);
+
+        if ($validated['role'] === 'pilar') {
+            $artikel->update([
+                'is_pillar' => true,
+                'pillar_id' => null,
+            ]);
+        } elseif ($validated['role'] === 'pendukung') {
+            $pillarId = $validated['pillar_id'] ?? null;
+            if (! $pillarId || (int) $pillarId === (int) $artikel->id) {
+                return response()->json(['success' => false, 'message' => 'Pilar induk valid diperlukan.'], 422);
+            }
+            $artikel->update([
+                'is_pillar' => false,
+                'pillar_id' => $pillarId,
+            ]);
+        } else {
+            $artikel->update([
+                'is_pillar' => false,
+                'pillar_id' => null,
+            ]);
+        }
+
+        $this->clusterService->syncInternalLinks($artikel);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Peran artikel '{$artikel->judul}' berhasil diperbarui.",
+        ]);
     }
 
     public function graphData(Request $request): JsonResponse

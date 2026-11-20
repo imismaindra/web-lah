@@ -447,6 +447,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'penulis
     Route::get('/kluster', [KlusterController::class, 'index'])->name('kluster.index');
     Route::get('/kluster/graph-data', [KlusterController::class, 'graphData'])->name('kluster.graph-data');
     Route::post('/kluster/sync', [KlusterController::class, 'sync'])->name('kluster.sync');
+    Route::post('/kluster/quick-assign', [KlusterController::class, 'quickAssign'])->name('kluster.quick-assign');
     Route::get('/artikel/search-links', [KlusterController::class, 'searchLinks'])->name('artikel.search-links');
     Route::post('/artikel/link-opportunities', [KlusterController::class, 'opportunities'])->name('artikel.link-opportunities');
 

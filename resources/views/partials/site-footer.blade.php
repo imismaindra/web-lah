@@ -1,4 +1,4 @@
-<footer class="mt-20 border-t border-stone-200/80 bg-stone-50/50 dark:border-white/[0.06] dark:bg-[#121211]/50">
+<footer class="mt-20 border-t border-stone-200/80 dark:border-white/[0.06]">
     <div class="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 sm:py-16">
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
             {{-- Col 1: Brand & Deskripsi --}}
@@ -22,33 +22,33 @@
 
             {{-- Col 2: Navigasi Utama --}}
             <div>
-                <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-stone-400 dark:text-stone-500">Navigasi</p>
+                <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-stone-400 dark:text-stone-400">Navigasi</p>
                 <ul class="mt-4 space-y-2.5 text-xs font-medium">
                     <li>
-                        <a href="/" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Beranda</a>
+                        <a href="/" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">Beranda</a>
                     </li>
                     <li>
-                        <a href="{{ route('artikel.index') }}" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Semua Artikel</a>
+                        <a href="{{ route('artikel.index') }}" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">Semua Artikel</a>
                     </li>
                     <li>
-                        <a href="{{ route('kategori.index') }}" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Indeks Kategori</a>
+                        <a href="{{ route('kategori.index') }}" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">Indeks Kategori</a>
                     </li>
                     <li>
-                        <a href="{{ route('tentang') }}" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Tentang Redaksi</a>
+                        <a href="{{ route('tentang') }}" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">Tentang Redaksi</a>
                     </li>
                     <li>
-                        <a href="{{ route('search') }}" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">Pencarian Artikel</a>
+                        <a href="{{ route('search') }}" class="text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">Pencarian Artikel</a>
                     </li>
                 </ul>
             </div>
 
             {{-- Col 3: Kategori Terpopuler --}}
             <div>
-                <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-stone-400 dark:text-stone-500">Kategori Utama</p>
+                <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-stone-400 dark:text-stone-400">Kategori Utama</p>
                 <ul class="mt-4 space-y-2.5 text-xs font-medium">
                     @forelse ($footerKategoris ?? [] as $fKat)
                         <li>
-                            <a href="{{ route('kategori.show', $fKat) }}" class="flex items-center justify-between text-stone-600 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">
+                            <a href="{{ route('kategori.show', $fKat) }}" class="flex items-center justify-between text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">
                                 <span class="truncate">{{ $fKat->nama }}</span>
                                 <span class="font-mono text-[10px] text-stone-400 dark:text-stone-500">{{ $fKat->artikel_count }}</span>
                             </a>
@@ -57,7 +57,7 @@
                         <li class="text-stone-400 dark:text-stone-500">Belum ada kategori</li>
                     @endforelse
                 </ul>
-                <div class="mt-3.5 pt-2 border-t border-stone-200/50 dark:border-white/[0.04]">
+                <div class="mt-3.5 pt-2 border-t border-stone-200/50 dark:border-white/[0.06]">
                     <a href="{{ route('kategori.index') }}" class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1e3a5f] transition hover:underline dark:text-stone-300 dark:hover:text-white">
                         Lihat semua kategori &rarr;
                     </a>
@@ -66,11 +66,11 @@
 
             {{-- Col 4: Linimasa Era --}}
             <div>
-                <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-stone-400 dark:text-stone-500">Linimasa Era</p>
+                <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-stone-400 dark:text-stone-400">Linimasa Era</p>
                 <ul class="mt-4 space-y-2.5 text-xs font-medium">
                     @forelse ($footerEras ?? [] as $fEra)
                         <li>
-                            <a href="{{ route('era.show', $fEra) }}" class="flex items-center justify-between text-stone-600 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">
+                            <a href="{{ route('era.show', $fEra) }}" class="flex items-center justify-between text-stone-600 transition hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">
                                 <span class="truncate">{{ $fEra->nama }}</span>
                                 <span class="text-[10px] text-stone-400 dark:text-stone-500">{{ $fEra->periode }}</span>
                             </a>
@@ -79,7 +79,7 @@
                         <li class="text-stone-400 dark:text-stone-500">Belum ada era</li>
                     @endforelse
                 </ul>
-                <div class="mt-3.5 pt-2 border-t border-stone-200/50 dark:border-white/[0.04]">
+                <div class="mt-3.5 pt-2 border-t border-stone-200/50 dark:border-white/[0.06]">
                     <a href="/#perjalanan-waktu" class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1e3a5f] transition hover:underline dark:text-stone-300 dark:hover:text-white">
                         Jelajahi linimasa &rarr;
                     </a>
@@ -88,11 +88,11 @@
         </div>
 
         {{-- Bottom Copyright & Legal --}}
-        <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-stone-200/80 pt-8 text-xs text-stone-400 sm:flex-row dark:border-white/[0.06] dark:text-stone-500">
+        <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-stone-200/80 pt-8 text-xs text-stone-500 sm:flex-row dark:border-white/[0.06] dark:text-stone-400">
             <p>&copy; {{ date('Y') }} {{ config('app.name', 'Look at History') }}. Seluruh hak cipta dilindungi.</p>
             <div class="flex items-center gap-5">
-                <a href="{{ route('kontak') }}" class="transition hover:text-stone-600 dark:hover:text-stone-300">Kontak</a>
-                <a href="{{ route('privasi') }}" class="transition hover:text-stone-600 dark:hover:text-stone-300">Kebijakan Privasi</a>
+                <a href="{{ route('kontak') }}" class="transition hover:text-stone-900 dark:hover:text-white">Kontak</a>
+                <a href="{{ route('privasi') }}" class="transition hover:text-stone-900 dark:hover:text-white">Kebijakan Privasi</a>
             </div>
         </div>
     </div>

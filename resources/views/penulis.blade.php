@@ -37,6 +37,18 @@
             'section' => 'Penulis',
             'schema' => $authorSchema,
         ])
+        @php
+            $penulisBreadcrumb = [
+                '@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => rtrim(config('app.url'), '/')],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => 'Artikel', 'item' => route('artikel.index')],
+                    ['@type' => 'ListItem', 'position' => 3, 'name' => $penulis->nama, 'item' => $authorProfileUrl],
+                ],
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($penulisBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
 
@@ -51,11 +63,26 @@
 
         <main id="main" class="mx-auto max-w-[1400px] px-5 sm:px-8">
             {{-- Profile --}}
-            <section class="pt-12 pb-8 sm:pt-16">
-                <a href="/" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-                    Kembali
-                </a>
+            <section class="pt-10 pb-8 sm:pt-14">
+                <nav aria-label="Breadcrumb" class="mb-6">
+                    <ol class="flex flex-wrap items-center gap-1.5 text-xs font-medium text-stone-500 dark:text-stone-400">
+                        <li>
+                            <a href="/" class="transition hover:text-stone-900 dark:hover:text-white">Beranda</a>
+                        </li>
+                        <li aria-hidden="true" class="text-stone-300 dark:text-stone-600">
+                            <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </li>
+                        <li>
+                            <a href="{{ route('artikel.index') }}" class="transition hover:text-stone-900 dark:hover:text-white">Artikel</a>
+                        </li>
+                        <li aria-hidden="true" class="text-stone-300 dark:text-stone-600">
+                            <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </li>
+                        <li class="font-semibold text-stone-900 dark:text-white" aria-current="page">
+                            {{ $penulis->nama }}
+                        </li>
+                    </ol>
+                </nav>
                 <div class="mt-8 flex items-start gap-5">
                     @if ($penulis->avatar)
                         <img src="{{ asset('storage/' . $penulis->avatar) }}" alt="{{ $penulis->nama }}" class="h-20 w-20 flex-shrink-0 rounded-full object-cover ring-1 ring-stone-200 dark:ring-white/10 sm:h-24 sm:w-24">

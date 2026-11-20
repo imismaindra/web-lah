@@ -15,7 +15,7 @@
         <div class="hidden items-center gap-1 text-sm font-medium lg:flex">
             <a href="/" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'beranda', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'beranda'])>Beranda</a>
             <a href="{{ route('artikel.index') }}" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'artikel', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'artikel'])>Artikel</a>
-            <a href="/#kategori" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'kategori', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'kategori'])>Kategori</a>
+            <a href="{{ route('kategori.index') }}" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'kategori', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'kategori'])>Kategori</a>
             <a href="{{ route('tentang') }}" @class(['rounded-lg px-3 py-1.5 transition font-medium', 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' => $active === 'tentang', 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white' => $active !== 'tentang'])>Tentang</a>
         </div>
         <div class="hidden lg:flex items-center gap-2">

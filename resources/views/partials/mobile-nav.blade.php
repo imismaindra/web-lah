@@ -2,7 +2,7 @@
     $menuLinks = [
         'beranda' => ['label' => 'Beranda', 'url' => '/'],
         'artikel' => ['label' => 'Artikel', 'url' => route('artikel.index')],
-        'kategori' => ['label' => 'Kategori', 'url' => '/#kategori'],
+        'kategori' => ['label' => 'Kategori', 'url' => route('kategori.index')],
         'tentang' => ['label' => 'Tentang', 'url' => route('tentang')],
     ];
 @endphp

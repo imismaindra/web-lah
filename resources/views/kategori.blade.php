@@ -22,7 +22,8 @@
                 '@type' => 'BreadcrumbList',
                 'itemListElement' => [
                     ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => rtrim(config('app.url'), '/')],
-                    ['@type' => 'ListItem', 'position' => 2, 'name' => $kategori->nama, 'item' => route('kategori.show', $kategori)],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => 'Kategori', 'item' => route('kategori.index')],
+                    ['@type' => 'ListItem', 'position' => 3, 'name' => $kategori->nama, 'item' => route('kategori.show', $kategori)],
                 ],
             ];
         @endphp
@@ -42,11 +43,26 @@
 
         <main id="main" class="mx-auto max-w-[1400px] px-5 sm:px-8">
             {{-- Hero --}}
-            <section class="pt-12 pb-8 sm:pt-16">
-                <a href="/" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 transition hover:text-stone-900 dark:text-stone-400 dark:hover:text-white">
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-                    Kembali
-                </a>
+            <section class="pt-10 pb-8 sm:pt-14">
+                <nav aria-label="Breadcrumb" class="mb-6">
+                    <ol class="flex flex-wrap items-center gap-1.5 text-xs font-medium text-stone-500 dark:text-stone-400">
+                        <li>
+                            <a href="/" class="transition hover:text-stone-900 dark:hover:text-white">Beranda</a>
+                        </li>
+                        <li aria-hidden="true" class="text-stone-300 dark:text-stone-600">
+                            <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </li>
+                        <li>
+                            <a href="{{ route('kategori.index') }}" class="transition hover:text-stone-900 dark:hover:text-white">Kategori</a>
+                        </li>
+                        <li aria-hidden="true" class="text-stone-300 dark:text-stone-600">
+                            <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </li>
+                        <li class="font-semibold text-stone-900 dark:text-white" aria-current="page">
+                            {{ $kategori->nama }}
+                        </li>
+                    </ol>
+                </nav>
                 <p class="mt-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-400 dark:text-stone-500">Kategori</p>
                 <h1 class="mt-3 font-serif text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">{{ $kategori->nama }}</h1>
                 @if ($kategori->deskripsi)

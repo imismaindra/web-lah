@@ -205,6 +205,12 @@ Route::get('/sitemap.xml', function () {
             'changefreq' => 'daily',
             'priority' => '0.9',
         ],
+        [
+            'url' => route('kategori.index'),
+            'lastmod' => $latestArticleUpdate?->toAtomString(),
+            'changefreq' => 'daily',
+            'priority' => '0.8',
+        ],
         ['url' => route('tentang'), 'changefreq' => 'monthly', 'priority' => '0.5'],
         ['url' => route('kontak'), 'changefreq' => 'monthly', 'priority' => '0.4'],
         ['url' => route('privasi'), 'changefreq' => 'yearly', 'priority' => '0.3'],
@@ -273,6 +279,21 @@ Route::get('/feed', function () {
 
     return response()->view('rss', compact('artikels'))->header('Content-Type', 'application/xml');
 })->name('feed');
+
+Route::get('/kategori', function () {
+    $publishedArticles = fn ($query) => $query->published();
+
+    $kategoris = Kategori::query()
+        ->withCount(['artikel' => $publishedArticles])
+        ->whereHas('artikel', $publishedArticles)
+        ->orderByDesc('artikel_count')
+        ->get()
+        ->load([
+            'artikel' => fn ($q) => $q->published()->latest()->take(3)->with('kategori'),
+        ]);
+
+    return view('kategori-index', compact('kategoris'));
+})->name('kategori.index');
 
 Route::get('/kategori/{kategori:slug}', function (Kategori $kategori) {
     $artikels = $kategori->artikel()

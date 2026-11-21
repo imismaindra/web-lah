@@ -224,10 +224,10 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         {{-- Filter Pillar Dropdown --}}
                         <div class="relative">
-                            <select id="select-pillar-filter" class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:[color-scheme:dark]">
-                                <option value="">Semua Kluster Topik</option>
+                            <select id="select-pillar-filter" class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-3.5 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:hover:border-white/20 dark:focus:border-stone-400 dark:focus:bg-[#121211] dark:[color-scheme:dark]">
+                                <option value="" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Semua Kluster Topik</option>
                                 @foreach ($pillars as $pil)
-                                    <option value="{{ $pil->id }}">Kluster: {{ $pil->judul }}</option>
+                                    <option value="{{ $pil->id }}" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Kluster: {{ $pil->judul }}</option>
                                 @endforeach
                             </select>
                             <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400 dark:text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
@@ -235,7 +235,7 @@
 
                         {{-- Toggle Issues Only --}}
                         <label class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-stone-200 bg-stone-50/70 px-3 py-2 text-xs font-medium text-stone-700 transition hover:bg-stone-100 dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:hover:bg-white/[0.04]">
-                            <input type="checkbox" id="toggle-issues-only" class="rounded border-stone-300 text-[#1e3a5f] focus:ring-0 dark:border-stone-600">
+                            <input type="checkbox" id="toggle-issues-only" class="rounded border-stone-300 text-[#1e3a5f] focus:ring-0 dark:border-stone-600 dark:bg-[#171716] dark:checked:bg-[#d4a373] dark:focus:ring-0">
                             <span>Hanya Masalah Tautan</span>
                         </label>
 
@@ -245,7 +245,7 @@
                                 type="text"
                                 id="search-node-input"
                                 placeholder="Cari artikel di peta..."
-                                class="w-44 rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-8 pr-3 text-xs outline-none transition focus:w-56 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200"
+                                class="w-44 rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-8 pr-3 text-xs outline-none transition placeholder:text-stone-400 focus:w-56 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:bg-[#121211]"
                             >
                             <svg class="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                         </div>
@@ -363,17 +363,17 @@
                                     Atur Peran Kluster Artikel:
                                 </label>
                                 <div class="space-y-2">
-                                    <select id="insp-role-select" class="w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs font-medium text-stone-800 outline-none transition dark:border-white/10 dark:bg-[#181817] dark:text-stone-200 dark:[color-scheme:dark]">
-                                        <option value="standar">Artikel Standar (Mandiri)</option>
-                                        <option value="pilar">Jadikan Artikel Pilar (Hub)</option>
-                                        <option value="pendukung">Jadikan Artikel Turunan</option>
+                                    <select id="insp-role-select" class="w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs font-medium text-stone-800 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#181817] dark:text-stone-200 dark:focus:border-stone-400 dark:focus:bg-[#181817] dark:[color-scheme:dark]">
+                                        <option value="standar" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Artikel Standar (Mandiri)</option>
+                                        <option value="pilar" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Jadikan Artikel Pilar (Hub)</option>
+                                        <option value="pendukung" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Jadikan Artikel Turunan</option>
                                     </select>
 
                                     <div id="insp-parent-pillar-wrapper" class="hidden space-y-1">
                                         <label class="block text-[10px] font-medium text-stone-500">Pilih Pilar Induk:</label>
-                                        <select id="insp-parent-pillar-select" class="w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs text-stone-800 outline-none dark:border-white/10 dark:bg-[#181817] dark:text-stone-200 dark:[color-scheme:dark]">
+                                        <select id="insp-parent-pillar-select" class="w-full rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs text-stone-800 outline-none focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#181817] dark:text-stone-200 dark:focus:border-stone-400 dark:focus:bg-[#181817] dark:[color-scheme:dark]">
                                             @foreach ($pillars as $pil)
-                                                <option value="{{ $pil->id }}">{{ $pil->judul }}</option>
+                                                <option value="{{ $pil->id }}" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">{{ $pil->judul }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -444,17 +444,17 @@
                                 type="text"
                                 id="table-search-input"
                                 placeholder="Cari judul artikel..."
-                                class="w-56 rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-8 pr-3 text-xs outline-none transition focus:w-72 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200"
+                                class="w-56 rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-8 pr-3 text-xs outline-none transition placeholder:text-stone-400 focus:w-72 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:bg-[#121211]"
                             >
                             <svg class="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                         </div>
 
-                        <select id="table-role-filter" class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-3 pr-8 text-xs font-medium text-stone-700 outline-none transition dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:[color-scheme:dark]">
-                            <option value="">Semua Peran</option>
-                            <option value="pilar">Hanya Pilar (Hub)</option>
-                            <option value="pendukung">Hanya Turunan</option>
-                            <option value="standar">Hanya Standar</option>
-                            <option value="missing">Turunan Tanpa Tautan Pilar</option>
+                        <select id="table-role-filter" class="cursor-pointer appearance-none rounded-xl border border-stone-200 bg-stone-50/70 py-2 pl-3 pr-8 text-xs font-medium text-stone-700 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-300 dark:hover:border-white/20 dark:focus:border-stone-400 dark:focus:bg-[#121211] dark:[color-scheme:dark]">
+                            <option value="" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Semua Peran</option>
+                            <option value="pilar" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Hanya Pilar (Hub)</option>
+                            <option value="pendukung" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Hanya Turunan</option>
+                            <option value="standar" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Hanya Standar</option>
+                            <option value="missing" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Turunan Tanpa Tautan Pilar</option>
                         </select>
                     </div>
 
@@ -613,10 +613,10 @@
                         <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                             Pilih Peran:
                         </label>
-                        <select id="modal-role-select" class="w-full rounded-xl border border-stone-200 bg-stone-50/70 p-2.5 text-xs text-stone-800 outline-none transition focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:[color-scheme:dark]">
-                            <option value="standar">Artikel Standar (Mandiri)</option>
-                            <option value="pilar">Artikel Pilar (Hub)</option>
-                            <option value="pendukung">Artikel Turunan</option>
+                        <select id="modal-role-select" class="w-full rounded-xl border border-stone-200 bg-stone-50/70 p-2.5 text-xs text-stone-800 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:hover:border-white/20 dark:focus:border-stone-400 dark:focus:bg-[#121211] dark:[color-scheme:dark]">
+                            <option value="standar" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Artikel Standar (Mandiri)</option>
+                            <option value="pilar" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Artikel Pilar (Hub)</option>
+                            <option value="pendukung" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">Artikel Turunan</option>
                         </select>
                     </div>
 
@@ -624,9 +624,9 @@
                         <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                             Pilar Induk Terkait:
                         </label>
-                        <select id="modal-pillar-id-select" class="w-full rounded-xl border border-stone-200 bg-stone-50/70 p-2.5 text-xs text-stone-800 outline-none transition focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:[color-scheme:dark]">
+                        <select id="modal-pillar-id-select" class="w-full rounded-xl border border-stone-200 bg-stone-50/70 p-2.5 text-xs text-stone-800 outline-none transition hover:border-stone-300 focus:border-[#1e3a5f] focus:bg-white dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:hover:border-white/20 dark:focus:border-stone-400 dark:focus:bg-[#121211] dark:[color-scheme:dark]">
                             @foreach ($pillars as $pil)
-                                <option value="{{ $pil->id }}">{{ $pil->judul }}</option>
+                                <option value="{{ $pil->id }}" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">{{ $pil->judul }}</option>
                             @endforeach
                         </select>
                     </div>

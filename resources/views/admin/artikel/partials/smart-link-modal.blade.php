@@ -29,7 +29,7 @@
                 id="smart-link-search-input"
                 placeholder="Cari artikel rujukan berdasarkan judul atau topik..."
                 autocomplete="off"
-                class="w-full rounded-xl border border-stone-200 bg-white py-2.5 pl-9 pr-4 text-xs text-stone-800 outline-none transition focus:border-[#1e3a5f] focus:ring-1 focus:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-[#121211] dark:text-stone-200"
+                class="w-full rounded-xl border border-stone-200 bg-white py-2.5 pl-9 pr-4 text-xs text-stone-800 outline-none transition placeholder:text-stone-400 focus:border-[#1e3a5f] focus:ring-1 focus:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:placeholder:text-stone-500 dark:focus:border-stone-400 dark:focus:bg-[#121211]"
             >
             <svg class="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>

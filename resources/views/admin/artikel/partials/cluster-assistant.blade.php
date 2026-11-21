@@ -45,13 +45,14 @@
             Artikel Pilar Induk <span class="text-red-500">*</span>
         </label>
         <div class="relative">
-            <select id="pillar_id" name="pillar_id" class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#121211] dark:text-stone-200">
-                <option value="">-- Pilih Artikel Pilar --</option>
+            <select id="pillar_id" name="pillar_id" class="custom-select w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-xs text-stone-700 outline-none transition focus:border-[#1e3a5f] dark:border-white/10 dark:bg-[#121211] dark:text-stone-200 dark:focus:border-stone-400 dark:focus:bg-[#121211] dark:[color-scheme:dark]">
+                <option value="" class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200">-- Pilih Artikel Pilar --</option>
                 @foreach ($pillars as $pil)
                     <option
                         value="{{ $pil->id }}"
                         data-slug="{{ $pil->slug }}"
                         data-title="{{ $pil->judul }}"
+                        class="bg-white text-stone-800 dark:bg-[#171716] dark:text-stone-200"
                         {{ (string)$currentPillarId === (string)$pil->id ? 'selected' : '' }}
                     >
                         {{ $pil->judul }}
